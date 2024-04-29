@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <title>{{label}}</title>
+    <style>
+        .pointer {
+            cursor: pointer;
+        }
+
+        /* Added for central div styling */
+        .centered-content {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+
+
+            background-color: white;
+            /* or any color you prefer */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            flex-direction: column;
+
+            padding: 15px 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+</head>
+
+<body>
+    <div>
+        <a href="/">
+            <svg class="pointer" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="50" height="50"
+                fill="none" stroke="currentColor" stroke-width="1.5">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18" />
+            </svg>
+        </a>
+    </div>
+    <div class="centered-content">
+        <div>
+            <img class="mx-auto" src="https://prefabloc.re/wp-content/uploads/2020/08/pfb-logo-horizontal-clr-01.png"
+                alt="" width="300" height="300">
+        </div>
+        <div class="my-2">
+            <h2 class="text-2xl font-bold text-center text-black-500">{{ label }}</h2>
+        </div>
+        <div class="my-10">
+            {{ form_start(form) }}
+            {{ form_widget(form.mode, {'attr': {'class': 'select-dropdown w-full border border-gray-300 rounded-lg
+            p-2'}}) }}
+            {{ form_end(form, {'render_rest': false}) }}
+        </div>
+        <div class="flex gap-4">
+
+            {% if form.vars.value == null %}
+            <button class="bg-blue-500 text-white font-bold py-2 px-4 rounded" onClick="submitForm('start')"> Demarrer
+            </button>
+            {% else %}
+            <button class="bg-red-500 text-white font-bold py-2 px-4 rounded"
+                onClick="submitForm('end','{{form.vars.value.id}}')"> Arreter
+            </button>
+            {# <button class="bg-gray-500 text-white font-bold py-2 px-4 rounded" onClick="toggleCommentModal()">
+                Commentaire
+            </button> #}
+            {% endif %}
+        </div>
+        <div class="mt-10" id="productionInfoDiv">
+            {% if form.vars.value != null %}
+            <p>Commencé depuis {{form.vars.value.startedAt|date("d/m/Y h:i:s")}}</p>
+
+            {% endif %}
+        </div>
+    </div>
+
+  
+    <script>
+       
+
+        function submitForm(action, id = null) {
+            const form = document.getElementById('{{form.vars.id}}');
+            let url = "{{ url }}"
+            sendData(url, action, id)
+        }
+
+        async function sendData(url, endpoint, id) {
+            const select = document.getElementById('{{form.children.mode.vars.id}}');
+            const selectedMode = select.value;
+            let fullUrl = `${url}/${endpoint}`
+            fullUrl = id == null ? fullUrl : fullUrl + `?id=${id}`
+
+            const response = await fetch(fullUrl, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ mode: selectedMode })
+            })
+           
+        }
+
+    </script>
+</body>
+
+</html>
