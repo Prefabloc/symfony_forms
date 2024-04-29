@@ -3,15 +3,15 @@
 namespace App\Controller;
 
 
-use App\Entity\Agregat\AgregatCarriereSaisieDebit;
+use App\Entity\Agregat\AgregatCarriereSaisiePelle;
 use App\Entity\Agregat\CarriereSaisieDebit;
 use App\Form\Agregat\AgregatCarriereProductionChargeuseType;
 use App\Form\Agregat\AgregatCarriereProductionMobileType;
 use App\Form\Agregat\AgregatCarriereProductionPelleType;
-use App\Form\Agregat\AgregatCarriereSaisieDebitType;
 use App\Form\Agregat\AgregatConcassageProductionChargeuseType;
 use App\Form\Agregat\AgregatConcassageProductionPelleType;
 use App\Form\Agregat\CarriereSaisieDebitType;
+use App\Form\Agregat\CarriereSaisiePelleType;
 use App\Repository\Agregat\AgregatCarriereProductionChargeuseRepository;
 use App\Repository\Agregat\AgregatCarriereProductionMobileRepository;
 use App\Repository\Agregat\AgregatCarriereProductionPelleRepository;
@@ -199,7 +199,22 @@ class AgregatController extends AbstractController
 
 
     #[Route('/agregat/carriere/saisie/pelle' , name : 'app_agregat_carriere_saisie_pelle ')]
-    public function agregatCarriereSaisiePelle( Request $request , EntityManagerInterface $entityManager ) : Response {
+    public function agregatCarriereSaisiePelle( Request $request , EntityManagerInterface $entityManager ) : Response
+    {
+       $agregatCarriereSaisiePelle = new AgregatCarriereSaisiePelle();
+
+       $agregatCarriereSaisiePelleForm = $this->createForm( CarriereSaisiePelleType::class , $agregatCarriereSaisiePelle );
+       $agregatCarriereSaisiePelleForm->handleRequest($request);
+
+       if ( $agregatCarriereSaisiePelleForm->isSubmitted() && $agregatCarriereSaisiePelleForm->isValid() ) {
+           $entityManager->persist($agregatCarriereSaisiePelle);
+           $entityManager->flush();
+
+           $this->addFlash('success' , 'Saisie de pelle ( ?? ) enregistrée !');
+           return $this->redirectToRoute('app_agregat_carriere_saisie_pelle ');
+       } else {
+           return $this->render('agregat/CarriereSaisiePelle.html.twig' , [ 'agregatCarriereSaisiePellForm' => $agregatCarriereSaisiePelleForm->createView()]);
+       }
 
     }
 
