@@ -1,5 +1,8 @@
 # Create DB
 
+```
+docker-compose 
+```
 
 ``` 
 php bin/console doctrine:database:create
