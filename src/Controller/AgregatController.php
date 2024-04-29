@@ -3,16 +3,21 @@
 namespace App\Controller;
 
 
+use App\Entity\Agregat\AgregatCarriereSaisieDebit;
+use App\Entity\Agregat\CarriereSaisieDebit;
 use App\Form\Agregat\AgregatCarriereProductionChargeuseType;
 use App\Form\Agregat\AgregatCarriereProductionMobileType;
 use App\Form\Agregat\AgregatCarriereProductionPelleType;
+use App\Form\Agregat\AgregatCarriereSaisieDebitType;
 use App\Form\Agregat\AgregatConcassageProductionChargeuseType;
 use App\Form\Agregat\AgregatConcassageProductionPelleType;
+use App\Form\Agregat\CarriereSaisieDebitType;
 use App\Repository\Agregat\AgregatCarriereProductionChargeuseRepository;
 use App\Repository\Agregat\AgregatCarriereProductionMobileRepository;
 use App\Repository\Agregat\AgregatCarriereProductionPelleRepository;
 use App\Repository\Agregat\AgregatConcassageProductionChargeuseRepository;
 use App\Repository\Agregat\AgregatConcassageProductionPelleRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -171,7 +176,38 @@ class AgregatController extends AbstractController
         // Redirect to another route after processing
         return $this->redirectToRoute('app_agregat_carriere_production_chargeuse');
     }
+
+
+    #[Route('/agregat/carriere/saisie/debit' , name : 'app_agregat_carriere_saisie_debit')]
+    public function agregatCarriereSaisieDebit(Request $request , EntityManagerInterface $entityManager ) : Response
+    {
+        $agregatCarriereSaisieDebit = new CarriereSaisieDebit();
+
+        $agregatCarriereSaisieDebitForm = $this->createForm( CarriereSaisieDebitType::class, $agregatCarriereSaisieDebit );
+        $agregatCarriereSaisieDebitForm->handleRequest($request);
+
+        if ( $agregatCarriereSaisieDebitForm->isSubmitted() && $agregatCarriereSaisieDebitForm->isValid() ) {
+            $entityManager->persist($agregatCarriereSaisieDebit);
+            $entityManager->flush();
+
+            $this->addFlash('success' , 'Saisie du débit enregistrée !');
+            return $this->redirectToRoute('app_agregat_carriere_saisie_debit');
+        } else {
+            return $this->render('agregat/CarriereSaisieDebit.html.twig' , [ 'agregatCarriereSaisieDebitForm' => $agregatCarriereSaisieDebitForm->createView()]);
+        }
+    }
+
+
+    #[Route('/agregat/carriere/saisie/pelle' , name : 'app_agregat_carriere_saisie_pelle ')]
+    public function agregatCarriereSaisiePelle( Request $request , EntityManagerInterface $entityManager ) : Response {
+
+    }
+
     //END CARRIERE
+
+
+
+
 
 
     //CONCASSAGE
@@ -257,6 +293,8 @@ class AgregatController extends AbstractController
         // Redirect to another route after processing
         return $this->redirectToRoute('app_agregat_concassage_production_chargeuse');
     }
+
+
 
 
 
