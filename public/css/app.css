@@ -1,3 +1,7 @@
+input{
+    padding-left: 10px!important;
+}
+
 .divSeparator {
     margin: 20px;
     justify-content: space-between;
@@ -58,6 +62,7 @@
 
     padding: 15px 30px;
     border-radius: 10px;
+
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 

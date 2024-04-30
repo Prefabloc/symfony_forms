@@ -25,7 +25,7 @@ class PrefablocProduction
     private ?string $mode = null;
 
     #[ORM\OneToOne(mappedBy: 'production', cascade: ['persist', 'remove'])]
-    private ?PrefablocSaisieProduction $consommation = null;
+    private ?SaisieProduction $consommation = null;
 
     public function getId(): ?int
     {
