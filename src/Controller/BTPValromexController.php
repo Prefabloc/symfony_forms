@@ -2,9 +2,12 @@
 
 namespace App\Controller;
 
+use App\Entity\Valromex\ValromexSaisieDeclassement;
 use App\Form\BTP\BTPProductionType;
+use App\Form\Valromex\ValromexSaisieDeclassementType;
 use App\Repository\BTP\BTPProductionRepository;
 use App\Repository\ProductionArticleRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -75,5 +78,23 @@ class BTPValromexController extends AbstractController
 
         // Redirect to another route after processing
         return $this->redirectToRoute('app_btpvalromex');
+    }
+
+    #[Route('/btpvalromex/saisie/declassement' , name : 'app_btpvalromex_saisie_declassement')]
+    public function prefablocRepartitionPalette(Request $request , EntityManagerInterface $entityManager ) : Response
+    {
+        $valromexSaisieDeclassement = new ValromexSaisieDeclassement();
+        $valromexSaisieDeclassementForm = $this->createForm( ValromexSaisieDeclassementType::class , $valromexSaisieDeclassement ) ;
+        $valromexSaisieDeclassementForm->handleRequest($request);
+
+        if ( $valromexSaisieDeclassementForm->isSubmitted() && $valromexSaisieDeclassementForm->isValid() ) {
+            $entityManager->persist($valromexSaisieDeclassement);
+            $entityManager->flush();
+
+            $this->addFlash('success' , "Saisie du déclassement enregistrée !");
+            return $this->redirectToRoute('app_btpvalromex_saisie_declassement');
+        } else {
+            return $this->render('btp_valromex/SaisieDeclassement.html.twig', [ 'valromexSaisieDeclassementForm' => $valromexSaisieDeclassementForm->createView()]);
+        }
     }
 }
