@@ -6,7 +6,7 @@ use App\Repository\Agregat\AgregatCarriereSaisiePelleRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: AgregatCarriereSaisiePelleRepository::class)]
-class AgregatCarriereSaisiePelle
+class CarriereSaisiePelle
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]

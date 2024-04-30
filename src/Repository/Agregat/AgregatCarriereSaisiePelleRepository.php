@@ -2,27 +2,27 @@
 
 namespace App\Repository\Agregat;
 
-use App\Entity\Agregat\AgregatCarriereSaisiePelle;
+use App\Entity\Agregat\CarriereSaisiePelle;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @extends ServiceEntityRepository<AgregatCarriereSaisiePelle>
+ * @extends ServiceEntityRepository<CarriereSaisiePelle>
  *
- * @method AgregatCarriereSaisiePelle|null find($id, $lockMode = null, $lockVersion = null)
- * @method AgregatCarriereSaisiePelle|null findOneBy(array $criteria, array $orderBy = null)
- * @method AgregatCarriereSaisiePelle[]    findAll()
- * @method AgregatCarriereSaisiePelle[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method CarriereSaisiePelle|null find($id, $lockMode = null, $lockVersion = null)
+ * @method CarriereSaisiePelle|null findOneBy(array $criteria, array $orderBy = null)
+ * @method CarriereSaisiePelle[]    findAll()
+ * @method CarriereSaisiePelle[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
 class AgregatCarriereSaisiePelleRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, AgregatCarriereSaisiePelle::class);
+        parent::__construct($registry, CarriereSaisiePelle::class);
     }
 
     //    /**
-    //     * @return AgregatCarriereSaisiePelle[] Returns an array of AgregatCarriereSaisiePelle objects
+    //     * @return CarriereSaisiePelle[] Returns an array of CarriereSaisiePelle objects
     //     */
     //    public function findByExampleField($value): array
     //    {
@@ -36,7 +36,7 @@ class AgregatCarriereSaisiePelleRepository extends ServiceEntityRepository
     //        ;
     //    }
 
-    //    public function findOneBySomeField($value): ?AgregatCarriereSaisiePelle
+    //    public function findOneBySomeField($value): ?CarriereSaisiePelle
     //    {
     //        return $this->createQueryBuilder('a')
     //            ->andWhere('a.exampleField = :val')
