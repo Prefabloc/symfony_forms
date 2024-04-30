@@ -1,3 +1,7 @@
+input{
+    padding-left: 10px!important;
+}
+
 .divSeparator {
     margin: 20px;
     justify-content: space-between;
