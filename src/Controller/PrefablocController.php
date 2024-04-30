@@ -3,10 +3,13 @@
 namespace App\Controller;
 
 use App\Entity\Prefabloc\PrefablocSaisieProduction;
+use App\Entity\Prefabloc\SaisieDeclassement;
 use App\Form\Prefabloc\PrefablocProductionType;
 use App\Form\Prefabloc\PrefablocSaisieProductionType;
+use App\Form\Prefabloc\SaisieDeclassementType;
 use App\Repository\Prefabloc\PrefablocProductionRepository;
 use App\Repository\Prefabloc\ProductionArticleRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -84,5 +87,24 @@ class PrefablocController extends AbstractController
 
         // Redirect to another route after processing
         return $this->redirectToRoute('app_prefabloc');
+    }
+
+    #[Route('/prefabloc/saisie/declassement' , name : 'app_prefacbloc_saisie_declassement')]
+    public function prefablocSaisieDeclassement(Request $request , EntityManagerInterface $entityManager ) : Response
+    {
+        $prefablocSaisieDeclassement = new SaisieDeclassement();
+
+        $prefablocSaisieDeclassementForm = $this->createForm( SaisieDeclassementType::class , $prefablocSaisieDeclassement );
+        $prefablocSaisieDeclassementForm->handleRequest($request);
+
+        if ( $prefablocSaisieDeclassementForm->isSubmitted() && $prefablocSaisieDeclassementForm->isValid() ) {
+            $entityManager->persist($prefablocSaisieDeclassement);
+            $entityManager->flush();
+
+            $this->addFlash('success' , "Saisie du déclassement enregistrée !");
+            return $this->redirectToRoute('app_prefacbloc_saisie_declassement');
+        } else {
+            return $this->render('prefabloc/SaisieDeclassement.html.twig', [ 'prefablocSaisieDeclassementForm' => $prefablocSaisieDeclassementForm->createView()]);
+        }
     }
 }

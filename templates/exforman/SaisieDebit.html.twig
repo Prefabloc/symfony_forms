@@ -17,46 +17,46 @@
                  alt="" width="300" height="200">
         </div>
         <div class="my-2">
-            <h2 class="text-2xl font-bold text-center text-black-500">Concassage Saisie chargeuse</h2>
+            <h2 class="text-2xl font-bold text-center text-black-500">Exforman Saisie Débit</h2>
         </div>
         <div>
-            {{ form_start(agregatConcassageSaisieChargeuseForm) }}
+            {{ form_start(exformanSaisieDebitForm) }}
             <div>
                 <div style="display: flex" class="divSeparator">
                     <div class="inputSeparator">
-                        {{ form_label(agregatConcassageSaisieChargeuseForm.typeArticle) }}
+                        {{ form_label(exformanSaisieDebitForm.typeArticle) }}
                     </div>
                     <div>
-                        {{ form_widget(agregatConcassageSaisieChargeuseForm.typeArticle) }}
+                        {{ form_widget(exformanSaisieDebitForm.typeArticle) }}
                     </div>
                 </div>
                 <div>
-                    {{ form_errors(agregatConcassageSaisieChargeuseForm.typeArticle) }}
+                    {{ form_errors(exformanSaisieDebitForm.typeArticle) }}
                 </div>
             </div>
             <div>
                 <div style="display: flex" class="divSeparator">
                     <div class="inputSeparator">
-                        {{ form_label(agregatConcassageSaisieChargeuseForm.quantite) }}
+                        {{ form_label(exformanSaisieDebitForm.quantite) }}
                     </div>
                     <div>
-                        {{ form_widget(agregatConcassageSaisieChargeuseForm.quantite) }}
+                        {{ form_widget(exformanSaisieDebitForm.quantite) }}
                     </div>
                 </div>
                 <div>
-                    {{ form_errors(agregatConcassageSaisieChargeuseForm.quantite) }}
+                    {{ form_errors(exformanSaisieDebitForm.quantite) }}
                 </div>
             </div>
             <div>
-                {{ form_row(agregatConcassageSaisieChargeuseForm.save ) }}
+                {{ form_row( exformanSaisieDebitForm.save ) }}
             </div>
 
-            {{ form_end(agregatConcassageSaisieChargeuseForm) }}
+            {{ form_end(exformanSaisieDebitForm) }}
         </div>
     </div>
 {% endblock %}
 
 {% block title %}
-    Agregat | Concassage | Saisie | Chargeuse
+    Exforman | Saisie | Débit
 {% endblock %}
 

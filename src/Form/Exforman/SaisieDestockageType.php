@@ -2,7 +2,7 @@
 
 namespace App\Form\Exforman;
 
-use App\Entity\Exforman\SaisieAlimentation;
+use App\Entity\Exforman\SaisieDestockage;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
@@ -10,29 +10,41 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class SaisieAlimentationType extends AbstractType
+class SaisieDestockageType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('typeMateriau' , ChoiceType::class, [
-                "label" => "Choix du type de matériau",
+            ->add('typeArticle' , ChoiceType::class, [
+                "label" => "Choix de l'article",
                 'label_attr' => [
-                    'class' => "block text-sm font-medium leading-6 text-gray-900"
+                    'class' => "block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                 ],
                 'attr' => [
-                    'class' => "bg-neutral-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus: block w-full p-2.5"
+                    'class' => "bg-neutral-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus: block w-full p-2.5shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light"
                 ],
                 "choices" => [
-                    "MP Rocheux" => "MP Rocheux" ,
-                    "MP Terreux" => "MP Terreux" ,
-                    "MP Mouillé" => "MP Mouillé" ,
-                    "Autres" => "Autres"
+                    "0-80SC" => "0-80SC" ,
+                    "0-30SC" => "0-30SC" ,
+                    "0-8SC" => "0-8SC" ,
+                    "0-10SC" => "0-10SC" ,
+                    "4-10RL" => "4-10RL" ,
+                    "0-4RL" => "0-4RL" ,
+                    "0-2RL" => "0-2RL" ,
+                    "20-60RL" => "20-60RL" ,
+                    "10-20C" => "10-20C" ,
+                    "0-30C" => "0-30C" ,
+                    "0-20C" => "0-20C" ,
+                    "20-40C" => "20-40C" ,
+                    "0-4CL" => "0-4CL" ,
+                    "6-10CL" => "6-10CL" ,
+                    "4-6CL" => "4-6CL" ,
+                    "10-20CL" => "10-20CL"
                 ] ,
                 "required" => true
             ])
             ->add('quantite', TextType::class , [
-                "label" => "Quantité" ,
+                "label" => "Poids ( en tonnes )" ,
                 'label_attr' => [
                     'class' => "block text-sm font-medium leading-6 text-gray-900"
                 ],
@@ -52,7 +64,7 @@ class SaisieAlimentationType extends AbstractType
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'data_class' => SaisieAlimentation::class,
+            'data_class' => SaisieDestockage::class,
         ]);
     }
 }

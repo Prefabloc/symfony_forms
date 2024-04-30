@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Form\Exforman;
+namespace App\Form\Prefabloc;
 
-use App\Entity\Exforman\SaisieAlimentation;
+use App\Entity\Prefabloc\SaisieDeclassement;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
@@ -10,13 +10,13 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class SaisieAlimentationType extends AbstractType
+class SaisieDeclassementType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('typeMateriau' , ChoiceType::class, [
-                "label" => "Choix du type de matériau",
+            ->add('article' , ChoiceType::class, [
+                "label" => "Article",
                 'label_attr' => [
                     'class' => "block text-sm font-medium leading-6 text-gray-900"
                 ],
@@ -24,10 +24,30 @@ class SaisieAlimentationType extends AbstractType
                     'class' => "bg-neutral-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus: block w-full p-2.5"
                 ],
                 "choices" => [
-                    "MP Rocheux" => "MP Rocheux" ,
-                    "MP Terreux" => "MP Terreux" ,
-                    "MP Mouillé" => "MP Mouillé" ,
-                    "Autres" => "Autres"
+                    "Article1" => "Article 01" ,
+                    "Article2" => "Article 02" ,
+                    "Article3" => "Article 03" ,
+                    "Article4" => "Article 04" ,
+                    "Article5" => "Article 05" ,
+
+                ] ,
+                "required" => true
+            ])
+            ->add('motifDeclassement' , ChoiceType::class, [
+                "label" => "Motif de déclassement",
+                'label_attr' => [
+                    'class' => "block text-sm font-medium leading-6 text-gray-900"
+                ],
+                'attr' => [
+                    'class' => "bg-neutral-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus: block w-full p-2.5"
+                ],
+                "choices" => [
+                    "DemoulageNC" => "Démoulage NC" ,
+                    "HauteurNC" => "Hauteur NC" ,
+                    "Fissure" => "Fissuré" ,
+                    "CouleurNC" => "Couleur NC" ,
+                    "QualiteNC" => "Qualité NC" ,
+
                 ] ,
                 "required" => true
             ])
@@ -52,7 +72,7 @@ class SaisieAlimentationType extends AbstractType
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'data_class' => SaisieAlimentation::class,
+            'data_class' => SaisieDeclassement::class,
         ]);
     }
 }
