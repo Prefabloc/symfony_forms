@@ -2,8 +2,11 @@
 
 namespace App\Controller;
 
+use App\Entity\Exforman\SaisieAlimentation;
 use App\Form\Exforman\ExformanProductionAlimentationType;
+use App\Form\Exforman\SaisieAlimentationType;
 use App\Repository\Exforman\ExformanProductionAlimentationRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -64,5 +67,24 @@ class ExformanController extends AbstractController
 
         // Redirect to another route after processing
         return $this->redirectToRoute('app_exforman');
+    }
+
+    #[Route('/exforman/saisie/alimentation' , name : 'app_exforman_saisie_alimentation')]
+    public function exformanSaisieAlimentation(Request $request , EntityManagerInterface $entityManager ) : Response
+    {
+        $exformanSaisieAlimentation = new SaisieAlimentation();
+
+        $exformanSaisieAlimentationForm = $this->createForm( SaisieAlimentationType::class , $exformanSaisieAlimentation );
+        $exformanSaisieAlimentationForm->handleRequest($request);
+
+        if ( $exformanSaisieAlimentationForm->isSubmitted() && $exformanSaisieAlimentationForm->isValid() ) {
+            $entityManager->persist($exformanSaisieAlimentation);
+            $entityManager->flush();
+
+            $this->addFlash('success' , "Saisie de l'alimentation enregistrée !");
+            return $this->redirectToRoute('app_exforman_saisie_alimentation');
+        } else {
+            return $this->render('exforman/SaisieAlimentation.html.twig', [ 'exformanSaisieAlimentationForm' => $exformanSaisieAlimentationForm->createView()]);
+        }
     }
 }

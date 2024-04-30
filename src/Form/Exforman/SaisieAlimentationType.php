@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Form\Agregat;
+namespace App\Form\Exforman;
 
-use App\Entity\Agregat\CarriereSaisiePelle;
+use App\Entity\Exforman\SaisieAlimentation;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
@@ -10,7 +10,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class CarriereSaisiePelleType extends AbstractType
+class SaisieAlimentationType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
@@ -52,7 +52,7 @@ class CarriereSaisiePelleType extends AbstractType
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'data_class' => CarriereSaisiePelle::class,
+            'data_class' => SaisieAlimentation::class,
         ]);
     }
 }

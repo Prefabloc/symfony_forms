@@ -2,11 +2,11 @@
 
 namespace App\Entity\Agregat;
 
-use App\Repository\Agregat\AgregatCarriereSaisiePelleRepository;
+use App\Repository\Agregat\ConcassageSaisieChargeuseRepository;
 use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Entity(repositoryClass: AgregatCarriereSaisiePelleRepository::class)]
-class AgregatCarriereSaisiePelle
+#[ORM\Entity(repositoryClass: ConcassageSaisieChargeuseRepository::class)]
+class ConcassageSaisieChargeuse
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -14,7 +14,7 @@ class AgregatCarriereSaisiePelle
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $typeMateriau = null;
+    private ?string $typeArticle = null;
 
     #[ORM\Column]
     private ?int $quantite = null;
@@ -24,14 +24,14 @@ class AgregatCarriereSaisiePelle
         return $this->id;
     }
 
-    public function getTypeMateriau(): ?string
+    public function getTypeArticle(): ?string
     {
-        return $this->typeMateriau;
+        return $this->typeArticle;
     }
 
-    public function setTypeMateriau(string $typeMateriau): static
+    public function setTypeArticle(string $typeArticle): static
     {
-        $this->typeMateriau = $typeMateriau;
+        $this->typeArticle = $typeArticle;
 
         return $this;
     }

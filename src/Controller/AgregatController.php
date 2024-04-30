@@ -3,8 +3,11 @@
 namespace App\Controller;
 
 
-use App\Entity\Agregat\AgregatCarriereSaisiePelle;
+use App\Entity\Agregat\CarriereSaisiePelle;
 use App\Entity\Agregat\CarriereSaisieDebit;
+use App\Entity\Agregat\ConcassageSaisieChargeuse;
+use App\Entity\Agregat\ConcassageSaisieDebit;
+use App\Entity\Agregat\ConcassageSaisiePelle;
 use App\Form\Agregat\AgregatCarriereProductionChargeuseType;
 use App\Form\Agregat\AgregatCarriereProductionMobileType;
 use App\Form\Agregat\AgregatCarriereProductionPelleType;
@@ -12,6 +15,9 @@ use App\Form\Agregat\AgregatConcassageProductionChargeuseType;
 use App\Form\Agregat\AgregatConcassageProductionPelleType;
 use App\Form\Agregat\CarriereSaisieDebitType;
 use App\Form\Agregat\CarriereSaisiePelleType;
+use App\Form\Agregat\ConcassageSaisieChargeuseType;
+use App\Form\Agregat\ConcassageSaisieDebitType;
+use App\Form\Agregat\ConcassageSaisiePelleType;
 use App\Repository\Agregat\AgregatCarriereProductionChargeuseRepository;
 use App\Repository\Agregat\AgregatCarriereProductionMobileRepository;
 use App\Repository\Agregat\AgregatCarriereProductionPelleRepository;
@@ -201,7 +207,7 @@ class AgregatController extends AbstractController
     #[Route('/agregat/carriere/saisie/pelle' , name : 'app_agregat_carriere_saisie_pelle ')]
     public function agregatCarriereSaisiePelle( Request $request , EntityManagerInterface $entityManager ) : Response
     {
-       $agregatCarriereSaisiePelle = new AgregatCarriereSaisiePelle();
+       $agregatCarriereSaisiePelle = new CarriereSaisiePelle();
 
        $agregatCarriereSaisiePelleForm = $this->createForm( CarriereSaisiePelleType::class , $agregatCarriereSaisiePelle );
        $agregatCarriereSaisiePelleForm->handleRequest($request);
@@ -219,6 +225,8 @@ class AgregatController extends AbstractController
     }
 
     //END CARRIERE
+
+
 
 
 
@@ -310,8 +318,62 @@ class AgregatController extends AbstractController
     }
 
 
+    #[Route('/agregat/concassage/saisie/chargeuse' , name : 'app_agregat_concassage_saisie_chargeuse')]
+    public function agregatConcassageSaisieChargeuse(Request $request , EntityManagerInterface $entityManager ) : Response
+    {
+        $agregatConcassageSaisieChargeuse = new ConcassageSaisieChargeuse();
 
+        $agregatConcassageSaisieChargeuseForm = $this->createForm( ConcassageSaisieChargeuseType::class , $agregatConcassageSaisieChargeuse );
+        $agregatConcassageSaisieChargeuseForm->handleRequest($request);
 
+        if ( $agregatConcassageSaisieChargeuseForm->isSubmitted() && $agregatConcassageSaisieChargeuseForm->isValid() ) {
+            $entityManager->persist($agregatConcassageSaisieChargeuse);
+            $entityManager->flush();
+
+            $this->addFlash('success' , 'Saisie de la chargeuse enregistrée !');
+            return $this->redirectToRoute('app_agregat_concassage_saisie_chargeuse');
+        } else {
+            return $this->render('agregat/ConcassageSaisieChargeuse.html.twig' , [ 'agregatConcassageSaisieChargeuseForm' => $agregatConcassageSaisieChargeuseForm->createView()]);
+        }
+    }
+
+    #[Route('/agregat/concassage/saisie/debit' , name : 'app_agregat_concassage_saisie_debit')]
+    public function agregatConcassageSaisieDebit(Request $request , EntityManagerInterface $entityManager ) : Response
+    {
+        $agregatConcassageSaisieDebit = new ConcassageSaisieDebit();
+
+        $agregatConcassageSaisieDebitForm = $this->createForm( ConcassageSaisieDebitType::class , $agregatConcassageSaisieDebit ) ;
+        $agregatConcassageSaisieDebitForm->handleRequest($request);
+
+        if ( $agregatConcassageSaisieDebitForm->isSubmitted() && $agregatConcassageSaisieDebitForm->isValid() ) {
+            $entityManager->persist($agregatConcassageSaisieDebit);
+            $entityManager->flush();
+
+            $this->addFlash('success' , 'Saisie du débit enregistrée !');
+            return $this->redirectToRoute('app_agregat_concassage_saisie_debit');
+        } else {
+            return $this->render('agregat/ConcassageSaisieDebit.html.twig' , [ 'agregatConcassageSaisieDebitForm' => $agregatConcassageSaisieDebitForm->createView()]);
+        }
+    }
+
+    #[Route('/agregat/concassage/saisie/pelle' , name : 'app_agregat_concassage_saisie_pelle')]
+    public function agregatConcassageSaisiePelle(Request $request , EntityManagerInterface $entityManager ) : Response
+    {
+        $agregatConcassageSaisiePelle = new ConcassageSaisiePelle();
+
+        $agregatConcassageSaisiePelleForm = $this->createForm( ConcassageSaisiePelleType::class , $agregatConcassageSaisiePelle ) ;
+        $agregatConcassageSaisiePelleForm->handleRequest($request);
+
+        if ( $agregatConcassageSaisiePelleForm->isSubmitted() && $agregatConcassageSaisiePelleForm->isValid() ) {
+            $entityManager->persist($agregatConcassageSaisiePelle);
+            $entityManager->flush();
+
+            $this->addFlash('success' , 'Saisie de la pelle enregistrée !');
+            return $this->redirectToRoute('app_agregat_concassage_saisie_pelle');
+        } else {
+            return $this->render('agregat/ConcassageSaisiePelle.html.twig' , [ 'agregatConcassageSaisiePelleForm' => $agregatConcassageSaisiePelleForm->createView()]);
+        }
+    }
 
 
     //END CONCASSAGE
