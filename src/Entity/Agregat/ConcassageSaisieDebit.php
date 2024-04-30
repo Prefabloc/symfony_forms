@@ -2,7 +2,7 @@
 
 namespace App\Entity\Agregat;
 
-use App\Repository\ConcassageSaisieDebitRepository;
+use App\Repository\Agregat\ConcassageSaisieDebitRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: ConcassageSaisieDebitRepository::class)]

@@ -1,28 +1,28 @@
 <?php
 
-namespace App\Repository;
+namespace App\Repository\Agregat;
 
-use App\Entity\Agregat\ConcassageSaisieDebit;
+use App\Entity\Agregat\ConcassageSaisieChargeuse;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @extends ServiceEntityRepository<ConcassageSaisieDebit>
+ * @extends ServiceEntityRepository<ConcassageSaisieChargeuse>
  *
- * @method ConcassageSaisieDebit|null find($id, $lockMode = null, $lockVersion = null)
- * @method ConcassageSaisieDebit|null findOneBy(array $criteria, array $orderBy = null)
- * @method ConcassageSaisieDebit[]    findAll()
- * @method ConcassageSaisieDebit[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method ConcassageSaisieChargeuse|null find($id, $lockMode = null, $lockVersion = null)
+ * @method ConcassageSaisieChargeuse|null findOneBy(array $criteria, array $orderBy = null)
+ * @method ConcassageSaisieChargeuse[]    findAll()
+ * @method ConcassageSaisieChargeuse[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class ConcassageSaisieDebitRepository extends ServiceEntityRepository
+class ConcassageSaisieChargeuseRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, ConcassageSaisieDebit::class);
+        parent::__construct($registry, ConcassageSaisieChargeuse::class);
     }
 
     //    /**
-    //     * @return ConcassageSaisieDebit[] Returns an array of ConcassageSaisieDebit objects
+    //     * @return ConcassageSaisieChargeuse[] Returns an array of ConcassageSaisieChargeuse objects
     //     */
     //    public function findByExampleField($value): array
     //    {
@@ -36,7 +36,7 @@ class ConcassageSaisieDebitRepository extends ServiceEntityRepository
     //        ;
     //    }
 
-    //    public function findOneBySomeField($value): ?ConcassageSaisieDebit
+    //    public function findOneBySomeField($value): ?ConcassageSaisieChargeuse
     //    {
     //        return $this->createQueryBuilder('c')
     //            ->andWhere('c.exampleField = :val')
