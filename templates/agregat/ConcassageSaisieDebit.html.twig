@@ -1,0 +1,62 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div>
+        <a href="/">
+            <svg class="pointer" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="50" height="50"
+                 fill="none" stroke="currentColor" stroke-width="1.5">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18" />
+            </svg>
+        </a>
+    </div>
+
+
+    <div class="centered-content">
+        <div>
+            <img class="mx-auto" src="https://prefabloc.re/wp-content/uploads/2020/08/pfb-logo-horizontal-clr-01.png"
+                 alt="" width="300" height="200">
+        </div>
+        <div class="my-2">
+            <h2 class="text-2xl font-bold text-center text-black-500">Saisie débit</h2>
+        </div>
+        <div>
+            {{ form_start(agregatConcassageSaisieDebitForm) }}
+            <div>
+                <div style="display: flex" class="divSeparator">
+                    <div class="inputSeparator">
+                        {{ form_label(agregatConcassageSaisieDebitForm.typeArticle) }}
+                    </div>
+                    <div>
+                        {{ form_widget(agregatConcassageSaisieDebitForm.typeArticle) }}
+                    </div>
+                </div>
+                <div>
+                    {{ form_errors(agregatConcassageSaisieDebitForm.typeArticle) }}
+                </div>
+            </div>
+            <div>
+                <div style="display: flex" class="divSeparator">
+                    <div class="inputSeparator">
+                        {{ form_label(agregatConcassageSaisieDebitForm.quantite) }}
+                    </div>
+                    <div>
+                        {{ form_widget(agregatConcassageSaisieDebitForm.quantite) }}
+                    </div>
+                </div>
+                <div>
+                    {{ form_errors(agregatConcassageSaisieDebitForm.quantite) }}
+                </div>
+            </div>
+            <div class="rounded-md bg-blue-400 px-2.5 py-1.5 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-blue-200">
+                {{ form_row( agregatConcassageSaisieDebitForm.save ) }}
+            </div>
+
+            {{ form_end(agregatConcassageSaisieDebitForm) }}
+        </div>
+    </div>
+{% endblock %}
+
+{% block title %}
+    Agregat | Concassage saisie débit !
+{% endblock %}
+

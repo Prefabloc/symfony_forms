@@ -6,6 +6,7 @@ namespace App\Controller;
 use App\Entity\Agregat\CarriereSaisiePelle;
 use App\Entity\Agregat\CarriereSaisieDebit;
 use App\Entity\Agregat\ConcassageSaisieChargeuse;
+use App\Entity\Agregat\ConcassageSaisieDebit;
 use App\Form\Agregat\AgregatCarriereProductionChargeuseType;
 use App\Form\Agregat\AgregatCarriereProductionMobileType;
 use App\Form\Agregat\AgregatCarriereProductionPelleType;
@@ -14,6 +15,7 @@ use App\Form\Agregat\AgregatConcassageProductionPelleType;
 use App\Form\Agregat\CarriereSaisieDebitType;
 use App\Form\Agregat\CarriereSaisiePelleType;
 use App\Form\Agregat\ConcassageSaisieChargeuseType;
+use App\Form\Agregat\ConcassageSaisieDebitType;
 use App\Repository\Agregat\AgregatCarriereProductionChargeuseRepository;
 use App\Repository\Agregat\AgregatCarriereProductionMobileRepository;
 use App\Repository\Agregat\AgregatCarriereProductionPelleRepository;
@@ -331,7 +333,24 @@ class AgregatController extends AbstractController
         }
     }
 
+    #[Route('/agregat/concassage/saisie/debit' , name : 'app_agregat_concassage_saisie_debit')]
+    public function agregatConcassageSaisieDebit(Request $request , EntityManagerInterface $entityManager ) : Response
+    {
+        $agregatConcassageSaisieDebit = new ConcassageSaisieDebit();
 
+        $agregatConcassageSaisieDebitForm = $this->createForm( ConcassageSaisieDebitType::class , $agregatConcassageSaisieDebit ) ;
+        $agregatConcassageSaisieDebitForm->handleRequest($request);
+
+        if ( $agregatConcassageSaisieDebitForm->isSubmitted() && $agregatConcassageSaisieDebitForm->isValid() ) {
+            $entityManager->persist($agregatConcassageSaisieDebit);
+            $entityManager->flush();
+
+            $this->addFlash('success' , 'Saisie de la chargeuse enregistrée !');
+            return $this->redirectToRoute('app_agregat_concassage_saisie_chargeuse');
+        } else {
+            return $this->render('agregat/ConcassageSaisieDebit.html.twig' , [ 'agregatConcassageSaisieDebitForm' => $agregatConcassageSaisieDebitForm->createView()]);
+        }
+    }
 
 
     //END CONCASSAGE
