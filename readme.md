@@ -1,7 +1,7 @@
 # Create DB
 
 ```
-docker-compose 
+docker-compose up
 ```
 
 ``` 
