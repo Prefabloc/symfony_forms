@@ -18,15 +18,15 @@
 
     </header>
 
-
-    {% for label, messages in app.flashes %}
-        {% for message in messages %}
-            <div class="flash flash-{{ label }}">
-                {{ message }}
-            </div>
-        {% endfor %}
-    {% endfor %}
-
+        <div id="divflash">
+            {% for label, messages in app.flashes %}
+                {% for message in messages %}
+                    <div class="flash flash-{{ label }} flash-message" >
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            {% endfor %}
+        </div>
 
 
     <main>
@@ -35,3 +35,21 @@
 
     </body>
 </html>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Récupérer tous les messages flash
+        var flashMessages = document.querySelectorAll('.flash-message');
+
+        // Pour chaque message flash, démarrer un délai avant le fade out
+        flashMessages.forEach(function(flashMessage) {
+            setTimeout(function() {
+                flashMessage.style.transition = 'opacity 0.5s'; // Animation en 0.5 seconde
+                flashMessage.style.opacity = '0'; // Rendre transparent
+                setTimeout(function() {
+                    flashMessage.remove(); // Retirer du DOM après l'animation
+                }, 500); // Délai supplémentaire pour l'animation
+            }, 2000); // Délai initial de 2 secondes
+        });
+    });
+</script>

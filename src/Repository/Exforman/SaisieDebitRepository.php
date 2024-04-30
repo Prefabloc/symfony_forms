@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Repository;
+namespace App\Repository\Exforman;
 
 use App\Entity\Exforman\SaisieDebit;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;

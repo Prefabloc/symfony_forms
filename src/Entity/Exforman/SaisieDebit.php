@@ -2,7 +2,7 @@
 
 namespace App\Entity\Exforman;
 
-use App\Repository\SaisieDebitRepository;
+use App\Repository\Exforman\SaisieDebitRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: SaisieDebitRepository::class)]
