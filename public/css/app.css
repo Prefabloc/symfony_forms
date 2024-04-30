@@ -1,10 +1,17 @@
 .divSeparator {
     margin: 20px;
+    justify-content: space-between;
+    align-items: center;
+
 }
 
 .inputSeparator {
+    top: 50%;
+    bottom: 50%;
     margin-right: 5px;
+
 }
+
 
 .flash {
     padding: 20px;
