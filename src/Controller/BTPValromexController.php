@@ -3,8 +3,10 @@
 namespace App\Controller;
 
 use App\Entity\Valromex\ValromexSaisieDeclassement;
+use App\Entity\Valromex\ValromexSaisieProduction;
 use App\Form\BTP\BTPProductionType;
 use App\Form\Valromex\ValromexSaisieDeclassementType;
+use App\Form\Valromex\ValromexSaisieProductionType;
 use App\Repository\BTP\BTPProductionRepository;
 use App\Repository\ProductionArticleRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -81,7 +83,7 @@ class BTPValromexController extends AbstractController
     }
 
     #[Route('/btpvalromex/saisie/declassement' , name : 'app_btpvalromex_saisie_declassement')]
-    public function prefablocRepartitionPalette(Request $request , EntityManagerInterface $entityManager ) : Response
+    public function btpValromexSaisieDeclassement(Request $request , EntityManagerInterface $entityManager ) : Response
     {
         $valromexSaisieDeclassement = new ValromexSaisieDeclassement();
         $valromexSaisieDeclassementForm = $this->createForm( ValromexSaisieDeclassementType::class , $valromexSaisieDeclassement ) ;
@@ -95,6 +97,24 @@ class BTPValromexController extends AbstractController
             return $this->redirectToRoute('app_btpvalromex_saisie_declassement');
         } else {
             return $this->render('btp_valromex/SaisieDeclassement.html.twig', [ 'valromexSaisieDeclassementForm' => $valromexSaisieDeclassementForm->createView()]);
+        }
+    }
+
+    #[Route('/btpvalromex/saisie/production' , name : 'app_btpvalromex_saisie_production')]
+    public function btpValromexSaisieProduction(Request $request , EntityManagerInterface $entityManager ) : Response
+    {
+        $valromexSaisieProduction = new ValromexSaisieProduction();
+        $valromexSaisieProductionForm = $this->createForm( ValromexSaisieProductionType::class , $valromexSaisieProduction ) ;
+        $valromexSaisieProductionForm->handleRequest($request);
+
+        if ( $valromexSaisieProductionForm->isSubmitted() && $valromexSaisieProductionForm->isValid() ) {
+            $entityManager->persist($valromexSaisieProduction);
+            $entityManager->flush();
+
+            $this->addFlash('success' , "Saisie de la production enregistrée !");
+            return $this->redirectToRoute('app_prefacbloc_saisie_production');
+        } else {
+            return $this->render('btp_valromex/SaisieProduction.html.twig', [ 'valromexSaisieProductionForm' => $valromexSaisieProductionForm->createView()]);
         }
     }
 }
