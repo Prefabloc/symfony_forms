@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Repository;
+namespace App\Repository\Prefabloc;
 
 use App\Entity\Prefabloc\SaisieProduction;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
