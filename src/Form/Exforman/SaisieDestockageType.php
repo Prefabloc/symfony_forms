@@ -5,6 +5,7 @@ namespace App\Form\Exforman;
 use App\Entity\Exforman\SaisieDestockage;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -18,10 +19,10 @@ class SaisieDestockageType extends AbstractType
             ->add('typeArticle' , ChoiceType::class, [
                 "label" => "Choix de l'article",
                 'label_attr' => [
-                    'class' => "block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                    'class' => "block text-sm font-medium leading-6 text-gray-900"
                 ],
                 'attr' => [
-                    'class' => "bg-neutral-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus: block w-full p-2.5shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light"
+                    'class' => "bg-neutral-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus: block w-full p-2.5"
                 ],
                 "choices" => [
                     "0-80SC" => "0-80SC" ,
@@ -43,7 +44,7 @@ class SaisieDestockageType extends AbstractType
                 ] ,
                 "required" => true
             ])
-            ->add('quantite', TextType::class , [
+            ->add('quantite', IntegerType::class, [
                 "label" => "Poids ( en tonnes )" ,
                 'label_attr' => [
                     'class' => "block text-sm font-medium leading-6 text-gray-900"

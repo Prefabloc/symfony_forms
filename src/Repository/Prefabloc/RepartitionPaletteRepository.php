@@ -2,27 +2,27 @@
 
 namespace App\Repository\Prefabloc;
 
-use App\Entity\Prefabloc\RepartitionPalette;
+use App\Entity\Prefabloc\ReparationPalette;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @extends ServiceEntityRepository<RepartitionPalette>
+ * @extends ServiceEntityRepository<ReparationPalette>
  *
- * @method RepartitionPalette|null find($id, $lockMode = null, $lockVersion = null)
- * @method RepartitionPalette|null findOneBy(array $criteria, array $orderBy = null)
- * @method RepartitionPalette[]    findAll()
- * @method RepartitionPalette[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method ReparationPalette|null find($id, $lockMode = null, $lockVersion = null)
+ * @method ReparationPalette|null findOneBy(array $criteria, array $orderBy = null)
+ * @method ReparationPalette[]    findAll()
+ * @method ReparationPalette[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
 class RepartitionPaletteRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, RepartitionPalette::class);
+        parent::__construct($registry, ReparationPalette::class);
     }
 
     //    /**
-    //     * @return RepartitionPalette[] Returns an array of RepartitionPalette objects
+    //     * @return ReparationPalette[] Returns an array of ReparationPalette objects
     //     */
     //    public function findByExampleField($value): array
     //    {
@@ -36,7 +36,7 @@ class RepartitionPaletteRepository extends ServiceEntityRepository
     //        ;
     //    }
 
-    //    public function findOneBySomeField($value): ?RepartitionPalette
+    //    public function findOneBySomeField($value): ?ReparationPalette
     //    {
     //        return $this->createQueryBuilder('r')
     //            ->andWhere('r.exampleField = :val')

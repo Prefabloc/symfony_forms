@@ -4,9 +4,10 @@ namespace App\Entity\Prefabloc;
 
 use App\Repository\Prefabloc\RepartitionPaletteRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: RepartitionPaletteRepository::class)]
-class RepartitionPalette
+class ReparationPalette
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -17,6 +18,7 @@ class RepartitionPalette
     private ?string $typePalette = null;
 
     #[ORM\Column]
+    #[Assert\Range(notInRangeMessage: "Vous devez choisir une quantité entre 0 et 1000", min: 0, max: 1000)]
     private ?int $quantite = null;
 
     public function getId(): ?int

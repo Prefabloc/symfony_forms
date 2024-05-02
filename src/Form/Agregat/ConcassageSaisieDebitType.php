@@ -9,6 +9,7 @@ use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 
 class ConcassageSaisieDebitType extends AbstractType
 {
@@ -43,8 +44,8 @@ class ConcassageSaisieDebitType extends AbstractType
                 ] ,
                 "required" => true
             ])
-            ->add('quantite', TextType::class , [
-                "label" => "Poids ( en tonnes )" ,
+            ->add('quantite', IntegerType::class , [
+                "label" => "Poids ( en tonne )" ,
                 'label_attr' => [
                     'class' => "block text-sm font-medium leading-6 text-gray-900"
                 ],

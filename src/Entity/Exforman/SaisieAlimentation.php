@@ -4,6 +4,7 @@ namespace App\Entity\Exforman;
 
 use App\Repository\Exforman\SaisieAlimentationRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: SaisieAlimentationRepository::class)]
 class SaisieAlimentation
@@ -17,6 +18,7 @@ class SaisieAlimentation
     private ?string $typeMateriau = null;
 
     #[ORM\Column]
+    #[Assert\Range(notInRangeMessage: "Vous devez choisir un poids entre 1 et 1000 tonnes", min: 0, max: 1000)]
     private ?int $quantite = null;
 
     public function getId(): ?int

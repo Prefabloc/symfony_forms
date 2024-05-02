@@ -4,6 +4,7 @@ namespace App\Entity\Prefabloc;
 
 use App\Repository\SaisieProductionRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: SaisieProductionRepository::class)]
 class SaisieProduction
@@ -14,6 +15,8 @@ class SaisieProduction
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank(message: "Renseignez une valeur svp !")]
+    #[Assert\Type(type: 'integer' , message: 'Vous devez renseigner un entier !')]
     private ?string $qte04 = null;
 
     #[ORM\Column(length: 255)]

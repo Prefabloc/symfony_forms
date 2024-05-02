@@ -4,6 +4,7 @@ namespace App\Entity\Exforman;
 
 use App\Repository\Exforman\SaisieDebitRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: SaisieDebitRepository::class)]
 class SaisieDebit
@@ -17,6 +18,7 @@ class SaisieDebit
     private ?string $typeArticle = null;
 
     #[ORM\Column]
+    #[Assert\Range(notInRangeMessage: "Vous devez choisir un poids entre 1 et 1000 tonnes", min: 0, max: 1000)]
     private ?int $quantite = null;
 
     public function getId(): ?int

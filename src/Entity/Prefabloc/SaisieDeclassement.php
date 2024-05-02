@@ -4,6 +4,7 @@ namespace App\Entity\Prefabloc;
 
 use App\Repository\Prefabloc\SaisieDeclassementRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: SaisieDeclassementRepository::class)]
 class SaisieDeclassement
@@ -16,11 +17,12 @@ class SaisieDeclassement
     #[ORM\Column(length: 255)]
     private ?string $article = null;
 
-    #[ORM\Column(length: 50)]
+    #[ORM\Column(length: 255)]
     private ?string $motifDeclassement = null;
 
-    #[ORM\Column]
-    private ?int $quantite = null;
+    #[ORM\Column(length: 50)]
+    #[Assert\Range(notInRangeMessage: "Vous devez choisir une quantité entre 1 et 1000.", min: 0, max: 1000)]
+    private ?string $quantite = null;
 
     public function getId(): ?int
     {
@@ -51,12 +53,12 @@ class SaisieDeclassement
         return $this;
     }
 
-    public function getQuantite(): ?int
+    public function getQuantite(): ?string
     {
         return $this->quantite;
     }
 
-    public function setQuantite(int $quantite): static
+    public function setQuantite(string $quantite): static
     {
         $this->quantite = $quantite;
 

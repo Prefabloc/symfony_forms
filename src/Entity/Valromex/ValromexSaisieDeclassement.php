@@ -4,6 +4,7 @@ namespace App\Entity\Valromex;
 
 use App\Repository\Valromex\ValromexSaisieDeclassementRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: ValromexSaisieDeclassementRepository::class)]
 class ValromexSaisieDeclassement
@@ -20,6 +21,7 @@ class ValromexSaisieDeclassement
     private ?string $motifDeclassement = null;
 
     #[ORM\Column]
+    #[Assert\Range(notInRangeMessage: "Vous devez choisir une quantité entre 1 et 1000.", min: 0, max: 1000)]
     private ?int $quantite = null;
 
     public function getId(): ?int

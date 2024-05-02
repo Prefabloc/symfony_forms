@@ -4,6 +4,7 @@ namespace App\Entity\Agregat;
 
 use App\Repository\Agregat\ConcassageSaisieChargeuseRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: ConcassageSaisieChargeuseRepository::class)]
 class ConcassageSaisieChargeuse
@@ -17,6 +18,8 @@ class ConcassageSaisieChargeuse
     private ?string $typeArticle = null;
 
     #[ORM\Column]
+    #[Assert\Positive]
+    #[Assert\Range(notInRangeMessage: "Vous devez choisir un poids entre 1 et 1000 tonnes", min: 0, max: 1000)]
     private ?int $quantite = null;
 
     public function getId(): ?int

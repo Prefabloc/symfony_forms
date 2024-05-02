@@ -2,7 +2,7 @@
 
 namespace App\Entity\Agregat;
 
-use App\Repository\AgregatCarriereSaisieDebitRepository;
+use App\Repository\Agregat\CarriereSaisieDebitRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -14,13 +14,12 @@ class CarriereSaisieDebit
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(length: 255)]
-    private ?string $TypeArticle = null;
-
     #[ORM\Column(length: 50)]
-    #[Assert\Type(type: "integer" , message: "Vous devez entrer une valeur entière")]
-    #[Assert\Range( notInRangeMessage: "Vous devez choisir un poids entre 0 et 1000 tonnes !", min: "0", max: "1000")]
-    private ?int $NombreTonne = null;
+    private ?string $typeArticle = null;
+
+    #[ORM\Column(length: 255 )]
+    #[Assert\Range(notInRangeMessage: "Vous devez choisir un poids entre 1 et 1000 tonnes", min: 0, max: 1000)]
+    private ?string $nbrTonne = null;
 
     public function getId(): ?int
     {
@@ -29,24 +28,24 @@ class CarriereSaisieDebit
 
     public function getTypeArticle(): ?string
     {
-        return $this->TypeArticle;
+        return $this->typeArticle;
     }
 
-    public function setTypeArticle(string $TypeArticle): static
+    public function setTypeArticle(string $typeArticle): static
     {
-        $this->TypeArticle = $TypeArticle;
+        $this->typeArticle = $typeArticle;
 
         return $this;
     }
 
-    public function getNombreTonne(): ?int
+    public function getNbrTonne(): ?string
     {
-        return $this->NombreTonne;
+        return $this->nbrTonne;
     }
 
-    public function setNombreTonne(int $NombreTonne): static
+    public function setNbrTonne(string $nbrTonne): static
     {
-        $this->NombreTonne = $NombreTonne;
+        $this->nbrTonne = $nbrTonne;
 
         return $this;
     }

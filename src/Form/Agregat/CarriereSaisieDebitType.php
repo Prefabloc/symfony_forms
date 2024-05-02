@@ -2,20 +2,21 @@
 
 namespace App\Form\Agregat;
 
+use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use App\Entity\Agregat\CarriereSaisieDebit;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+
 
 class CarriereSaisieDebitType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('TypeArticle' , ChoiceType::class, [
+            ->add('typeArticle' , ChoiceType::class, [
                 "label" => "Choix de l'article",
                 'label_attr' => [
                     'class' => "block text-sm font-medium leading-6 text-gray-900"
@@ -43,7 +44,7 @@ class CarriereSaisieDebitType extends AbstractType
                 ] ,
                 "required" => true
             ])
-            ->add('NombreTonne', TextType::class , [
+            ->add('nbrTonne', IntegerType::class , [
                 "label" => "Poids ( en tonnes )" ,
                 'label_attr' => [
                     'class' => "block text-sm font-medium leading-6 text-gray-900"

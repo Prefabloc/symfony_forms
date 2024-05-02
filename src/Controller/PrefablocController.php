@@ -3,12 +3,12 @@
 namespace App\Controller;
 
 use App\Entity\Prefabloc\PrefablocSaisieProduction;
-use App\Entity\Prefabloc\RepartitionPalette;
+use App\Entity\Prefabloc\ReparationPalette;
 use App\Entity\Prefabloc\SaisieDeclassement;
 use App\Entity\Prefabloc\SaisieProduction;
 use App\Form\Prefabloc\PrefablocProductionType;
 use App\Form\Prefabloc\PrefablocSaisieProductionType;
-use App\Form\Prefabloc\RepartitionPaletteType;
+use App\Form\Prefabloc\ReparationPaletteType;
 use App\Form\Prefabloc\SaisieDeclassementType;
 use App\Form\Prefabloc\SaisieProductionType;
 use App\Repository\Prefabloc\PrefablocProductionRepository;
@@ -131,11 +131,11 @@ class PrefablocController extends AbstractController
         }
     }
 
-    #[Route('/prefabloc/repartition/palette' , name : 'app_prefacbloc_repartition_palette')]
-    public function prefablocRepartitionPalette(Request $request , EntityManagerInterface $entityManager ) : Response
+    #[Route('/prefabloc/saisie/reparation_palette' , name : 'app_prefacbloc_reparation_palette')]
+    public function prefablocReparationPalette(Request $request , EntityManagerInterface $entityManager ) : Response
     {
-        $prefablocRepartitionPalette = new RepartitionPalette();
-        $prefablocRepartitionPaletteForm = $this->createForm( RepartitionPaletteType::class , $prefablocRepartitionPalette ) ;
+        $prefablocRepartitionPalette = new ReparationPalette();
+        $prefablocRepartitionPaletteForm = $this->createForm( ReparationPaletteType::class , $prefablocRepartitionPalette ) ;
         $prefablocRepartitionPaletteForm->handleRequest($request);
 
         if ( $prefablocRepartitionPaletteForm->isSubmitted() && $prefablocRepartitionPaletteForm->isValid() ) {
@@ -143,9 +143,9 @@ class PrefablocController extends AbstractController
             $entityManager->flush();
 
             $this->addFlash('success' , "Saisie de la répartition palette enregistrée !");
-            return $this->redirectToRoute('app_prefacbloc_repartition_palette');
+            return $this->redirectToRoute('app_prefacbloc_reparation_palette');
         } else {
-            return $this->render('prefabloc/RepartitionPalette.html.twig', [ 'prefablocRepartitionPaletteForm' => $prefablocRepartitionPaletteForm->createView()]);
+            return $this->render('prefabloc/SaisieReparationPalette.html.twig', [ 'prefablocRepartitionPaletteForm' => $prefablocRepartitionPaletteForm->createView()]);
         }
     }
 }

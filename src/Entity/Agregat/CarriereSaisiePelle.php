@@ -4,6 +4,7 @@ namespace App\Entity\Agregat;
 
 use App\Repository\Agregat\AgregatCarriereSaisiePelleRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: AgregatCarriereSaisiePelleRepository::class)]
 class CarriereSaisiePelle
@@ -17,6 +18,8 @@ class CarriereSaisiePelle
     private ?string $typeMateriau = null;
 
     #[ORM\Column]
+    #[Assert\Type(type: 'numeric' , message: 'Veuillez entrer un nombre !')]
+    #[Assert\Range(notInRangeMessage: 'Vous devez choisir un nombre entre 0 et 1000 !', min: 0, max: 1000)]
     private ?int $quantite = null;
 
     public function getId(): ?int

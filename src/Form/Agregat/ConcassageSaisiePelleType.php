@@ -6,9 +6,9 @@ use App\Entity\Agregat\ConcassageSaisiePelle;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 
 class ConcassageSaisiePelleType extends AbstractType
 {
@@ -31,7 +31,7 @@ class ConcassageSaisiePelleType extends AbstractType
                 ] ,
                 "required" => true
             ])
-            ->add('quantite', TextType::class , [
+            ->add('quantite', IntegerType::class , [
                 "label" => "Quantité" ,
                 'label_attr' => [
                     'class' => "block text-sm font-medium leading-6 text-gray-900"

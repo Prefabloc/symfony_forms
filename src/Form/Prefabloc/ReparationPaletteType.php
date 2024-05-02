@@ -2,15 +2,16 @@
 
 namespace App\Form\Prefabloc;
 
-use App\Entity\Prefabloc\RepartitionPalette;
+use App\Entity\Prefabloc\ReparationPalette;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class RepartitionPaletteType extends AbstractType
+class ReparationPaletteType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
@@ -29,7 +30,7 @@ class RepartitionPaletteType extends AbstractType
                 ] ,
                 "required" => true
             ])
-            ->add('quantite', TextType::class , [
+            ->add('quantite', IntegerType::class, [
                 "label" => "Quantité" ,
                 'label_attr' => [
                     'class' => "block text-sm font-medium leading-6 text-gray-900"
@@ -50,7 +51,7 @@ class RepartitionPaletteType extends AbstractType
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'data_class' => RepartitionPalette::class,
+            'data_class' => ReparationPalette::class,
         ]);
     }
 }

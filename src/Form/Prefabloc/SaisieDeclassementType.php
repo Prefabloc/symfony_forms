@@ -5,6 +5,7 @@ namespace App\Form\Prefabloc;
 use App\Entity\Prefabloc\SaisieDeclassement;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -51,7 +52,7 @@ class SaisieDeclassementType extends AbstractType
                 ] ,
                 "required" => true
             ])
-            ->add('quantite', TextType::class , [
+            ->add('quantite', IntegerType::class , [
                 "label" => "Quantité" ,
                 'label_attr' => [
                     'class' => "block text-sm font-medium leading-6 text-gray-900"
