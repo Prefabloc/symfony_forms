@@ -1,0 +1,52 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div>
+        <a href="/">
+            <svg class="pointer" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="50" height="50"
+                 fill="none" stroke="currentColor" stroke-width="1.5">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18" />
+            </svg>
+        </a>
+    </div>
+
+    <div class="centered-content" style="width: 100rem">
+        <div class="my-2">
+            <h2 class="text-2xl font-bold text-center text-black-500">Formulaires identification prestation</h2>
+        </div>
+        <table style="width: 100rem">
+            <tr>
+                <th>Id Formulaire</th>
+                <th>Société</th>
+                <th>Prénom / Nom</th>
+                <th>Prestation</th>
+                <th>Commanditaire</th>
+                <th>Heure Arrivée</th>
+                <th>Heure Départ</th>
+            </tr>
+
+            {% for formulaire in formulairesIdentificationPrestation %}
+                <tr>
+                    <td><a href="{{ path('app_formulaires_identification_edit' , { 'id' : formulaire.id }) }}">{{ formulaire.id }}</a></td>
+                    <td>{{ formulaire.societe }}</td>
+                    <td>{{ formulaire.nomPrenom }}</td>
+                    <td>{{ formulaire.prestation }}</td>
+                    <td>{{ formulaire.commanditaire }}</td>
+                    <td>{{ formulaire.heureArrivee | date ('Y-m-d H:i:s') }}</td>
+                    <td>
+                        {% if formulaire.heureDepart is not null %}
+                            {{ formulaire.heureDepart | date ('Y-m-d H:i:s') }}
+                        {% else %}
+                            Non renseigné
+                        {% endif %}
+                    </td>
+                </tr>
+            {% endfor %}
+        </table>
+    </div>
+{% endblock %}
+
+{% block title %}
+Formulaires Identification Prestation
+{% endblock %}
+

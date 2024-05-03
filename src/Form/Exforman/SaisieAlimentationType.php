@@ -28,6 +28,7 @@ class SaisieAlimentationType extends AbstractType
                     "MP Rocheux" => "MP Rocheux" ,
                     "MP Terreux" => "MP Terreux" ,
                     "MP Mouillé" => "MP Mouillé" ,
+                    "20-50" => "20-50" ,
                     "Autres" => "Autres"
                 ] ,
                 "required" => true
