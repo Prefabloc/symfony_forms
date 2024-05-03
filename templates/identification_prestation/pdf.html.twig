@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+    <html lang="fr" style="margin: 5% ; background-color: white">
+        <head>
+            <meta charset="UTF-8">
+            <meta http-equiv="X-UA-Compatible" content="IE=edge">
+            <meta name="viewport" content="width=devince-width, initial-scale=1.0">
+            <style>
+                .divContrat {
+                    font-size: large;
+                    font-weight: bold;
+                }
+            </style>
+            <title>Identification Prestation Contrat</title>
+        </head>
+
+        <body style="background-color: white">
+            <header style="display: flex ; justify-content: space-between">
+                <div>
+                    <div>Nom Société</div>
+                    <div>Adresse Société</div>
+                    <div>Ville Société</div>
+                    <div>Téléphone Société</div>
+                </div>
+            </header>
+
+            <body>
+                <h1 style="display: flex ; justify-content: center">IDENTIFICATION PRESTATION No {{ identificationPrestation.id }}</h1>
+                <br>
+                <br>
+                <br>
+                <div style="display: flex ; justify-content: space-evenly">
+                    <div>
+                        <div><p class="divContrat">Société : </p>{{ identificationPrestation.societe }}</div>
+                        <br>
+                        <div><p class="divContrat">Nom / Prénom : </p>{{ identificationPrestation.nomPrenom }}</div>
+                        <br>
+                        <div><p class="divContrat">Prestation : </p>{{ identificationPrestation.prestation }}</div>
+                        <br>
+                    </div>
+                    <div>
+                        <div><p class="divContrat">Commanditaire : </p>{{ identificationPrestation.commanditaire }}</div>
+
+                        <div><p class="divContrat">Arrivée le : </p>{{ identificationPrestation.heureArrivee | date ('Y-m-d H:i:s') }}</div>
+
+                        <div ><p class="divContrat">Départ le : </p>{{ identificationPrestation.heureDepart | date ('Y-m-d H:i:s') }}</div>
+                        <br><br><br><br><br><br><br>
+
+                    </div>
+
+                    <pre>FAIT LE :                                                   SIGNATURE : </pre>
+
+
+                </div>
+                <br>
+            </body>
+
+
+
+
+
+        </body>
+     </html>
