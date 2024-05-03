@@ -27,7 +27,11 @@
 
             {% for formulaire in formulairesIdentificationPrestation %}
                 <tr>
-                    <td><a href="{{ path('app_formulaires_identification_edit' , { 'id' : formulaire.id }) }}">{{ formulaire.id }}</a></td>
+                    {% if formulaire.heureDepart is null %}
+                    <td><a href="{{ path('app_formulaires_identification_validate' , { 'id' : formulaire.id }) }}">{{ formulaire.id }}</a></td>
+                    {% else %}
+                    <td>{{ formulaire.id }}</td>
+                    {% endif %}
                     <td>{{ formulaire.societe }}</td>
                     <td>{{ formulaire.nomPrenom }}</td>
                     <td>{{ formulaire.prestation }}</td>
@@ -43,6 +47,11 @@
                 </tr>
             {% endfor %}
         </table>
+        <br>
+
+        <div>
+            <a href="{{ path('app_identification_prestation') }}"><button type="button" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">Créer un formulaire</button></a>
+        </div>
     </div>
 {% endblock %}
 
