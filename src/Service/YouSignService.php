@@ -112,7 +112,9 @@ class YouSignService {
                                     "type" : "signature",
                                     "document_id" : "$documentId", 
                                     "page" : 1,
-                                    "x" : 480, 
+                                    "width" : 180,
+                                    "height" : 90, 
+                                    "x" : 400, 
                                     "y" : 750
                                 }
                             ],
