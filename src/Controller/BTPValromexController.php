@@ -2,13 +2,14 @@
 
 namespace App\Controller;
 
+
 use App\Entity\Valromex\ValromexSaisieDeclassement;
 use App\Entity\Valromex\ValromexSaisieProduction;
 use App\Form\BTP\BTPProductionType;
 use App\Form\Valromex\ValromexSaisieDeclassementType;
 use App\Form\Valromex\ValromexSaisieProductionType;
 use App\Repository\BTP\BTPProductionRepository;
-use App\Repository\ProductionArticleRepository;
+use App\Repository\Prefabloc\ProductionArticleRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -45,10 +46,16 @@ class BTPValromexController extends AbstractController
 
         ]);
 
+        $consommation = new ValromexSaisieProduction();
+        $consommation->setBTPProduction($entity);
+
+        $saisieForm = $this->createForm(ValromexSaisieProductionType::class, $consommation, []);
+
         return $this->render('production/simple_select.html.twig', [
-            'label' => "Prefabloc Production",
+            'label' => "Production",
             "url" => $url,
             "form" => $form->createView(),
+            "saisie" => $saisieForm->createView(),
         ]);
     }
 

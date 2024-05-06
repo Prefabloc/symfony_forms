@@ -45,10 +45,10 @@ class PrefablocController extends AbstractController
             'disable_fields' => $entity !== null,
             'articles' => $articleChoices  // Pass articles as options to the form
         ]);
-
+        //dd($form);
 
         $consommation = new SaisieProduction();
-        $consommation->setProduction($entity);
+        $consommation->setPrefablocProduction($entity);
 
         $saisieForm = $this->createForm(SaisieProductionType::class, $consommation, []);
 

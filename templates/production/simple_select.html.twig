@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{{ asset('css/app.css') }}">
     <title>{{label}}</title>
     <style>
         .pointer {
@@ -79,6 +80,12 @@
         </div>
     </div>
 
+    <!--
+    <div>
+        {{ dump(form.vars.value ) }}
+    </div>
+    -->
+
     {% include 'production/consommation.html.twig' %}
 
     <script>
@@ -95,7 +102,7 @@
         }
 
         function sendConsommation(){
-            const zero_quatre = document.getElementById('{{saisie.children.zero_quatre.vars.id}}')
+            const zero_quatre = document.getElementById('{{saisie.children.qte04.vars.id}}')
             // const select = document.getElementById('{{form.children.mode.vars.id}}');
             // const selectedMode = select.value;
             // let fullUrl = `${url}/${endpoint}`

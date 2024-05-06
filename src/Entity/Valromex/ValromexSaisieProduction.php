@@ -2,6 +2,7 @@
 
 namespace App\Entity\Valromex;
 
+use App\Entity\BTP\BTPProduction;
 use App\Repository\Valromex\ValromexSaisieProductionRepository;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -30,6 +31,9 @@ class ValromexSaisieProduction
 
     #[ORM\Column(length: 50)]
     private ?string $qteEau = null;
+
+    #[ORM\OneToOne(mappedBy: 'SaisieProduction', cascade: ['persist', 'remove'])]
+    private ?BTPProduction $bTPProduction = null;
 
     public function getId(): ?int
     {
@@ -104,6 +108,28 @@ class ValromexSaisieProduction
     public function setQteEau(string $qteEau): static
     {
         $this->qteEau = $qteEau;
+
+        return $this;
+    }
+
+    public function getBTPProduction(): ?BTPProduction
+    {
+        return $this->bTPProduction;
+    }
+
+    public function setBTPProduction(?BTPProduction $bTPProduction): static
+    {
+        // unset the owning side of the relation if necessary
+        if ($bTPProduction === null && $this->bTPProduction !== null) {
+            $this->bTPProduction->setSaisieProduction(null);
+        }
+
+        // set the owning side of the relation if necessary
+        if ($bTPProduction !== null && $bTPProduction->getSaisieProduction() !== $this) {
+            $bTPProduction->setSaisieProduction($this);
+        }
+
+        $this->bTPProduction = $bTPProduction;
 
         return $this;
     }

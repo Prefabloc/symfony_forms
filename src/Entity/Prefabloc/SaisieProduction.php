@@ -2,7 +2,7 @@
 
 namespace App\Entity\Prefabloc;
 
-use App\Repository\SaisieProductionRepository;
+use App\Repository\Prefabloc\SaisieProductionRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -33,6 +33,9 @@ class SaisieProduction
 
     #[ORM\Column(length: 255)]
     private ?string $qteEau = null;
+
+    #[ORM\OneToOne(inversedBy: 'saisieProduction', cascade: ['persist', 'remove'])]
+    private ?PrefablocProduction $PrefablocProduction = null;
 
     public function getId(): ?int
     {
@@ -107,6 +110,18 @@ class SaisieProduction
     public function setQteEau(string $qteEau): static
     {
         $this->qteEau = $qteEau;
+
+        return $this;
+    }
+
+    public function getPrefablocProduction(): ?PrefablocProduction
+    {
+        return $this->PrefablocProduction;
+    }
+
+    public function setPrefablocProduction(?PrefablocProduction $PrefablocProduction): static
+    {
+        $this->PrefablocProduction = $PrefablocProduction;
 
         return $this;
     }
