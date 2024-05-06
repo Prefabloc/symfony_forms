@@ -2,12 +2,10 @@
 
 namespace App\Controller;
 
-use App\Entity\Prefabloc\PrefablocSaisieProduction;
 use App\Entity\Prefabloc\ReparationPalette;
 use App\Entity\Prefabloc\SaisieDeclassement;
 use App\Entity\Prefabloc\SaisieProduction;
 use App\Form\Prefabloc\PrefablocProductionType;
-use App\Form\Prefabloc\PrefablocSaisieProductionType;
 use App\Form\Prefabloc\ReparationPaletteType;
 use App\Form\Prefabloc\SaisieDeclassementType;
 use App\Form\Prefabloc\SaisieProductionType;
