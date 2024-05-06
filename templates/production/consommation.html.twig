@@ -23,12 +23,18 @@
         {{ form_widget(saisie.qteEau, {'attr': {'class': 'shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline','placeholder': 'Eau'}}) }}
       </div>
     {{ form_end(saisie, {'render_rest': false}) }}
-
-    
-      <button onClick="sendConsommation()" class="mt-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
+    <div>
+      {{ saisie.vars.id }}
+    </div>
+    {% if saisie.vars.id == "valromex_saisie_production" %}
+      <a href="{{ path('app_btpvalromex_production_saisie' ,  { id : saisie.vars.id } )  }}"><button  class="mt-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
+        Enregistrer
+        </button></a>
+    {% elseif form.vars.id is same as "saisiePrefabloc" %}
+      <a href="#"> <button class="mt-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
         Send Data
-        </button>
-        
+      </button></a>
+    {% endif %}
       <button onClick="toggleModal()" class="mt-4 bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
         Exit
         </button>

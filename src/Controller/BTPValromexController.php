@@ -10,6 +10,7 @@ use App\Form\Valromex\ValromexSaisieDeclassementType;
 use App\Form\Valromex\ValromexSaisieProductionType;
 use App\Repository\BTP\BTPProductionRepository;
 use App\Repository\Prefabloc\ProductionArticleRepository;
+use App\Repository\Valromex\ValromexSaisieProductionRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -31,7 +32,7 @@ class BTPValromexController extends AbstractController
     {
         $url = $request->getUri();
         $entity = $repository->findLastActive();
-
+        $btpvalromex = true ;
 
         $articles = $productionArticleRepository->findBySociete(2);
 
@@ -49,13 +50,14 @@ class BTPValromexController extends AbstractController
         $consommation = new ValromexSaisieProduction();
         $consommation->setBTPProduction($entity);
 
-        $saisieForm = $this->createForm(ValromexSaisieProductionType::class, $consommation, []);
+        $saisieForm = $this->createForm(ValromexSaisieProductionType::class, $consommation,[]);
 
         return $this->render('production/simple_select.html.twig', [
             'label' => "Production",
             "url" => $url,
             "form" => $form->createView(),
             "saisie" => $saisieForm->createView(),
+
         ]);
     }
 
@@ -106,6 +108,20 @@ class BTPValromexController extends AbstractController
             return $this->render('btp_valromex/SaisieDeclassement.html.twig', [ 'valromexSaisieDeclassementForm' => $valromexSaisieDeclassementForm->createView()]);
         }
     }
+
+    #[Route('/btpvalromex/production/saisie/{id}' , name : 'app_btpvalromex_production_saisie')]
+    public function btpValromexProductionSaisie( Request $request , EntityManagerInterface $entityManager , ValromexSaisieProductionRepository $valromexSaisieProductionRepository, string $id ) : Response {
+
+        dd($request);
+    }
+
+
+
+
+
+
+
+
 
     #[Route('/btpvalromex/saisie/production' , name : 'app_btpvalromex_saisie_production')]
     public function btpValromexSaisieProduction(Request $request , EntityManagerInterface $entityManager ) : Response

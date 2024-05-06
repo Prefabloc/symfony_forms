@@ -50,7 +50,11 @@ class PrefablocController extends AbstractController
         $consommation = new SaisieProduction();
         $consommation->setPrefablocProduction($entity);
 
-        $saisieForm = $this->createForm(SaisieProductionType::class, $consommation, []);
+        $saisieForm = $this->createForm(SaisieProductionType::class, $consommation, [
+            'attr' => [
+                'id' => 'saisiePrefabloc'
+            ]
+        ]);
 
         // dd($saisieForm->createView());
         return $this->render('production/simple_select.html.twig', [
