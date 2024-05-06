@@ -2,17 +2,20 @@
 
 namespace App\Service;
 
+use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\Mime\Part\DataPart;
 use Symfony\Component\Mime\Part\Multipart\FormDataPart;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 class YouSignService {
 
-    private const PATHFILE = __DIR__ . '/../../public/PDFs/' ;
+    private const PATHFILE = 'C:\\wamp64\\www\\symfony_forms\\public\\PDFs\\' ;
 
     public function __construct(
         private HttpClientInterface $youSignClient ,
+        string $apiKey
     ) {
+        $this->apiKey = $apiKey;
     }
 
     //1 Initier une signature
@@ -22,23 +25,25 @@ class YouSignService {
             'POST' ,
             'signature_requests',
             [
-                'body' => <<<JSON
-                          {
+                'body' =>
+                          '{
                             "name" : "Identification Prestation",
                             "delivery_mode" : "email" ,
                             "timezone" : "Europe/Paris"
-                          }
-                          JSON,
+                          }'
+                          ,
                 'headers' => [
                     'Content-Type' => 'application/json' ,
+                    'Authorization' => 'Bearer ' . $this->apiKey
                 ] ,
             ]
         );
 
         $statusCode = $response->getStatusCode();
 
+
         if ( $statusCode != 201 ) {
-            throw new \Exception('Error while creating signature request');
+            throw new \Exception('Error while creating signature request, Status code : ' . $statusCode );
         }
 
         return $response->toArray();
@@ -55,6 +60,7 @@ class YouSignService {
             //file pour lui passer le fichier et l'upload
             'file' => DataPart::fromPath(self::PATHFILE . $filename, $filename , 'application/json')
         ];
+
 
         //On passe le formfields qu'on vient de créer pour le mettre en multi part ( format demandé par Yousign )
         $formData = new FormDataPart($formFields);
@@ -106,8 +112,8 @@ class YouSignService {
                                     "type" : "signature",
                                     "document_id" : "$documentId", 
                                     "page" : 1,
-                                    "x" : 77, 
-                                    "y" : 581
+                                    "x" : 480, 
+                                    "y" : 750
                                 }
                             ],
                             "signature_level" : "electronic_signature",
@@ -134,13 +140,13 @@ class YouSignService {
 
         $response = $this->youSignClient->request(
             'POST',
-            sprintf('signature_requests/%s/signers' , $signatureRequestId )
+            sprintf('signature_requests/%s/activate' , $signatureRequestId )
         );
 
         $statusCode = $response->getStatusCode();
 
         if ( $statusCode != 201 ) {
-            throw new \Exception('Error while activating signature request');
+            throw new \Exception('Error while activating signature request, Error Code : ' . $statusCode );
         }
 
         return $response->toArray();
