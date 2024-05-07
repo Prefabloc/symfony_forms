@@ -16,23 +16,34 @@ class SaisieProduction
 
     #[ORM\Column(length: 255)]
     #[Assert\NotBlank(message: "Renseignez une valeur svp !")]
-    #[Assert\Type(type: 'float', message: 'Vous devez renseigner un entier !')]
+    #[Assert\Range( minMessage: "Vous ne pouvez pas renseignez un chiffre au dessous de 0 ", min: 0)]
+    #[Assert\Type(type: 'float', message: 'Vous devez renseigner un nombre !')]
     private ?float $qte04 = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $qte610 = null;
+    #[Assert\Range( minMessage: "Vous ne pouvez pas renseignez un chiffre au dessous de 0 ", min: 0)]
+    #[Assert\Type(type: 'float', message: 'Vous devez renseigner un nombre !')]
+    private ?float $qte610 = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $qteCEM = null;
+    #[Assert\Range( minMessage: "Vous ne pouvez pas renseignez un chiffre au dessous de 0 ", min: 0)]
+    #[Assert\Type(type: 'float', message: 'Vous devez renseigner un nombre !')]
+    private ?float $qteCEM = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $qteAdjuvant = null;
+    #[Assert\Range( minMessage: "Vous ne pouvez pas renseignez un chiffre au dessous de 0 ", min: 0)]
+    #[Assert\Type(type: 'float', message: 'Vous devez renseigner un nombre !')]
+    private ?float $qteAdjuvant = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $qteHuile = null;
+    #[Assert\Range( minMessage: "Vous ne pouvez pas renseignez un chiffre au dessous de 0 ", min: 0)]
+    #[Assert\Type(type: 'float', message: 'Vous devez renseigner un nombre !')]
+    private ?float $qteHuile = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $qteEau = null;
+    #[Assert\Range( minMessage: "Vous ne pouvez pas renseignez un chiffre au dessous de 0 ", min: 0)]
+    #[Assert\Type(type: 'float', message: 'Vous devez renseigner un nombre !')]
+    private ?float $qteEau = null;
 
     #[ORM\OneToOne(inversedBy: 'saisieProduction', cascade: ['persist', 'remove'])]
     private ?PrefablocProduction $PrefablocProduction = null;
