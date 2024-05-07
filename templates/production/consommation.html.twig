@@ -1,34 +1,40 @@
 <!-- Overlay for the modal -->
-<div id="modal" class="fixed inset-0 bg-gray-800 bg-opacity-50 overflow-y-auto h-full w-full" style="z-index: 1000;">
+<div id="modal" class="hidden fixed inset-0 bg-gray-800 bg-opacity-50 overflow-y-auto h-full w-full" style="z-index: 1000;">
   <!-- Modal content -->
   <div class="relative top-20 mx-auto p-5 border w-96 shadow-lg rounded-md bg-white">
     <!-- Form -->
     {{ form_start(saisie) }}
       <div class="mb-4">
-        {{ form_widget(saisie.zero_quatre, {'attr': {'class': 'shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline','placeholder': '0/4'}}) }}
+        {{ form_widget(saisie.qte04, {'attr': {'class': 'shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline','placeholder': '0/4'}}) }}
       </div>
       <div class="mb-4">
-        {{ form_widget(saisie.six_dix, {'attr': {'class': 'shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline','placeholder': '6/10'}}) }}
+        {{ form_widget(saisie.qte610, {'attr': {'class': 'shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline','placeholder': '6/10'}}) }}
       </div>
       <div class="mb-4">
-        {{ form_widget(saisie.cem, {'attr': {'class': 'shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline','placeholder': 'CEM'}}) }}
+        {{ form_widget(saisie.qteCEM, {'attr': {'class': 'shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline','placeholder': 'CEM'}}) }}
       </div>
       <div class="mb-4">
-        {{ form_widget(saisie.adjuvant, {'attr': {'class': 'shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline','placeholder': 'Adjuvant'}}) }}
+        {{ form_widget(saisie.qteAdjuvant, {'attr': {'class': 'shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline','placeholder': 'Adjuvant'}}) }}
       </div>
       <div class="mb-4">
-        {{ form_widget(saisie.huile, {'attr': {'class': 'shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline','placeholder': 'Huile'}}) }}
+        {{ form_widget(saisie.qteHuile, {'attr': {'class': 'shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline','placeholder': 'Huile'}}) }}
       </div>
       <div class="mb-4">
-        {{ form_widget(saisie.eau, {'attr': {'class': 'shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline','placeholder': 'Eau'}}) }}
+        {{ form_widget(saisie.qteEau, {'attr': {'class': 'shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline','placeholder': 'Eau'}}) }}
       </div>
     {{ form_end(saisie, {'render_rest': false}) }}
-
-    
-      <button onClick="sendConsommation()" class="mt-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
+    <div>
+      {{ saisie.vars.id }}
+    </div>
+    {% if saisie.vars.id == "valromex_saisie_production" %}
+      <a href="{{ path('app_btpvalromex_production_saisie' ,  { id : saisie.vars.id } )  }}"><button  class="mt-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
+        Enregistrer
+        </button></a>
+    {% elseif form.vars.id is same as "saisiePrefabloc" %}
+      <a href="#"> <button class="mt-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
         Send Data
-        </button>
-        
+      </button></a>
+    {% endif %}
       <button onClick="toggleModal()" class="mt-4 bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
         Exit
         </button>

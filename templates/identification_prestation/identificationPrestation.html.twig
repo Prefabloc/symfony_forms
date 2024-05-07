@@ -1,0 +1,83 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div>
+        <a href="/">
+            <svg class="pointer" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="50" height="50"
+                 fill="none" stroke="currentColor" stroke-width="1.5">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18" />
+            </svg>
+        </a>
+    </div>
+
+    <div class="centered-content">
+        <div class="my-2">
+            <h2 class="text-2xl font-bold text-center text-black-500">Formulaire identification prestation</h2>
+        </div>
+        <div class="max-w-lg mx-auto" style="width: 25rem">
+            {{ form_start(identificationPrestationForm) }}
+            <div class="mb-5">
+                <div style="display: flex" class="divSeparator">
+                    <div class="inputSeparator">
+                        {{ form_label(identificationPrestationForm.societe) }}
+                    </div>
+                    <div>
+                        {{ form_widget(identificationPrestationForm.societe) }}
+                    </div>
+                </div>
+                <div>
+                    {{ form_errors(identificationPrestationForm.societe) }}
+                </div>
+            </div>
+            <div class="mb-5">
+                <div style="display: flex" class="divSeparator">
+                    <div class="inputSeparator">
+                        {{ form_label(identificationPrestationForm.nomPrenom) }}
+                    </div>
+                    <div>
+                        {{ form_widget(identificationPrestationForm.nomPrenom) }}
+                    </div>
+                </div>
+                <div>
+                    {{ form_errors(identificationPrestationForm.nomPrenom) }}
+                </div>
+            </div>
+            <div class="mb-5">
+                <div style="display: flex" class="divSeparator">
+                    <div class="inputSeparator">
+                        {{ form_label(identificationPrestationForm.prestation) }}
+                    </div>
+                    <div>
+                        {{ form_widget(identificationPrestationForm.prestation) }}
+                    </div>
+                </div>
+                <div>
+                    {{ form_errors(identificationPrestationForm.prestation) }}
+                </div>
+            </div>
+            <div class="mb-5">
+                <div style="display: flex" class="divSeparator">
+                    <div class="inputSeparator">
+                        {{ form_label(identificationPrestationForm.commanditaire) }}
+                    </div>
+                    <div>
+                        {{ form_widget(identificationPrestationForm.commanditaire) }}
+                    </div>
+                </div>
+                <div>
+                    {{ form_errors(identificationPrestationForm.commanditaire) }}
+                </div>
+            </div>
+            <div>
+                {{ form_row( identificationPrestationForm.save) }}
+            </div>
+
+            {{ form_end(identificationPrestationForm) }}
+        </div>
+    </div>
+{% endblock %}
+
+{% block title %}
+    Formulaire | Identification | Prestation
+{% endblock %}
+

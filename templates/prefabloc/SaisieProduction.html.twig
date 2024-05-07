@@ -1,0 +1,127 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div>
+        <a href="/">
+            <svg class="pointer" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="50" height="50"
+                 fill="none" stroke="currentColor" stroke-width="1.5">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18" />
+            </svg>
+        </a>
+    </div>
+
+
+    <div class="centered-content">
+        <div>
+            <img class="mx-auto" src="https://prefabloc.re/wp-content/uploads/2020/08/pfb-logo-horizontal-clr-01.png"
+                 alt="" width="300" height="200">
+        </div>
+        <div class="my-2">
+            <h2 class="text-2xl font-bold text-center text-black-500">Prefabloc Saisie Production</h2>
+        </div>
+        <div class="max-w-sm mx-auto">
+            {{ form_start(prefablocSaisieProductionForm) }}
+            <div class="mb-5">
+                <div style="display: flex" class="divSeparator">
+                    <div class="inputSeparator">
+                        {{ form_label(prefablocSaisieProductionForm.qte04) }}
+                    </div>
+                    <div>
+                        {{ form_widget(prefablocSaisieProductionForm.qte04) }}
+                    </div>
+                </div>
+                <div>
+                    {{ form_errors(prefablocSaisieProductionForm.qte04) }}
+                </div>
+            </div>
+            <div class="mb-5">
+                <div style="display: flex" class="divSeparator">
+                    <div class="inputSeparator">
+                        {{ form_label(prefablocSaisieProductionForm.qte610) }}
+                    </div>
+                    <div>
+                        {{ form_widget(prefablocSaisieProductionForm.qte610) }}
+                    </div>
+                </div>
+                <div>
+                    {{ form_errors(prefablocSaisieProductionForm.qte610) }}
+                </div>
+            </div>
+            <div class="mb-5">
+                <div style="display: flex" class="divSeparator">
+                    <div class="inputSeparator">
+                        {{ form_label(prefablocSaisieProductionForm.qteCEM) }}
+                    </div>
+                    <div>
+                        {{ form_widget(prefablocSaisieProductionForm.qteCEM) }}
+                    </div>
+                </div>
+                <div>
+                    {{ form_errors(prefablocSaisieProductionForm.qteCEM) }}
+                </div>
+            </div>
+            <div class="mb-5">
+                <div style="display: flex" class="divSeparator">
+                    <div class="inputSeparator">
+                        {{ form_label(prefablocSaisieProductionForm.qteAdjuvant) }}
+                    </div>
+                    <div>
+                        {{ form_widget(prefablocSaisieProductionForm.qteAdjuvant) }}
+                    </div>
+                </div>
+                <div>
+                    {{ form_errors(prefablocSaisieProductionForm.qteAdjuvant) }}
+                </div>
+            </div>
+            <div class="mb-5">
+                <div style="display: flex" class="divSeparator">
+                    <div class="inputSeparator">
+                        {{ form_label(prefablocSaisieProductionForm.qteHuile) }}
+                    </div>
+                    <div>
+                        {{ form_widget(prefablocSaisieProductionForm.qteHuile) }}
+                    </div>
+                </div>
+                <div>
+                    {{ form_errors(prefablocSaisieProductionForm.qteHuile) }}
+                </div>
+            </div>
+            <div class="mb-5">
+                <div style="display: flex" class="divSeparator">
+                    <div class="inputSeparator">
+                        {{ form_label(prefablocSaisieProductionForm.qteEau) }}
+                    </div>
+                    <div>
+                        {{ form_widget(prefablocSaisieProductionForm.qteEau) }}
+                    </div>
+                </div>
+                <div>
+                    {{ form_errors(prefablocSaisieProductionForm.qteEau) }}
+                </div>
+            </div>
+            <div class="mb-5">
+                <div style="display: flex" class="divSeparator">
+                    <div class="inputSeparator">
+                        {{ form_label(prefablocSaisieProductionForm.prefablocProduction) }}
+                    </div>
+                    <div>
+                        {{ form_widget(prefablocSaisieProductionForm.prefablocProduction) }}
+                    </div>
+                </div>
+                <div>
+                    {{ form_errors(prefablocSaisieProductionForm.prefablocProduction) }}
+                </div>
+            </div>
+            <div>
+                {{ form_row( prefablocSaisieProductionForm.save) }}
+            </div>
+
+            {{ form_end(prefablocSaisieProductionForm) }}
+        </div>
+    </div>
+{% endblock %}
+
+{% block title %}
+    Prefabloc | Saisie | Production
+{% endblock %}
+

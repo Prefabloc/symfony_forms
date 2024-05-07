@@ -2,7 +2,9 @@
 
 namespace App\Entity\BTP;
 
-use App\Repository\BTPProductionRepository;
+use App\Entity\Valromex\ValromexSaisieProduction;
+use App\Repository\BTP\BTPProductionRepository;
+
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -22,6 +24,9 @@ class BTPProduction
 
     #[ORM\Column(length: 255)]
     private ?string $mode = null;
+
+    #[ORM\OneToOne(inversedBy: 'bTPProduction', cascade: ['persist', 'remove'])]
+    private ?ValromexSaisieProduction $SaisieProduction = null;
 
     public function getId(): ?int
     {
@@ -60,6 +65,18 @@ class BTPProduction
     public function setMode(string $mode): static
     {
         $this->mode = $mode;
+
+        return $this;
+    }
+
+    public function getSaisieProduction(): ?ValromexSaisieProduction
+    {
+        return $this->SaisieProduction;
+    }
+
+    public function setSaisieProduction(?ValromexSaisieProduction $SaisieProduction): static
+    {
+        $this->SaisieProduction = $SaisieProduction;
 
         return $this;
     }
