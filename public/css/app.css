@@ -1,3 +1,54 @@
+:root {
+    --main-color : rgba(250,94,0,0.7301295518207283);
+    --bg-color : rgba(238,188,177,1);
+    --second-color : rgb(255,255,255)
+}
+
+html {
+    height: 100%;
+}
+
+body {
+    background: var(--main-color);
+    background: radial-gradient(circle, var(--main-color) 16%, var(--bg-color) 79%);
+} 
+
+body {
+    background: rgb(250,94,0);
+    background: radial-gradient(circle, rgba(250,94,0,0.7301295518207283) 16%, rgba(238,188,177,1) 79%);
+
+}
+
+.pointer {
+    cursor: pointer;
+}
+
+/* Added for central div styling */
+.centered-content {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+
+    background-color: var(--second-color);
+    /* or any color you prefer */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    flex-direction: column;
+
+    padding: 15px 30px;
+    border-radius: 10px;
+
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+input, select {
+    border: 1px solid black;
+    width: 50%;
+}
+
 input{
     padding-left: 10px!important;
 }
@@ -6,16 +57,13 @@ input{
     margin: 20px;
     justify-content: space-between;
     align-items: center;
-
 }
 
 .inputSeparator {
     top: 50%;
     bottom: 50%;
     margin-right: 5px;
-
 }
-
 
 .flash {
     padding: 20px;
@@ -40,35 +88,3 @@ input{
     background-color: darkred !important;
     width: 20%;
 }
-.pointer {
-    cursor: pointer;
-}
-
-/* Added for central div styling */
-.centered-content {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-
-
-    background-color: white;
-    /* or any color you prefer */
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-    flex-direction: column;
-
-    padding: 15px 30px;
-    border-radius: 10px;
-
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-}
-
-body {
-    background: rgb(250,94,0);
-    background: radial-gradient(circle, rgba(250,94,0,0.7301295518207283) 16%, rgba(238,188,177,1) 79%);
-
-}
-
