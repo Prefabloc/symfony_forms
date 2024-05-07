@@ -3,7 +3,9 @@
 namespace App\Form\Valromex;
 
 use App\Entity\Valromex\ValromexSaisieProduction;
+use Doctrine\Migrations\Finder\Exception\NameIsReserved;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -14,7 +16,7 @@ class ValromexSaisieProductionType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('qte04' , TextType::class, [
+            ->add('qte04' , NumberType::class, [
                 "label" => "Quantité de 0/4",
                 'label_attr' => [
                     'class' => "block text-sm font-medium leading-6 text-gray-900"
@@ -24,7 +26,7 @@ class ValromexSaisieProductionType extends AbstractType
                 ],
                 "required" => true
             ])
-            ->add('qte610' , TextType::class, [
+            ->add('qte610' , NumberType::class, [
                 "label" => "Quantité de 6/10",
                 'label_attr' => [
                     'class' => "block text-sm font-medium leading-6 text-gray-900"
@@ -34,7 +36,7 @@ class ValromexSaisieProductionType extends AbstractType
                 ],
                 "required" => true
             ])
-            ->add('qteCEM' , TextType::class, [
+            ->add('qteCEM' , NumberType::class, [
                 "label" => "Quantité de CEM",
                 'label_attr' => [
                     'class' => "block text-sm font-medium leading-6 text-gray-900"
@@ -44,7 +46,7 @@ class ValromexSaisieProductionType extends AbstractType
                 ],
                 "required" => true
             ])
-            ->add('qteAdjuvant' , TextType::class, [
+            ->add('qteAdjuvant' , NumberType::class, [
                 "label" => "Quantité d'adjuvant",
                 'label_attr' => [
                     'class' => "block text-sm font-medium leading-6 text-gray-900"
@@ -54,7 +56,7 @@ class ValromexSaisieProductionType extends AbstractType
                 ],
                 "required" => true
             ])
-            ->add('qteHuile' , TextType::class, [
+            ->add('qteHuile' , NumberType::class, [
                 "label" => "Quantité d'huile",
                 'label_attr' => [
                     'class' => "block text-sm font-medium leading-6 text-gray-900"
@@ -64,7 +66,7 @@ class ValromexSaisieProductionType extends AbstractType
                 ],
                 "required" => true
             ])
-            ->add('qteEau' , TextType::class, [
+            ->add('qteEau' , NumberType::class, [
                 "label" => "Quantité d'eau",
                 'label_attr' => [
                     'class' => "block text-sm font-medium leading-6 text-gray-900"

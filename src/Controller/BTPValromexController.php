@@ -32,9 +32,8 @@ class BTPValromexController extends AbstractController
     {
         $url = $request->getUri();
         $entity = $repository->findLastActive();
-        $btpvalromex = true ;
 
-        $articles = $productionArticleRepository->findBySociete(2);
+        $articles = $productionArticleRepository->findBySociete(1);
 
         $articleChoices = [];
         foreach ($articles as $article) {
@@ -44,20 +43,13 @@ class BTPValromexController extends AbstractController
         $form = $this->createForm(BTPProductionType::class, $entity, [
             'disable_fields' => $entity !== null,
             'articles' => $articleChoices  // Pass articles as options to the form
-
         ]);
 
-        $consommation = new ValromexSaisieProduction();
-        $consommation->setBTPProduction($entity);
-
-        $saisieForm = $this->createForm(ValromexSaisieProductionType::class, $consommation,[]);
-
-        return $this->render('production/simple_select.html.twig', [
+        return $this->render('btp_valromex/index.html.twig', [
             'label' => "Production",
             "url" => $url,
             "form" => $form->createView(),
-            "saisie" => $saisieForm->createView(),
-
+            "productionId" => $entity == null ? 0 : $entity->getId(),
         ]);
     }
 
@@ -109,24 +101,19 @@ class BTPValromexController extends AbstractController
         }
     }
 
-    #[Route('/btpvalromex/production/saisie/{id}' , name : 'app_btpvalromex_production_saisie')]
-    public function btpValromexProductionSaisie( Request $request , EntityManagerInterface $entityManager , ValromexSaisieProductionRepository $valromexSaisieProductionRepository, string $id ) : Response {
-
-        dd($request);
-    }
-
-
-
-
-
-
-
-
-
     #[Route('/btpvalromex/saisie/production' , name : 'app_btpvalromex_saisie_production')]
-    public function btpValromexSaisieProduction(Request $request , EntityManagerInterface $entityManager ) : Response
+    public function btpValromexSaisieProduction(Request $request , EntityManagerInterface $entityManager, BTPProductionRepository $repository ) : Response
     {
         $valromexSaisieProduction = new ValromexSaisieProduction();
+
+        $id = $request->query->get('id');
+        $production = $repository->find($id);
+
+        if ( !$production ) {
+            return $this->redirectToRoute('app_btpvalromex');
+        }
+
+        $valromexSaisieProduction->setBTPProduction($production);
         $valromexSaisieProductionForm = $this->createForm( ValromexSaisieProductionType::class , $valromexSaisieProduction ) ;
         $valromexSaisieProductionForm->handleRequest($request);
 
@@ -134,8 +121,10 @@ class BTPValromexController extends AbstractController
             $entityManager->persist($valromexSaisieProduction);
             $entityManager->flush();
 
+            $repository->endProduction($id);
+
             $this->addFlash('success' , "Saisie de la production enregistrée !");
-            return $this->redirectToRoute('app_prefacbloc_saisie_production');
+            return $this->redirectToRoute('app_btpvalromex');
         } else {
             return $this->render('btp_valromex/SaisieProduction.html.twig', [ 'valromexSaisieProductionForm' => $valromexSaisieProductionForm->createView()]);
         }

@@ -2,7 +2,7 @@
 
 namespace App\Entity;
 
-use App\Repository\ProductionArticleRepository;
+use App\Repository\Prefabloc\ProductionArticleRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: ProductionArticleRepository::class)]
