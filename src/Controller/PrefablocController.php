@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Prefabloc\PrefablocProduction;
 use App\Entity\Prefabloc\ReparationPalette;
 use App\Entity\Prefabloc\SaisieDeclassement;
 use App\Entity\Prefabloc\SaisieProduction;
@@ -40,7 +41,6 @@ class PrefablocController extends AbstractController
             $articleChoices[$article->getReference() . " - " . $article->getLabel()] = $article->getReference();
         }
 
-
         $form = $this->createForm(PrefablocProductionType::class, $entity, [
             'disable_fields' => $entity !== null,
             'articles' => $articleChoices  // Pass articles as options to the form
@@ -49,6 +49,7 @@ class PrefablocController extends AbstractController
             'label' => "Prefabloc Production",
             "url" => $url,
             "form" => $form->createView(),
+            "productionId" => $entity == null ? 0 : $entity->getId(),
         ]);
     }
 
@@ -124,7 +125,7 @@ class PrefablocController extends AbstractController
             $repository->endProduction($id);
 
             $this->addFlash('success', "Saisie de la production enregistrée !");
-            return $this->redirectToRoute('app_prefacbloc_saisie_production');
+            return $this->redirectToRoute('app_prefabloc');
         } else {
             return $this->render('prefabloc/SaisieProduction.html.twig', ['prefablocSaisieProductionForm' => $prefablocSaisieProductionForm->createView()]);
         }

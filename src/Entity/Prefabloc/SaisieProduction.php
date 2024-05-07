@@ -16,8 +16,8 @@ class SaisieProduction
 
     #[ORM\Column(length: 255)]
     #[Assert\NotBlank(message: "Renseignez une valeur svp !")]
-    #[Assert\Type(type: 'integer' , message: 'Vous devez renseigner un entier !')]
-    private ?string $qte04 = null;
+    #[Assert\Type(type: 'float', message: 'Vous devez renseigner un entier !')]
+    private ?float $qte04 = null;
 
     #[ORM\Column(length: 255)]
     private ?string $qte610 = null;
