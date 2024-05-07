@@ -1,0 +1,106 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Formulaire Litige Qualité{% endblock %}
+
+{% block body %}
+    <div>
+        <a href="/">
+            <svg class="pointer" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="50" height="50"
+                 fill="none" stroke="currentColor" stroke-width="1.5">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18" />
+            </svg>
+        </a>
+    </div>
+
+    <div class="centered-content">
+        <div class="my-2">
+            <h2 class="text-2xl font-bold text-center text-black-500">{{ label }}</h2>
+        </div>
+
+        <div class="max-w-sm mx-auto">
+            {{ form_start(litigeForm) }}
+            <div class="mb-5">
+                <div style="display: flex" class="divSeparator">
+                    <div class="inputSeparator">
+                        {{ form_label(litigeForm.societe) }}
+                    </div>
+                    <div>
+                        {{ form_widget(litigeForm.societe) }}
+                    </div>
+                </div>
+                <div>
+                    {{ form_errors(litigeForm.societe) }}
+                </div>
+            </div>
+            <div class="mb-5">
+                <div style="display: flex" class="divSeparator">
+                    <div class="inputSeparator">
+                        {{ form_label(litigeForm.clients) }}
+                    </div>
+                    <div>
+                        {{ form_widget(litigeForm.clients) }}
+                    </div>
+                </div>
+                <div>
+                    {{ form_errors(litigeForm.clients) }}
+                </div>
+            </div>
+            <div class="mb-5">
+                <div style="display: flex" class="divSeparator">
+                    <div class="inputSeparator">
+                        {{ form_label(litigeForm.blv) }}
+                    </div>
+                    <div>
+                        {{ form_widget(litigeForm.blv) }}
+                    </div>
+                </div>
+                <div>
+                    {{ form_errors(litigeForm.blv) }}
+                </div>
+            </div>
+            <div class="mb-5">
+                <div style="display: flex" class="divSeparator">
+                    <div class="inputSeparator">
+                        {{ form_label(litigeForm.article) }}
+                    </div>
+                    <div>
+                        {{ form_widget(litigeForm.article) }}
+                    </div>
+                </div>
+                <div>
+                    {{ form_errors(litigeForm.article) }}
+                </div>
+            </div>
+            <div class="mb-5">
+                <div style="display: flex" class="divSeparator">
+                    <div class="inputSeparator">
+                        {{ form_label(litigeForm.volume) }}
+                    </div>
+                    <div>
+                        {{ form_widget(litigeForm.volume) }}
+                    </div>
+                </div>
+                <div>
+                    {{ form_errors(litigeForm.volume) }}
+                </div>
+            </div>
+            <div class="mb-5">
+                <div style="display: flex" class="divSeparator">
+                    <div class="inputSeparator">
+                        {{ form_label(litigeForm.conformite) }}
+                    </div>
+                    <div>
+                        {{ form_widget(litigeForm.conformite) }}
+                    </div>
+                </div>
+                <div>
+                    {{ form_errors(litigeForm.conformite) }}
+                </div>
+                <div>
+                    {{ form_row(litigeForm.valider) }}
+                </div>
+            </div>
+            {{ form_end(litigeForm) }}
+        </div>
+    </div>
+{% endblock %}
