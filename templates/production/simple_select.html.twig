@@ -61,15 +61,15 @@
         <div class="flex gap-4">
 
             {% if form.vars.value == null %}
-            <button class="bg-blue-500 text-white font-bold py-2 px-4 rounded" onClick="submitForm('start')"> Demarrer
+            <button class="bg-blue-500 text-white font-bold py-2 px-4 rounded" onClick="startProduction"> Demarrer
             </button>
             {% else %}
             <button class="bg-red-500 text-white font-bold py-2 px-4 rounded"
-                onClick="submitForm('end','{{form.vars.value.id}}')"> Arreter
+                onClick="endProduction()"> Arreter
             </button>
-            <button class="bg-gray-500 text-white font-bold py-2 px-4 rounded" onClick="toggleModal()">
+            {# <button class="bg-gray-500 text-white font-bold py-2 px-4 rounded" onClick="toggleModal()">
                 Commentaire
-            </button>
+            </button> #}
             {% endif %}
         </div>
         <div class="mt-10" id="productionInfoDiv">
@@ -80,58 +80,23 @@
         </div>
     </div>
 
-    <!--
-    <div>
-        {{ dump(form.vars.value ) }}
-    </div>
-    -->
 
-    {% include 'production/consommation.html.twig' %}
+
+    {# {% include 'production/consommation.html.twig' %} #}
 
     <script>
 
-        function toggleModal() {
-            const modal = document.getElementById('modal')
-
-            if (modal.classList.contains('hidden')) {
-                modal.classList.remove('hidden')
-            } else {
-                modal.classList.add('hidden')
-
-            }
+        function endProduction() {
+            productionId = "{{form.vars.value.id}}"
+            window.location.href = `/prefabloc/saisie/production?id=${productionId}`;
         }
 
-        function sendConsommation(){
-            const qte04 = document.getElementById('{{saisie.children.qte04.vars.id}}')
-            console.log( qte04 );
-            // const select = document.getElementById('{{form.children.mode.vars.id}}');
-            // const selectedMode = select.value;
-            // let fullUrl = `${url}/${endpoint}`
-            // fullUrl = id == null ? fullUrl : fullUrl + `?id=${id}`
-
-            // const response = await fetch(fullUrl, {
-            //     method: 'POST',
-            //     headers: {
-            //         'Content-Type': 'application/json'
-            //     },
-            //     body: JSON.stringify({ mode: selectedMode })
-            // })
-
-            // window.location.href = url
-        }
-
-
-        function submitForm(action, id = null) {
-            const form = document.getElementById('{{form.vars.id}}');
+        async function startProduction() {
             let url = "{{ url }}"
-            sendData(url, action, id)
-        }
 
-        async function sendData(url, endpoint, id) {
             const select = document.getElementById('{{form.children.mode.vars.id}}');
             const selectedMode = select.value;
-            let fullUrl = `${url}/${endpoint}`
-            fullUrl = id == null ? fullUrl : fullUrl + `?id=${id}`
+            let fullUrl = `${url}/start`
 
             const response = await fetch(fullUrl, {
                 method: 'POST',

@@ -45,23 +45,10 @@ class PrefablocController extends AbstractController
             'disable_fields' => $entity !== null,
             'articles' => $articleChoices  // Pass articles as options to the form
         ]);
-        //dd($form);
-
-        $consommation = new SaisieProduction();
-        $consommation->setPrefablocProduction($entity);
-
-        $saisieForm = $this->createForm(SaisieProductionType::class, $consommation, [
-            'attr' => [
-                'id' => 'saisiePrefabloc'
-            ]
-        ]);
-
-        // dd($saisieForm->createView());
-        return $this->render('production/simple_select.html.twig', [
+        return $this->render('prefabloc/production/index.html.twig', [
             'label' => "Prefabloc Production",
             "url" => $url,
             "form" => $form->createView(),
-            "saisie" => $saisieForm->createView(),
         ]);
     }
 
@@ -95,59 +82,69 @@ class PrefablocController extends AbstractController
         return $this->redirectToRoute('app_prefabloc');
     }
 
-    #[Route('/prefabloc/saisie/declassement' , name : 'app_prefacbloc_saisie_declassement')]
-    public function prefablocSaisieDeclassement(Request $request , EntityManagerInterface $entityManager ) : Response
+    #[Route('/prefabloc/saisie/declassement', name: 'app_prefacbloc_saisie_declassement')]
+    public function prefablocSaisieDeclassement(Request $request, EntityManagerInterface $entityManager): Response
     {
         $prefablocSaisieDeclassement = new SaisieDeclassement();
 
-        $prefablocSaisieDeclassementForm = $this->createForm( SaisieDeclassementType::class , $prefablocSaisieDeclassement );
+        $prefablocSaisieDeclassementForm = $this->createForm(SaisieDeclassementType::class, $prefablocSaisieDeclassement);
         $prefablocSaisieDeclassementForm->handleRequest($request);
 
-        if ( $prefablocSaisieDeclassementForm->isSubmitted() && $prefablocSaisieDeclassementForm->isValid() ) {
+        if ($prefablocSaisieDeclassementForm->isSubmitted() && $prefablocSaisieDeclassementForm->isValid()) {
             $entityManager->persist($prefablocSaisieDeclassement);
             $entityManager->flush();
 
-            $this->addFlash('success' , "Saisie du déclassement enregistrée !");
+            $this->addFlash('success', "Saisie du déclassement enregistrée !");
             return $this->redirectToRoute('app_prefacbloc_saisie_declassement');
         } else {
-            return $this->render('prefabloc/SaisieDeclassement.html.twig', [ 'prefablocSaisieDeclassementForm' => $prefablocSaisieDeclassementForm->createView()]);
+            return $this->render('prefabloc/SaisieDeclassement.html.twig', ['prefablocSaisieDeclassementForm' => $prefablocSaisieDeclassementForm->createView()]);
         }
     }
 
-    #[Route('/prefabloc/saisie/production' , name : 'app_prefacbloc_saisie_production')]
-    public function prefablocSaisieProduction(Request $request , EntityManagerInterface $entityManager ) : Response
+    #[Route('/prefabloc/saisie/production', name: 'app_prefacbloc_saisie_production')]
+    public function prefablocSaisieProduction(Request $request, EntityManagerInterface $entityManager, PrefablocProductionRepository $repository): Response
     {
         $prefablocSaisieProduction = new SaisieProduction();
 
-        $prefablocSaisieProductionForm = $this->createForm( SaisieProductionType::class , $prefablocSaisieProduction ) ;
+        $id = $request->query->get('id');
+        $production = $repository->find($id);
+
+        if (!$production) {
+            return $this->redirectToRoute('app_prefabloc');
+        }
+
+        $prefablocSaisieProduction->setPrefablocProduction($production);
+        $prefablocSaisieProductionForm = $this->createForm(SaisieProductionType::class, $prefablocSaisieProduction);
         $prefablocSaisieProductionForm->handleRequest($request);
 
-        if ( $prefablocSaisieProductionForm->isSubmitted() && $prefablocSaisieProductionForm->isValid() ) {
+        if ($prefablocSaisieProductionForm->isSubmitted() && $prefablocSaisieProductionForm->isValid()) {
             $entityManager->persist($prefablocSaisieProduction);
             $entityManager->flush();
 
-            $this->addFlash('success' , "Saisie de la production enregistrée !");
+            $repository->endProduction($id);
+
+            $this->addFlash('success', "Saisie de la production enregistrée !");
             return $this->redirectToRoute('app_prefacbloc_saisie_production');
         } else {
-            return $this->render('prefabloc/SaisieProduction.html.twig', [ 'prefablocSaisieProductionForm' => $prefablocSaisieProductionForm->createView()]);
+            return $this->render('prefabloc/SaisieProduction.html.twig', ['prefablocSaisieProductionForm' => $prefablocSaisieProductionForm->createView()]);
         }
     }
 
-    #[Route('/prefabloc/saisie/reparation_palette' , name : 'app_prefacbloc_reparation_palette')]
-    public function prefablocReparationPalette(Request $request , EntityManagerInterface $entityManager ) : Response
+    #[Route('/prefabloc/saisie/reparation_palette', name: 'app_prefacbloc_reparation_palette')]
+    public function prefablocReparationPalette(Request $request, EntityManagerInterface $entityManager): Response
     {
         $prefablocRepartitionPalette = new ReparationPalette();
-        $prefablocRepartitionPaletteForm = $this->createForm( ReparationPaletteType::class , $prefablocRepartitionPalette ) ;
+        $prefablocRepartitionPaletteForm = $this->createForm(ReparationPaletteType::class, $prefablocRepartitionPalette);
         $prefablocRepartitionPaletteForm->handleRequest($request);
 
-        if ( $prefablocRepartitionPaletteForm->isSubmitted() && $prefablocRepartitionPaletteForm->isValid() ) {
+        if ($prefablocRepartitionPaletteForm->isSubmitted() && $prefablocRepartitionPaletteForm->isValid()) {
             $entityManager->persist($prefablocRepartitionPalette);
             $entityManager->flush();
 
-            $this->addFlash('success' , "Saisie de la répartition palette enregistrée !");
+            $this->addFlash('success', "Saisie de la répartition palette enregistrée !");
             return $this->redirectToRoute('app_prefacbloc_reparation_palette');
         } else {
-            return $this->render('prefabloc/SaisieReparationPalette.html.twig', [ 'prefablocRepartitionPaletteForm' => $prefablocRepartitionPaletteForm->createView()]);
+            return $this->render('prefabloc/SaisieReparationPalette.html.twig', ['prefablocRepartitionPaletteForm' => $prefablocRepartitionPaletteForm->createView()]);
         }
     }
 }
