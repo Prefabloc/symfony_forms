@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{{ asset('css/app.css') }}">
     <title>{{label}}</title>
     <style>
         .pointer {
@@ -60,15 +61,15 @@
         <div class="flex gap-4">
 
             {% if form.vars.value == null %}
-            <button class="bg-blue-500 text-white font-bold py-2 px-4 rounded" onClick="submitForm('start')"> Demarrer
+            <button class="bg-blue-500 text-white font-bold py-2 px-4 rounded" onClick="startProduction()"> Demarrer
             </button>
             {% else %}
             <button class="bg-red-500 text-white font-bold py-2 px-4 rounded"
-                onClick="submitForm('end','{{form.vars.value.id}}')"> Arreter
+                onClick="endProduction()"> Arreter
             </button>
-            {# <button class="bg-gray-500 text-white font-bold py-2 px-4 rounded" onClick="toggleCommentModal()">
+            <button class="bg-gray-500 text-white font-bold py-2 px-4 rounded">
                 Commentaire
-            </button> #}
+            </button>
             {% endif %}
         </div>
         <div class="mt-10" id="productionInfoDiv">
@@ -79,21 +80,19 @@
         </div>
     </div>
 
-  
     <script>
-       
 
-        function submitForm(action, id = null) {
-            const form = document.getElementById('{{form.vars.id}}');
-            let url = "{{ url }}"
-            sendData(url, action, id)
+        function endProduction() {
+            productionId = "{{productionId}}"
+            window.location.href = `/prefabloc/saisie/production?id=${productionId}`;
         }
 
-        async function sendData(url, endpoint, id) {
+        async function startProduction() {
+            let url = "{{ url }}"
+
             const select = document.getElementById('{{form.children.mode.vars.id}}');
             const selectedMode = select.value;
-            let fullUrl = `${url}/${endpoint}`
-            fullUrl = id == null ? fullUrl : fullUrl + `?id=${id}`
+            let fullUrl = `${url}/start`
 
             const response = await fetch(fullUrl, {
                 method: 'POST',
@@ -102,7 +101,8 @@
                 },
                 body: JSON.stringify({ mode: selectedMode })
             })
-           
+
+            window.location.href = url
         }
 
     </script>

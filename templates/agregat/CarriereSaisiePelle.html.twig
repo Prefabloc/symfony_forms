@@ -1,0 +1,62 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    Agregat | Carrière | Saisie | Pelle
+{% endblock %}
+
+{% block body %}
+    <div>
+        <a href="/">
+            <svg class="pointer" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="50" height="50"
+                 fill="none" stroke="currentColor" stroke-width="1.5">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18" />
+            </svg>
+        </a>
+    </div>
+
+
+    <div class="centered-content">
+        <div>
+            <img class="mx-auto" src="https://prefabloc.re/wp-content/uploads/2020/08/pfb-logo-horizontal-clr-01.png"
+                 alt="" width="300" height="200">
+        </div>
+        <div class="my-2">
+            <h2 class="text-2xl font-bold text-center text-black-500">Carrière Saisie Pelle</h2>
+        </div>
+        <div>
+            {{ form_start(agregatCarriereSaisiePellForm) }}
+            <div>
+                <div style="display: flex" class="divSeparator">
+                    <div class="inputSeparator">
+                        {{ form_label(agregatCarriereSaisiePellForm.typeMateriau ) }}
+                    </div>
+                    <div>
+                        {{ form_widget(agregatCarriereSaisiePellForm.typeMateriau ) }}
+                    </div>
+                </div>
+                <div>
+                    {{ form_errors(agregatCarriereSaisiePellForm.typeMateriau ) }}
+                </div>
+            </div>
+            <div>
+                <div style="display: flex" class="divSeparator">
+                    <div class="inputSeparator">
+                        {{ form_label(agregatCarriereSaisiePellForm.quantite ) }}
+                    </div>
+                    <div>
+                        {{ form_widget(agregatCarriereSaisiePellForm.quantite ) }}
+                    </div>
+                </div>
+                <div>
+                    {{ form_errors(agregatCarriereSaisiePellForm.quantite ) }}
+                </div>
+            </div>
+            <div>
+                {{ form_row(agregatCarriereSaisiePellForm.save ) }}
+            </div>
+
+            {{ form_end(agregatCarriereSaisiePellForm) }}
+        </div>
+    </div>
+{% endblock %}
+

@@ -11,6 +11,12 @@ html {
 body {
     background: var(--main-color);
     background: radial-gradient(circle, var(--main-color) 16%, var(--bg-color) 79%);
+} 
+
+body {
+    background: rgb(250,94,0);
+    background: radial-gradient(circle, rgba(250,94,0,0.7301295518207283) 16%, rgba(238,188,177,1) 79%);
+
 }
 
 .pointer {

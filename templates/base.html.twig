@@ -1,22 +1,55 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>{% block title %}Welcome!{% endblock %}</title>
-    {% block stylesheets %}
-        {{ encore_entry_link_tags('app') }}
-        <link rel="stylesheet" href="css/app.css">
-    {% endblock %}
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text><text y=%221.3em%22 x=%220.2em%22 font-size=%2276%22 fill=%22%23fff%22>sf</text></svg>">
-
-
-
-    {% block javascripts %}
+<html lang="fr">
+    <head>
+        <meta charset="UTF-8">
+        <title>{% block title %}Welcome!{% endblock %}</title>
+        <link rel="stylesheet" href="{{ asset('css/app.css') }}">
+        <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text><text y=%221.3em%22 x=%220.2em%22 font-size=%2276%22 fill=%22%23fff%22>sf</text></svg>">
         <script src="https://cdn.tailwindcss.com"></script>
-    {% endblock %}
-</head>
-<body>
-{% block body %}{% endblock %}
-</body>
+
+        {% block stylesheets %}
+        {% endblock %}
+
+        {% block javascripts %}
+        {% endblock %}
+    </head>
+    <body>
+    <header>
+
+    </header>
+
+        <div id="divflash">
+            {% for label, messages in app.flashes %}
+                {% for message in messages %}
+                    <div class="flash flash-{{ label }} flash-message" >
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            {% endfor %}
+        </div>
+
+
+    <main>
+        {% block body %}{% endblock %}
+    </main>
+
+    </body>
 </html>
 
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Récupérer tous les messages flash
+        var flashMessages = document.querySelectorAll('.flash-message');
+
+        // Pour chaque message flash, démarrer un délai avant le fade out
+        flashMessages.forEach(function(flashMessage) {
+            setTimeout(function() {
+                flashMessage.style.transition = 'opacity 0.5s'; // Animation en 0.5 seconde
+                flashMessage.style.opacity = '0'; // Rendre transparent
+                setTimeout(function() {
+                    flashMessage.remove(); // Retirer du DOM après l'animation
+                }, 500); // Délai supplémentaire pour l'animation
+            }, 2000); // Délai initial de 2 secondes
+        });
+    });
+</script>

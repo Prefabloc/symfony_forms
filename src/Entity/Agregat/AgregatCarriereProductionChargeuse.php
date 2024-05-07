@@ -2,7 +2,7 @@
 
 namespace App\Entity\Agregat;
 
-use App\Repository\AgregatCarriereProductionChargeuseRepository;
+use App\Repository\Agregat\AgregatCarriereProductionChargeuseRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 

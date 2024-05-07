@@ -22,10 +22,14 @@ class PrefablocProduction
     private ?\DateTimeInterface $endedAt = null;
 
     #[ORM\Column(length: 255)]
+
     private ?string $mode = null;
 
-    #[ORM\OneToOne(mappedBy: 'production', cascade: ['persist', 'remove'])]
-    private ?PrefablocSaisieProduction $consommation = null;
+    #[ORM\OneToOne(mappedBy: 'PrefablocProduction', cascade: ['persist', 'remove'])]
+    private ?SaisieProduction $consommation = null;
+
+    #[ORM\OneToOne(mappedBy: 'PrefablocProduction', cascade: ['persist', 'remove'])]
+    private ?SaisieProduction $saisieProduction = null;
 
     public function getId(): ?int
     {
@@ -81,6 +85,28 @@ class PrefablocProduction
         }
 
         $this->consommation = $consommation;
+
+        return $this;
+    }
+
+    public function getSaisieProduction(): ?SaisieProduction
+    {
+        return $this->saisieProduction;
+    }
+
+    public function setSaisieProduction(?SaisieProduction $saisieProduction): static
+    {
+        // unset the owning side of the relation if necessary
+        if ($saisieProduction === null && $this->saisieProduction !== null) {
+            $this->saisieProduction->setPrefablocProduction(null);
+        }
+
+        // set the owning side of the relation if necessary
+        if ($saisieProduction !== null && $saisieProduction->getPrefablocProduction() !== $this) {
+            $saisieProduction->setPrefablocProduction($this);
+        }
+
+        $this->saisieProduction = $saisieProduction;
 
         return $this;
     }
