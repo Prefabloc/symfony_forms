@@ -2,8 +2,7 @@
 
 namespace App\Entity\Prefabloc;
 
-use App\Entity\Prefabloc\PrefablocSaisieProduction;
-use App\Repository\PrefablocProductionRepository;
+use App\Repository\Prefabloc\PrefablocProductionRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -25,11 +24,13 @@ class PrefablocProduction
 
     private ?string $mode = null;
 
-    #[ORM\OneToOne(mappedBy: 'PrefablocProduction', cascade: ['persist', 'remove'])]
-    private ?SaisieProduction $consommation = null;
 
     #[ORM\OneToOne(mappedBy: 'PrefablocProduction', cascade: ['persist', 'remove'])]
     private ?SaisieProduction $saisieProduction = null;
+
+    #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
+    private ?\DateTimeInterface $processedAt = null;
+
 
     public function getId(): ?int
     {
@@ -72,23 +73,6 @@ class PrefablocProduction
         return $this;
     }
 
-    public function getConsommation(): ?PrefablocSaisieProduction
-    {
-        return $this->consommation;
-    }
-
-    public function setConsommation(PrefablocSaisieProduction $consommation): static
-    {
-        // set the owning side of the relation if necessary
-        if ($consommation->getProduction() !== $this) {
-            $consommation->setProduction($this);
-        }
-
-        $this->consommation = $consommation;
-
-        return $this;
-    }
-
     public function getSaisieProduction(): ?SaisieProduction
     {
         return $this->saisieProduction;
@@ -110,4 +94,18 @@ class PrefablocProduction
 
         return $this;
     }
+
+    public function getProcessedAt(): ?\DateTimeInterface
+    {
+        return $this->processedAt;
+    }
+
+    public function setProcessedAt(?\DateTimeInterface $processedAt): static
+    {
+        $this->processedAt = $processedAt;
+
+        return $this;
+    }
+
+
 }

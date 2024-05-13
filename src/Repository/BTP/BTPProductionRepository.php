@@ -32,7 +32,9 @@ class BTPProductionRepository extends ServiceEntityRepository
 
         // Set the endedAt time for the production
         $entity->setStartedAt($startedAt);
+        $entity->setProcessedAt(null);
 
+        // dd($entity);
         // Persist changes to the database
         $entityManager->persist($entity);
         $entityManager->flush();

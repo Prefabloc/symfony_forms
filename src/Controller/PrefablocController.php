@@ -12,6 +12,7 @@ use App\Form\Prefabloc\SaisieDeclassementType;
 use App\Form\Prefabloc\SaisieProductionType;
 use App\Repository\Prefabloc\PrefablocProductionRepository;
 use App\Repository\Prefabloc\ProductionArticleRepository;
+use App\Repository\Prefabloc\SaisieProductionRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -67,6 +68,7 @@ class PrefablocController extends AbstractController
     #[Route('/prefabloc/production/start', name: 'app_prefabloc_start', methods: ['POST'])]
     public function start(Request $request, PrefablocProductionRepository $repository): Response
     {
+
         // Retrieve the raw JSON content from the request
         $jsonContent = $request->getContent();
 
@@ -103,11 +105,16 @@ class PrefablocController extends AbstractController
     }
 
     #[Route('/prefabloc/saisie/production', name: 'app_prefacbloc_saisie_production')]
-    public function prefablocSaisieProduction(Request $request, EntityManagerInterface $entityManager, PrefablocProductionRepository $repository): Response
+    public function prefablocSaisieProduction(Request $request, SaisieProductionRepository $saisieProductionRepository, PrefablocProductionRepository $repository): Response
     {
         $prefablocSaisieProduction = new SaisieProduction();
 
         $id = $request->query->get('id');
+
+        if (!$id) {
+            return $this->redirectToRoute('app_prefabloc');
+        }
+
         $production = $repository->find($id);
 
         if (!$production) {
@@ -119,9 +126,7 @@ class PrefablocController extends AbstractController
         $prefablocSaisieProductionForm->handleRequest($request);
 
         if ($prefablocSaisieProductionForm->isSubmitted() && $prefablocSaisieProductionForm->isValid()) {
-            $entityManager->persist($prefablocSaisieProduction);
-            $entityManager->flush();
-
+            $saisieProductionRepository->insert($prefablocSaisieProduction);
             $repository->endProduction($id);
 
             $this->addFlash('success', "Saisie de la production enregistrée !");

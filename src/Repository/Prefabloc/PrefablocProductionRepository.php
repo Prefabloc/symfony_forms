@@ -31,6 +31,7 @@ class PrefablocProductionRepository extends ServiceEntityRepository
 
         // Set the endedAt time for the production
         $entity->setStartedAt($startedAt);
+        $entity->setProcessedAt(null);
 
         // Persist changes to the database
         $entityManager->persist($entity);
