@@ -19,9 +19,7 @@ class BTPProductionType extends AbstractType
             ->add('mode', ChoiceType::class, [
                 "choices" => $options['articles'],  // Use articles from the options
                 'disabled' => $options['disable_fields']
-            ])
-            ->add('isProcessed', HiddenType::class)
-        ;
+            ]);
     }
 
     public function configureOptions(OptionsResolver $resolver): void
