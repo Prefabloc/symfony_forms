@@ -25,6 +25,7 @@ class RegistrationController extends AbstractController
         $form = $this->createForm(RegistrationFormType::class, $user);
         $form->handleRequest($request);
 
+
         if ($form->isSubmitted() && $form->isValid()) {
             // encode the plain password
                 $user->setPassword(
@@ -37,29 +38,37 @@ class RegistrationController extends AbstractController
             $societe = $form->get('societe')->getData();
             $societeNom = $societe->getLabel();
 
-            switch ( $societeNom ) {
-                case 'PREFABLOC' :
-                    $user->setRoles(["ROLE_PREFABLOC" , "ROLE_USER"]);
-                    break;
+            $donneesForm = $request->request->all();
+            $checkboxValue = $donneesForm['roleAccueil'] ?? null ;
 
-                case 'AGREGAT' :
-                    $user->setRoles(["ROLE_AGREGAT" , "ROLE_USER"]);
-                    break;
 
-                case 'EXFORMAN' :
-                    $user->setRoles(["ROLE_EXFORMAN" , "ROLE_USER"]);
-                    break;
+            if ( $checkboxValue === 'on' && $checkboxValue != null ) {
+                $user->setRoles(["ROLE_ACCUEIL"]);
+            } else {
+                switch ( $societeNom ) {
+                    case 'PREFABLOC' :
+                        $user->setRoles(["ROLE_PREFABLOC" , "ROLE_USER"]);
+                        break;
 
-                case 'BTP-VALROMEX' :
-                    $user->setRoles(["ROLE_BTPVALROMEX" , "ROLE_USER"]);
-                    break;
+                    case 'AGREGAT' :
+                        $user->setRoles(["ROLE_AGREGAT" , "ROLE_USER"]);
+                        break;
 
-                default :
-                    break;
+                    case 'EXFORMAN' :
+                        $user->setRoles(["ROLE_EXFORMAN" , "ROLE_USER"]);
+                        break;
+
+                    case 'BTP-VALROMEX' :
+                        $user->setRoles(["ROLE_BTPVALROMEX" , "ROLE_USER"]);
+                        break;
+
+                    default :
+                        break;
+                }
             }
 
-            $user->setSociete($form->get('societe')->getData());
 
+            $user->setSociete($societe);
             $entityManager->persist($user);
             $entityManager->flush();
 

@@ -1,5 +1,7 @@
 security:
-    access_denied_url : /
+
+
+
     # https://symfony.com/doc/current/security.html#registering-the-user-hashing-passwords
     password_hashers:
         Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface: 'auto'
@@ -41,12 +43,15 @@ security:
     # Note: Only the *first* access control that matches will be used
     access_control:
         - { path: ^/login$, roles: PUBLIC_ACCESS }
+        - { path: ^/identification_prestation, roles: ROLE_ACCUEIL }
+        - { path: ^/logout , roles : ROLE_ACCUEIL }
+        - { path: ^/, roles: ROLE_USER }
         - { path : ^/admin , roles : ROLE_ADMIN }
         - { path : ^/btpvalromex , roles : ROLE_BTPVALROMEX}
         - { path : ^/agregat , roles : ROLE_AGREGAT }
         - { path : ^/exforman , roles : ROLE_EXFORMAN }
         - { path : ^/prefabloc , roles : ROLE_PREFABLOC }
-        - { path: ^/, roles: ROLE_USER }
+
 
     role_hierarchy :
         ROLE_ADMIN :
@@ -55,6 +60,22 @@ security:
             - ROLE_AGREGAT
             - ROLE_EXFORMAN
             - ROLE_PREFABLOC
+            - ROLE_ACCUEIL
+
+        ROLE_BTPVALROMEX :
+            - ROLE_USER
+
+        ROLE_EXFORMAN :
+            - ROLE_USER
+
+        ROLE_PREFABLOC :
+            - ROLE_USER
+
+        ROLE_AGREGAT :
+            - ROLE_USER
+
+        ROLE_USER :
+            - ROLE_ACCUEIL
 
 
 

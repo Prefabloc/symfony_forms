@@ -3,3 +3,9 @@ controllers:
         path: ../src/Controller/
         namespace: App\Controller
     type: attribute
+
+access_denied_user :
+    path : /
+
+access_denied_accueil :
+    path : /identification_prestation/forms
