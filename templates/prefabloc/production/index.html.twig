@@ -1,49 +1,7 @@
-<!DOCTYPE html>
-<html lang="en">
+{% extends 'base.html.twig' %}
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="{{ asset('css/app.css') }}">
-    <title>{{label}}</title>
-    <style>
-        .pointer {
-            cursor: pointer;
-        }
+{% block body %}
 
-        /* Added for central div styling */
-        .centered-content {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-
-
-            background-color: white;
-            /* or any color you prefer */
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-            flex-direction: column;
-
-            padding: 15px 30px;
-            border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        }
-    </style>
-</head>
-
-<body>
-    <div>
-        <a href="/">
-            <svg class="pointer" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="50" height="50"
-                fill="none" stroke="currentColor" stroke-width="1.5">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18" />
-            </svg>
-        </a>
-    </div>
     <div class="centered-content">
         <div>
             <img class="mx-auto" src="https://prefabloc.re/wp-content/uploads/2020/08/pfb-logo-horizontal-clr-01.png"
@@ -61,15 +19,15 @@
         <div class="flex gap-4">
 
             {% if form.vars.value == null %}
-            <button class="bg-blue-500 text-white font-bold py-2 px-4 rounded" onClick="startProduction()"> Demarrer
-            </button>
+                <button class="bg-orange-900 hover:bg-orange-500 text-white font-bold py-2 px-4 rounded" onClick="startProduction()"> Demarrer
+                </button>
             {% else %}
-            <button class="bg-red-500 text-white font-bold py-2 px-4 rounded"
-                onClick="endProduction()"> Arreter
-            </button>
-            <button class="bg-gray-500 text-white font-bold py-2 px-4 rounded">
-                Commentaire
-            </button>
+                <button class="bg-red-500 text-white font-bold py-2 px-4 rounded"
+                    onClick="endProduction()"> Arreter
+                </button>
+                <button class="bg-gray-500 text-white font-bold py-2 px-4 rounded">
+                    Commentaire
+                </button>
             {% endif %}
         </div>
         <div class="mt-10" id="productionInfoDiv">
@@ -79,7 +37,9 @@
             {% endif %}
         </div>
     </div>
+{% endblock  %}
 
+{% block javascripts %}
     <script>
 
         function endProduction() {
@@ -106,6 +66,8 @@
         }
 
     </script>
-</body>
+{% endblock %}
 
-</html>
+{% block title %}
+    Saisie Production
+{% endblock %}

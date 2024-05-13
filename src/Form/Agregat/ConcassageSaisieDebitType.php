@@ -57,7 +57,7 @@ class ConcassageSaisieDebitType extends AbstractType
             ->add('save', SubmitType::class , [
                 'label' => 'Enregistrer' ,
                 'attr' => [
-                    'class' => "bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+                    'class' => "bg-orange-900 hover:bg-orange-500 text-white font-bold py-2 px-4 rounded"
                 ]
             ]);
     }

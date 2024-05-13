@@ -88,3 +88,27 @@ input{
     background-color: darkred !important;
     width: 20%;
 }
+
+.gridCalendar{
+    display: grid;
+    grid-template-columns: repeat( 3 , 400px);
+    gap: 0.5rem;
+    height: 50vh;
+    padding-top: 10vh;
+
+
+        & div {
+            display: grid ;
+            place-items: center ;
+            font-size: 1.5rem;
+        }
+}
+
+.gridCalendar a {
+    height: fit-content;
+}
+
+.marginPaddin {
+    margin: 1rem;
+    padding : 1rem;
+}
