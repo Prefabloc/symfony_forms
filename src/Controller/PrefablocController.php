@@ -77,6 +77,7 @@ class PrefablocController extends AbstractController
     #[Route('/production/start', name: 'start', methods: ['POST'])]
     public function start(Request $request, EntityManagerInterface $entityManager, ArticleRepository $articleRepository): Response
     {
+
         // Retrieve the raw JSON content from the request
         $jsonContent = $request->getContent();
 
@@ -125,6 +126,11 @@ class PrefablocController extends AbstractController
         $prefablocSaisieProduction = new SaisieProduction();
 
         $id = $request->query->get('id');
+
+        if (!$id) {
+            return $this->redirectToRoute('app_prefabloc');
+        }
+
         $production = $repository->find($id);
 
         if (!$production) {

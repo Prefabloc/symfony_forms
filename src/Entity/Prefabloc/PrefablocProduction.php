@@ -25,6 +25,9 @@ class PrefablocProduction
     #[ORM\OneToOne(mappedBy: 'production', cascade: ['persist', 'remove'])]
     private ?SaisieProduction $consommation = null;
 
+    #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
+    private ?\DateTimeInterface $processedAt = null;
+
     #[ORM\ManyToOne(inversedBy: 'prefablocProductions')]
     private ?Article $article = null;
 
@@ -88,4 +91,18 @@ class PrefablocProduction
 
         return $this;
     }
+
+    public function getProcessedAt(): ?\DateTimeInterface
+    {
+        return $this->processedAt;
+    }
+
+    public function setProcessedAt(?\DateTimeInterface $processedAt): static
+    {
+        $this->processedAt = $processedAt;
+
+        return $this;
+    }
+
+
 }

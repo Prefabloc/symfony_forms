@@ -17,8 +17,9 @@ class BTPProductionType extends AbstractType
         $builder
             ->add('startedAt', HiddenType::class, ['disabled' => $options['disable_fields']])
             ->add('endedAt', HiddenType::class, ['disabled' => $options['disable_fields']])
-            ->add('article', TextType::class);
-
+            ->add('article', TextType::class)
+            ->add('isProcessed', HiddenType::class)
+        ;
     }
 
     public function configureOptions(OptionsResolver $resolver): void

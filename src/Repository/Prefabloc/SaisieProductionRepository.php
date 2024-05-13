@@ -21,6 +21,13 @@ class SaisieProductionRepository extends ServiceEntityRepository
         parent::__construct($registry, SaisieProduction::class);
     }
 
+    public function insert(SaisieProduction $entity): void
+    {
+        $entityManager = $this->getEntityManager();
+        $entityManager->persist($entity);
+        $entityManager->flush();
+    }
+
     //    /**
     //     * @return SaisieProduction[] Returns an array of SaisieProduction objects
     //     */

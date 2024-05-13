@@ -4,6 +4,8 @@ namespace App\Entity\Prefabloc;
 
 use App\Repository\Prefabloc\SaisieProductionRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Attribute\Groups;
+use Symfony\Component\Serializer\Attribute\Ignore;
 use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: SaisieProductionRepository::class)]
@@ -14,32 +16,38 @@ class SaisieProduction
     #[ORM\Column]
     private ?int $id = null;
 
+    #[Groups(["consommable"])]
     #[ORM\Column(length: 255)]
     #[Assert\NotBlank(message: "Renseignez une valeur svp !")]
     #[Assert\Range(minMessage: "Vous ne pouvez pas renseignez un chiffre au dessous de 0 ", min: 0)]
     #[Assert\Type(type: 'float', message: 'Vous devez renseigner un nombre !')]
     private ?float $qte04 = null;
 
+    #[Groups(["consommable"])]
     #[ORM\Column(length: 255)]
     #[Assert\Range(minMessage: "Vous ne pouvez pas renseignez un chiffre au dessous de 0 ", min: 0)]
     #[Assert\Type(type: 'float', message: 'Vous devez renseigner un nombre !')]
     private ?float $qte610 = null;
 
+    #[Groups(["consommable"])]
     #[ORM\Column(length: 255)]
     #[Assert\Range(minMessage: "Vous ne pouvez pas renseignez un chiffre au dessous de 0 ", min: 0)]
     #[Assert\Type(type: 'float', message: 'Vous devez renseigner un nombre !')]
     private ?float $qteCEM = null;
 
+    #[Groups(["consommable"])]
     #[ORM\Column(length: 255)]
     #[Assert\Range(minMessage: "Vous ne pouvez pas renseignez un chiffre au dessous de 0 ", min: 0)]
     #[Assert\Type(type: 'float', message: 'Vous devez renseigner un nombre !')]
     private ?float $qteAdjuvant = null;
 
+    #[Groups(["consommable"])]
     #[ORM\Column(length: 255)]
     #[Assert\Range(minMessage: "Vous ne pouvez pas renseignez un chiffre au dessous de 0 ", min: 0)]
     #[Assert\Type(type: 'float', message: 'Vous devez renseigner un nombre !')]
     private ?float $qteHuile = null;
 
+    #[Groups(["consommable"])]
     #[ORM\Column(length: 255)]
     #[Assert\Range(minMessage: "Vous ne pouvez pas renseignez un chiffre au dessous de 0 ", min: 0)]
     #[Assert\Type(type: 'float', message: 'Vous devez renseigner un nombre !')]

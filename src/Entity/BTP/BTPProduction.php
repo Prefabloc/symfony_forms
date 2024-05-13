@@ -29,6 +29,9 @@ class BTPProduction
     #[ORM\ManyToOne(inversedBy: 'bTPProductions')]
     private ?Article $article = null;
 
+    #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
+    private ?\DateTimeInterface $processedAt = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -81,4 +84,18 @@ class BTPProduction
 
         return $this;
     }
+
+    public function getProcessedAt(): ?\DateTimeInterface
+    {
+        return $this->processedAt;
+    }
+
+    public function setProcessedAt(?\DateTimeInterface $processedAt): static
+    {
+        $this->processedAt = $processedAt;
+
+        return $this;
+    }
+
+
 }
