@@ -19,14 +19,14 @@ class Societe
     private ?string $label = null;
 
     /**
-     * @var Collection<int, ProductionArticle>
+     * @var Collection<int, Article>
      */
-    #[ORM\OneToMany(targetEntity: ProductionArticle::class, mappedBy: 'societe')]
-    private Collection $productionArticles;
+    #[ORM\OneToMany(targetEntity: Article::class, mappedBy: 'societe')]
+    private Collection $articles;
 
     public function __construct()
     {
-        $this->productionArticles = new ArrayCollection();
+        $this->articles = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -47,29 +47,29 @@ class Societe
     }
 
     /**
-     * @return Collection<int, ProductionArticle>
+     * @return Collection<int, Article>
      */
-    public function getProductionArticles(): Collection
+    public function getArticles(): Collection
     {
-        return $this->productionArticles;
+        return $this->articles;
     }
 
-    public function addProductionArticle(ProductionArticle $productionArticle): static
+    public function addArticle(Article $article): static
     {
-        if (!$this->productionArticles->contains($productionArticle)) {
-            $this->productionArticles->add($productionArticle);
-            $productionArticle->setSociete($this);
+        if (!$this->articles->contains($article)) {
+            $this->articles->add($article);
+            $article->setSociete($this);
         }
 
         return $this;
     }
 
-    public function removeProductionArticle(ProductionArticle $productionArticle): static
+    public function removeArticle(Article $article): static
     {
-        if ($this->productionArticles->removeElement($productionArticle)) {
+        if ($this->articles->removeElement($article)) {
             // set the owning side to null (unless already changed)
-            if ($productionArticle->getSociete() === $this) {
-                $productionArticle->setSociete(null);
+            if ($article->getSociete() === $this) {
+                $article->setSociete(null);
             }
         }
 

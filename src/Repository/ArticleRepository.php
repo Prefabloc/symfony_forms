@@ -1,24 +1,24 @@
 <?php
 
-namespace App\Repository\Prefabloc;
+namespace App\Repository;
 
-use App\Entity\ProductionArticle;
+use App\Entity\Article;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @extends ServiceEntityRepository<ProductionArticle>
+ * @extends ServiceEntityRepository<Article>
  *
- * @method ProductionArticle|null find($id, $lockMode = null, $lockVersion = null)
- * @method ProductionArticle|null findOneBy(array $criteria, array $orderBy = null)
- * @method ProductionArticle[]    findAll()
- * @method ProductionArticle[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method Article|null find($id, $lockMode = null, $lockVersion = null)
+ * @method Article|null findOneBy(array $criteria, array $orderBy = null)
+ * @method Article[]    findAll()
+ * @method Article[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class ProductionArticleRepository extends ServiceEntityRepository
+class ArticleRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, ProductionArticle::class);
+        parent::__construct($registry, Article::class);
     }
 
     public function findBySociete(int $societeId)
@@ -34,7 +34,7 @@ class ProductionArticleRepository extends ServiceEntityRepository
     }
 
     //    /**
-//     * @return ProductionArticle[] Returns an array of ProductionArticle objects
+//     * @return Article[] Returns an array of Article objects
 //     */
 //    public function findByExampleField($value): array
 //    {
@@ -48,7 +48,7 @@ class ProductionArticleRepository extends ServiceEntityRepository
 //        ;
 //    }
 
-    //    public function findOneBySomeField($value): ?ProductionArticle
+    //    public function findOneBySomeField($value): ?Article
 //    {
 //        return $this->createQueryBuilder('p')
 //            ->andWhere('p.exampleField = :val')

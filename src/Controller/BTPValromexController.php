@@ -9,8 +9,7 @@ use App\Form\BTP\BTPProductionType;
 use App\Form\Valromex\ValromexSaisieDeclassementType;
 use App\Form\Valromex\ValromexSaisieProductionType;
 use App\Repository\BTP\BTPProductionRepository;
-use App\Repository\Prefabloc\ProductionArticleRepository;
-use App\Repository\Valromex\ValromexSaisieProductionRepository;
+use App\Repository\ArticleRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -28,12 +27,12 @@ class BTPValromexController extends AbstractController
 //     }
 
     #[Route('/btpvalromex/production', name: 'app_btpvalromex')]
-    public function production(Request $request, BTPProductionRepository $repository, ProductionArticleRepository $productionArticleRepository): Response
+    public function production(Request $request, BTPProductionRepository $repository, ArticleRepository $articleRepository): Response
     {
         $url = $request->getUri();
         $entity = $repository->findLastActive();
 
-        $articles = $productionArticleRepository->findBySociete(1);
+        $articles = $articleRepository->findBySociete(1);
 
         $articleChoices = [];
         foreach ($articles as $article) {

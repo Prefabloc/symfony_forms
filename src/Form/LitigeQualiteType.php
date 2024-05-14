@@ -18,22 +18,38 @@ class LitigeQualiteType extends AbstractType
         $builder
             ->add('societe', ChoiceType::class, [
                 'label' => 'Société',
-                'placeholder' => '--Sélectionner votre société --',
+                'required' => true,
+                'placeholder' => '-- Sélectionner votre société --',
 
                 'choices' => [
-                    'PREFABLOC' => 'option1',
-                    'PFB AGREGAT' => 'option2',
-                    'BTP VALROMEX' => 'option3',
-                    'PFB BETON' => 'option4',
-                    'EXFORMAN' => 'option5'
+                    'PREFABLOC' => 'PREFABLOC',
+                    'PFB AGREGAT' => 'PFB AGREGAT',
+                    'BTP VALROMEX' => 'BTP VALROMEX',
+                    'PFB BETON' => 'PFB BETON',
+                    'EXFORMAN' => 'EXFORMAN'
                 ]
+
             ])
-            ->add('clients', TextType::class)
-            ->add('blv', TextType::class, ['label' => 'BLV'])
-            ->add('article', TextType::class)
-            ->add('volume', IntegerType::class)
-            ->add('conformite', TextType::class, ['label' => 'Non Conformité'])
-            ->add('valider', SubmitType::class);
+            ->add('clients', TextType::class, [
+                'label' => 'Client',
+                'required' => true,
+            ])
+            ->add('blv', TextType::class, [
+                'label' => 'BLV',
+                'required' => true,
+            ])
+            ->add('article', TextType::class, ['required' => true])
+            ->add('volume', IntegerType::class, ['required' => true])
+            ->add('conformite', TextType::class, [
+                'label' => 'Non Conformité',
+                'required' => true
+            ])
+            ->add('valider', SubmitType::class, [
+                'label' => 'Enregistrer',
+                'attr' => [
+                    'class' => "bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+                ]
+            ]);
     }
 
     public function configureOptions(OptionsResolver $resolver): void

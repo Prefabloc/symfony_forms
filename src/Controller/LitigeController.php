@@ -4,7 +4,6 @@ namespace App\Controller;
 
 use App\Entity\LitigeQualite;
 use App\Form\LitigeQualiteType;
-use App\Repository\LitigeQualiteRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -21,18 +20,15 @@ class LitigeController extends AbstractController
         $form = $this->createForm(LitigeQualiteType::class);
 
         $litige = new LitigeQualite();
-
         $litigeForm = $this->createForm( LitigeQualiteType::class , $litige ) ;
         $litigeForm->handleRequest($request);
 
-        //        if ( $litigeForm->isSubmitted() && $litigeForm->isValid() ) {
-        // //            dd($litigeSaisieForm);
-        //            $entityManager->persist($litige);
-        //            $entityManager->flush();
-        // //            $repository->insert($litige);
-        // //
-        //            $this->addFlash('success' , "Saisie du litige enregistrée !");
-        //        }
+                if ( $litigeForm->isSubmitted() && $litigeForm->isValid() ) {
+                    $entityManager->persist($litige);
+                    $entityManager->flush();
+
+                    $this->addFlash('success' , "Saisie du litige enregistrée !");
+                }
 
         return $this->render('litige/index.html.twig', [
             'controller_name' => 'LitigeController',
@@ -45,19 +41,20 @@ class LitigeController extends AbstractController
 //    #[Route('/litige/saisie' , name : 'app_litige_saisie')]
 //    public function litigeSaisie(Request $request , EntityManagerInterface $entityManager ) : Response
 //    {
-//        $litigeSaisie = new LitigeQualite();
-//        $litigeSaisieForm = $this->createForm( LitigeQualiteType::class , $litigeSaisie ) ;
-//        $litigeSaisieForm->handleRequest($request);
+//        $litige = new LitigeQualite();
+//        $litigeForm = $this->createForm( LitigeQualiteType::class , $litige ) ;
+//        $litigeForm->handleRequest($request);
 //
-//        if ( $litigeSaisieForm->isSubmitted() && $litigeSaisieForm->isValid() ) {
-////            dd($litigeSaisieForm);
-//            $entityManager->persist($litigeSaisie);
+//        if ( $litigeForm->isSubmitted() && $litigeForm->isValid() ) {
+//            $entityManager->persist($litige);
 //            $entityManager->flush();
 //
 //            $this->addFlash('success' , "Saisie du litige enregistrée !");
 //            return $this->redirectToRoute('app_litige_saisie');
 //        } else {
-//            return $this->render('litige/index.html.twig', [ 'litigeSaisieForm' => $litigeSaisieForm->createView()]);
+//            return $this->render('litige/index.html.twig', [
+//                 'litigeForm' => $litigeForm->createView()
+//            ]);
 //        }
 //    }
 }

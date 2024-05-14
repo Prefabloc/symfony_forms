@@ -47,11 +47,4 @@ class LitigeQualiteRepository extends ServiceEntityRepository
     //        ;
     //    }
 
-//    public function insert(LitigeQualite $entity): void
-//    {
-//        $entityManager = $this->getEntityManager();
-//
-//        $entityManager->persist($entity);
-//        $entityManager->flush();
-//    }
 }

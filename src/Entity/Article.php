@@ -2,11 +2,11 @@
 
 namespace App\Entity;
 
-use App\Repository\Prefabloc\ProductionArticleRepository;
+use App\Repository\ArticleRepository;
 use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Entity(repositoryClass: ProductionArticleRepository::class)]
-class ProductionArticle
+#[ORM\Entity(repositoryClass: ArticleRepository::class)]
+class Article
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -19,9 +19,12 @@ class ProductionArticle
     #[ORM\Column(length: 255)]
     private ?string $label = null;
 
-    #[ORM\ManyToOne(inversedBy: 'productionArticles')]
+    #[ORM\ManyToOne(inversedBy: 'Articles')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Societe $societe = null;
+
+    #[ORM\Column]
+    private ?bool $canBeProduced = null;
 
     public function getId(): ?int
     {
@@ -60,6 +63,18 @@ class ProductionArticle
     public function setSociete(?Societe $societe): static
     {
         $this->societe = $societe;
+
+        return $this;
+    }
+
+    public function isCanBeProduced(): ?bool
+    {
+        return $this->canBeProduced;
+    }
+
+    public function setCanBeProduced(bool $canBeProduced): static
+    {
+        $this->canBeProduced = $canBeProduced;
 
         return $this;
     }
