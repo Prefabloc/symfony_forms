@@ -54,6 +54,14 @@
         background-color: transparent !important;
     }
 
+    #navbar {
+        display: none ;
+    }
+
+    #faviconBurger {
+        display: block !important;
+    }
+
 }
 
 @media screen and ( max-width: 560px ) {
@@ -72,6 +80,12 @@
 
     #divLogin {
         width: 90vw !important;
+    }
+
+    #dropdown {
+        right: 50%;
+        left: 50%;
+        width: 50vw !important;
     }
 
 }
@@ -241,4 +255,25 @@ tr {
 
 tr:nth-child(odd) {
     background-color: lightgoldenrodyellow;
+}
+
+#dropdown{
+    display: none ;
+    z-index: 1;
+    position: absolute;
+    right: 0;
+    top: 5vh;
+    width: 30%;
+    height: 20%;
+    overflow: auto;
+    background-color: white;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+
+}
+
+#faviconBurger {
+    height: 30px;
+    width: 30px;
+    display: none;
+    border-radius: 7px;
 }

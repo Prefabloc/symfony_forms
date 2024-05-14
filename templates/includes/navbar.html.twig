@@ -4,29 +4,81 @@
         <a href="{{ path('app_acceuil') }}" class="flex items-center space-x-3 rtl:space-x-reverse">
             <span class="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">SoreFORMS</span>
         </a>
-                     {% if app.user %}
-        <div id="navbar-default">
-            <ul class="font-medium flex flex-col p-4 md:p-0 mt-4 border border-gray-100 rounded-lg bg-orange-900 md:flex-row md:space-x-8 rtl:space-x-reverse md:mt-0 md:border-0 md:bg-white dark:bg-orange-100 md:dark:bg-orange-900 dark:border-gray-700">
 
-                    {% if app.user.societe is not null %}
-                        <li class="blackColorText block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-black md:dark:text-white md:dark:hover:text-orange-900 dark:hover:bg-orange-900 dark:hover:text-white md:dark:hover:bg-transparent">
-                            Société : {{ app.user.societe.label }}
+         {% if app.user %}
+            <div id="navbar-default">
+                <svg onclick="toggleModal()" id="faviconBurger" xmlns="http://www.w3.org/2000/svg" class="hover:bg-orange-200"  viewBox="0 0 448 512"><path d="M0 96C0 78.3 14.3 64 32 64H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32C14.3 128 0 113.7 0 96zM0 256c0-17.7 14.3-32 32-32H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32c-17.7 0-32-14.3-32-32zM448 416c0 17.7-14.3 32-32 32H32c-17.7 0-32-14.3-32-32s14.3-32 32-32H416c17.7 0 32 14.3 32 32z"/></svg>
+                <div id="dropdown" class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700">
+                    <ul class="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownDefaultButton">
+
+                        {% if app.user.societe is not null %}
+                            <li class="blackColorText block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-black md:dark:text-white md:dark:hover:text-orange-900 dark:hover:bg-orange-200 dark:hover:text-black dark:hover:text-white md:dark:hover:bg-transparent">
+                                Société : {{ app.user.societe.label }}
+                            </li>
+                        {% endif %}
+
+                            <li>
+                                <a href="{{ path('app_acceuil') }}" class="blackColorText block py-2 px-3 text-gray-900 rounded hover:bg-orange-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-black md:dark:text-white md:dark:hover:text-orange-500 dark:hover:bg-orange-200 dark:hover:text-black md:dark:hover:bg-transparent" aria-current="page">Accueil</a>
+                            </li>
+                            <li>
+                                <a class="blackColorText block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-black md:dark:text-white md:dark:hover:text-orange-500 dark:hover:bg-orange-200 dark:hover:text-black md:dark:hover:bg-transparent" href="{{ path('app_logout') }}" onclick="return confirm('Êtes-vous sûr de vouloir vous déconnecter ?')">Se déconnecter ( {{ app.user.username }} )</a>
+                            </li>
+                        {% endif %}
+
+                        {% if is_granted('ROLE_ADMIN') %}
+                            <li>
+                                <a class="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-black md:dark:text-white md:dark:hover:text-orange-500 dark:hover:bg-orange-200 dark:hover:text-black md:dark:hover:bg-transparent" href="{{ path('app_register') }}">Créer un utilisateur</a>
+                            </li>
+                        {% endif%}
+
+                        <li onclick="closeModal()" class="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-black md:dark:text-white md:dark:hover:text-orange-500 dark:hover:bg-orange-200 dark:hover:text-black md:dark:hover:bg-transparent">
+                            <svg style="width: 30px ; height: 30px" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M320 0c-17.7 0-32 14.3-32 32s14.3 32 32 32h82.7L201.4 265.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L448 109.3V192c0 17.7 14.3 32 32 32s32-14.3 32-32V32c0-17.7-14.3-32-32-32H320zM80 32C35.8 32 0 67.8 0 112V432c0 44.2 35.8 80 80 80H400c44.2 0 80-35.8 80-80V320c0-17.7-14.3-32-32-32s-32 14.3-32 32V432c0 8.8-7.2 16-16 16H80c-8.8 0-16-7.2-16-16V112c0-8.8 7.2-16 16-16H192c17.7 0 32-14.3 32-32s-14.3-32-32-32H80z"/></svg>
                         </li>
-                    {% endif %}
-                    <li>
-                    <a href="{{ path('app_acceuil') }}" class="blackColorText block py-2 px-3 text-gray-900 rounded hover:bg-orange-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-black md:dark:text-white md:dark:hover:text-orange-500 dark:hover:bg-orange-900 dark:hover:text-white md:dark:hover:bg-transparent" aria-current="page">Accueil</a>
-                    </li>
-                    <li>
-                        <a class="blackColorText block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-black md:dark:text-white md:dark:hover:text-orange-500 dark:hover:bg-orange-900 dark:hover:text-white md:dark:hover:bg-transparent" href="{{ path('app_logout') }}" onclick="return confirm('Êtes-vous sûr de vouloir vous déconnecter ?')">Se déconnecter ( {{ app.user.username }} )</a>
-                    </li>
-                {% endif %}
+                    </ul>
+                </div>
+            {% if app.user %}
+                <ul  id="navbar" class="font-medium flex flex-col p-4 md:p-0 mt-4 border border-gray-100 rounded-lg bg-orange-900 md:flex-row md:space-x-8 rtl:space-x-reverse md:mt-0 md:border-0 md:bg-white dark:bg-orange-100 md:dark:bg-orange-900 dark:border-gray-700">
 
-                {% if is_granted('ROLE_ADMIN') %}
-                    <li>
-                        <a class="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-black md:dark:text-white md:dark:hover:text-orange-500 dark:hover:bg-orange-900 dark:hover:text-white md:dark:hover:bg-transparent" href="{{ path('app_register') }}">Créer un utilisateur</a>
-                    </li>
+                        {% if app.user.societe is not null %}
+                            <li class="blackColorText block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-black md:dark:text-white md:dark:hover:text-orange-900 dark:hover:bg-orange-900 dark:hover:text-white md:dark:hover:bg-transparent">
+                                Société : {{ app.user.societe.label }}
+                            </li>
+                        {% endif %}
+                        <li>
+                            <a href="{{ path('app_acceuil') }}" class="blackColorText block py-2 px-3 text-gray-900 rounded hover:bg-orange-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-black md:dark:text-white md:dark:hover:text-orange-500 dark:hover:bg-orange-900 dark:hover:text-white md:dark:hover:bg-transparent" aria-current="page">Accueil</a>
+                        </li>
+                        <li>
+                            <a class="blackColorText block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-black md:dark:text-white md:dark:hover:text-orange-500 dark:hover:bg-orange-900 dark:hover:text-white md:dark:hover:bg-transparent" href="{{ path('app_logout') }}" onclick="return confirm('Êtes-vous sûr de vouloir vous déconnecter ?')">Se déconnecter ( {{ app.user.username }} )</a>
+                        </li>
+            {% endif %}
+
+                    {% if is_granted('ROLE_ADMIN') %}
+                        <li>
+                            <a class="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-black md:dark:text-white md:dark:hover:text-orange-500 dark:hover:bg-orange-900 dark:hover:text-white md:dark:hover:bg-transparent" href="{{ path('app_register') }}">Créer un utilisateur</a>
+                        </li>
                 {% endif%}
-            </ul>
+                </ul>
         </div>
     </div>
 </nav>
+
+<script>
+    var boutonModal = document.getElementById("faviconBurger");
+    var modal = document.getElementById('dropdown');
+    function toggleModal() {
+            document.getElementById('dropdown').style.display = "block" ;
+    }
+
+    function closeModal() {
+        document.getElementById('dropdown').style.display = "none";
+    }
+
+   document.addEventListener('click' , function (event ) {
+            var isClickInsideModal = boutonModal.contains(event.target)
+
+            if ( !isClickInsideModal ) {
+                modal.style.display = "none";
+             }
+        }
+   )
+</script>
