@@ -15,49 +15,49 @@ class ConsommableController extends AbstractController
     #[Route('/consommable', name: 'app_consommable')]
     public function index(EntityManagerInterface $em, LoggerInterface $logger): Response
     {
-        $consommableBTP = $em->getRepository(BTPProduction::class)->findBy(['processedAt' => null]);
-        $consommablePFB = $em->getRepository(PrefablocProduction::class)->findBy(['processedAt' => null]);
+        $productionBTP = $em->getRepository(BTPProduction::class)->findBy(['processedAt' => null]);
+        $productionPFB = $em->getRepository(PrefablocProduction::class)->findBy(['processedAt' => null]);
 
-        $dataBTP = [];
-        $dataPFB = [];
+        $consommableBTP = [];
+        $consommablePFB = [];
 
-        $btpIds = [];
-        for ($i = 0; $i < count($consommableBTP); $i++) {
+        $saisieProductionIdsBTP = [];
+        for ($i = 0; $i < count($productionBTP); $i++) {
             // append data
-            $item = $consommableBTP[$i]->getSaisieProduction();
-            $btpIds[] = $item->getId();
-            $dataBTP[] = $item;
+            $item = $productionBTP[$i]->getSaisieProduction();
+            $saisieProductionIdsBTP[] = $item->getId();
+            $consommableBTP[] = $item;
         }
-        $btpIds = implode(",", $btpIds);
+        $saisieProductionIdsBTP = implode(",", $saisieProductionIdsBTP);
 
-        $pfbIds = [];
-        for ($i = 0; $i < count($consommablePFB); $i++) {
+        $saisieProductionIdsPFB = [];
+        for ($i = 0; $i < count($productionPFB); $i++) {
             // append data
-            $item = $consommablePFB[$i]->getSaisieProduction();
-            $pfbIds[] = $item->getId();
-            $dataPFB[] = $item;
+            $item = $productionPFB[$i]->getSaisieProduction();
+            $saisieProductionIdsPFB[] = $item->getId();
+            $consommablePFB[] = $item;
         }
-        $pfbIds = implode(',', $pfbIds);
+        $saisieProductionIdsPFB = implode(',', $saisieProductionIdsPFB);
 
 
-        foreach ($consommableBTP as $item) {
+        foreach ($productionBTP as $item) {
             $item->setProcessedAt(new \DateTime());
             $em->persist($item);
         }
 
-        foreach ($consommablePFB as $item) {
+        foreach ($productionPFB as $item) {
             $item->setProcessedAt(new \DateTime());
             $em->persist($item);
         }
 
-        $logger->info("BTP Ids : $btpIds\n PFB Ids : $pfbIds");
+        $logger->info("BTP Ids : $saisieProductionIdsBTP\n PFB Ids : $saisieProductionIdsPFB");
         $logger->error('An error occurred');
 
         $em->flush();
 
         return $this->json([
-            "BTP" => $dataBTP,
-            "PFB" => $dataPFB,
+            "BTP" => $consommableBTP,
+            "PFB" => $consommablePFB,
         ], 200, [], [
             "groups" => ["consommable"]
         ]);
