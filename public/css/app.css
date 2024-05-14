@@ -1,3 +1,81 @@
+@media screen and ( max-width: 1200px ) {
+    .centered-content {
+        width: 60% !important ;
+    }
+    #tableauFormulaires {
+        height: 70vh !important;
+    }
+}
+
+@media screen and ( max-width: 768px ) {
+    .gridCalendar {
+        grid-template-columns: repeat( 2 , 1fr )!important;
+    }
+
+    .centered-content {
+        width: 90% !important ;
+        height: 65vh !important;
+    }
+
+    thead , tbody, table, tr, th , td {
+        display: block;
+    }
+
+    td {
+        padding-left: 150px;
+        position: relative;
+        margin-top: -1px;
+        background-color: white;
+    }
+
+    td:nth-child(odd) {
+        background-color: lightgoldenrodyellow;
+    }
+
+    td::before {
+        content : attr(data-label);
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 130px;
+        bottom : 0;
+        background-color: rgb(255 , 237 , 213 );
+        display: flex;
+        align-items: center;
+        padding: 10px;
+        font-weight: bold ;
+    }
+
+    thead {
+        display: none;
+    }
+
+    #divTabForms {
+        background-color: transparent !important;
+    }
+
+}
+
+@media screen and ( max-width: 560px ) {
+    .gridCalendar {
+        grid-template-columns: repeat( 1 , 1fr ) !important;
+    }
+
+}
+
+@media screen and ( max-width: 470px ) {
+    #navLogoEtMenu {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
+
+    #divLogin {
+        width: 90vw !important;
+    }
+
+}
+
 :root {
     --main-color : rgba(250,94,0,0.7301295518207283);
     --bg-color : rgba(238,188,177,1);
@@ -19,11 +97,28 @@ body {
 
 }
 
+main {
+    display: flex;
+    justify-content: center;
+}
+
 .pointer {
     cursor: pointer;
 }
 
-/* Added for central div styling */
+.centered-content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    flex-direction: column;
+    background-color: white;
+    margin-top: 10vh;
+    border-radius: 20px;
+    height: 60vh;
+    width: 40vw;
+}
+/* Added for central div styling
 .centered-content {
     position: absolute;
     top: 50%;
@@ -31,7 +126,7 @@ body {
     transform: translate(-50%, -50%);
 
     background-color: var(--second-color);
-    /* or any color you prefer */
+    /* or any color you prefer
     display: flex;
     justify-content: center;
     align-items: center;
@@ -43,6 +138,7 @@ body {
 
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
+*/
 
 input, select {
     border: 1px solid black;
@@ -91,7 +187,7 @@ input{
 
 .gridCalendar{
     display: grid;
-    grid-template-columns: repeat( 3 , 400px);
+    grid-template-columns: repeat( 3 , 1fr );
     gap: 0.5rem;
     height: 50vh;
     padding-top: 10vh;
@@ -111,4 +207,38 @@ input{
 .marginPaddin {
     margin: 1rem;
     padding : 1rem;
+}
+
+#tableauFormulaires {
+
+    border-radius: 10px;
+    height: 100vh;
+}
+
+#divTabForms {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    flex-direction: column;
+    background-color: white;
+    border-radius: 10px;
+    margin : 2rem;
+    padding : 2rem ;
+}
+
+th , td {
+    border : solid 1px rgb(124 , 45, 18);
+}
+
+th {
+    background-color: rgb(255 , 237 , 213 );
+}
+
+tr {
+    margin-bottom: 1rem;
+}
+
+tr:nth-child(odd) {
+    background-color: lightgoldenrodyellow;
 }
