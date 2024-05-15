@@ -38,13 +38,8 @@ class Societe
 
     public function __construct()
     {
-<<<<<<< 11-formulaire-litige-qualit
         $this->articles = new ArrayCollection();
         $this->litigeQualites = new ArrayCollection();
-=======
-        $this->productionArticles = new ArrayCollection();
-        $this->users = new ArrayCollection();
->>>>>>> main
     }
 
     public function getId(): ?int
