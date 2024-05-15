@@ -43,14 +43,17 @@ security:
     # Note: Only the *first* access control that matches will be used
     access_control:
         - { path: ^/login$, roles: PUBLIC_ACCESS }
+        - { path: ^/logout, roles: ROLE_USER }
         - { path: ^/identification_prestation, roles: ROLE_ACCUEIL }
-        - { path: ^/logout , roles : ROLE_ACCUEIL }
-        - { path: ^/, roles: ROLE_USER }
+        - { path: ^/btpvalromex , roles: ROLE_BTPVALROMEX }
+        - { path: ^/agregat , roles: ROLE_AGREGAT }
+        - { path: ^/exforman , roles: ROLE_EXFORMAN }
+        - { path: ^/prefabloc , roles: ROLE_PREFABLOC }
         - { path : ^/admin , roles : ROLE_ADMIN }
-        - { path : ^/btpvalromex , roles : ROLE_BTPVALROMEX}
-        - { path : ^/agregat , roles : ROLE_AGREGAT }
-        - { path : ^/exforman , roles : ROLE_EXFORMAN }
-        - { path : ^/prefabloc , roles : ROLE_PREFABLOC }
+        - { path: ^/ , roles : [ROLE_BTPVALROMEX , ROLE_AGREGAT , ROLE_EXFORMAN , ROLE_PREFABLOC] }
+
+
+
 
 
     role_hierarchy :
@@ -74,8 +77,9 @@ security:
         ROLE_AGREGAT :
             - ROLE_USER
 
-        ROLE_USER :
-            - ROLE_ACCUEIL
+        ROLE_ACCUEIL :
+            - ROLE_USER
+
 
 
 

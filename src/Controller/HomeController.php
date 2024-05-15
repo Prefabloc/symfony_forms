@@ -13,6 +13,8 @@ class HomeController extends AbstractController {
     #[Route('/' , name: 'app_acceuil')]
     public function home(UserRepository $userRepository) : Response
     {
+
+
         return $this->render('accueil.html.twig');
     }
 }

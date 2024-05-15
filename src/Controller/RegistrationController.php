@@ -42,24 +42,24 @@ class RegistrationController extends AbstractController
             $checkboxValue = $donneesForm['roleAccueil'] ?? null ;
 
 
-            if ( $checkboxValue === 'on' && $checkboxValue != null ) {
+            if ( $checkboxValue === 'on' ) {
                 $user->setRoles(["ROLE_ACCUEIL"]);
             } else {
                 switch ( $societeNom ) {
                     case 'PREFABLOC' :
-                        $user->setRoles(["ROLE_PREFABLOC" , "ROLE_USER"]);
+                        $user->setRoles(["ROLE_PREFABLOC"]);
                         break;
 
                     case 'AGREGAT' :
-                        $user->setRoles(["ROLE_AGREGAT" , "ROLE_USER"]);
+                        $user->setRoles(["ROLE_AGREGAT"]);
                         break;
 
                     case 'EXFORMAN' :
-                        $user->setRoles(["ROLE_EXFORMAN" , "ROLE_USER"]);
+                        $user->setRoles(["ROLE_EXFORMAN"]);
                         break;
 
                     case 'BTP-VALROMEX' :
-                        $user->setRoles(["ROLE_BTPVALROMEX" , "ROLE_USER"]);
+                        $user->setRoles(["ROLE_BTPVALROMEX"]);
                         break;
 
                     default :
