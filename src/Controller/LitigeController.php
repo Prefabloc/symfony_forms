@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\LitigeQualite;
+use App\Entity\Societe;
 use App\Form\LitigeQualiteType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -23,12 +24,12 @@ class LitigeController extends AbstractController
         $litigeForm = $this->createForm( LitigeQualiteType::class , $litige ) ;
         $litigeForm->handleRequest($request);
 
-                if ( $litigeForm->isSubmitted() && $litigeForm->isValid() ) {
-                    $entityManager->persist($litige);
-                    $entityManager->flush();
+        if ( $litigeForm->isSubmitted() && $litigeForm->isValid() ) {
+            $entityManager->persist($litige);
+            $entityManager->flush();
 
-                    $this->addFlash('success' , "Saisie du litige enregistrée !");
-                }
+            $this->addFlash('success' , "Saisie du litige enregistrée !");
+        }
 
         return $this->render('litige/index.html.twig', [
             'controller_name' => 'LitigeController',

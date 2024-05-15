@@ -24,9 +24,16 @@ class Societe
     #[ORM\OneToMany(targetEntity: Article::class, mappedBy: 'societe')]
     private Collection $articles;
 
+    /**
+     * @var Collection<int, LitigeQualite>
+     */
+    #[ORM\OneToMany(targetEntity: LitigeQualite::class, mappedBy: 'societe')]
+    private Collection $litigeQualites;
+
     public function __construct()
     {
         $this->articles = new ArrayCollection();
+        $this->litigeQualites = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -70,6 +77,36 @@ class Societe
             // set the owning side to null (unless already changed)
             if ($article->getSociete() === $this) {
                 $article->setSociete(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, LitigeQualite>
+     */
+    public function getLitigeQualites(): Collection
+    {
+        return $this->litigeQualites;
+    }
+
+    public function addLitigeQualite(LitigeQualite $litigeQualite): static
+    {
+        if (!$this->litigeQualites->contains($litigeQualite)) {
+            $this->litigeQualites->add($litigeQualite);
+            $litigeQualite->setSociete($this);
+        }
+
+        return $this;
+    }
+
+    public function removeLitigeQualite(LitigeQualite $litigeQualite): static
+    {
+        if ($this->litigeQualites->removeElement($litigeQualite)) {
+            // set the owning side to null (unless already changed)
+            if ($litigeQualite->getSociete() === $this) {
+                $litigeQualite->setSociete(null);
             }
         }
 
