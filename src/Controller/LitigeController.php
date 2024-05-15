@@ -23,6 +23,7 @@ class LitigeController extends AbstractController
         if ($litigeForm->isSubmitted() && $litigeForm->isValid()) {
             $entityManager->persist($litige);
             $entityManager->flush();
+
             $this->addFlash('success', "Saisie du litige enregistrée !");
         }
 
