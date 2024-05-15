@@ -9,7 +9,11 @@ use App\Form\BTP\BTPProductionType;
 use App\Form\Valromex\ValromexSaisieDeclassementType;
 use App\Form\Valromex\ValromexSaisieProductionType;
 use App\Repository\BTP\BTPProductionRepository;
+<<<<<<< 11-formulaire-litige-qualit
 use App\Repository\ArticleRepository;
+=======
+use App\Repository\Prefabloc\ProductionArticleRepository;
+>>>>>>> main
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;

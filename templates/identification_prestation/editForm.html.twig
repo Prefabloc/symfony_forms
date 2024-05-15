@@ -1,15 +1,6 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    <div>
-        <a href="/">
-            <svg class="pointer" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="50" height="50"
-                 fill="none" stroke="currentColor" stroke-width="1.5">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18" />
-            </svg>
-        </a>
-    </div>
-
     <div class="centered-content">
         <div class="my-2">
             <h2 class="text-2xl font-bold text-center text-black-500">Formulaire identification prestation</h2>
@@ -22,7 +13,7 @@
                         <label for="{{ identificationPrestation.societe }}">Société</label>
                     </div>
                     <div>
-                        <input type="text"
+                        <input type="text" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-orange-900 sm:text-sm sm:leading-6"
                         id="{{ identificationPrestation.societe }}"
                         name="{{ field_name(identificationPrestationForm.societe) }}"
                         value="{{ identificationPrestation.societe }}"
@@ -37,7 +28,7 @@
                         <label for="{{ field_name(identificationPrestationForm.nomPrenom) }}">Nom/Prénom</label>
                     </div>
                     <div>
-                        <input type="text"
+                        <input type="text" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-orange-900 sm:text-sm sm:leading-6"
                                id="{{ field_name(identificationPrestationForm.nomPrenom) }}"
                                name="{{ field_name(identificationPrestationForm.nomPrenom) }}"
                                value="{{ identificationPrestation.nomPrenom }}"
@@ -52,7 +43,7 @@
                         <label for="{{ field_name(identificationPrestationForm.prestation) }}">Prestations</label>
                     </div>
                     <div>
-                        <input type="text"
+                        <input type="text" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-orange-900 sm:text-sm sm:leading-6""
                                id="{{ field_name(identificationPrestationForm.prestation) }}"
                                name="{{ field_name(identificationPrestationForm.prestation) }}"
                                value="{{ identificationPrestation.prestation }}"
@@ -67,7 +58,7 @@
                         <label for="{{ field_name(identificationPrestationForm.nomPrenom) }}">Commanditaire</label>
                     </div>
                     <div>
-                        <input type="text"
+                        <input type="text" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-orange-900 sm:text-sm sm:leading-6"
                                id="{{ field_name(identificationPrestationForm.commanditaire) }}"
                                name="{{ field_name(identificationPrestationForm.commanditaire) }}"
                                value="{{ identificationPrestation.commanditaire }}"
@@ -82,7 +73,7 @@
                         <label>Heure d'arrivée</label>
                     </div>
                     <div>
-                        <input type="text"
+                        <input type="text" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-orange-900 sm:text-sm sm:leading-6"
                                id="heureArrivee"
                                name="heureArrivee"
                                value="{{ identificationPrestation.heureArrivee | date ('Y-m-d H:i:s') }}"
