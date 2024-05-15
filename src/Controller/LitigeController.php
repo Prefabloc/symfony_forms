@@ -16,10 +16,6 @@ class LitigeController extends AbstractController
     #[Route('/litige', name: 'app_litige', methods: ['GET'])]
     public function index(Request $request, EntityManagerInterface $entityManager): Response
     {
-        $url = $request->getUri();
-
-        $form = $this->createForm(LitigeQualiteType::class);
-
         $litige = new LitigeQualite();
         $litigeForm = $this->createForm(LitigeQualiteType::class, $litige);
         $litigeForm->handleRequest($request);
@@ -34,8 +30,7 @@ class LitigeController extends AbstractController
         return $this->render('litige/index.html.twig', [
             'controller_name' => 'LitigeController',
             'label' => 'Litige Qualité',
-            'url' => $url,
-            'litigeForm' => $form->createView(),
+            'litigeForm' => $litigeForm->createView(),
         ]);
     }
 }
