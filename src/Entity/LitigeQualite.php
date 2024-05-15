@@ -13,8 +13,9 @@ class LitigeQualite
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(length: 255)]
-    private ?string $societe = null;
+    #[ORM\ManyToOne(inversedBy: 'litigeQualites')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Societe $societe = null;
 
     #[ORM\Column(length: 255)]
     private ?string $clients = null;
@@ -36,12 +37,12 @@ class LitigeQualite
         return $this->id;
     }
 
-    public function getSociete(): ?string
+    public function getSociete(): ?Societe
     {
         return $this->societe;
     }
 
-    public function setSociete(string $societe): static
+    public function setSociete(?Societe $societe): static
     {
         $this->societe = $societe;
 

@@ -19,10 +19,16 @@ class Societe
     private ?string $label = null;
 
     /**
-     * @var Collection<int, ProductionArticle>
+     * @var Collection<int, Article>
      */
-    #[ORM\OneToMany(targetEntity: ProductionArticle::class, mappedBy: 'societe')]
-    private Collection $productionArticles;
+    #[ORM\OneToMany(targetEntity: Article::class, mappedBy: 'societe')]
+    private Collection $articles;
+
+    /**
+     * @var Collection<int, LitigeQualite>
+     */
+    #[ORM\OneToMany(targetEntity: LitigeQualite::class, mappedBy: 'societe')]
+    private Collection $litigeQualites;
 
     /**
      * @var Collection<int, User>
@@ -32,8 +38,8 @@ class Societe
 
     public function __construct()
     {
-        $this->productionArticles = new ArrayCollection();
-        $this->users = new ArrayCollection();
+        $this->articles = new ArrayCollection();
+        $this->litigeQualites = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -54,29 +60,59 @@ class Societe
     }
 
     /**
-     * @return Collection<int, ProductionArticle>
+     * @return Collection<int, Article>
      */
-    public function getProductionArticles(): Collection
+    public function getArticles(): Collection
     {
-        return $this->productionArticles;
+        return $this->articles;
     }
 
-    public function addProductionArticle(ProductionArticle $productionArticle): static
+    public function addArticle(Article $article): static
     {
-        if (!$this->productionArticles->contains($productionArticle)) {
-            $this->productionArticles->add($productionArticle);
-            $productionArticle->setSociete($this);
+        if (!$this->articles->contains($article)) {
+            $this->articles->add($article);
+            $article->setSociete($this);
         }
 
         return $this;
     }
 
-    public function removeProductionArticle(ProductionArticle $productionArticle): static
+    public function removeArticle(Article $article): static
     {
-        if ($this->productionArticles->removeElement($productionArticle)) {
+        if ($this->articles->removeElement($article)) {
             // set the owning side to null (unless already changed)
-            if ($productionArticle->getSociete() === $this) {
-                $productionArticle->setSociete(null);
+            if ($article->getSociete() === $this) {
+                $article->setSociete(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, LitigeQualite>
+     */
+    public function getLitigeQualites(): Collection
+    {
+        return $this->litigeQualites;
+    }
+
+    public function addLitigeQualite(LitigeQualite $litigeQualite): static
+    {
+        if (!$this->litigeQualites->contains($litigeQualite)) {
+            $this->litigeQualites->add($litigeQualite);
+            $litigeQualite->setSociete($this);
+        }
+
+        return $this;
+    }
+
+    public function removeLitigeQualite(LitigeQualite $litigeQualite): static
+    {
+        if ($this->litigeQualites->removeElement($litigeQualite)) {
+            // set the owning side to null (unless already changed)
+            if ($litigeQualite->getSociete() === $this) {
+                $litigeQualite->setSociete(null);
             }
         }
 
