@@ -13,7 +13,7 @@ use Symfony\Component\Routing\Attribute\Route;
 
 class LitigeController extends AbstractController
 {
-    #[Route('/litige', name: 'app_litige', methods: ['GET'])]
+    #[Route('/litige', name: 'app_litige')]
     public function index(Request $request, EntityManagerInterface $entityManager): Response
     {
         $litige = new LitigeQualite();
