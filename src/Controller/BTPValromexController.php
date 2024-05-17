@@ -9,7 +9,7 @@ use App\Form\BTP\BTPProductionType;
 use App\Form\Valromex\ValromexSaisieDeclassementType;
 use App\Form\Valromex\ValromexSaisieProductionType;
 use App\Repository\BTP\BTPProductionRepository;
-use App\Repository\Prefabloc\ProductionArticleRepository;
+use App\Repository\ProductionArticleRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;

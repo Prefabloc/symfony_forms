@@ -2,7 +2,6 @@
 
 namespace App\Controller;
 
-use App\Entity\Prefabloc\PrefablocProduction;
 use App\Entity\Prefabloc\ReparationPalette;
 use App\Entity\Prefabloc\SaisieDeclassement;
 use App\Entity\Prefabloc\SaisieProduction;
@@ -11,7 +10,7 @@ use App\Form\Prefabloc\ReparationPaletteType;
 use App\Form\Prefabloc\SaisieDeclassementType;
 use App\Form\Prefabloc\SaisieProductionType;
 use App\Repository\Prefabloc\PrefablocProductionRepository;
-use App\Repository\Prefabloc\ProductionArticleRepository;
+use App\Repository\ProductionArticleRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;

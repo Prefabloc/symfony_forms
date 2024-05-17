@@ -7,7 +7,7 @@
     }
 }
 
-@media screen and ( max-width: 768px ) {
+@media screen and ( max-width: 850px ) {
     .gridCalendar {
         grid-template-columns: repeat( 2 , 1fr )!important;
     }
@@ -64,12 +64,33 @@
 
 }
 
+@media screen and ( max-width: 600px ) {
+    #divGestionStock{
+        height: 40vh !important;
+        width: 50vw !important;
+    }
+
+    #boutonsAjoutRetrait{
+        flex-direction: column;
+        align-items: center;
+        justify-content: space-evenly;
+    }
+
+    #boutonsAjoutRetrait button, #boutonsAjoutRetrait input {
+        width: 60%;
+        margin-top: 10px;
+    }
+
+}
+
 @media screen and ( max-width: 560px ) {
     .gridCalendar {
         grid-template-columns: repeat( 1 , 1fr ) !important;
     }
 
 }
+
+
 
 @media screen and ( max-width: 470px ) {
     #navLogoEtMenu {
@@ -88,6 +109,19 @@
         width: 50vw !important;
     }
 
+}
+
+@keyframes fadeOut {
+    from {
+        opacity: 1;
+    }
+    to {
+        opacity: 0;
+    }
+}
+
+.fade-out {
+    animation : fadeOut 2s forwards;
 }
 
 :root {
@@ -276,4 +310,56 @@ tr:nth-child(odd) {
     width: 30px;
     display: none;
     border-radius: 7px;
+}
+
+#divInputBoutonsSuggestions{
+    position: relative;
+}
+
+#searchArticle{
+    z-index: 1;
+
+    height: 40px;
+    border-radius: 10px;
+}
+
+#suggestionsArticle {
+    list-style-type: none;
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    max-height: 200px;
+    overflow-y: auto;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background-color: #fff;
+    width: 100%;
+
+}
+
+#suggestionsArticle li {
+    padding: 8px;
+    cursor: pointer;
+}
+
+#suggestionsArticle li:hover {
+    background-color: #fed7aa;
+}
+
+#divGestionStock {
+    display: flex;
+    flex-direction: column;
+    background-color: white;
+    border-radius: 10px;
+    height: 20vh;
+    justify-content: space-evenly;
+    margin-top: 10vh;
+    width: 40vw;
+}
+
+#boutonsAjoutRetrait{
+    display: none;
+    width: 100%;
+    margin-top: 2vh;
 }

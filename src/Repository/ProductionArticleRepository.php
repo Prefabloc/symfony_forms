@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Repository\Prefabloc;
+namespace App\Repository;
 
 use App\Entity\ProductionArticle;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
@@ -32,6 +32,17 @@ class ProductionArticleRepository extends ServiceEntityRepository
             ->getResult()
         ;
     }
+
+    public function findByTerm( string $mot) {
+        return $this->createQueryBuilder('a')
+            //On cherche dans les labels d'article les noms qui contiendraient le mot qu'on a entré dans la base de données
+            ->andWhere('a.label LIKE :mot')
+            ->setParameter('mot' , '%'.$mot.'%')
+            ->setMaxResults(10)
+            ->getQuery()
+            ->getResult();
+    }
+
 
     //    /**
 //     * @return ProductionArticle[] Returns an array of ProductionArticle objects
