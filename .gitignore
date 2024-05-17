@@ -16,3 +16,7 @@ node_modules
 # my.cnf
 # config.user.inc.php
 # docker-compose.yml
+###> symfony/phpunit-bridge ###
+.phpunit.result.cache
+/phpunit.xml
+###< symfony/phpunit-bridge ###

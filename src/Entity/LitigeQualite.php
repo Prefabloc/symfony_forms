@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\LitigeQualiteRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: LitigeQualiteRepository::class)]
 class LitigeQualite
@@ -18,18 +19,24 @@ class LitigeQualite
     private ?Societe $societe = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank()]
+    #[Assert\Length(min: 2, max: 50)]
     private ?string $clients = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank()]
     private ?string $blv = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank()]
     private ?string $article = null;
 
     #[ORM\Column]
+    #[Assert\GreaterThan(0)]
     private ?int $volume = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank()]
     private ?string $conformite = null;
 
     public function getId(): ?int
