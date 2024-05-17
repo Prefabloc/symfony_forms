@@ -64,7 +64,7 @@
 
 }
 
-@media screen and ( max-width: 600px ) {
+@media screen and ( max-width: 768px ) {
     #divGestionStock{
         height: 40vh !important;
         width: 50vw !important;
@@ -134,14 +134,14 @@ html {
     height: 100%;
 }
 
-body {
-    background: var(--main-color);
-    background: radial-gradient(circle, var(--main-color) 16%, var(--bg-color) 79%);
-} 
 
 body {
-    background: rgb(250,94,0);
-    background: radial-gradient(circle, rgba(250,94,0,0.7301295518207283) 16%, rgba(238,188,177,1) 79%);
+    background-image: url("../img/circus-3649160.jpg");
+    width: 100%;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-attachment: fixed;
 
 }
 
@@ -160,7 +160,7 @@ main {
     align-items: center;
     text-align: center;
     flex-direction: column;
-    background-color: white;
+    background-color: #ffedd5;
     margin-top: 10vh;
     border-radius: 20px;
     height: 60vh;
@@ -269,7 +269,7 @@ input{
     align-items: center;
     text-align: center;
     flex-direction: column;
-    background-color: white;
+    background-color: #ffedd5;
     border-radius: 10px;
     margin : 2rem;
     padding : 2rem ;
@@ -280,7 +280,7 @@ th , td {
 }
 
 th {
-    background-color: rgb(255 , 237 , 213 );
+    background-color: #fdba74 ;
 }
 
 tr {
@@ -289,6 +289,9 @@ tr {
 
 tr:nth-child(odd) {
     background-color: lightgoldenrodyellow;
+}
+tr:nth-child(even){
+    background-color: white;
 }
 
 #dropdown{
@@ -305,6 +308,14 @@ tr:nth-child(odd) {
 
 }
 
+#divLogin{
+    background-color: #ffedd5;
+    border-radius: 10px;
+    width: 25rem;
+    padding: 20px;
+
+}
+
 #faviconBurger {
     height: 30px;
     width: 30px;
@@ -318,7 +329,6 @@ tr:nth-child(odd) {
 
 #searchArticle{
     z-index: 1;
-
     height: 40px;
     border-radius: 10px;
 }
@@ -343,14 +353,16 @@ tr:nth-child(odd) {
     cursor: pointer;
 }
 
+
 #suggestionsArticle li:hover {
     background-color: #fed7aa;
+    border-radius: 10px;
 }
 
 #divGestionStock {
     display: flex;
     flex-direction: column;
-    background-color: white;
+    background-color: #ffedd5;
     border-radius: 10px;
     height: 20vh;
     justify-content: space-evenly;
@@ -363,3 +375,4 @@ tr:nth-child(odd) {
     width: 100%;
     margin-top: 2vh;
 }
+

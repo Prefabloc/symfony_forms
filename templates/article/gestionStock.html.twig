@@ -39,16 +39,21 @@
             const suggestions = document.getElementById('suggestionsArticle');
             //On repère la div qui contiendra les boutons
             const divBoutons = document.getElementById('boutonsAjoutRetrait');
+            divBoutons.style.backgroundColor = 'white';
+            divBoutons.style.padding = '2rem' ;
+            divBoutons.style.borderRadius = "10px";
+            divBoutons.style.border = '2px solid black'
+
 
             //Création de l'input qui servira à entrer les quantités
             const inputQuantite = document.createElement('input');
+            inputQuantite.placeholder = 'Qté..'
             inputQuantite.type = 'number';
             inputQuantite.min = '0' ;
             inputQuantite.max = '10000' ;
             inputQuantite.step = '0.01' ;
             inputQuantite.style.borderRadius = '10px';
             inputQuantite.style.width = '4rem' ;
-
 
 
 
@@ -158,26 +163,7 @@
                 if ( confirm("Êtes vous sûr des valeurs que vous avez renseignées ?")) {
                     fetch("/historique_actions_article/createOnAdd", requestOptions)
                         .then((response) => response.json())
-                        .then( data => {
-                            const messageDiv = document.getElementById('messageConfirmation');
-                            if ( data.status === 'success') {
-                                messageDiv.textContent = data.message ;
-                                messageDiv.className = 'success' ;
-                            } else {
-                                messageDiv.textContent = data.message ;
-                                messageDiv.className = 'error';
-                            }
-                            messageDiv.style.display = 'block' ;
-
-                            setTimeout(()=>{
-                                messageDiv.classList.add('fade-out');
-
-                                setTimeout(()=>{
-                                    messageDiv.style.display = 'none';
-                                    messageDiv.classList.remove('fade-out');
-                                } , 2000 )
-                            } , 3000 )
-                        })
+                        .then((result) => console.log(result))
                         .catch((error) => console.error(error));
 
                     divBoutons.style.display = 'none';
@@ -215,11 +201,14 @@
                             //On fait un foreach sur le tableau d'objets qu'on a récupéré
                             data.forEach(item => {
                                 //On va créer un <li> pour chacun d'entre eux
-                                const li = document.createElement('li');
+                                const liGlobale = document.createElement('li');
+                                const divNom = document.createElement('div');
+                                const divRefStock = document.createElement('div');
                                 //Leur contenu textuel sera la propriété label de l'objet
-                                li.textContent = item.label;
+                                divNom.innerHTML = '<strong>' + item.label + '</strong>';
+                                divRefStock.innerHTML= '<strong> Ref : </strong>' + item.reference + '<strong> / Stock : </strong>'  + item.stock;
                                 //Pour chacun de ces li crées, on ajoute une fonction anonyme au click
-                                li.addEventListener('click', () => {
+                                liGlobale.addEventListener('click', () => {
                                     //Cliquer sur une des suggestions va mettre le nom de l'objet en placeholder et enlever la div des suggestions
                                     searchArticle.value = item.label;
                                     divBoutons.style.display = 'flex';
@@ -234,7 +223,9 @@
                                     suggestions.style.display = 'none';
                                 });
                                 //On ajoute l'élément récemment crée à la <li> créée
-                                suggestions.appendChild(li);
+                                liGlobale.appendChild(divNom);
+                                liGlobale.appendChild(divRefStock);
+                                suggestions.appendChild(liGlobale);
                             });
 
                         //Si data ne contient pas de données, c'est dispay 'none'
