@@ -56,6 +56,9 @@ class ValromexSaisieProduction
     #[ORM\OneToOne(mappedBy: 'SaisieProduction', cascade: ['persist', 'remove'])]
     private ?BTPProduction $bTPProduction = null;
 
+    #[ORM\Column]
+    private ?float $qteArticleProduit = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -151,6 +154,18 @@ class ValromexSaisieProduction
         }
 
         $this->bTPProduction = $bTPProduction;
+
+        return $this;
+    }
+
+    public function getQteArticleProduit(): ?float
+    {
+        return $this->qteArticleProduit;
+    }
+
+    public function setQteArticleProduit(float $qteArticleProduit): static
+    {
+        $this->qteArticleProduit = $qteArticleProduit;
 
         return $this;
     }

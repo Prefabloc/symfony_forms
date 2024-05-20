@@ -56,6 +56,9 @@ class SaisieProduction
     #[ORM\OneToOne(inversedBy: 'consommation', cascade: ['persist', 'remove'])]
     private ?PrefablocProduction $production = null;
 
+    #[ORM\Column]
+    private ?float $qteArticleProduit = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -141,6 +144,18 @@ class SaisieProduction
     public function setProduction(?PrefablocProduction $PrefablocProduction): static
     {
         $this->production = $PrefablocProduction;
+
+        return $this;
+    }
+
+    public function getQteArticleProduit(): ?float
+    {
+        return $this->qteArticleProduit;
+    }
+
+    public function setQteArticleProduit(float $qteArticleProduit): static
+    {
+        $this->qteArticleProduit = $qteArticleProduit;
 
         return $this;
     }
