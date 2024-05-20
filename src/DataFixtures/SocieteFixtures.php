@@ -10,25 +10,18 @@ class SocieteFixtures extends Fixture
 {
     public function load(ObjectManager $manager): void
     {
-        $societe = (new Societe());
-        $societe->setLabel('PREFABLOC');
-        $manager->persist($societe);
+        $societes = [
+            'PREFABLOC',
+            'PREFABLOC AGREGATS',
+            'BTP VALROMEX',
+            'PREFABLOC BETON',
+            'EXFORMAN'
+        ];
 
-        $societe = (new Societe());
-        $societe->setLabel('PFB AGREGAT');
-        $manager->persist($societe);
-
-        $societe = (new Societe());
-        $societe->setLabel('BTP VALROMEX');
-        $manager->persist($societe);
-
-        $societe = (new Societe());
-        $societe->setLabel('PFB BETON');
-        $manager->persist($societe);
-
-        $societe = (new Societe());
-        $societe->setLabel('EXFORMAN');
-        $manager->persist($societe);
+        foreach ($societes as $label) {
+            $societe = (new Societe())->setLabel($label);
+            $manager->persist($societe);
+        }
 
         $manager->flush();
     }

@@ -13,7 +13,7 @@ class UserFixtures extends Fixture implements DependentFixtureInterface
 {
     public function __construct(
         private readonly UserPasswordHasherInterface $hasher
-    ){
+    ) {
 
     }
 
@@ -21,62 +21,29 @@ class UserFixtures extends Fixture implements DependentFixtureInterface
     {
         $societeList = $manager->getRepository(Societe::class)->findAll();
 
-        $user = (new User());
-        $user->setRoles(['ROLE_ADMIN'])
-            ->setUsername('admin')
-            ->setPassword($this->hasher->hashPassword($user, 'admin'))
-            ->setNom('DOE')
-            ->setPrenom('John')
-            ->setSociete($societeList[0]);
-        $manager->persist($user);
+        $usersData = [
+            ['ROLE_ADMIN', 'admin', 0], // Prefabloc
+            ['ROLE_PREFABLOC', 'prefabloc', 0], // Prefabloc
+            ['ROLE_AGREGAT', 'agregat', 1], // Agregat
+            ['ROLE_BTPVALROMEX', 'btpvalromex', 2], // BTP VALROMEX
+            ['ROLE_EXFORMAN', 'exforman', 4],  // PFB Beton
+            ['ROLE_ACCUEIL', 'accueil', 1], // Prefabloc
+        ];
 
-        $user = (new User());
-        $user->setRoles(['ROLE_AGREGAT'])
-            ->setUsername('Captain America')
-            ->setPassword($this->hasher->hashPassword($user, 'azerty'))
-            ->setNom('CADET')
-            ->setPrenom('Steve')
-            ->setSociete($societeList[1]);;
-        $manager->persist($user);
-
-        $user = (new User());;
-        $user->setRoles(['ROLE_BTPVALROMEX'])
-            ->setUsername('Doctor Strange')
-            ->setPassword($this->hasher->hashPassword($user, 'azerty'))
-            ->setNom('DOE')
-            ->setPrenom('Jeremy')
-            ->setSociete($societeList[2]);;
-        $manager->persist($user);
-
-        $user = (new User());
-        $user->setRoles(['ROLE_PREFABLOC'])
-            ->setUsername('Iron Man')
-            ->setPassword($this->hasher->hashPassword($user, 'azerty'))
-            ->setNom('HOARAU')
-            ->setPrenom('Christophe')
-            ->setSociete($societeList[0]);;
-        $manager->persist($user);
-
-        $user = (new User());
-        $user->setRoles(['ROLE_EXFORMAN'])
-            ->setUsername('Black Widow')
-            ->setPassword($this->hasher->hashPassword($user, 'azerty'))
-            ->setNom('DUCASSE')
-            ->setPrenom('Amelie')
-            ->setSociete($societeList[4]);;
-        $manager->persist($user);
-
-        $user = (new User());
-        $user->setRoles(['ROLE_ACCUEIL'])
-            ->setUsername('JD')
-            ->setPassword($this->hasher->hashPassword($user, 'azerty'))
-            ->setNom('Doe')
-            ->setPrenom('John')
-            ->setSociete($societeList[3]);;
-        $manager->persist($user);
+        foreach ($usersData as $userData) {
+            $user = (new User());
+            $user->setRoles([$userData[0]])
+                ->setUsername($userData[1])
+                ->setPassword($this->hasher->hashPassword($user, $userData[1]))
+                ->setNom($userData[1])
+                ->setPrenom($userData[1])
+                ->setSociete($societeList[$userData[2]]);
+            $manager->persist($user);
+        }
 
         $manager->flush();
     }
+
 
     public function getDependencies()
     {
