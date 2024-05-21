@@ -4,21 +4,31 @@
 
     <div class="centered-content">
         <div>
-            <img class="mx-auto" src="https://prefabloc.re/wp-content/uploads/2020/08/pfb-logo-horizontal-clr-01.png"
-                alt="" width="300" height="300">
+            <img id="imgPrefabloc" class="mx-auto" src="https://prefabloc.re/wp-content/uploads/2020/08/pfb-logo-horizontal-clr-01.png"
+                alt="" width="300" height="300" style="margin-top: 2vh">
         </div>
         <div class="my-2">
             <h2 class="text-2xl font-bold text-center text-black-500">{{ label }}</h2>
         </div>
-        <div class="my-10">
-            {{ form_start(form) }}
-            {{ form_widget(form.mode, {'attr': {'class': 'select-dropdown w-full border border-gray-300 rounded-lg
-            p-2'}}) }}
-            {{ form_end(form, {'render_rest': false}) }}
+        <div style="width: 100%">
+            {{ form_start(productionForm) }}
+            <div id="divPrefablocProductionArticle" style="text-align: center ; position: relative">
+                <label for="{{ field_name(productionForm.mode ) }}">Article : </label>
+                <input type="text"
+                       id="prefablocProductionSearchArticle"
+                       name="prefablocProductionSearchArticle"
+                       placeholder="Nom de l'article..."
+                       autocomplete="off"
+                       class="rounded"
+                       style="height: 2rem ; width: 30%";
+                >
+                <ul id="prefablocProductionSuggestionsArticle" class="suggestionsArticle"></ul>
+            </div>
+            {{ form_end(productionForm, {'render_rest': false}) }}
         </div>
-        <div class="flex gap-4">
 
-            {% if form.vars.value == null %}
+        <div class="flex gap-4">
+            {% if productionForm.vars.value == null %}
                 <button class="bg-orange-900 hover:bg-orange-500 text-white font-bold py-2 px-4 rounded" onClick="startProduction()"> Démarrer
                 </button>
             {% else %}
@@ -31,8 +41,8 @@
             {% endif %}
         </div>
         <div class="mt-10" id="productionInfoDiv">
-            {% if form.vars.value != null %}
-            <p>Commencé depuis {{form.vars.value.startedAt|date("d/m/Y h:i:s")}}</p>
+            {% if productionForm.vars.value != null %}
+            <p>Commencé depuis {{productionForm.vars.value.startedAt|date("d/m/Y h:i:s")}}</p>
 
             {% endif %}
         </div>
@@ -50,7 +60,7 @@
         async function startProduction() {
             let url = "{{ url }}"
 
-            const select = document.getElementById('{{form.children.mode.vars.id}}');
+            const select = document.getElementById('prefablocProductionSearchArticle');
             const selectedMode = select.value;
             let fullUrl = `${url}/start`
 
@@ -64,6 +74,58 @@
 
             window.location.href = url
         }
+
+
+        document.addEventListener('DOMContentLoaded' , function () {
+            const searchArticle = document.getElementById('prefablocProductionSearchArticle');
+            const suggestions = document.getElementById('prefablocProductionSuggestionsArticle')
+
+            searchArticle.addEventListener('input' , function () {
+                const mot = searchArticle.value ;
+
+                if ( mot.length < 2 ) {
+                    suggestions.style.display = 'none' ;
+                }
+
+                fetch(`/prefabloc/autocomplete?mot=${encodeURIComponent(mot)}`)
+                .then( response => response.json() )
+                .then( data => {
+                    suggestions.innerHTML = '' ;
+
+                    if ( data.length > 0 ) {
+                        suggestions.style.display = 'block' ;
+
+                        data.forEach( item => {
+                            const liGlobale = document.createElement('li');
+                            const divNom = document.createElement('div');
+                            const divRefStock = document.createElement('div');
+
+                            divNom.innerHTML = '<strong>' + item.label + '</strong>';
+                            divRefStock.innerHTML= '<strong> Ref : </strong>' + item.reference + '<strong> / Stock : </strong>'  + item.stock;
+
+                            liGlobale.addEventListener( 'click' , () => {
+                                searchArticle.value = item.label;
+                                suggestions.style.display = 'none' ;
+                            })
+
+                            liGlobale.appendChild(divNom);
+                            liGlobale.appendChild(divRefStock);
+                            suggestions.appendChild(liGlobale);
+                        })
+                    } else {
+                        suggestions.style.display = 'none' ;
+                    }
+                })
+            })
+
+            document.addEventListener('click', function (event) {
+                if (searchArticle.contains(event.target)) {
+                    suggestions.style.display = 'none';
+                }
+            });
+        })
+
+
 
     </script>
 {% endblock %}

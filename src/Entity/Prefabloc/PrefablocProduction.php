@@ -2,8 +2,8 @@
 
 namespace App\Entity\Prefabloc;
 
-use App\Entity\Prefabloc\PrefablocSaisieProduction;
-use App\Repository\PrefablocProductionRepository;
+
+use App\Repository\Prefabloc\PrefablocProductionRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -22,7 +22,6 @@ class PrefablocProduction
     private ?\DateTimeInterface $endedAt = null;
 
     #[ORM\Column(length: 255)]
-
     private ?string $mode = null;
 
     #[ORM\OneToOne(mappedBy: 'PrefablocProduction', cascade: ['persist', 'remove'])]

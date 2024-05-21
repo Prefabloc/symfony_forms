@@ -11,12 +11,15 @@ use App\Form\Prefabloc\SaisieDeclassementType;
 use App\Form\Prefabloc\SaisieProductionType;
 use App\Repository\Prefabloc\PrefablocProductionRepository;
 use App\Repository\ProductionArticleRepository;
+use App\Service\ArticleDTO;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
+#[Route('/prefabloc' , name : 'app_prefabloc_')]
 class PrefablocController extends AbstractController
 {
     // #[Route('/prefabloc', name: 'app_prefabloc')]
@@ -27,7 +30,7 @@ class PrefablocController extends AbstractController
     //     ]);
     // }
 
-    #[Route('/prefabloc/production', name: 'app_prefabloc')]
+    #[Route('/production', name: 'production')]
     public function production(Request $request, PrefablocProductionRepository $repository, ProductionArticleRepository $productionArticleRepository): Response
     {
         $url = $request->getUri();
@@ -40,22 +43,36 @@ class PrefablocController extends AbstractController
             $articleChoices[$article->getReference() . " - " . $article->getLabel()] = $article->getReference();
         }
 
-        $form = $this->createForm(PrefablocProductionType::class, $entity, [
-            'disable_fields' => $entity !== null,
-            'articles' => $articleChoices  // Pass articles as options to the form
-        ]);
+        $form = $this->createForm(PrefablocProductionType::class, $entity) ;
+
         return $this->render('prefabloc/production/index.html.twig', [
             'label' => "Prefabloc Production",
             "url" => $url,
-            "form" => $form->createView(),
+            "productionForm" => $form->createView(),
             "productionId" => $entity == null ? 0 : $entity->getId(),
         ]);
     }
 
+    #[Route('/autocomplete' , name : 'autocomplete')]
+    public function autocomplete( ProductionArticleRepository $articleRepository , Request $request ) : Response {
+
+        $mot = $request->query->get('mot') ;
+
+        if ( !$mot ) {
+            return new JsonResponse([]);
+        }
+
+        $results = $articleRepository->findByTermInPrefabloc($mot);
+
+        $data = array_map( function ( $article ) {
+            return new ArticleDTO( $article->getId() , $article->getLabel(), $article->getReference() , $article->getSociete()->getLabel() , $article->getStock() );
+        }, $results );
+
+        return new JsonResponse($data);
+    }
 
 
-
-    #[Route('/prefabloc/production/end', name: 'app_prefabloc_end', methods: ['POST'])]
+    #[Route('/production/end', name: 'end', methods: ['POST'])]
     public function end(Request $request, PrefablocProductionRepository $repository): Response
     {
         $id = $request->query->get('id');
@@ -65,7 +82,7 @@ class PrefablocController extends AbstractController
         return $this->redirectToRoute('app_prefabloc');
     }
 
-    #[Route('/prefabloc/production/start', name: 'app_prefabloc_start', methods: ['POST'])]
+    #[Route('/production/start', name: 'start', methods: ['POST'])]
     public function start(Request $request, PrefablocProductionRepository $repository): Response
     {
         // Retrieve the raw JSON content from the request
@@ -84,7 +101,7 @@ class PrefablocController extends AbstractController
         return $this->redirectToRoute('app_prefabloc');
     }
 
-    #[Route('/prefabloc/saisie/declassement', name: 'app_prefacbloc_saisie_declassement')]
+    #[Route('/saisie/declassement', name: 'saisie_declassement')]
     public function prefablocSaisieDeclassement(Request $request, EntityManagerInterface $entityManager): Response
     {
         $prefablocSaisieDeclassement = new SaisieDeclassement();
@@ -103,7 +120,7 @@ class PrefablocController extends AbstractController
         }
     }
 
-    #[Route('/prefabloc/saisie/production', name: 'app_prefacbloc_saisie_production')]
+    #[Route('/saisie/production', name: 'saisie_production')]
     public function prefablocSaisieProduction(Request $request, EntityManagerInterface $entityManager, PrefablocProductionRepository $repository): Response
     {
         $prefablocSaisieProduction = new SaisieProduction();
@@ -126,13 +143,13 @@ class PrefablocController extends AbstractController
             $repository->endProduction($id);
 
             $this->addFlash('success', "Saisie de la production enregistrée !");
-            return $this->redirectToRoute('app_prefabloc');
+            return $this->redirectToRoute('app_prefabloc_production');
         } else {
             return $this->render('prefabloc/SaisieProduction.html.twig', ['prefablocSaisieProductionForm' => $prefablocSaisieProductionForm->createView()]);
         }
     }
 
-    #[Route('/prefabloc/saisie/reparation_palette', name: 'app_prefacbloc_reparation_palette')]
+    #[Route('/saisie/reparation_palette', name: 'reparation_palette')]
     public function prefablocReparationPalette(Request $request, EntityManagerInterface $entityManager): Response
     {
         $prefablocRepartitionPalette = new ReparationPalette();

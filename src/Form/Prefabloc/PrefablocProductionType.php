@@ -6,6 +6,7 @@ use App\Entity\Prefabloc\PrefablocProduction;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -16,11 +17,7 @@ class PrefablocProductionType extends AbstractType
         $builder
             ->add('startedAt', HiddenType::class, ['disabled' => $options['disable_fields']])
             ->add('endedAt', HiddenType::class, ['disabled' => $options['disable_fields']])
-            ->add('mode', ChoiceType::class, [
-                "choices" => $options['articles'],  // Use articles from the options
-                'disabled' => $options['disable_fields']
-            ])
-        ;
+            ->add('mode', TextType::class ) ;
     }
 
     public function configureOptions(OptionsResolver $resolver): void
