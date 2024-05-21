@@ -7,6 +7,12 @@
     }
 }
 
+@media screen and ( max-width: 1000px ){
+    #divInfosArticle{
+        width: 100% !important;
+    }
+}
+
 @media screen and ( max-width: 850px ) {
     .gridCalendar {
         grid-template-columns: repeat( 2 , 1fr )!important;
@@ -66,7 +72,6 @@
 
 @media screen and ( max-width: 768px ) {
     #divGestionStock{
-        height: 40vh !important;
         width: 50vw !important;
     }
 
@@ -88,6 +93,10 @@
         grid-template-columns: repeat( 1 , 1fr ) !important;
     }
 
+    #divGestionStock{
+        width: 70vw !important;
+    }
+
 }
 
 
@@ -97,6 +106,10 @@
         display: flex;
         flex-direction: column;
         justify-content: center;
+    }
+
+    #divGestionStock{
+        width: 80vw !important;
     }
 
     #divLogin {
@@ -148,6 +161,8 @@ body {
 main {
     display: flex;
     justify-content: center;
+    align-items: center;
+    flex-direction: column;
 }
 
 .pointer {
@@ -374,5 +389,22 @@ tr:nth-child(even){
     display: none;
     width: 100%;
     margin-top: 2vh;
+}
+
+#divInfosArticle {
+    display: none ;
+    background-color: white;
+    border: 1px solid black;
+    border-radius: 10px;
+    text-align: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    margin-top: 10vh;
+    width: 50%;
+    align-self: center;
+
+}
+
+#divInfosArticle ul li {
+    padding: 1rem;
 }
 

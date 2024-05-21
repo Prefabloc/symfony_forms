@@ -19,7 +19,16 @@
             <ul id="suggestionsArticle" style="display: none"></ul>
         </div>
         <div id="messageConfirmation"></div>
+        <div id="divInfosArticle">
+            <ul>
+                <li id="divArticleLabel"></li>
+                <li id="divArticleRef"></li>
+                <li id="divArticleStock"></li>
+                <li id="divArticleSociete"></li>
+            </ul>
+        </div>
     </div>
+
 
 
 
@@ -29,6 +38,10 @@
 
 
     <script>
+        const mediaQuery = window.matchMedia('(max-width: 468px)');
+
+
+
         //Ici on va déterminer un script pour appeler une requête Ajax à chaque fois qu'on a besoin de solliciter la route d'autocomplétion
 
         //On mets en place une fonction sur le document entier qui ne s'écoute seulement quand le DOM est chargé entièrement
@@ -37,7 +50,8 @@
             const searchArticle = document.getElementById('searchArticle');
             //On repère la div qui proposera les suggestions
             const suggestions = document.getElementById('suggestionsArticle');
-
+            //On repère la div qui contiendra les informations de l'article séléctionné
+            const infosArticle = document.getElementById('divInfosArticle');
 
             //On repère la div qui contiendra les boutons
             const divBoutons = document.getElementById('boutonsAjoutRetrait');
@@ -127,6 +141,7 @@
                     boutonRetrait.remove();
                     boutonAjout.remove();
                     inputQuantite.remove();
+                    infosArticle.style.display = 'none';
                 }
 
 
@@ -135,7 +150,7 @@
 
             //Création du bouton Ajout
             const boutonAjout = document.createElement('button');
-            boutonAjout.textContent = 'Ajouter';
+            boutonAjout.textContent = 'Ajout';
             boutonAjout.classList.add('bg-blue-700',
                 'hover:bg-blue-500',
                 'dark:hover:bg-blue:700',
@@ -145,6 +160,20 @@
                 'px-4',
                 'rounded',
             );
+
+            function handleMediaQueryChange ( mediaQuery ) {
+                if ( mediaQuery.matches ) {
+                    boutonRetrait.textContent = "-";
+                    boutonAjout.textContent = "+" ;
+                } else {
+                    boutonRetrait.textContent = "Retrait";
+                    boutonAjout.textContent = "Ajout" ;
+                }
+            }
+
+            handleMediaQueryChange(mediaQuery);
+            mediaQuery.addEventListener('change' , handleMediaQueryChange );
+
             //Mise en place d'un event listener sur le bouton, exactement même principe que le bouton Retrait
             boutonAjout.addEventListener('click' , function() {
                 const inputQuantiteValue = inputQuantite.value ;
@@ -197,6 +226,7 @@
                     boutonRetrait.remove();
                     boutonAjout.remove();
                     inputQuantite.remove();
+                    infosArticle.style.display = 'none';
                 }
             })
 
@@ -243,11 +273,17 @@
                                     //Définition d'un dataset pour pouvoir utiliser les informations hors de la fonction
                                     boutonRetrait.dataset.id = item.id;
                                     boutonAjout.dataset.id = item.id;
-
+                                    //On colle les boutons et l'input à la div et on fait disparaître la liste des suggestions
                                     divBoutons.appendChild(boutonRetrait);
                                     divBoutons.appendChild(inputQuantite);
                                     divBoutons.appendChild(boutonAjout);
                                     suggestions.style.display = 'none';
+                                    //On gère l'apparition de la div InfosArticle et on assigne les valeurs
+                                    document.getElementById('divArticleLabel').innerHTML = '<strong> Label : </strong>' + item.label
+                                    document.getElementById('divArticleRef').innerHTML = '<strong> Réf : </strong>' + item.reference
+                                    document.getElementById('divArticleStock').innerHTML = '<strong> Stock : </strong>' + item.stock
+                                    document.getElementById('divArticleSociete').innerHTML = '<strong> Société : </strong>' + item.societe
+                                    infosArticle.style.display = 'block';
                                 });
                                 //On ajoute l'élément récemment crée à la <li> créée
                                 liGlobale.appendChild(divNom);
@@ -271,9 +307,12 @@
                     boutonRetrait.remove();
                     boutonAjout.remove();
                     inputQuantite.remove();
+                    infosArticle.style.display = 'none';
                 }
             });
         });
+
+
     </script>
 {% endblock %}
 
