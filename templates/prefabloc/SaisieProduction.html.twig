@@ -21,6 +21,19 @@
         </div>
         <div class="max-w-sm mx-auto">
             {{ form_start(prefablocSaisieProductionForm) }}
+             <div class="mb-5">
+                <div style="display: flex" class="divSeparator">
+                    <div class="inputSeparator">
+                        {{ form_label(prefablocSaisieProductionForm.qteArticleProduit) }}
+                    </div>
+                    <div style="display: flex">
+                        {{ form_widget(prefablocSaisieProductionForm.qteArticleProduit) }}
+                    </div>
+                </div>
+                <div>
+                    {{ form_errors(prefablocSaisieProductionForm.qteArticleProduit) }}
+                </div>
+            </div>
             <div class="mb-5">
                 <div style="display: flex" class="divSeparator">
                     <div class="inputSeparator">

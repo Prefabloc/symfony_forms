@@ -24,6 +24,19 @@
             <div class="mb-5">
                 <div style="display: flex" class="divSeparator">
                     <div class="inputSeparator">
+                        {{ form_label(valromexSaisieProductionForm.qteArticleProduit) }}
+                    </div>
+                    <div style="display: flex">
+                        {{ form_widget(valromexSaisieProductionForm.qteArticleProduit) }}
+                    </div>
+                </div>
+                <div>
+                    {{ form_errors(valromexSaisieProductionForm.qteArticleProduit) }}
+                </div>
+            </div>
+            <div class="mb-5">
+                <div style="display: flex" class="divSeparator">
+                    <div class="inputSeparator">
                         {{ form_label(valromexSaisieProductionForm.qte04) }}
                     </div>
                     <div>

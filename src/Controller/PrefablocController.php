@@ -108,7 +108,6 @@ class PrefablocController extends AbstractController
     public function prefablocSaisieProduction(Request $request, SaisieProductionRepository $saisieProductionRepository, PrefablocProductionRepository $repository): Response
     {
         $prefablocSaisieProduction = new SaisieProduction();
-
         $id = $request->query->get('id');
 
         if (!$id) {
@@ -116,13 +115,14 @@ class PrefablocController extends AbstractController
         }
 
         $production = $repository->find($id);
-
         if (!$production) {
             return $this->redirectToRoute('app_prefabloc');
         }
 
         $prefablocSaisieProduction->setPrefablocProduction($production);
-        $prefablocSaisieProductionForm = $this->createForm(SaisieProductionType::class, $prefablocSaisieProduction);
+        $prefablocSaisieProductionForm = $this->createForm(SaisieProductionType::class, $prefablocSaisieProduction, [
+            "mode" => $production->getMode()
+        ]);
         $prefablocSaisieProductionForm->handleRequest($request);
 
         if ($prefablocSaisieProductionForm->isSubmitted() && $prefablocSaisieProductionForm->isValid()) {

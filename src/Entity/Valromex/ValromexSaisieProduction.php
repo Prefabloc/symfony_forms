@@ -56,6 +56,7 @@ class ValromexSaisieProduction
     #[ORM\OneToOne(mappedBy: 'SaisieProduction', cascade: ['persist', 'remove'])]
     private ?BTPProduction $bTPProduction = null;
 
+    #[Groups(["consommable"])]
     #[ORM\Column]
     private ?float $qteArticleProduit = null;
 
