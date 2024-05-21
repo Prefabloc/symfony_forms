@@ -56,6 +56,7 @@ class SaisieProduction
     #[ORM\OneToOne(inversedBy: 'consommation', cascade: ['persist', 'remove'])]
     private ?PrefablocProduction $production = null;
 
+    #[Groups(['consommable'])]
     #[ORM\Column]
     private ?float $qteArticleProduit = null;
 
