@@ -13,15 +13,20 @@
         <div style="width: 100%">
             {{ form_start(productionForm) }}
             <div id="divPrefablocProductionArticle" style="text-align: center ; position: relative">
-                <label for="{{ field_name(productionForm.mode ) }}">Article : </label>
-                <input type="text"
-                       id="prefablocProductionSearchArticle"
-                       name="prefablocProductionSearchArticle"
-                       placeholder="Nom de l'article..."
-                       autocomplete="off"
-                       class="rounded"
-                       style="height: 2rem ; width: 30%";
-                >
+                <label for="{{ field_name(productionForm.article ) }}">Article : </label>
+                    <input type="text"
+                           id="prefablocProductionSearchArticle"
+                           name="prefablocProductionSearchArticle"
+                            {% if productionForm.vars.value == null %}
+                           placeholder="Nom de l'article..."
+                            {% else %}
+                                value="{{ articleLabel }}"
+                                readonly
+                            {% endif %}
+                           autocomplete="off"
+                           class="rounded"
+                           style="height: 2rem ; width: 30%"
+                    >
                 <ul id="prefablocProductionSuggestionsArticle" class="suggestionsArticle"></ul>
             </div>
             {{ form_end(productionForm, {'render_rest': false}) }}
@@ -47,38 +52,19 @@
             {% endif %}
         </div>
     </div>
+
+
 {% endblock  %}
 
 {% block javascripts %}
     <script>
-
-        function endProduction() {
-            productionId = "{{productionId}}"
-            window.location.href = `/prefabloc/saisie/production?id=${productionId}`;
-        }
-
-        async function startProduction() {
-            let url = "{{ url }}"
-
-            const select = document.getElementById('prefablocProductionSearchArticle');
-            const selectedMode = select.value;
-            let fullUrl = `${url}/start`
-
-            const response = await fetch(fullUrl, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({ mode: selectedMode })
-            })
-
-            window.location.href = url
-        }
-
+        let verifArticle = false;
+        let idArticle = null ;
 
         document.addEventListener('DOMContentLoaded' , function () {
             const searchArticle = document.getElementById('prefablocProductionSearchArticle');
             const suggestions = document.getElementById('prefablocProductionSuggestionsArticle')
+
 
             searchArticle.addEventListener('input' , function () {
                 const mot = searchArticle.value ;
@@ -88,34 +74,37 @@
                 }
 
                 fetch(`/prefabloc/autocomplete?mot=${encodeURIComponent(mot)}`)
-                .then( response => response.json() )
-                .then( data => {
-                    suggestions.innerHTML = '' ;
+                    .then( response => response.json() )
+                    .then( data => {
+                        suggestions.innerHTML = '' ;
 
-                    if ( data.length > 0 ) {
-                        suggestions.style.display = 'block' ;
+                        if ( data.length > 0 ) {
+                            suggestions.style.display = 'block' ;
 
-                        data.forEach( item => {
-                            const liGlobale = document.createElement('li');
-                            const divNom = document.createElement('div');
-                            const divRefStock = document.createElement('div');
+                            data.forEach( item => {
+                                const liGlobale = document.createElement('li');
+                                const divNom = document.createElement('div');
+                                const divRefStock = document.createElement('div');
 
-                            divNom.innerHTML = '<strong>' + item.label + '</strong>';
-                            divRefStock.innerHTML= '<strong> Ref : </strong>' + item.reference + '<strong> / Stock : </strong>'  + item.stock;
+                                divNom.innerHTML = '<strong>' + item.label + '</strong>';
+                                divRefStock.innerHTML= '<strong> Ref : </strong>' + item.reference + '<strong> / Stock : </strong>'  + item.stock;
 
-                            liGlobale.addEventListener( 'click' , () => {
-                                searchArticle.value = item.label;
-                                suggestions.style.display = 'none' ;
+
+                                liGlobale.addEventListener( 'click' , () => {
+                                    idArticle = item.id ;
+                                    searchArticle.value = item.label;
+                                    suggestions.style.display = 'none' ;
+                                    verifArticle = true ;
+                                })
+
+                                liGlobale.appendChild(divNom);
+                                liGlobale.appendChild(divRefStock);
+                                suggestions.appendChild(liGlobale);
                             })
-
-                            liGlobale.appendChild(divNom);
-                            liGlobale.appendChild(divRefStock);
-                            suggestions.appendChild(liGlobale);
-                        })
-                    } else {
-                        suggestions.style.display = 'none' ;
-                    }
-                })
+                        } else {
+                            suggestions.style.display = 'none' ;
+                        }
+                    })
             })
 
             document.addEventListener('click', function (event) {
@@ -126,6 +115,31 @@
         })
 
 
+
+        function endProduction() {
+            productionId = "{{productionId}}"
+            window.location.href = `/prefabloc/saisie/production?id=${productionId}`;
+        }
+
+        async function startProduction() {
+            let url = "{{ url }}"
+            let fullUrl = `${url}/start`
+
+            if ( verifArticle !== true ) {
+                alert('Veuillez choisir un article parmi la liste déroulante !!')
+            } else {
+                const response = await fetch(fullUrl, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        'idArticle' : idArticle
+                    })
+                })
+
+            window.location.href = url
+        }
 
     </script>
 {% endblock %}

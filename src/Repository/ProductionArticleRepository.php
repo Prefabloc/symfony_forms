@@ -55,6 +55,16 @@ class ProductionArticleRepository extends ServiceEntityRepository
             ->getResult();
     }
 
+    public function findByTermInBTP( string $mot ) {
+        return $this->createQueryBuilder('a')
+            ->andWhere('a.label LIKE :mot' )
+            ->andWhere('a.societe = :nomSociete')
+            ->setParameter('mot' , '%'.$mot.'%')
+            ->setParameter('nomSociete' , '7')
+            ->setMaxResults(10)
+            ->getQuery()
+            ->getResult();
+    }
 
     //    /**
 //     * @return ProductionArticle[] Returns an array of ProductionArticle objects

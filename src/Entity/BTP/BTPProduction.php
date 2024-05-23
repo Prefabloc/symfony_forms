@@ -2,6 +2,7 @@
 
 namespace App\Entity\BTP;
 
+use App\Entity\ProductionArticle;
 use App\Entity\Valromex\ValromexSaisieProduction;
 use App\Repository\BTP\BTPProductionRepository;
 
@@ -22,11 +23,11 @@ class BTPProduction
     #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $endedAt = null;
 
-    #[ORM\Column(length: 255)]
-    private ?string $mode = null;
-
     #[ORM\OneToOne(inversedBy: 'bTPProduction', cascade: ['persist', 'remove'])]
     private ?ValromexSaisieProduction $SaisieProduction = null;
+
+    #[ORM\ManyToOne(inversedBy: 'bTPProductions')]
+    private ?ProductionArticle $article = null;
 
     public function getId(): ?int
     {
@@ -57,18 +58,6 @@ class BTPProduction
         return $this;
     }
 
-    public function getMode(): ?string
-    {
-        return $this->mode;
-    }
-
-    public function setMode(string $mode): static
-    {
-        $this->mode = $mode;
-
-        return $this;
-    }
-
     public function getSaisieProduction(): ?ValromexSaisieProduction
     {
         return $this->SaisieProduction;
@@ -77,6 +66,18 @@ class BTPProduction
     public function setSaisieProduction(?ValromexSaisieProduction $SaisieProduction): static
     {
         $this->SaisieProduction = $SaisieProduction;
+
+        return $this;
+    }
+
+    public function getArticle(): ?ProductionArticle
+    {
+        return $this->article;
+    }
+
+    public function setArticle(?ProductionArticle $article): static
+    {
+        $this->article = $article;
 
         return $this;
     }

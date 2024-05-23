@@ -3,6 +3,7 @@
 namespace App\Entity\Prefabloc;
 
 
+use App\Entity\ProductionArticle;
 use App\Repository\Prefabloc\PrefablocProductionRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
@@ -21,14 +22,14 @@ class PrefablocProduction
     #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $endedAt = null;
 
-    #[ORM\Column(length: 255)]
-    private ?string $mode = null;
-
     #[ORM\OneToOne(mappedBy: 'PrefablocProduction', cascade: ['persist', 'remove'])]
     private ?SaisieProduction $consommation = null;
 
     #[ORM\OneToOne(mappedBy: 'PrefablocProduction', cascade: ['persist', 'remove'])]
     private ?SaisieProduction $saisieProduction = null;
+
+    #[ORM\ManyToOne(inversedBy: 'prefablocProductions')]
+    private ?ProductionArticle $article = null;
 
     public function getId(): ?int
     {
@@ -106,6 +107,18 @@ class PrefablocProduction
         }
 
         $this->saisieProduction = $saisieProduction;
+
+        return $this;
+    }
+
+    public function getArticle(): ?ProductionArticle
+    {
+        return $this->article;
+    }
+
+    public function setArticle(?ProductionArticle $article): static
+    {
+        $this->article = $article;
 
         return $this;
     }

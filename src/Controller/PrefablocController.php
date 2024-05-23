@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Prefabloc\PrefablocProduction;
 use App\Entity\Prefabloc\ReparationPalette;
 use App\Entity\Prefabloc\SaisieDeclassement;
 use App\Entity\Prefabloc\SaisieProduction;
@@ -31,25 +32,25 @@ class PrefablocController extends AbstractController
     // }
 
     #[Route('/production', name: 'production')]
-    public function production(Request $request, PrefablocProductionRepository $repository, ProductionArticleRepository $productionArticleRepository): Response
+    public function production(Request $request, PrefablocProductionRepository $repository ): Response
     {
         $url = $request->getUri();
+        $articleLabel = '';
         $entity = $repository->findLastActive();
 
-        $articles = $productionArticleRepository->findBySociete(1);
-
-        $articleChoices = [];
-        foreach ($articles as $article) {
-            $articleChoices[$article->getReference() . " - " . $article->getLabel()] = $article->getReference();
+        if ( $entity != null ) {
+            $article = $entity->getArticle();
+            $articleLabel = $article->getLabel();
         }
 
-        $form = $this->createForm(PrefablocProductionType::class, $entity) ;
+        $form = $this->createForm(PrefablocProductionType::class, $entity );
 
         return $this->render('prefabloc/production/index.html.twig', [
             'label' => "Prefabloc Production",
             "url" => $url,
             "productionForm" => $form->createView(),
             "productionId" => $entity == null ? 0 : $entity->getId(),
+            'articleLabel' => $articleLabel
         ]);
     }
 
@@ -72,18 +73,8 @@ class PrefablocController extends AbstractController
     }
 
 
-    #[Route('/production/end', name: 'end', methods: ['POST'])]
-    public function end(Request $request, PrefablocProductionRepository $repository): Response
-    {
-        $id = $request->query->get('id');
-
-        $repository->endProduction($id);
-
-        return $this->redirectToRoute('app_prefabloc');
-    }
-
     #[Route('/production/start', name: 'start', methods: ['POST'])]
-    public function start(Request $request, PrefablocProductionRepository $repository): Response
+    public function start(Request $request, EntityManagerInterface $entityManager , ProductionArticleRepository $articleRepository ): Response
     {
         // Retrieve the raw JSON content from the request
         $jsonContent = $request->getContent();
@@ -91,14 +82,21 @@ class PrefablocController extends AbstractController
         // Decode the JSON content to an associative array
         $data = json_decode($jsonContent, true);
 
-        // Access the 'mode' variable from the decoded array
-        $mode = $data['mode'] ?? null;
+        // Access the 'idArticle' variable from the decoded array
+        $articleId = $data['idArticle'] ?? null;
+        $article = $articleRepository->find($articleId);
 
-        // Start production with the mode retrieved from the request
-        $repository->startProduction($mode);
+        $prefablocProduction = new PrefablocProduction();
+        $prefablocProduction->setArticle($article);
+        $timezone = new \DateTimeZone('Europe/Moscow'); // Example for UTC+3
+        $startedAt = new \DateTime('now', $timezone);
+        $prefablocProduction->setStartedAt($startedAt);
+
+        $entityManager->persist($prefablocProduction);
+        $entityManager->flush();
 
         // Redirect to another route after processing
-        return $this->redirectToRoute('app_prefabloc');
+        return $this->redirectToRoute('app_prefabloc_production');
     }
 
     #[Route('/saisie/declassement', name: 'saisie_declassement')]
@@ -114,7 +112,7 @@ class PrefablocController extends AbstractController
             $entityManager->flush();
 
             $this->addFlash('success', "Saisie du déclassement enregistrée !");
-            return $this->redirectToRoute('app_prefacbloc_saisie_declassement');
+            return $this->redirectToRoute('app_prefabloc_saisie_declassement');
         } else {
             return $this->render('prefabloc/SaisieDeclassement.html.twig', ['prefablocSaisieDeclassementForm' => $prefablocSaisieDeclassementForm->createView()]);
         }
@@ -129,7 +127,7 @@ class PrefablocController extends AbstractController
         $production = $repository->find($id);
 
         if (!$production) {
-            return $this->redirectToRoute('app_prefabloc');
+            return $this->redirectToRoute('app_prefabloc_production');
         }
 
         $prefablocSaisieProduction->setPrefablocProduction($production);
@@ -137,10 +135,16 @@ class PrefablocController extends AbstractController
         $prefablocSaisieProductionForm->handleRequest($request);
 
         if ($prefablocSaisieProductionForm->isSubmitted() && $prefablocSaisieProductionForm->isValid()) {
+            $timezone = new \DateTimeZone('Europe/Moscow'); // Example for UTC+3
+            $endedAt = new \DateTime('now', $timezone);
+            $production->setEndedAt($endedAt);
+
+            // Persist changes to the database
+            $entityManager->persist($production);
             $entityManager->persist($prefablocSaisieProduction);
             $entityManager->flush();
 
-            $repository->endProduction($id);
+
 
             $this->addFlash('success', "Saisie de la production enregistrée !");
             return $this->redirectToRoute('app_prefabloc_production');
@@ -161,7 +165,7 @@ class PrefablocController extends AbstractController
             $entityManager->flush();
 
             $this->addFlash('success', "Saisie de la répartition palette enregistrée !");
-            return $this->redirectToRoute('app_prefacbloc_reparation_palette');
+            return $this->redirectToRoute('app_prefabloc_reparation_palette');
         } else {
             return $this->render('prefabloc/SaisieReparationPalette.html.twig', ['prefablocRepartitionPaletteForm' => $prefablocRepartitionPaletteForm->createView()]);
         }
