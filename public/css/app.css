@@ -308,6 +308,10 @@ th {
     background-color: #fdba74 ;
 }
 
+td{
+    height: 100px;
+}
+
 tr {
     margin-bottom: 1rem;
 }

@@ -60,7 +60,7 @@ class ProductionArticleRepository extends ServiceEntityRepository
             ->andWhere('a.label LIKE :mot' )
             ->andWhere('a.societe = :nomSociete')
             ->setParameter('mot' , '%'.$mot.'%')
-            ->setParameter('nomSociete' , '7')
+            ->setParameter('nomSociete' , '3')
             ->setMaxResults(10)
             ->getQuery()
             ->getResult();
