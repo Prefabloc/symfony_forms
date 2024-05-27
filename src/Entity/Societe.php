@@ -6,6 +6,7 @@ use App\Repository\SocieteRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: SocieteRepository::class)]
 class Societe
@@ -16,6 +17,8 @@ class Societe
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank( message: 'Vous devez renseigner un nom de société !')]
+    #[Assert\Length(min: 1, max: 20, minMessage: "Vous devez au moins écrire un caractère pour la société !", maxMessage: "Moins de 20 caractères pour la société !")]
     private ?string $label = null;
 
     /**
