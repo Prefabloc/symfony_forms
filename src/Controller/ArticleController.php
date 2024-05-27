@@ -48,21 +48,4 @@ class ArticleController extends AbstractController
             'controller_name' => 'ArticleController',
         ]);
     }
-
-    // #[Route('/test', name: 'test')]
-    // public function test(ArticleRepository $articleRepository): Response
-    // {
-
-    //     $results = $articleRepository->findByTerm('Bé');
-    //     $results2 = $articleRepository->findAll();
-
-    //     $data = array_map(function ($article) {
-    //         return new ArticleDTO($article->getId(), $article->getLabel(), $article->getReference(), $article->getSociete()->getLabel(), $article->getStock());
-    //     }, $results);
-
-    //     $results2JSON = new JsonResponse($data);
-
-    //     dd($results2JSON);
-
-    // }
 }

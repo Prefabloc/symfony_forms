@@ -19,8 +19,6 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
-
-
 #[Route('/btpvalromex', name: 'app_btpvalromex_')]
 class BTPValromexController extends AbstractController
 {
