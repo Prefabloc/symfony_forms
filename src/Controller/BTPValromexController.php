@@ -10,8 +10,8 @@ use App\Form\BTP\BTPProductionType;
 use App\Form\Valromex\ValromexSaisieDeclassementType;
 use App\Form\Valromex\ValromexSaisieProductionType;
 use App\Repository\BTP\BTPProductionRepository;
-use App\Repository\ProductionArticleRepository;
 use App\Service\ArticleDTO;
+use App\Repository\ArticleRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -21,7 +21,7 @@ use Symfony\Component\Routing\Attribute\Route;
 
 
 
-#[Route('/btpvalromex' , name : 'app_btpvalromex_')]
+#[Route('/btpvalromex', name: 'app_btpvalromex_')]
 class BTPValromexController extends AbstractController
 {
     //     #[Route('/btpvalromex', name: 'app_btpvalromex')]
@@ -33,18 +33,18 @@ class BTPValromexController extends AbstractController
 //     }
 
     #[Route('/production', name: 'production')]
-    public function production(Request $request, BTPProductionRepository $repository, ProductionArticleRepository $productionArticleRepository): Response
+    public function production(Request $request, BTPProductionRepository $repository): Response
     {
         $url = $request->getUri();
         $articleLabel = '';
         $entity = $repository->findLastActive();
 
-        if ( $entity != null ) {
+        if ($entity != null) {
             $article = $entity->getArticle();
             $articleLabel = $article->getLabel();
         }
 
-        $form = $this->createForm(BTPProductionType::class, $entity );
+        $form = $this->createForm(BTPProductionType::class, $entity);
 
         return $this->render('btp_valromex/index.html.twig', [
             'label' => "BTPValromex Production",
@@ -55,27 +55,28 @@ class BTPValromexController extends AbstractController
         ]);
     }
 
-    #[Route('/autocomplete' , name : 'autocomplete')]
-    public function autocomplete( ProductionArticleRepository $articleRepository , Request $request ) : Response {
+    #[Route('/autocomplete', name: 'autocomplete')]
+    public function autocomplete(ArticleRepository $articleRepository, Request $request): Response
+    {
 
         $mot = $request->query->get('mot');
 
-        if ( !$mot ) {
+        if (!$mot) {
             return new JsonResponse([]);
         }
 
-        $results = $articleRepository->findByTermInBTP($mot);
+        $results = $articleRepository->findByTerm($mot, $this->getUser()->getSociete()->getId());
 
-        $data = array_map( function ( $article ) {
-            return new ArticleDTO( $article->getId() , $article->getLabel() , $article->getReference(), $article->getSociete()->getLabel() , $article->getStock() );
-        } , $results ) ;
+        $data = array_map(function ($article) {
+            return new ArticleDTO($article->getId(), $article->getLabel(), $article->getReference(), $article->getSociete()->getLabel(), $article->getStock());
+        }, $results);
 
         return new JsonResponse($data);
     }
 
 
     #[Route('/production/start', name: 'production_start', methods: ['POST'])]
-    public function start(Request $request, ProductionArticleRepository $repository, EntityManagerInterface $entityManager ): Response
+    public function start(Request $request, ArticleRepository $repository, EntityManagerInterface $entityManager): Response
     {
         // Retrieve the raw JSON content from the request
         $jsonContent = $request->getContent();
@@ -101,41 +102,41 @@ class BTPValromexController extends AbstractController
         return $this->redirectToRoute('app_btpvalromex_production');
     }
 
-    #[Route('/saisie/declassement' , name : 'saisie_declassement')]
-    public function btpValromexSaisieDeclassement(Request $request , EntityManagerInterface $entityManager ) : Response
+    #[Route('/saisie/declassement', name: 'saisie_declassement')]
+    public function btpValromexSaisieDeclassement(Request $request, EntityManagerInterface $entityManager): Response
     {
         $valromexSaisieDeclassement = new ValromexSaisieDeclassement();
-        $valromexSaisieDeclassementForm = $this->createForm( ValromexSaisieDeclassementType::class , $valromexSaisieDeclassement ) ;
+        $valromexSaisieDeclassementForm = $this->createForm(ValromexSaisieDeclassementType::class, $valromexSaisieDeclassement);
         $valromexSaisieDeclassementForm->handleRequest($request);
 
-        if ( $valromexSaisieDeclassementForm->isSubmitted() && $valromexSaisieDeclassementForm->isValid() ) {
+        if ($valromexSaisieDeclassementForm->isSubmitted() && $valromexSaisieDeclassementForm->isValid()) {
             $entityManager->persist($valromexSaisieDeclassement);
             $entityManager->flush();
 
-            $this->addFlash('success' , "Saisie du déclassement enregistrée !");
+            $this->addFlash('success', "Saisie du déclassement enregistrée !");
             return $this->redirectToRoute('app_btpvalromex_saisie_declassement');
         } else {
-            return $this->render('btp_valromex/SaisieDeclassement.html.twig', [ 'valromexSaisieDeclassementForm' => $valromexSaisieDeclassementForm->createView()]);
+            return $this->render('btp_valromex/SaisieDeclassement.html.twig', ['valromexSaisieDeclassementForm' => $valromexSaisieDeclassementForm->createView()]);
         }
     }
 
-    #[Route('/saisie/production' , name : 'saisie_production')]
-    public function btpValromexSaisieProduction(Request $request , EntityManagerInterface $entityManager, BTPProductionRepository $repository ) : Response
+    #[Route('/saisie/production', name: 'saisie_production')]
+    public function btpValromexSaisieProduction(Request $request, EntityManagerInterface $entityManager, BTPProductionRepository $repository): Response
     {
         $valromexSaisieProduction = new ValromexSaisieProduction();
 
         $id = $request->query->get('id');
         $production = $repository->find($id);
 
-        if ( !$production ) {
+        if (!$production) {
             return $this->redirectToRoute('app_btpvalromex_production');
         }
 
         $valromexSaisieProduction->setBTPProduction($production);
-        $valromexSaisieProductionForm = $this->createForm( ValromexSaisieProductionType::class , $valromexSaisieProduction ) ;
+        $valromexSaisieProductionForm = $this->createForm(ValromexSaisieProductionType::class, $valromexSaisieProduction);
         $valromexSaisieProductionForm->handleRequest($request);
 
-        if ( $valromexSaisieProductionForm->isSubmitted() && $valromexSaisieProductionForm->isValid() ) {
+        if ($valromexSaisieProductionForm->isSubmitted() && $valromexSaisieProductionForm->isValid()) {
             $timezone = new \DateTimeZone('Europe/Moscow'); // Example for UTC+3
             $endedAt = new \DateTime('now', $timezone);
             $production->setEndedAt($endedAt);
@@ -144,10 +145,10 @@ class BTPValromexController extends AbstractController
             $entityManager->persist($valromexSaisieProduction);
             $entityManager->flush();
 
-            $this->addFlash('success' , "Saisie de la production enregistrée !");
+            $this->addFlash('success', "Saisie de la production enregistrée !");
             return $this->redirectToRoute('app_btpvalromex_production');
         } else {
-            return $this->render('btp_valromex/SaisieProduction.html.twig', [ 'valromexSaisieProductionForm' => $valromexSaisieProductionForm->createView()]);
+            return $this->render('btp_valromex/SaisieProduction.html.twig', ['valromexSaisieProductionForm' => $valromexSaisieProductionForm->createView()]);
         }
     }
 }

@@ -2,7 +2,7 @@
 
 namespace App\Entity\BTP;
 
-use App\Entity\ProductionArticle;
+use App\Entity\Article;
 use App\Entity\Valromex\ValromexSaisieProduction;
 use App\Repository\BTP\BTPProductionRepository;
 
@@ -27,7 +27,7 @@ class BTPProduction
     private ?ValromexSaisieProduction $SaisieProduction = null;
 
     #[ORM\ManyToOne(inversedBy: 'bTPProductions')]
-    private ?ProductionArticle $article = null;
+    private ?Article $article = null;
 
     public function getId(): ?int
     {
@@ -70,12 +70,12 @@ class BTPProduction
         return $this;
     }
 
-    public function getArticle(): ?ProductionArticle
+    public function getArticle(): ?Article
     {
         return $this->article;
     }
 
-    public function setArticle(?ProductionArticle $article): static
+    public function setArticle(?Article $article): static
     {
         $this->article = $article;
 

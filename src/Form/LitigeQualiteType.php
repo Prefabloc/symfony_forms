@@ -3,6 +3,9 @@
 namespace App\Form;
 
 use App\Entity\LitigeQualite;
+use App\Entity\Societe;
+use App\Repository\SocieteRepository;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
@@ -16,24 +19,36 @@ class LitigeQualiteType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('societe', ChoiceType::class, [
+            ->add('societe', EntityType::class, [
                 'label' => 'Société',
-                'placeholder' => '--Sélectionner votre société --',
-
-                'choices' => [
-                    'PREFABLOC' => 'option1',
-                    'PFB AGREGAT' => 'option2',
-                    'BTP VALROMEX' => 'option3',
-                    'PFB BETON' => 'option4',
-                    'EXFORMAN' => 'option5'
-                ]
+                'required' => true,
+                'placeholder' => '-- Sélectionner votre société --',
+                'class' => Societe::class,
+                'choice_label' => 'label',
+                'query_builder' => function (SocieteRepository $societeRepository) {
+                    return $societeRepository->createQueryBuilder('s')->orderBy('s.label', 'ASC');
+                }
             ])
-            ->add('clients', TextType::class)
-            ->add('blv', TextType::class, ['label' => 'BLV'])
-            ->add('article', TextType::class)
-            ->add('volume', IntegerType::class)
-            ->add('conformite', TextType::class, ['label' => 'Non Conformité'])
-            ->add('valider', SubmitType::class);
+            ->add('clients', TextType::class, [
+                'label' => 'Client',
+                'required' => true
+            ])
+            ->add('blv', TextType::class, [
+                'label' => 'BLV',
+                'required' => true
+            ])
+            ->add('article', TextType::class, ['required' => true])
+            ->add('volume', IntegerType::class, ['required' => true])
+            ->add('conformite', TextType::class, [
+                'label' => 'Non Conformité',
+                'required' => true
+            ])
+            ->add('valider', SubmitType::class, [
+                'label' => 'Enregistrer',
+                'attr' => [
+                    'class' => "bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+                ]
+            ]);
     }
 
     public function configureOptions(OptionsResolver $resolver): void

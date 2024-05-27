@@ -14,7 +14,7 @@ class HistoriqueActionsArticle
     private ?int $id = null;
 
     #[ORM\ManyToOne(inversedBy: 'historiqueActionsArticles')]
-    private ?ProductionArticle $article = null;
+    private ?Article $article = null;
 
     #[ORM\Column]
     private ?float $quantite = null;
@@ -27,12 +27,12 @@ class HistoriqueActionsArticle
         return $this->id;
     }
 
-    public function getArticle(): ?ProductionArticle
+    public function getArticle(): ?Article
     {
         return $this->article;
     }
 
-    public function setArticle(?ProductionArticle $article): static
+    public function setArticle(?Article $article): static
     {
         $this->article = $article;
 
@@ -46,7 +46,7 @@ class HistoriqueActionsArticle
 
     public function setQuantite(float $quantite): static
     {
-        $this->quantite = $quantite ;
+        $this->quantite = $quantite;
 
         return $this;
     }

@@ -3,7 +3,6 @@
 namespace App\Repository\Prefabloc;
 
 use App\Entity\Prefabloc\PrefablocProduction;
-use App\Repository\ProductionArticleRepository;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -17,7 +16,7 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class PrefablocProductionRepository extends ServiceEntityRepository
 {
-    public function __construct(ManagerRegistry $registry )
+    public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, PrefablocProduction::class);
 

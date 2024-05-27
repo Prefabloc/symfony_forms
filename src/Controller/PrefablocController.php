@@ -11,8 +11,8 @@ use App\Form\Prefabloc\ReparationPaletteType;
 use App\Form\Prefabloc\SaisieDeclassementType;
 use App\Form\Prefabloc\SaisieProductionType;
 use App\Repository\Prefabloc\PrefablocProductionRepository;
-use App\Repository\ProductionArticleRepository;
 use App\Service\ArticleDTO;
+use App\Repository\ArticleRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -20,7 +20,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
-#[Route('/prefabloc' , name : 'app_prefabloc_')]
+#[Route('/prefabloc', name: 'app_prefabloc_')]
 class PrefablocController extends AbstractController
 {
     // #[Route('/prefabloc', name: 'app_prefabloc')]
@@ -32,18 +32,18 @@ class PrefablocController extends AbstractController
     // }
 
     #[Route('/production', name: 'production')]
-    public function production(Request $request, PrefablocProductionRepository $repository ): Response
+    public function production(Request $request, PrefablocProductionRepository $repository): Response
     {
         $url = $request->getUri();
         $articleLabel = '';
         $entity = $repository->findLastActive();
 
-        if ( $entity != null ) {
+        if ($entity != null) {
             $article = $entity->getArticle();
             $articleLabel = $article->getLabel();
         }
 
-        $form = $this->createForm(PrefablocProductionType::class, $entity );
+        $form = $this->createForm(PrefablocProductionType::class, $entity);
 
         return $this->render('prefabloc/production/index.html.twig', [
             'label' => "Prefabloc Production",
@@ -54,27 +54,28 @@ class PrefablocController extends AbstractController
         ]);
     }
 
-    #[Route('/autocomplete' , name : 'autocomplete')]
-    public function autocomplete( ProductionArticleRepository $articleRepository , Request $request ) : Response {
+    #[Route('/autocomplete', name: 'autocomplete')]
+    public function autocomplete(ArticleRepository $articleRepository, Request $request): Response
+    {
 
-        $mot = $request->query->get('mot') ;
+        $mot = $request->query->get('mot');
 
-        if ( !$mot ) {
+        if (!$mot) {
             return new JsonResponse([]);
         }
 
-        $results = $articleRepository->findByTermInPrefabloc($mot);
+        $results = $articleRepository->findByTerm($mot, $this->getUser()->getSociete()->getId());
 
-        $data = array_map( function ( $article ) {
-            return new ArticleDTO( $article->getId() , $article->getLabel(), $article->getReference() , $article->getSociete()->getLabel() , $article->getStock() );
-        }, $results );
+        $data = array_map(function ($article) {
+            return new ArticleDTO($article->getId(), $article->getLabel(), $article->getReference(), $article->getSociete()->getLabel(), $article->getStock());
+        }, $results);
 
         return new JsonResponse($data);
     }
 
 
     #[Route('/production/start', name: 'start', methods: ['POST'])]
-    public function start(Request $request, EntityManagerInterface $entityManager , ProductionArticleRepository $articleRepository ): Response
+    public function start(Request $request, EntityManagerInterface $entityManager, ArticleRepository $articleRepository): Response
     {
         // Retrieve the raw JSON content from the request
         $jsonContent = $request->getContent();
@@ -130,7 +131,7 @@ class PrefablocController extends AbstractController
             return $this->redirectToRoute('app_prefabloc_production');
         }
 
-        $prefablocSaisieProduction->setPrefablocProduction($production);
+        $prefablocSaisieProduction->setProduction($production);
         $prefablocSaisieProductionForm = $this->createForm(SaisieProductionType::class, $prefablocSaisieProduction);
         $prefablocSaisieProductionForm->handleRequest($request);
 
