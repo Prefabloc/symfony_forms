@@ -64,4 +64,13 @@ class SocieteTest extends KernelTestCase
         $this->assertHasErrors( $societe , 1 );
     }
 
+    public function testDoubleSociete()
+    {
+        //Une société avec le label "TestLabel" est déjà enregistré dans la BDD de test
+        $societe2 = $this->getEntity();
+        $societe2->setLabel('TestLabel');
+
+        $this->assertHasErrors( $societe2 , 1 );
+
+    }
 }
