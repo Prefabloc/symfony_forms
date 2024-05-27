@@ -2,8 +2,9 @@
 
 namespace App\Entity\Prefabloc;
 
-use App\Entity\Prefabloc\PrefablocSaisieProduction;
-use App\Repository\PrefablocProductionRepository;
+
+use App\Entity\Article;
+use App\Repository\Prefabloc\PrefablocProductionRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -21,15 +22,11 @@ class PrefablocProduction
     #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $endedAt = null;
 
-    #[ORM\Column(length: 255)]
-
-    private ?string $mode = null;
-
-    #[ORM\OneToOne(mappedBy: 'PrefablocProduction', cascade: ['persist', 'remove'])]
+    #[ORM\OneToOne(mappedBy: 'production', cascade: ['persist', 'remove'])]
     private ?SaisieProduction $consommation = null;
 
-    #[ORM\OneToOne(mappedBy: 'PrefablocProduction', cascade: ['persist', 'remove'])]
-    private ?SaisieProduction $saisieProduction = null;
+    #[ORM\ManyToOne(inversedBy: 'prefablocProductions')]
+    private ?Article $article = null;
 
     public function getId(): ?int
     {
@@ -60,24 +57,13 @@ class PrefablocProduction
         return $this;
     }
 
-    public function getMode(): ?string
-    {
-        return $this->mode;
-    }
 
-    public function setMode(string $mode): static
-    {
-        $this->mode = $mode;
-
-        return $this;
-    }
-
-    public function getConsommation(): ?PrefablocSaisieProduction
+    public function getConsommation(): ?SaisieProduction
     {
         return $this->consommation;
     }
 
-    public function setConsommation(PrefablocSaisieProduction $consommation): static
+    public function setConsommation(SaisieProduction $consommation): static
     {
         // set the owning side of the relation if necessary
         if ($consommation->getProduction() !== $this) {
@@ -89,24 +75,16 @@ class PrefablocProduction
         return $this;
     }
 
-    public function getSaisieProduction(): ?SaisieProduction
+
+
+    public function getArticle(): ?Article
     {
-        return $this->saisieProduction;
+        return $this->article;
     }
 
-    public function setSaisieProduction(?SaisieProduction $saisieProduction): static
+    public function setArticle(?Article $article): static
     {
-        // unset the owning side of the relation if necessary
-        if ($saisieProduction === null && $this->saisieProduction !== null) {
-            $this->saisieProduction->setPrefablocProduction(null);
-        }
-
-        // set the owning side of the relation if necessary
-        if ($saisieProduction !== null && $saisieProduction->getPrefablocProduction() !== $this) {
-            $saisieProduction->setPrefablocProduction($this);
-        }
-
-        $this->saisieProduction = $saisieProduction;
+        $this->article = $article;
 
         return $this;
     }

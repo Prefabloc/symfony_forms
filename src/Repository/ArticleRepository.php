@@ -21,16 +21,17 @@ class ArticleRepository extends ServiceEntityRepository
         parent::__construct($registry, Article::class);
     }
 
-    public function findBySociete(int $societeId)
+    public function findByTerm(string $mot, int $societeId)
     {
-        return $this->createQueryBuilder('p')
-            ->andWhere('p.societe = :val')
+        return $this->createQueryBuilder('a')
+            //On cherche dans les labels d'article les noms qui contiendraient le mot qu'on a entré dans la base de données
+            ->andWhere('a.label LIKE :mot')
+            ->andWhere('a.societe = :val')
+            ->setParameter('mot', '%' . $mot . '%')
             ->setParameter('val', $societeId)
-            ->orderBy('p.id', 'ASC')
-            // ->setMaxResults(10)
+            ->setMaxResults(10)
             ->getQuery()
-            ->getResult()
-        ;
+            ->getResult();
     }
 
     //    /**
