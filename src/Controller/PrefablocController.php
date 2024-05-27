@@ -132,20 +132,13 @@ class PrefablocController extends AbstractController
             return $this->redirectToRoute('app_prefabloc');
         }
 
-
-        if (!$id) {
-            return $this->redirectToRoute('app_prefabloc');
-        }
-
         $production = $repository->find($id);
         if (!$production) {
             return $this->redirectToRoute('app_prefabloc_production');
         }
 
-        $prefablocSaisieProduction->setPrefablocProduction($production);
-        $prefablocSaisieProductionForm = $this->createForm(SaisieProductionType::class, $prefablocSaisieProduction, [
-            "mode" => $production->getMode()
-        ]);
+        $prefablocSaisieProduction->setProduction($production);
+        $prefablocSaisieProductionForm = $this->createForm(SaisieProductionType::class, $prefablocSaisieProduction);
         $prefablocSaisieProductionForm->handleRequest($request);
 
         if ($prefablocSaisieProductionForm->isSubmitted() && $prefablocSaisieProductionForm->isValid()) {

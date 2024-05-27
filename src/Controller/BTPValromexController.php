@@ -131,9 +131,7 @@ class BTPValromexController extends AbstractController
         }
 
         $valromexSaisieProduction->setBTPProduction($production);
-        $valromexSaisieProductionForm = $this->createForm(V                                                    alromexSaisieProductionType::class, $valromexSaisieProduction, [
-            "mode" => $production->getMode()
-        ]);
+        $valromexSaisieProductionForm = $this->createForm(ValromexSaisieProductionType::class, $valromexSaisieProduction);
         $valromexSaisieProductionForm->handleRequest($request);
 
         if ($valromexSaisieProductionForm->isSubmitted() && $valromexSaisieProductionForm->isValid()) {
