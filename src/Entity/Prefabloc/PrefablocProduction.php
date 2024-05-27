@@ -2,7 +2,6 @@
 
 namespace App\Entity\Prefabloc;
 
-
 use App\Entity\Article;
 use App\Repository\Prefabloc\PrefablocProductionRepository;
 use Doctrine\DBAL\Types\Types;
@@ -103,6 +102,4 @@ class PrefablocProduction
 
         return $this;
     }
-
-
 }

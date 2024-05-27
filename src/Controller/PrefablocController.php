@@ -13,6 +13,7 @@ use App\Form\Prefabloc\SaisieProductionType;
 use App\Repository\Prefabloc\PrefablocProductionRepository;
 use App\Service\ArticleDTO;
 use App\Repository\ArticleRepository;
+use App\Repository\Prefabloc\SaisieProductionRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -78,6 +79,7 @@ class PrefablocController extends AbstractController
     public function start(Request $request, EntityManagerInterface $entityManager, ArticleRepository $articleRepository): Response
     {
 
+
         // Retrieve the raw JSON content from the request
         $jsonContent = $request->getContent();
 
@@ -130,13 +132,20 @@ class PrefablocController extends AbstractController
             return $this->redirectToRoute('app_prefabloc');
         }
 
+
+        if (!$id) {
+            return $this->redirectToRoute('app_prefabloc');
+        }
+
         $production = $repository->find($id);
         if (!$production) {
             return $this->redirectToRoute('app_prefabloc_production');
         }
 
         $prefablocSaisieProduction->setPrefablocProduction($production);
-        $prefablocSaisieProductionForm = $this->createForm(SaisieProductionType::class, $prefablocSaisieProduction);
+        $prefablocSaisieProductionForm = $this->createForm(SaisieProductionType::class, $prefablocSaisieProduction, [
+            "mode" => $production->getMode()
+        ]);
         $prefablocSaisieProductionForm->handleRequest($request);
 
         if ($prefablocSaisieProductionForm->isSubmitted() && $prefablocSaisieProductionForm->isValid()) {
