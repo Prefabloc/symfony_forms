@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\ArticleRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: ArticleRepository::class)]
 class Article
@@ -14,16 +15,20 @@ class Article
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank()]
     private ?string $reference = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank()]
     private ?string $label = null;
 
     #[ORM\ManyToOne(inversedBy: 'Articles')]
     #[ORM\JoinColumn(nullable: false)]
+    #[Assert\NotBlank()]
     private ?Societe $societe = null;
 
     #[ORM\Column]
+    #[Assert\NotBlank()]
     private ?bool $canBeProduced = null;
 
     public function getId(): ?int

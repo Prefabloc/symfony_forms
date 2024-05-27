@@ -9,7 +9,7 @@ use Symfony\Component\Validator\ConstraintViolation;
 
 class LitigeTest extends KernelTestCase
 {
-    public function getEntity() : LitigeQualite
+    public function getEntityLitige() : LitigeQualite
     {
         return (new LitigeQualite())->setSociete(new Societe())
                                     ->setClients('Client01')
@@ -32,14 +32,14 @@ class LitigeTest extends KernelTestCase
         $this->assertCount($number, $errors, implode(', ', $messages));
     }
 
-    public function testEntityIsValid()
+    public function testEntityLitigeIsValid()
     {
-        $this->assertHasErrors($this->getEntity(), 0);
+        $this->assertHasErrors($this->getEntityLitige(), 0);
     }
 
     public function testInvalidBlankFields()
     {
-        $litige = $this->getEntity()->setClients('')
+        $litige = $this->getEntityLitige()->setClients('')
                                     ->setBlv('')
                                     ->setArticle('')
                                     ->setConformite('');
@@ -48,14 +48,14 @@ class LitigeTest extends KernelTestCase
 
     public function testInvalidClientsLength()
     {
-        $this->assertHasErrors($this->getEntity()->setClients('a'), 1);
-        $this->assertHasErrors($this->getEntity()
+        $this->assertHasErrors($this->getEntityLitige()->setClients('a'), 1);
+        $this->assertHasErrors($this->getEntityLitige()
                  ->setClients('Llanfairpwllgwyngyllgogerychwyrndrobwllllantysiliogogogoch'), 1
         );
     }
 
     public function testVolumeGreaterThanZero()
     {
-        $this->assertHasErrors($this->getEntity()->setVolume(0), 1);
+        $this->assertHasErrors($this->getEntityLitige()->setVolume(0), 1);
     }
 }

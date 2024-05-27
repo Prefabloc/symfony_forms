@@ -14,15 +14,18 @@ class LitigePageTest extends WebTestCase
 
         /** @var UserRepository */
         $userRepository = $client->getContainer()->get(UserRepository::class);
-
         /** @var User */
         $testUser = $userRepository->findOneBy(['username' => 'admin']);
-
         $client->loginUser($testUser);
 
-        $client->request('GET', '/litige');
-
+        $crawler = $client->request('GET', '/litige');
         $this->assertResponseIsSuccessful();
+
         $this->assertSelectorTextContains('h2', 'Litige Qualité');
+        $button = $crawler->selectButton('litige_qualite[valider]');
+        $this->assertEquals(1, count($button));
+
+        
     }
+
 }
