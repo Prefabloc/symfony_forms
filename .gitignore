@@ -16,3 +16,5 @@ node_modules
 # my.cnf
 # config.user.inc.php
 # docker-compose.yml
+composer.lock
+symfony.lock
