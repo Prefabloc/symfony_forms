@@ -9,7 +9,7 @@
             {% if app.user.societe is null %}
                 <h1>ADMIN MODE</h1>
 
-            {% elseif app.user.societe.label is same as 'BTP-VALROMEX' %}
+            {% elseif app.user.societe.id is same as 22 %}
                 <a href="{{ path('app_btpvalromex_production') }}">
                     <div class="max-w-sm rounded overflow-hidden shadow-lg bg-orange-100 dark:hover:bg-orange-300">
                         <div class="px-6 py-4" style="display: flex ; height: 10rem">
@@ -25,7 +25,7 @@
                     </div>
                 </a>
 
-            {% elseif app.user.societe.label is same as 'PREFABLOC' %}
+            {% elseif app.user.societe.id is same as 20 %}
                 <a href="{{ path('app_prefabloc_production') }}">
                     <div class="max-w-sm rounded overflow-hidden shadow-lg bg-orange-100 dark:hover:bg-orange-300">
                         <div class="px-6 py-4" style="display: flex ; height: 10rem">
@@ -48,7 +48,7 @@
                     </div>
                 </a>
 
-            {% elseif app.user.societe.label is same as 'EXFORMAN' %}
+            {% elseif app.user.societe.id is same as 23 %}
                 <a href="#">
                     <div class="max-w-sm rounded overflow-hidden shadow-lg bg-orange-100 dark:hover:bg-orange-300">
                         <div class="px-6 py-4" style="display: flex ; height: 10rem">
@@ -78,7 +78,7 @@
                     </div>
                 </a>
 
-            {% elseif app.user.societe.label is same as 'AGREGAT' %}
+            {% elseif app.user.societe.id is same as 21 %}
 
                 <a href="#">
                     <div class="max-w-sm rounded overflow-hidden shadow-lg bg-orange-100 dark:hover:bg-orange-300">

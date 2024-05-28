@@ -3,6 +3,8 @@
 namespace App\Tests\Unit;
 
 use App\Entity\Societe;
+use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Component\Validator\ConstraintViolation;
 
@@ -66,11 +68,24 @@ class SocieteTest extends KernelTestCase
 
     public function testDoubleSociete()
     {
+        $entityManager = self::getContainer()->get('doctrine')->getManager();
+
         //Une société avec le label "TestLabel" est déjà enregistré dans la BDD de test
+        $societe = $this->getEntity();
+        $societe->setLabel('TestLabel');
+
+        $entityManager->persist($societe);
+        $entityManager->flush();
+
+
         $societe2 = $this->getEntity();
         $societe2->setLabel('TestLabel');
+        $entityManager->persist($societe2);
 
         $this->assertHasErrors( $societe2 , 1 );
+
+        $entityManager->remove($societe);
+        $entityManager->flush();
 
     }
 }
