@@ -7,7 +7,13 @@
     }
 }
 
-@media screen and ( max-width: 768px ) {
+@media screen and ( max-width: 1000px ){
+    #divInfosArticle{
+        width: 100% !important;
+    }
+}
+
+@media screen and ( max-width: 850px ) {
     .gridCalendar {
         grid-template-columns: repeat( 2 , 1fr )!important;
     }
@@ -64,18 +70,46 @@
 
 }
 
+@media screen and ( max-width: 768px ) {
+    #divGestionStock{
+        width: 50vw !important;
+    }
+
+    #boutonsAjoutRetrait{
+        flex-direction: column;
+        align-items: center;
+        justify-content: space-evenly;
+    }
+
+    #boutonsAjoutRetrait button, #boutonsAjoutRetrait input {
+        width: 60%;
+        margin-top: 10px;
+    }
+
+}
+
 @media screen and ( max-width: 560px ) {
     .gridCalendar {
         grid-template-columns: repeat( 1 , 1fr ) !important;
     }
 
+    #divGestionStock{
+        width: 70vw !important;
+    }
+
 }
+
+
 
 @media screen and ( max-width: 470px ) {
     #navLogoEtMenu {
         display: flex;
         flex-direction: column;
         justify-content: center;
+    }
+
+    #divGestionStock{
+        width: 80vw !important;
     }
 
     #divLogin {
@@ -90,6 +124,26 @@
 
 }
 
+@media screen and ( max-width: 400px ) {
+    #imgPrefabloc{
+        width: 90%;
+        height: 100%;
+    }
+}
+
+@keyframes fadeOut {
+    from {
+        opacity: 1;
+    }
+    to {
+        opacity: 0;
+    }
+}
+
+.fade-out {
+    animation : fadeOut 2s forwards;
+}
+
 :root {
     --main-color : rgba(250,94,0,0.7301295518207283);
     --bg-color : rgba(238,188,177,1);
@@ -100,20 +154,22 @@ html {
     height: 100%;
 }
 
-body {
-    background: var(--main-color);
-    background: radial-gradient(circle, var(--main-color) 16%, var(--bg-color) 79%);
-} 
 
 body {
-    background: rgb(250,94,0);
-    background: radial-gradient(circle, rgba(250,94,0,0.7301295518207283) 16%, rgba(238,188,177,1) 79%);
+    background-image: url("../img/circus-3649160.jpg");
+    width: 100%;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-attachment: fixed;
 
 }
 
 main {
     display: flex;
     justify-content: center;
+    align-items: center;
+    flex-direction: column;
 }
 
 .pointer {
@@ -122,15 +178,18 @@ main {
 
 .centered-content {
     display: flex;
-    justify-content: center;
+    justify-content: space-evenly;
     align-items: center;
     text-align: center;
     flex-direction: column;
-    background-color: white;
+    background-color: #ffedd5;
     margin-top: 10vh;
     border-radius: 20px;
-    height: 60vh;
-    width: 40vw;
+    height: fit-content;
+    width: 30vw;
+    gap: 2vh;
+    padding-bottom: 2vh;
+
 }
 /* Added for central div styling
 .centered-content {
@@ -235,7 +294,7 @@ input{
     align-items: center;
     text-align: center;
     flex-direction: column;
-    background-color: white;
+    background-color: #ffedd5;
     border-radius: 10px;
     margin : 2rem;
     padding : 2rem ;
@@ -246,7 +305,11 @@ th , td {
 }
 
 th {
-    background-color: rgb(255 , 237 , 213 );
+    background-color: #fdba74 ;
+}
+
+td{
+    height: 100px;
 }
 
 tr {
@@ -255,6 +318,9 @@ tr {
 
 tr:nth-child(odd) {
     background-color: lightgoldenrodyellow;
+}
+tr:nth-child(even){
+    background-color: white;
 }
 
 #dropdown{
@@ -271,9 +337,90 @@ tr:nth-child(odd) {
 
 }
 
+#divLogin{
+    background-color: #ffedd5;
+    border-radius: 10px;
+    width: 25rem;
+    padding: 20px;
+
+}
+
 #faviconBurger {
     height: 30px;
     width: 30px;
     display: none;
     border-radius: 7px;
 }
+
+#divInputBoutonsSuggestions{
+    position: relative;
+    text-align: center;
+}
+
+#searchArticle{
+    z-index: 1;
+    height: 40px;
+    border-radius: 10px;
+}
+
+.suggestionsArticle {
+    list-style-type: none;
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    max-height: 200px;
+    overflow-y: auto;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background-color: #fff;
+    width: 100%;
+    display: none;
+
+}
+
+.suggestionsArticle li {
+    padding: 8px;
+    cursor: pointer;
+}
+
+
+.suggestionsArticle li:hover {
+    background-color: #fed7aa;
+    border-radius: 10px;
+}
+
+#divGestionStock {
+    display: flex;
+    flex-direction: column;
+    background-color: #ffedd5;
+    border-radius: 10px;
+    height: 20vh;
+    justify-content: space-evenly;
+    margin-top: 10vh;
+    width: 40vw;
+}
+
+#boutonsAjoutRetrait{
+    display: none;
+    width: 100%;
+    margin-top: 2vh;
+}
+
+#divInfosArticle {
+    display: none ;
+    background-color: white;
+    border: 1px solid black;
+    border-radius: 10px;
+    text-align: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    margin-top: 10vh;
+    width: 50%;
+    align-self: center;
+
+}
+
+#divInfosArticle ul li {
+    padding: 1rem;
+}
+

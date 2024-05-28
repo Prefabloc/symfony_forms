@@ -5,20 +5,35 @@
     <div class="centered-content">
         <div>
             <img class="mx-auto" src="https://prefabloc.re/wp-content/uploads/2020/08/pfb-logo-horizontal-clr-01.png"
-                 alt="" width="300" height="300">
+                 alt="" width="300" height="300" style="margin-top: 2vh">
         </div>
         <div class="my-2">
             <h2 class="text-2xl font-bold text-center text-black-500">{{ label }}</h2>
         </div>
-        <div class="my-10">
-            {{ form_start(form) }}
-            {{ form_widget(form.mode, {'attr': {'class': 'select-dropdown w-full border border-gray-300 rounded-lg
-            p-2'}}) }}
-            {{ form_end(form, {'render_rest': false}) }}
+        <div style="width: 100%">
+            {{ form_start(productionForm) }}
+            <div id="divBTPProductionArticle" style="text-align: center ; position: relative">
+                <label for="{{ field_name( productionForm.article ) }}">Article : </label>
+                <input type="text"
+                    id="BTPProductionSearchArticle"
+                    name="BTPProductionSearchArticle"
+                    {% if productionForm.vars.value == null %}
+                        placeholder="Nom de l'article..."
+                    {% else %}
+                        value="{{ articleLabel }}"
+                        readonly
+                    {% endif %}
+                   autocomplete="off"
+                   class="rounded"
+                   style="height: 2rem ; width: 30%"
+                >
+                <ul id="BTPProductionSuggestionsArticle" class="suggestionsArticle"></ul>
+            </div>
+            {{ form_end(productionForm, {'render_rest': false}) }}
         </div>
-        <div class="flex gap-4">
 
-            {% if form.vars.value == null %}
+        <div class="flex gap-4">
+            {% if productionForm.vars.value == null %}
                 <button class="bg-orange-900 hover:bg-orange-500 text-white font-bold py-2 px-4 rounded" onClick="startProduction()"> Demarrer
                 </button>
             {% else %}
@@ -31,8 +46,8 @@
             {% endif %}
         </div>
         <div class="mt-10" id="productionInfoDiv">
-            {% if form.vars.value != null %}
-                <p>Commencé depuis {{form.vars.value.startedAt|date("d/m/Y h:i:s")}}</p>
+            {% if productionForm.vars.value != null %}
+                <p>Commencé depuis {{productionForm.vars.value.startedAt|date("d/m/Y h:i:s")}}</p>
 
             {% endif %}
         </div>
@@ -41,6 +56,62 @@
 
 {% block javascripts %}
     <script>
+        let verifArticle = false ;
+        let idArticle = null ;
+
+
+        document.addEventListener('DOMContentLoaded' , function () {
+            const searchArticle = document.getElementById('BTPProductionSearchArticle');
+            const suggestions = document.getElementById('BTPProductionSuggestionsArticle')
+
+
+            searchArticle.addEventListener('input' , function () {
+                const mot = searchArticle.value ;
+
+                if ( mot.length < 2 ) {
+                    suggestions.style.display = 'none' ;
+                }
+
+                fetch(`/btpvalromex/autocomplete?mot=${encodeURIComponent(mot)}`)
+                    .then( response => response.json() )
+                    .then( data => {
+                        suggestions.innerHTML = '' ;
+
+                        if ( data.length > 0 ) {
+                            suggestions.style.display = 'block' ;
+
+                            data.forEach( item => {
+                                const liGlobale = document.createElement('li');
+                                const divNom = document.createElement('div');
+                                const divRefStock = document.createElement('div');
+
+                                divNom.innerHTML = '<strong>' + item.label + '</strong>';
+                                divRefStock.innerHTML= '<strong> Ref : </strong>' + item.reference + '<strong> / Stock : </strong>'  + item.stock;
+
+
+                                liGlobale.addEventListener( 'click' , () => {
+                                    idArticle = item.id ;
+                                    searchArticle.value = item.label;
+                                    suggestions.style.display = 'none' ;
+                                    verifArticle = true ;
+                                })
+
+                                liGlobale.appendChild(divNom);
+                                liGlobale.appendChild(divRefStock);
+                                suggestions.appendChild(liGlobale);
+                            })
+                        } else {
+                            suggestions.style.display = 'none' ;
+                        }
+                    })
+            })
+
+            document.addEventListener('click', function (event) {
+                if (searchArticle.contains(event.target)) {
+                    suggestions.style.display = 'none';
+                }
+            });
+        })
 
         function endProduction() {
             productionId = "{{productionId}}"
@@ -48,21 +119,26 @@
         }
 
         async function startProduction() {
+            let searchArticle = document.getElementById('BTPProductionSearchArticle');
             let url = "{{ url }}"
-
-            const select = document.getElementById('{{form.children.mode.vars.id}}');
-            const selectedMode = select.value;
             let fullUrl = `${url}/start`
 
-            const response = await fetch(fullUrl, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({ mode: selectedMode })
-            })
+            if ( verifArticle !== true ) {
+                alert('Veuillez choisir un article parmi la liste déroulante !!')
+            } else {
+                const response = await fetch(fullUrl, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        'idArticle' : idArticle
+                    })
+                })
 
-            window.location.href = url
+                window.location.href = url
+            }
+
         }
 
     </script>

@@ -4,7 +4,6 @@ namespace App\Entity;
 
 use App\Repository\ArticleRepository;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: ArticleRepository::class)]
 class Article
@@ -22,7 +21,7 @@ class Article
     #[Assert\NotBlank()]
     private ?string $label = null;
 
-    #[ORM\ManyToOne(inversedBy: 'Articles')]
+    #[ORM\ManyToOne(inversedBy: 'articles')]
     #[ORM\JoinColumn(nullable: false)]
     #[Assert\NotBlank()]
     private ?Societe $societe = null;
@@ -30,6 +29,21 @@ class Article
     #[ORM\Column]
     #[Assert\NotBlank()]
     private ?bool $canBeProduced = null;
+
+    #[ORM\Column]
+    private ?float $stock = null;
+
+    /**
+     * @var Collection<int, HistoriqueActionsArticle>
+     */
+    #[ORM\OneToMany(targetEntity: HistoriqueActionsArticle::class, mappedBy: 'article')]
+    private Collection $historiqueActionsArticles;
+
+
+    public function __construct()
+    {
+        $this->historiqueActionsArticles = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -80,6 +94,48 @@ class Article
     public function setCanBeProduced(bool $canBeProduced): static
     {
         $this->canBeProduced = $canBeProduced;
+
+        return $this;
+    }
+
+    public function getStock(): ?float
+    {
+        return $this->stock;
+    }
+
+    public function setStock(float $stock): static
+    {
+        $this->stock = $stock;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, HistoriqueActionsArticle>
+     */
+    public function getHistoriqueActionsArticles(): Collection
+    {
+        return $this->historiqueActionsArticles;
+    }
+
+    public function addHistoriqueActionsArticle(HistoriqueActionsArticle $historiqueActionsArticle): static
+    {
+        if (!$this->historiqueActionsArticles->contains($historiqueActionsArticle)) {
+            $this->historiqueActionsArticles->add($historiqueActionsArticle);
+            $historiqueActionsArticle->setArticle($this);
+        }
+
+        return $this;
+    }
+
+    public function removeHistoriqueActionsArticle(HistoriqueActionsArticle $historiqueActionsArticle): static
+    {
+        if ($this->historiqueActionsArticles->removeElement($historiqueActionsArticle)) {
+            // set the owning side to null (unless already changed)
+            if ($historiqueActionsArticle->getArticle() === $this) {
+                $historiqueActionsArticle->setArticle(null);
+            }
+        }
 
         return $this;
     }

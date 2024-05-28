@@ -19,23 +19,9 @@ class PrefablocProductionRepository extends ServiceEntityRepository
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, PrefablocProduction::class);
+
     }
-    public function startProduction($mode)
-    {
-        $entityManager = $this->getEntityManager();
 
-        $entity = new PrefablocProduction();
-        $entity->setMode($mode);
-        $timezone = new \DateTimeZone('Europe/Moscow'); // Example for UTC+3
-        $startedAt = new \DateTime('now', $timezone);
-
-        // Set the endedAt time for the production
-        $entity->setStartedAt($startedAt);
-
-        // Persist changes to the database
-        $entityManager->persist($entity);
-        $entityManager->flush();
-    }
 
 
     public function findLastActive()
@@ -49,27 +35,7 @@ class PrefablocProductionRepository extends ServiceEntityRepository
             ->getOneOrNullResult();
     }
 
-    public function endProduction($id)
-    {
-        $entityManager = $this->getEntityManager();
 
-        $production = $entityManager->find(PrefablocProduction::class, $id);
-
-        if ($production === null) {
-            throw new \Exception('');
-        }
-
-        // Create a DateTime object with UTC+3 time zone
-        $timezone = new \DateTimeZone('Europe/Moscow'); // Example for UTC+3
-        $endedAt = new \DateTime('now', $timezone);
-
-        // Set the endedAt time for the production
-        $production->setEndedAt($endedAt);
-
-        // Persist changes to the database
-        $entityManager->persist($production);
-        $entityManager->flush();
-    }
 
     //    /**
     //     * @return PrefablocProduction[] Returns an array of PrefablocProduction objects

@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\UserRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
@@ -41,6 +43,17 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\ManyToOne(inversedBy: 'users')]
     private ?Societe $societe = null;
+
+    /**
+     * @var Collection<int, HistoriqueActionsArticle>
+     */
+    #[ORM\OneToMany(targetEntity: HistoriqueActionsArticle::class, mappedBy: 'personneModifiant')]
+    private Collection $historiqueActionsArticles;
+
+    public function __construct()
+    {
+        $this->historiqueActionsArticles = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -147,6 +160,36 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setSociete(?Societe $societe): static
     {
         $this->societe = $societe;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, HistoriqueActionsArticle>
+     */
+    public function getHistoriqueActionsArticles(): Collection
+    {
+        return $this->historiqueActionsArticles;
+    }
+
+    public function addHistoriqueActionsArticle(HistoriqueActionsArticle $historiqueActionsArticle): static
+    {
+        if (!$this->historiqueActionsArticles->contains($historiqueActionsArticle)) {
+            $this->historiqueActionsArticles->add($historiqueActionsArticle);
+            $historiqueActionsArticle->setPersonneModifiant($this);
+        }
+
+        return $this;
+    }
+
+    public function removeHistoriqueActionsArticle(HistoriqueActionsArticle $historiqueActionsArticle): static
+    {
+        if ($this->historiqueActionsArticles->removeElement($historiqueActionsArticle)) {
+            // set the owning side to null (unless already changed)
+            if ($historiqueActionsArticle->getPersonneModifiant() === $this) {
+                $historiqueActionsArticle->setPersonneModifiant(null);
+            }
+        }
 
         return $this;
     }

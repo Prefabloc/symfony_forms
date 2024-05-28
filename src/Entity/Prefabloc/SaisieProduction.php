@@ -16,123 +16,123 @@ class SaisieProduction
 
     #[ORM\Column(length: 255)]
     #[Assert\NotBlank(message: "Renseignez une valeur svp !")]
-    #[Assert\Range( minMessage: "Vous ne pouvez pas renseignez un chiffre au dessous de 0 ", min: 0)]
+    #[Assert\Range(minMessage: "Vous ne pouvez pas renseignez un chiffre au dessous de 0 ", min: 0)]
     #[Assert\Type(type: 'float', message: 'Vous devez renseigner un nombre !')]
     private ?float $qte04 = null;
 
     #[ORM\Column(length: 255)]
-    #[Assert\Range( minMessage: "Vous ne pouvez pas renseignez un chiffre au dessous de 0 ", min: 0)]
+    #[Assert\Range(minMessage: "Vous ne pouvez pas renseignez un chiffre au dessous de 0 ", min: 0)]
     #[Assert\Type(type: 'float', message: 'Vous devez renseigner un nombre !')]
     private ?float $qte610 = null;
 
     #[ORM\Column(length: 255)]
-    #[Assert\Range( minMessage: "Vous ne pouvez pas renseignez un chiffre au dessous de 0 ", min: 0)]
+    #[Assert\Range(minMessage: "Vous ne pouvez pas renseignez un chiffre au dessous de 0 ", min: 0)]
     #[Assert\Type(type: 'float', message: 'Vous devez renseigner un nombre !')]
     private ?float $qteCEM = null;
 
     #[ORM\Column(length: 255)]
-    #[Assert\Range( minMessage: "Vous ne pouvez pas renseignez un chiffre au dessous de 0 ", min: 0)]
+    #[Assert\Range(minMessage: "Vous ne pouvez pas renseignez un chiffre au dessous de 0 ", min: 0)]
     #[Assert\Type(type: 'float', message: 'Vous devez renseigner un nombre !')]
     private ?float $qteAdjuvant = null;
 
     #[ORM\Column(length: 255)]
-    #[Assert\Range( minMessage: "Vous ne pouvez pas renseignez un chiffre au dessous de 0 ", min: 0)]
+    #[Assert\Range(minMessage: "Vous ne pouvez pas renseignez un chiffre au dessous de 0 ", min: 0)]
     #[Assert\Type(type: 'float', message: 'Vous devez renseigner un nombre !')]
     private ?float $qteHuile = null;
 
     #[ORM\Column(length: 255)]
-    #[Assert\Range( minMessage: "Vous ne pouvez pas renseignez un chiffre au dessous de 0 ", min: 0)]
+    #[Assert\Range(minMessage: "Vous ne pouvez pas renseignez un chiffre au dessous de 0 ", min: 0)]
     #[Assert\Type(type: 'float', message: 'Vous devez renseigner un nombre !')]
     private ?float $qteEau = null;
 
-    #[ORM\OneToOne(inversedBy: 'saisieProduction', cascade: ['persist', 'remove'])]
-    private ?PrefablocProduction $PrefablocProduction = null;
+    #[ORM\OneToOne(inversedBy: 'consommation', cascade: ['persist', 'remove'])]
+    private ?PrefablocProduction $production = null;
 
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getQte04(): ?string
+    public function getQte04(): ?float
     {
         return $this->qte04;
     }
 
-    public function setQte04(string $qte04): static
+    public function setQte04(float $qte04): static
     {
         $this->qte04 = $qte04;
 
         return $this;
     }
 
-    public function getQte610(): ?string
+    public function getQte610(): ?float
     {
         return $this->qte610;
     }
 
-    public function setQte610(string $qte610): static
+    public function setQte610(float $qte610): static
     {
         $this->qte610 = $qte610;
 
         return $this;
     }
 
-    public function getQteCEM(): ?string
+    public function getQteCEM(): ?float
     {
         return $this->qteCEM;
     }
 
-    public function setQteCEM(string $qteCEM): static
+    public function setQteCEM(float $qteCEM): static
     {
         $this->qteCEM = $qteCEM;
 
         return $this;
     }
 
-    public function getQteAdjuvant(): ?string
+    public function getQteAdjuvant(): ?float
     {
         return $this->qteAdjuvant;
     }
 
-    public function setQteAdjuvant(string $qteAdjuvant): static
+    public function setQteAdjuvant(float $qteAdjuvant): static
     {
         $this->qteAdjuvant = $qteAdjuvant;
 
         return $this;
     }
 
-    public function getQteHuile(): ?string
+    public function getQteHuile(): ?float
     {
         return $this->qteHuile;
     }
 
-    public function setQteHuile(string $qteHuile): static
+    public function setQteHuile(float $qteHuile): static
     {
         $this->qteHuile = $qteHuile;
 
         return $this;
     }
 
-    public function getQteEau(): ?string
+    public function getQteEau(): ?float
     {
         return $this->qteEau;
     }
 
-    public function setQteEau(string $qteEau): static
+    public function setQteEau(float $qteEau): static
     {
         $this->qteEau = $qteEau;
 
         return $this;
     }
 
-    public function getPrefablocProduction(): ?PrefablocProduction
+    public function getProduction(): ?PrefablocProduction
     {
-        return $this->PrefablocProduction;
+        return $this->production;
     }
 
-    public function setPrefablocProduction(?PrefablocProduction $PrefablocProduction): static
+    public function setProduction(?PrefablocProduction $PrefablocProduction): static
     {
-        $this->PrefablocProduction = $PrefablocProduction;
+        $this->production = $PrefablocProduction;
 
         return $this;
     }
