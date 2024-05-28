@@ -11,22 +11,22 @@ class UserTest extends KernelTestCase
 {
     public function getEntity()
     {
-        return ( new User())->setUsername('Username')
+        return (new User())->setUsername('Username')
             ->setRoles(['ROLE_USER'])
             ->setPassword('adminadmin')
             ->setNom('GRONDIN')
             ->setPrenom('Didier');
     }
 
-    public function assertHasErrors ( User $user , int $nbr = 0 ){
+    public function assertHasErrors(User $user, int $nbr = 0)
+    {
 
         self::bootKernel();
         $errors = self::getContainer()->get('validator')->validate($user);
-        $messages = [] ;
+        $messages = [];
 
         /** @var ConstraintViolation $error */
-        foreach ($errors as $error)
-        {
+        foreach ($errors as $error) {
             $messages[] = $error->getPropertyPath() . ' => ' . $error->getMessage();
         }
         $this->assertCount($nbr, $errors, implode(', ', $messages));
@@ -36,21 +36,21 @@ class UserTest extends KernelTestCase
     {
         $user = $this->getEntity();
         $societe = new Societe();
-        $societe->setLabel('EXFORMAN');
+        $societe->setLabel('Test');
         $user->setSociete($societe);
 
-        $this->assertHasErrors( $user );
+        $this->assertHasErrors($user);
     }
 
     public function testBlank()
     {
-      $user = $this->getEntity();
-      $user->setUsername('');
-      $user->setNom('');
-      $user->setPrenom('');
-      $user->setPassword('');
+        $user = $this->getEntity();
+        $user->setUsername('');
+        $user->setNom('');
+        $user->setPrenom('');
+        $user->setPassword('');
 
-      $this->assertHasErrors( $user , 8 );
+        $this->assertHasErrors($user, 8);
 
     }
 
@@ -62,7 +62,7 @@ class UserTest extends KernelTestCase
         $user->setPrenom('zefjiopzejfopzjkcsdfovnazeocjazpaéidfhjazipdjazpcjzeiochniazedjazjd');
         $user->setPassword('zefjiopzejfopzjkcsdfovénazeocjazpaidfhjazipdjazpcjzeiochniazedjazjd');
 
-        $this->assertHasErrors( $user , 4  );
+        $this->assertHasErrors($user, 4);
     }
 
     public function testNoNumbersInNames()
@@ -71,16 +71,16 @@ class UserTest extends KernelTestCase
         $user->setNom('Chris4fjzpejZE324');
         $user->setPrenom('Benjamin2');
 
-        $this->assertHasErrors( $user , 2 );
+        $this->assertHasErrors($user, 2);
     }
 
     public function testDoubleAccount()
     {
         //Un User avec le username "Username#1" est déjà enregistré dans la BDD de test
         $user2 = $this->getEntity();
-        $user2->setUsername('Username#1');
+        $user2->setUsername('prefabloc');
 
-        $this->assertHasErrors( $user2 , 1 );
+        $this->assertHasErrors($user2, 1);
 
     }
 

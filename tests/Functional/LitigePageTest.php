@@ -25,7 +25,7 @@ class LitigePageTest extends WebTestCase
         $button = $crawler->selectButton('litige_qualite[valider]');
         $this->assertEquals(1, count($button));
 
-        
+
     }
 
 }

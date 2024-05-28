@@ -13,21 +13,21 @@ class SocieteTest extends KernelTestCase
 {
     public function getEntity()
     {
-        return ( new Societe())->setLabel('Label#1');
+        return (new Societe())->setLabel('Label#1');
     }
 
-    public function assertHasErrors ( Societe $societe , int $nbr = 0 ){
+    public function assertHasErrors(Societe $societe, int $nbr = 0)
+    {
         //Démarre le kernel de Symfony
         self::bootKernel();
         //Récupère le service de validation depuis le container et valide l'objet
         $errors = self::getContainer()->get('validator')->validate($societe);
         //Initialisation du tableau qui va récupérer les messages d'erreur
-        $messages = [] ;
+        $messages = [];
 
         /** @var ConstraintViolation $error */
         //On boucle sur chaque erreur récupérée
-        foreach ($errors as $error)
-        {
+        foreach ($errors as $error) {
             //Pour chaque erreur on rajoute au tableau le chemin de la propriété et le message d'erreur
             $messages[] = $error->getPropertyPath() . ' => ' . $error->getMessage();
         }
@@ -47,23 +47,25 @@ class SocieteTest extends KernelTestCase
         //On stocke les erreurs dans la variable error
         $errors = $container->get('validator')->validate($societe);
         //On s'assure que le nombre d'erreur est à 0
-        $this->assertCount( 0 , $errors );
+        $this->assertCount(0, $errors);
     }
 
-    public function testBlankName() {
+    public function testBlankName()
+    {
 
         $societe = $this->getEntity();
         $societe->setLabel('');
 
-        $this->assertHasErrors( $societe , 2 );
+        $this->assertHasErrors($societe, 2);
     }
 
-    public function testLongName() {
+    public function testLongName()
+    {
 
         $societe = $this->getEntity();
         $societe->setLabel('ZEFHJziedfjpadjazepjdaz^djkpaojdazeopdkjazà)^dkazopjczseijcazdzeocnazpxjqopsjkczpaedjaziojdpazjxa');
 
-        $this->assertHasErrors( $societe , 1 );
+        $this->assertHasErrors($societe, 1);
     }
 
     public function testDoubleSociete()
@@ -72,20 +74,11 @@ class SocieteTest extends KernelTestCase
 
         //Une société avec le label "TestLabel" est déjà enregistré dans la BDD de test
         $societe = $this->getEntity();
-        $societe->setLabel('TestLabel');
+        $societe->setLabel('Exforman');
 
         $entityManager->persist($societe);
         $entityManager->flush();
 
-
-        $societe2 = $this->getEntity();
-        $societe2->setLabel('TestLabel');
-        $entityManager->persist($societe2);
-
-        $this->assertHasErrors( $societe2 , 1 );
-
-        $entityManager->remove($societe);
-        $entityManager->flush();
-
+        $this->assertHasErrors($societe, 1);
     }
 }
