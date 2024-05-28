@@ -5,6 +5,7 @@ namespace App\Tests\Unit;
 use App\Entity\LitigeQualite;
 use App\Entity\Societe;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
+use Symfony\Component\Validator\ConstraintViolation;
 
 class LitigeTest extends KernelTestCase
 {
@@ -18,31 +19,43 @@ class LitigeTest extends KernelTestCase
                                     ->setConformite('cassé');
     }
 
-    public function testEntityIsValid(): void
+    public function assertHasErrors(LitigeQualite $litige, int $number = 0)
     {
         self::bootKernel();
-        $container = static::getContainer();
-
-        $litige = $this->getEntity();
-
-        $errors = $container->get('validator')->validate($litige);
-        $this->assertCount(0, $errors);
+        $errors = self::getContainer()->get('validator')->validate($litige);
+        $messages = [];
+        /** @var ConstraintViolation $error */
+        foreach ($errors as $error)
+        {
+            $messages[] = $error->getPropertyPath() . ' => ' . $error->getMessage();
+        }
+        $this->assertCount($number, $errors, implode(', ', $messages));
     }
 
-    public function testInvalidField()
+    public function testEntityIsValid()
     {
-        self::bootKernel();
-        $container = static::getContainer();
-
-        $litige = $this->getEntity();
-        $litige ->setClients('')
-                ->setBlv('')
-                ->setArticle('')
-                ->setVolume(0)
-                ->setConformite('');
-
-        $errors = $container->get('validator')->validate($litige);
-        $this->assertCount(6, $errors);
+        $this->assertHasErrors($this->getEntity(), 0);
     }
 
+    public function testInvalidBlankFields()
+    {
+        $litige = $this->getEntity()->setClients('')
+                                    ->setBlv('')
+                                    ->setArticle('')
+                                    ->setConformite('');
+        $this->assertHasErrors($litige, 5);
+    }
+
+    public function testInvalidClientsLength()
+    {
+        $this->assertHasErrors($this->getEntity()->setClients('a'), 1);
+        $this->assertHasErrors($this->getEntity()
+                 ->setClients('Llanfairpwllgwyngyllgogerychwyrndrobwllllantysiliogogogoch'), 1
+        );
+    }
+
+    public function testVolumeGreaterThanZero()
+    {
+        $this->assertHasErrors($this->getEntity()->setVolume(0), 1);
+    }
 }

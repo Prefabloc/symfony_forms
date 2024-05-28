@@ -9,10 +9,11 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[ORM\UniqueConstraint(name: 'UNIQ_IDENTIFIER_USERNAME', fields: ['username'])]
-#[UniqueEntity(fields: ['username'], message: 'There is already an account with this username')]
+#[UniqueEntity(fields: ['username'], message: 'Il y a déjà un compte avec cet identifiant !')]
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
     #[ORM\Id]
@@ -21,6 +22,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?int $id = null;
 
     #[ORM\Column(length: 180)]
+    #[Assert\NotBlank(message: 'Vous devez renseigner un identifiant !')]
+    #[Assert\Length(min: 1, max: 30 , minMessage: "Vous devez entrer au moins un caractère !" , maxMessage: "Vous devez entrer moins de 30 caractères !")]
     private ?string $username = null;
 
     /**
@@ -33,15 +36,24 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      * @var string The hashed password
      */
     #[ORM\Column]
+    #[Assert\NotBlank(message: 'Vous devez renseigner un mot de passe !')]
+    #[Assert\Length(min: 1, max: 30 , minMessage: "Vous devez entrer au moins un caractère !" , maxMessage: "Vous devez entrer moins de 31 caractères !")]
     private ?string $password = null;
 
     #[ORM\Column(length: 50)]
+    #[Assert\NotBlank(message: 'Vous devez renseigner un nom !')]
+    #[Assert\Length(min: 1, max: 30 , minMessage: "Vous devez entrer au moins un caractère !" , maxMessage: "Vous devez entrer moins de 31 caractères !")]
+    #[Assert\Regex(pattern: "/^[\p{L}\s'-]+$/u" , message: "Vous ne pouvez pas avoir de lettres dans votre nom / prénom !")]
     private ?string $nom = null;
 
     #[ORM\Column(length: 50)]
+    #[Assert\NotBlank(message: 'Vous devez renseigner un prénom !')]
+    #[Assert\Length(min: 1, max: 30 , minMessage: "Vous devez entrer au moins un caractère !" , maxMessage: "Vous devez entrer moins de 31 caractères !")]
+    #[Assert\Regex(pattern: "/^[\p{L}\s'-]+$/u" , message: "Vous ne pouvez pas avoir de lettres dans votre nom / prénom !")]
     private ?string $prenom = null;
 
     #[ORM\ManyToOne(inversedBy: 'users')]
+    #[Assert\Valid()]
     private ?Societe $societe = null;
 
     /**
