@@ -45,8 +45,8 @@ class SaisieProduction
     #[Assert\Type(type: 'float', message: 'Vous devez renseigner un nombre !')]
     private ?float $qteEau = null;
 
-    #[ORM\OneToOne(inversedBy: 'consommation', cascade: ['persist', 'remove'])]
-    private ?PrefablocProduction $production = null;
+    #[ORM\OneToOne(mappedBy: 'consommation', cascade: ['persist', 'remove'])]
+    private ?PrefablocProduction $prefablocProduction = null;
 
     public function getId(): ?int
     {
@@ -125,15 +125,27 @@ class SaisieProduction
         return $this;
     }
 
-    public function getProduction(): ?PrefablocProduction
+    public function getPrefablocProduction(): ?PrefablocProduction
     {
-        return $this->production;
+        return $this->prefablocProduction;
     }
 
-    public function setProduction(?PrefablocProduction $PrefablocProduction): static
+    public function setPrefablocProduction(?PrefablocProduction $prefablocProduction): static
     {
-        $this->production = $PrefablocProduction;
+        // unset the owning side of the relation if necessary
+        if ($prefablocProduction === null && $this->prefablocProduction !== null) {
+            $this->prefablocProduction->setConsommation(null);
+        }
+
+        // set the owning side of the relation if necessary
+        if ($prefablocProduction !== null && $prefablocProduction->getConsommation() !== $this) {
+            $prefablocProduction->setConsommation($this);
+        }
+
+        $this->prefablocProduction = $prefablocProduction;
 
         return $this;
     }
+
+
 }

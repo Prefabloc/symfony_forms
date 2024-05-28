@@ -22,11 +22,14 @@ class PrefablocProduction
     #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $endedAt = null;
 
-    #[ORM\OneToOne(mappedBy: 'production', cascade: ['persist', 'remove'])]
-    private ?SaisieProduction $consommation = null;
 
     #[ORM\ManyToOne(inversedBy: 'prefablocProductions')]
     private ?Article $article = null;
+
+    #[ORM\OneToOne(inversedBy: 'prefablocProduction', cascade: ['persist', 'remove'])]
+    private ?SaisieProduction $consommation = null;
+
+
 
     public function getId(): ?int
     {
@@ -58,25 +61,6 @@ class PrefablocProduction
     }
 
 
-    public function getConsommation(): ?SaisieProduction
-    {
-        return $this->consommation;
-    }
-
-    public function setConsommation(SaisieProduction $consommation): static
-    {
-        // set the owning side of the relation if necessary
-        if ($consommation->getProduction() !== $this) {
-            $consommation->setProduction($this);
-        }
-
-        $this->consommation = $consommation;
-
-        return $this;
-    }
-
-
-
     public function getArticle(): ?Article
     {
         return $this->article;
@@ -88,4 +72,17 @@ class PrefablocProduction
 
         return $this;
     }
+
+    public function getConsommation(): ?SaisieProduction
+    {
+        return $this->consommation;
+    }
+
+    public function setConsommation(?SaisieProduction $consommation): static
+    {
+        $this->consommation = $consommation;
+
+        return $this;
+    }
+
 }
