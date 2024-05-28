@@ -72,7 +72,7 @@ class SocieteTest extends KernelTestCase
     {
         $entityManager = self::getContainer()->get('doctrine')->getManager();
 
-        //Une société avec le label "TestLabel" est déjà enregistré dans la BDD de test
+        //Une société avec le label "Exforman" est déjà enregistrée dans la BDD de test
         $societe = $this->getEntity();
         $societe->setLabel('Exforman');
 
