@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\IdentificationPrestationRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: IdentificationPrestationRepository::class)]
 class IdentificationPrestation
@@ -15,21 +16,36 @@ class IdentificationPrestation
     private ?int $id = null;
 
     #[ORM\Column(length: 50)]
+    #[Assert\NotBlank(message: 'Vous devez renseigner une société !')]
+    #[Assert\Length(min: 1, max: 50 , minMessage: "Vous devez entrer au moins un caractère !" , maxMessage: "Vous devez entrer moins de 51 caractères !")]
+
     private ?string $societe = null;
 
     #[ORM\Column(length: 100)]
+    #[Assert\NotBlank(message: 'Vous devez renseigner un nom et un prénom !')]
+    #[Assert\Regex(pattern: "/^[\p{L}\s'-]+$/u" , message: "Vous ne pouvez pas avoir de chiffres dans votre nom / prénom !")]
+    #[Assert\Length(min: 1, max: 50 , minMessage: "Vous devez entrer au moins un caractère !" , maxMessage: "Vous devez entrer moins de 51 caractères !")]
+
     private ?string $nomPrenom = null;
 
     #[ORM\Column(length: 100)]
+    #[Assert\NotBlank(message: 'Vous devez renseigner une prestation !')]
+    #[Assert\Length(min: 1, max: 50 , minMessage: "Vous devez entrer au moins un caractère !" , maxMessage: "Vous devez entrer moins de 51 caractères !")]
+
     private ?string $prestation = null;
 
     #[ORM\Column(length: 50)]
+    #[Assert\NotBlank(message: 'Vous devez renseigner un commanditaire !')]
+    #[Assert\Length(min: 1, max: 50 , minMessage: "Vous devez entrer au moins un caractère !" , maxMessage: "Vous devez entrer moins de 51 caractères !")]
+
     private ?string $commanditaire = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
+    #[Assert\NotBlank(message: "Vous devez renseigner une heure d'arrivée !")]
     private ?\DateTimeInterface $heureArrivee = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
+    #[Assert\GreaterThan(propertyPath: 'heureArrivee' , message: "La date de départ doit être postérieure à la date d'arrivée !")]
     private ?\DateTimeInterface $heureDepart = null;
 
     #[ORM\Column(length: 255, nullable: true)]
