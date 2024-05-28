@@ -13,16 +13,19 @@ class SocieteFixtures extends Fixture
         $societes = [
             'PREFABLOC',
             'PREFABLOC AGREGATS',
-            'BTP VALROMEX',
-            'PREFABLOC BETON',
+            'BTP-VALROMEX',
             'EXFORMAN'
         ];
 
-        foreach ($societes as $label) {
+        foreach ($societes as $i => $label ) {
             $societe = (new Societe())->setLabel($label);
             $manager->persist($societe);
+
+            //Ajout d'une référence pour chaque société
+            $this->addReference('SOCIETE' . $i , $societe );
         }
 
         $manager->flush();
+
     }
 }

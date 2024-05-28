@@ -9,7 +9,7 @@
 
         <div class="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
 
-            <form method="post" class="space-y-6">
+            <form method="post" class="space-y-6" name="login">
                 {% if error %}
                     <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
                 {% endif %}

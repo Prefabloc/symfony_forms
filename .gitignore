@@ -1,18 +1,38 @@
-.idea/*
 ###> symfony/framework-bundle ###
 .env
-/.env.local
-/.env.local.php
-/.env.*.local
+.env.test
+.env.local
+.env.local.php
+.env.*.local
 /config/secrets/prod/prod.decrypt.private.php
 /public/bundles/
 /var/
 /vendor/
 node_modules
-.idea
 ###< symfony/framework-bundle ###
-.env
+
+###> IDE and OS files ###
+.idea/
+.DS_Store
+###< IDE and OS files ###
+
+###> Dependency lock files (usually tracked) ###
+composer.lock
+package-lock.json
+symfony.lock
+###< Dependency lock files ###
+
+###> Environment files ###
 .env.old
+###< Environment files ###
+
+###> Additional configs (uncomment if sensitive or environment-specific) ###
+# docker-compose.yml
 # my.cnf
 # config.user.inc.php
-# docker-compose.yml
+###< Additional configs ###
+
+###> symfony/phpunit-bridge ###
+.phpunit.result.cache
+/phpunit.xml
+###< symfony/phpunit-bridge ###
