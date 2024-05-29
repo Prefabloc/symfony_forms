@@ -53,4 +53,18 @@ class PrefablocProductionTest extends KernelTestCase
 
         $this->assertHasErrors($prod);
     }
+
+    //Pas de champ de saisie alphabétique donc pas de test null / toolong too short
+    //Pas de champ numérique donc pas de test sur la range des nombres
+
+    public function testStartBeforeEnd()
+    {
+        $prod = $this->getEntity();
+        $heureDebut = $prod->getStartedAt();
+
+        $prod
+            ->setEndedAt($heureDebut->modify('-10 hours'));
+
+        $this->assertHasErrors( $prod , 1);
+    }
 }

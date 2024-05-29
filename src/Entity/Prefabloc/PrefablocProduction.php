@@ -7,6 +7,7 @@ use App\Entity\Article;
 use App\Repository\Prefabloc\PrefablocProductionRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: PrefablocProductionRepository::class)]
 class PrefablocProduction
@@ -20,12 +21,15 @@ class PrefablocProduction
     private ?\DateTimeInterface $startedAt = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
+    #[Assert\GreaterThan(propertyPath: 'startedAt' , message: "Le moment du début doit être postérieur à celui de la fin !")]
     private ?\DateTimeInterface $endedAt = null;
 
     #[ORM\OneToOne(mappedBy: 'production', cascade: ['persist', 'remove'])]
+    #[Assert\Valid()]
     private ?SaisieProduction $consommation = null;
 
     #[ORM\ManyToOne(inversedBy: 'prefablocProductions')]
+    #[Assert\Valid()]
     private ?Article $article = null;
 
     public function getId(): ?int
