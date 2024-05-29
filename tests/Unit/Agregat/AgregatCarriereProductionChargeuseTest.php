@@ -7,11 +7,11 @@ use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
 class AgregatCarriereProductionChargeuseTest extends KernelTestCase
 {
-    public function getEntityAgregatCarriereProductionChargeuse() : AgregatCarriereProductionChargeuse
+    public function getEntityAgregatCarriereProductionChargeuse(): AgregatCarriereProductionChargeuse
     {
         return (new AgregatCarriereProductionChargeuse())->setStartedAt(new \DateTimeImmutable())
-                                                         ->setEndedAt(new \DateTimeImmutable())
-                                                         ->setMode('Mode #1');
+            ->setEndedAt(new \DateTimeImmutable())
+            ->setMode('Mode #1');
     }
 
     public function assertHasErrors(AgregatCarriereProductionChargeuse $agregatCarriereProductionChargeuse, int $number): void
@@ -26,17 +26,20 @@ class AgregatCarriereProductionChargeuseTest extends KernelTestCase
         $this->assertHasErrors($this->getEntityAgregatCarriereProductionChargeuse(), 0);
     }
 
-    public function testInvalidBlankFIeldMode()
+    public function testInvalidBlankFieldMode()
     {
         $this->assertHasErrors(
-            $this->getEntityAgregatCarriereProductionChargeuse()->setMode(''), 1
+            $this->getEntityAgregatCarriereProductionChargeuse()->setMode(''),
+            1
         );
     }
 
     public function testValidNullFieldEndedAt()
     {
         $this->assertHasErrors(
-            $this->getEntityAgregatCarriereProductionChargeuse()->setEndedAt(null), 0
+            $this->getEntityAgregatCarriereProductionChargeuse()->setEndedAt(null),
+            0
         );
     }
+
 }
