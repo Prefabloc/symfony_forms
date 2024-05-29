@@ -131,7 +131,7 @@ class PrefablocController extends AbstractController
             return $this->redirectToRoute('app_prefabloc_production');
         }
 
-        $prefablocSaisieProduction->setProduction($production);
+        $prefablocSaisieProduction->setPrefablocProduction($production);
         $prefablocSaisieProductionForm = $this->createForm(SaisieProductionType::class, $prefablocSaisieProduction);
         $prefablocSaisieProductionForm->handleRequest($request);
 
