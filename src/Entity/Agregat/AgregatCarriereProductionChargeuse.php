@@ -5,6 +5,7 @@ namespace App\Entity\Agregat;
 use App\Repository\Agregat\AgregatCarriereProductionChargeuseRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: AgregatCarriereProductionChargeuseRepository::class)]
 class AgregatCarriereProductionChargeuse
@@ -21,6 +22,7 @@ class AgregatCarriereProductionChargeuse
     private ?\DateTimeInterface $endedAt = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank()]
     private ?string $mode = null;
 
     public function getId(): ?int

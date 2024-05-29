@@ -22,6 +22,8 @@ docker volume rm $(docker volume ls -q)
 
 # Database
 
+* To create database ,schema and make fixture on env.test add `--env=test`  after `php bin/console`
+
 ### Create database
 ``` 
 php bin/console doctrine:database:create
@@ -41,4 +43,9 @@ php bin/console doctrine:migrations:migrate
 ```
 php bin/console doctrine:fixtures:load
 ```
+
+
+
+
+# Super command ()
 
