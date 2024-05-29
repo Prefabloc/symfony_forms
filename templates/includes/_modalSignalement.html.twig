@@ -1,0 +1,18 @@
+{# Modal Signalements #}
+<div id="infoModal" class="modal">
+    <div class="modal-content">
+        <span class="close">&times;</span>
+        <p>Signalement :</p>
+        <select id="infoType">
+            <option value="commentaire">Commentaire</option>
+            <option value="panne">Panne</option>
+            <option value="qualite">Qualité</option>
+        </select>
+        <p>Message :</p>
+        <textarea id="infoMessage"></textarea>
+        <p class="button">
+            <button type="submit" id="submitInfo" class="bg-blue-500 text-white font-bold py-2 px-4 rounded">Envoyer</button>
+            <button id="return" class="bg-gray-500 text-white font-bold py-2 px-4 rounded">Retour</button>
+        </p>
+    </div>
+</div>
