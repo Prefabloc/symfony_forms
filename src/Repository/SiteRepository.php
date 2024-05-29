@@ -21,6 +21,16 @@ class SiteRepository extends ServiceEntityRepository
         parent::__construct($registry, Site::class);
     }
 
+    public function findByLabel( string $mot )
+    {
+        return $this->createQueryBuilder('s')
+            ->andWhere('s.nomSite = :mot')
+            ->setParameter('mot' , $mot )
+            ->setMaxResults(1)
+            ->getQuery()
+            ->getOneOrNullResult();
+    }
+
     //    /**
     //     * @return Site[] Returns an array of Site objects
     //     */

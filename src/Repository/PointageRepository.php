@@ -21,6 +21,17 @@ class PointageRepository extends ServiceEntityRepository
         parent::__construct($registry, Pointage::class);
     }
 
+    public function findLastActive()
+    {
+        return $this->createQueryBuilder('p')
+            ->andWhere( 'p.arrivedAt IS NOT NULL')
+            ->andWhere( 'p.departedAt IS NULL')
+            ->orderBy( 'p.arrivedAt' , 'DESC')
+            ->setMaxResults(1)
+            ->getQuery()
+            ->getOneOrNullResult();
+    }
+
     //    /**
     //     * @return Pointage[] Returns an array of Pointage objects
     //     */

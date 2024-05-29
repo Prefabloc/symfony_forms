@@ -190,6 +190,7 @@ main {
     gap: 2vh;
     padding-bottom: 2vh;
 
+
 }
 /* Added for central div styling
 .centered-content {
@@ -424,3 +425,9 @@ tr:nth-child(even){
     padding: 1rem;
 }
 
+#divInfosPointage{
+    background-color: white;
+    border-radius: 10px;
+    border: 1px solid black;
+    width: 100%;
+}

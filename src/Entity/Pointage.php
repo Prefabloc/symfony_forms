@@ -80,4 +80,9 @@ class Pointage
 
         return $this;
     }
+
+    public function __toString()
+    {
+        return sprintf('User ' . $this->getEmploye() . ' Site ' . $this->getSite() . ' Arrivee ' . $this->getArrivedAt()->format('Y-m-d H:i:s') . ' Depart ' . $this->getDepartedAt()->format('Y-m-d H:i:s') );
+    }
 }

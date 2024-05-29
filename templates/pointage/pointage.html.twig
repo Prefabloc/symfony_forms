@@ -1,0 +1,43 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div class="centered-content">
+        <div class="my-2">
+            <h2 class="text-2xl font-bold text-center text-black-500">Pointage</h2>
+        </div>
+        <div class="max-w-sm mx-auto" id="divInfosPointage">
+            <div class="mb-5">
+                <div style="display: flex ; justify-content: space-between" class="divSeparator">
+                   <strong>Identifiant personnel : </strong> <span>{{ pointage.employe.username }}</span>
+                </div>
+            </div>
+            <div class="mb-5">
+                <div style="display: flex; justify-content: space-between" class="divSeparator">
+                    <strong>Nom du Site : </strong> <span>{{ pointage.site.nomSite }}</span>
+                </div>
+            </div>
+            <div class="mb-5">
+                <div style="display: flex; justify-content: space-between" class="divSeparator">
+                    <strong>Arrivé le, à : </strong> <span>{{ pointage.arrivedAt | date ('Y-m-d H:i:s' , 'Europe/Paris') }}</span>
+                </div>
+            </div>
+            <div class="mb-5">
+                <div style="display: flex; justify-content: space-between" class="divSeparator">
+                    {% if pointage.departedAt is null %}
+                        <strong>Parti le, à : </strong> <span>Pas encore renseigné</span>
+                    {% else %}
+                        <strong>Parti le, à :</strong> <span>{{ pointage.departedAt | date ('Y-m-d H:i:s', 'Europe/Paris')  }}</span>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+
+        <div>
+            <a onclick="return confirm('Êtes vous sûr que la journée est terminée ?')" href="{{ path('app_pointage_validate' , {'id' : pointage.id } )  }}"><button class="hover:bg-orange-900 bg-orange-900 dark:hover:bg-orange-500 text-white font-bold py-2 px-4 rounded">Valider départ</button></a>
+        </div>
+    </div>
+{% endblock %}
+
+{% block title %}
+    Pointage
+{% endblock %}
