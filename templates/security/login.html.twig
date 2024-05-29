@@ -20,10 +20,11 @@
                     </div>
                 {% endif %}
 
-                 <div>
+                 <div style="position: relative">
                     <label for="inputUsername" class="block text-sm font-medium leading-6 text-gray-900">Pseudo</label>
                      <div class="mt-2">
                         <input type="text" value="{{ last_username }}" name="username" id="inputUsername" class="form-control block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-orange-900 sm:text-sm sm:leading-6" autocomplete="username" required autofocus>
+                         <ul class="suggestionsArticle" id="suggestionsId"></ul>
                      </div>
                 </div>
 
@@ -51,4 +52,56 @@
         </div>
     </div>
 </div>
+{% endblock %}
+
+{% block javascripts %}
+
+    <script>
+
+        document.addEventListener('DOMContentLoaded' , function () {
+            const searchId = document.getElementById('inputUsername');
+            const suggestions = document.getElementById('suggestionsId');
+
+            searchId.addEventListener('input' , function () {
+                const mot = searchId.value ;
+
+                if ( mot.length < 2 ) {
+                    suggestions.style.display = 'none';
+                }
+
+                fetch(`/autocomplete?mot=${encodeURIComponent(mot)}`)
+                    .then( response => response.json() )
+                    .then( data => {
+                        suggestions.innerHTML = '';
+
+                        if ( data.length > 0 ) {
+                            suggestions.style.display = 'block' ;
+
+                            data.forEach( item => {
+                                const li = document.createElement('li');
+
+                                li.innerHTML = '<strong>' + item.username + '<strong>'
+
+                                li.addEventListener( 'click' , () => {
+                                    searchId.value = item.username ;
+                                    suggestions.style.display = 'none';
+                                })
+
+                                suggestions.appendChild(li);
+                            })
+                        } else {
+                            suggestions.style.display = 'none';
+                        }
+                    })
+            })
+
+            document.addEventListener('click' , function( event ) {
+                if ( searchId.contains( event.target )) {
+                    suggestions.style.display = 'none' ;
+                }
+            })
+        })
+
+    </script>
+
 {% endblock %}

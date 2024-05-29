@@ -16,7 +16,9 @@
     </head>
     <body>
     <header>
-        {% include 'includes/navbar.html.twig' %}
+        {% if display_navbar is not defined or display_navbar %}
+            {% include 'includes/navbar.html.twig' %}
+        {% endif %}
     </header>
 
         <div id="divflash">

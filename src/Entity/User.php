@@ -62,9 +62,16 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(targetEntity: HistoriqueActionsArticle::class, mappedBy: 'personneModifiant')]
     private Collection $historiqueActionsArticles;
 
+    /**
+     * @var Collection<int, Pointage>
+     */
+    #[ORM\OneToMany(targetEntity: Pointage::class, mappedBy: 'employe', orphanRemoval: true)]
+    private Collection $pointages;
+
     public function __construct()
     {
         $this->historiqueActionsArticles = new ArrayCollection();
+        $this->pointages = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -200,6 +207,36 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
             // set the owning side to null (unless already changed)
             if ($historiqueActionsArticle->getPersonneModifiant() === $this) {
                 $historiqueActionsArticle->setPersonneModifiant(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Pointage>
+     */
+    public function getPointages(): Collection
+    {
+        return $this->pointages;
+    }
+
+    public function addPointage(Pointage $pointage): static
+    {
+        if (!$this->pointages->contains($pointage)) {
+            $this->pointages->add($pointage);
+            $pointage->setEmploye($this);
+        }
+
+        return $this;
+    }
+
+    public function removePointage(Pointage $pointage): static
+    {
+        if ($this->pointages->removeElement($pointage)) {
+            // set the owning side to null (unless already changed)
+            if ($pointage->getEmploye() === $this) {
+                $pointage->setEmploye(null);
             }
         }
 
