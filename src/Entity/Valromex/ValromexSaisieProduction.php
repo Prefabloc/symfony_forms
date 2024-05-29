@@ -17,32 +17,32 @@ class ValromexSaisieProduction
 
     #[ORM\Column(length: 255)]
     #[Assert\NotBlank(message: "Renseignez une valeur svp !")]
-    #[Assert\Range( minMessage: "Vous ne pouvez pas renseignez un chiffre au dessous de 0 ", min: 0)]
+    #[Assert\Range(  notInRangeMessage: 'Vous ne pouvez pas mettre moins de 0 ou plus de 10 000', min: 0, max: 10000)]
     #[Assert\Type(type: 'float', message: 'Vous devez renseigner un nombre !')]
     private ?float $qte04 = null;
 
     #[ORM\Column(length: 255)]
-    #[Assert\Range( minMessage: "Vous ne pouvez pas renseignez un chiffre au dessous de 0 ", min: 0)]
+    #[Assert\Range(  notInRangeMessage: 'Vous ne pouvez pas mettre moins de 0 ou plus de 10 000', min: 0, max: 10000)]
     #[Assert\Type(type: 'float', message: 'Vous devez renseigner un nombre !')]
     private ?float $qte610 = null;
 
     #[ORM\Column(length: 255)]
-    #[Assert\Range( minMessage: "Vous ne pouvez pas renseignez un chiffre au dessous de 0 ", min: 0)]
+    #[Assert\Range(  notInRangeMessage: 'Vous ne pouvez pas mettre moins de 0 ou plus de 10 000', min: 0, max: 10000)]
     #[Assert\Type(type: 'float', message: 'Vous devez renseigner un nombre !')]
     private ?float $qteCEM = null;
 
     #[ORM\Column(length: 255)]
-    #[Assert\Range( minMessage: "Vous ne pouvez pas renseignez un chiffre au dessous de 0 ", min: 0)]
+    #[Assert\Range(  notInRangeMessage: 'Vous ne pouvez pas mettre moins de 0 ou plus de 10 000', min: 0, max: 10000)]
     #[Assert\Type(type: 'float', message: 'Vous devez renseigner un nombre !')]
     private ?float $qteAdjuvant = null;
 
     #[ORM\Column(length: 255)]
-    #[Assert\Range( minMessage: "Vous ne pouvez pas renseignez un chiffre au dessous de 0 ", min: 0)]
+    #[Assert\Range(  notInRangeMessage: 'Vous ne pouvez pas mettre moins de 0 ou plus de 10 000', min: 0, max: 10000)]
     #[Assert\Type(type: 'float', message: 'Vous devez renseigner un nombre !')]
     private ?float $qteHuile = null;
 
     #[ORM\Column(length: 255)]
-    #[Assert\Range( minMessage: "Vous ne pouvez pas renseignez un chiffre au dessous de 0 ", min: 0)]
+    #[Assert\Range(  notInRangeMessage: 'Vous ne pouvez pas mettre moins de 0 ou plus de 10 000', min: 0, max: 10000)]
     #[Assert\Type(type: 'float', message: 'Vous devez renseigner un nombre !')]
     private ?float $qteEau = null;
 
