@@ -47,6 +47,7 @@ security:
         - { path: ^/autocomplete , roles : PUBLIC_ACCESS }
         - { path: ^/logout, roles: ROLE_USER }
         - { path: ^/identification_prestation, roles: ROLE_ACCUEIL }
+        - { path: ^/pointage , roles: ROLE_EMPLOYE }
         - { path: ^/btpvalromex , roles: ROLE_BTPVALROMEX }
         - { path: ^/agregat , roles: ROLE_AGREGAT }
         - { path: ^/exforman , roles: ROLE_EXFORMAN }
@@ -61,6 +62,7 @@ security:
     role_hierarchy :
         ROLE_ADMIN :
             - ROLE_USER
+            - ROLE_EMPLOYE
             - ROLE_BTPVALROMEX
             - ROLE_AGREGAT
             - ROLE_EXFORMAN
@@ -69,19 +71,25 @@ security:
 
         ROLE_BTPVALROMEX :
             - ROLE_USER
+            - ROLE_EMPLOYE
 
         ROLE_EXFORMAN :
             - ROLE_USER
+            - ROLE_EMPLOYE
 
         ROLE_PREFABLOC :
             - ROLE_USER
+            - ROLE_EMPLOYE
 
         ROLE_AGREGAT :
             - ROLE_USER
+            - ROLE_EMPLOYE
 
         ROLE_ACCUEIL :
             - ROLE_USER
 
+        ROLE_EMPLOYE :
+            - ROLE_USER
 
 
 

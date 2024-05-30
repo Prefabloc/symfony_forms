@@ -13,19 +13,24 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 
 class RegistrationController extends AbstractController
 {
     #[Route('/admin/register', name: 'app_register')]
-    public function register(Request $request, UserPasswordHasherInterface $userPasswordHasher, Security $security, EntityManagerInterface $entityManager , SocieteRepository $societeRepository): Response
+    public function register(Request $request, UserPasswordHasherInterface $userPasswordHasher, Security $security, EntityManagerInterface $entityManager , ValidatorInterface $validator ): Response
     {
+
         $user = new User();
         $form = $this->createForm(RegistrationFormType::class, $user);
         $form->handleRequest($request);
 
 
-        if ($form->isSubmitted() && $form->isValid()) {
+        if ($form->isSubmitted() ) {
+
+            $errors = $validator->validate($user);
+
             // encode the plain password
                 $user->setPassword(
                     $userPasswordHasher->hashPassword(
@@ -34,22 +39,27 @@ class RegistrationController extends AbstractController
                     )
                 );
 
+
+
             $societe = $form->get('societe')->getData();
             $societeNom = $societe->getLabel();
 
             $donneesForm = $request->request->all();
-            $checkboxValue = $donneesForm['roleAccueil'] ?? null ;
+            $checkboxValueAccueil = $donneesForm['roleAccueil'] ?? null ;
+            $checkboxValueEmploye = $donneesForm['roleEmploye'] ?? null ;
 
 
-            if ( $checkboxValue === 'on' ) {
+            if ( $checkboxValueAccueil === 'on' ) {
                 $user->setRoles(["ROLE_ACCUEIL"]);
+            } elseif ( $checkboxValueEmploye === 'on' ) {
+                $user->setRoles(['ROLE_EMPLOYE']);
             } else {
                 switch ( $societeNom ) {
                     case 'PREFABLOC' :
                         $user->setRoles(["ROLE_PREFABLOC"]);
                         break;
 
-                    case 'AGREGAT' :
+                    case 'PREFABLOC AGREGATS' :
                         $user->setRoles(["ROLE_AGREGAT"]);
                         break;
 
@@ -68,8 +78,15 @@ class RegistrationController extends AbstractController
 
 
             $user->setSociete($societe);
-            $entityManager->persist($user);
-            $entityManager->flush();
+
+            if ( $form->isValid()) {
+                $entityManager->persist($user);
+                $entityManager->flush();
+            }
+
+
+
+
 
             // do anything else you need here, like send an email
 

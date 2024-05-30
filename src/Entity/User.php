@@ -37,7 +37,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     #[ORM\Column]
     #[Assert\NotBlank(message: 'Vous devez renseigner un mot de passe !')]
-    #[Assert\Length(min: 1, max: 30 , minMessage: "Vous devez entrer au moins un caractère !" , maxMessage: "Vous devez entrer moins de 31 caractères !")]
+    #[Assert\Length(min: 1, max:100 , minMessage: "Vous devez entrer au moins un caractère !" , maxMessage: "Vous devez entrer moins de 101 caractères !")]
     private ?string $password = null;
 
     #[ORM\Column(length: 50)]

@@ -21,7 +21,7 @@ class RegistrationFormType extends AbstractType
     {
         $builder
             ->add('username', TextType::class , [
-                'label' => "Pseudo",
+                'label' => "Identifiant : ",
                 'label_attr' => [
                     'class' => "block text-sm font-medium leading-6 text-gray-900"
                 ],
@@ -33,28 +33,17 @@ class RegistrationFormType extends AbstractType
                 // instead of being set onto the object directly,
                 // this is read and encoded in the controller
                 'mapped' => false,
-                'label' => 'Mot de passe' ,
+                'label' => 'Mot de passe : ' ,
                 'label_attr' => [
                     'class' => "block text-sm font-medium leading-6 text-gray-900"
                 ],
                 'attr' => [
                     'autocomplete' => 'new-password',
                     'class' => "bg-neutral-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus: block w-full p-2.5"
-
-                ],
-                'constraints' => [
-                    new NotBlank([
-                        'message' => 'Please enter a password',
-                    ]),
-                    new Length([
-                        'min' => 6,
-                        'minMessage' => 'Your password should be at least {{ limit }} characters',
-                        // max length allowed by Symfony for security reasons
-                        'max' => 4096,
-                    ]),
-                ],
+                ]
             ])
             ->add('nom', TextType::class , [
+                'label' => 'Nom : ',
                 'label_attr' => [
                     'class' => "block text-sm font-medium leading-6 text-gray-900"
                 ],
@@ -63,6 +52,7 @@ class RegistrationFormType extends AbstractType
                 ],
             ] )
             ->add('prenom', TextType::class , [
+                'label' => 'Prénom : ',
                 'label_attr' => [
                     'class' => "block text-sm font-medium leading-6 text-gray-900"
                 ],
@@ -71,7 +61,7 @@ class RegistrationFormType extends AbstractType
                 ],
             ])
             ->add('societe', EntityType::class, [
-                'label' => 'Société',
+                'label' => 'Société :',
                 'class' => Societe::class,
                 'choice_label' => 'label' ,
                 'label_attr' => [

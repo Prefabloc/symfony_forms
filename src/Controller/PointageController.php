@@ -21,6 +21,7 @@ class PointageController extends AbstractController
     public function createPointage( SiteRepository $siteRepository, PointageRepository $pointageRepository , EntityManagerInterface $manager , string $site ): Response
     {
 
+        date_default_timezone_set('Europe/Paris');
        $pointage = $pointageRepository->findLastActive();
        $siteTravail = $siteRepository->findByLabel($site);
        $user = $this->getUser();
@@ -47,6 +48,7 @@ class PointageController extends AbstractController
     #[Route('/validate/{id}' , name: 'validate')]
     public function validatePointage( $id , PointageRepository $pointageRepository , EntityManagerInterface $manager  )
     {
+        date_default_timezone_set('Europe/Paris');
         $pointage = $pointageRepository->find($id);
         $heureDepart = new \DateTime();
         $pointage->setDepartedAt($heureDepart);
