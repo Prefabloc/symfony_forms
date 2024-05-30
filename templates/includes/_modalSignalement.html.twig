@@ -1,18 +1,54 @@
-{# Modal Signalements #}
 <div id="infoModal" class="modal">
-    <div class="modal-content">
+    <form class="modal-content" method="post">
         <span class="close">&times;</span>
-        <p>Signalement :</p>
-        <select id="infoType">
-            <option value="commentaire">Commentaire</option>
-            <option value="panne">Panne</option>
-            <option value="qualite">Qualité</option>
-        </select>
-        <p>Message :</p>
-        <textarea id="infoMessage"></textarea>
-        <p class="button">
-            <button type="submit" id="submitInfo" class="bg-blue-500 text-white font-bold py-2 px-4 rounded">Envoyer</button>
+        <div class="type">
+            <label for="type">Signalement :</label>
+            <select id="type">
+                <option value="commentaire">Commentaire</option>
+                <option value="panne">Panne</option>
+                <option value="qualite">Qualité</option>
+            </select>
+        </div>
+        <div class="message">
+            <label for="infoMessage">Message :</label>
+            <textarea id="infoMessage" placeholder="Entrer votre commentaire" rows="3"></textarea>
+        </div>
+        <div class="button">
+            <button type="submit" id="submit" class="bg-blue-500 text-white font-bold py-2 px-4 rounded">Envoyer</button>
             <button id="return" class="bg-gray-500 text-white font-bold py-2 px-4 rounded">Retour</button>
-        </p>
-    </div>
+        </div>
+    </form>
 </div>
+
+<script>
+    let infoModal = document.querySelector("#infoModal");
+    let span = document.getElementsByClassName("close")[0];
+
+    function showInfoModal() {
+        infoModal.style.display = "block";
+    }
+
+    // Lorsque l'utilisateur clique sur la modale, fermez-la
+    infoModal.onclick = function(event) {
+        if (event.target === infoModal) {
+            infoModal.style.display = "none";
+        }
+    };
+
+    // Lorsque l'utilisateur clique sur le bouton "x", fermez la modale
+    span.onclick = function() {
+        infoModal.style.display = "none";
+    };
+
+    // Lorsque l'utilisateur clique sur le bouton "Soumettre", récupérez les informations et effectuez une action
+    document.getElementById("submit").addEventListener("click", function() {
+        let type = document.getElementById("type").value;
+        let message = document.getElementById("message").value;
+
+        // Ici, vous pouvez effectuer une action avec les informations récupérées,
+        // comme par exemple les envoyer à un serveur via une requête AJAX.
+
+        // Fermer la modale
+        infoModal.style.display = "none";
+    });
+</script>
