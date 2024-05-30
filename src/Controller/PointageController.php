@@ -57,6 +57,8 @@ class PointageController extends AbstractController
         $manager->flush();
 
         $this->addFlash('success' , 'Pointage de sortie enregistrée !');
-        return $this->redirectToRoute('app_acceuil');
+        return $this->render('pointage/resume.html.twig' , [
+            'pointage' => $pointage
+        ]);
     }
 }

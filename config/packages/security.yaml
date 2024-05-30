@@ -53,7 +53,7 @@ security:
         - { path: ^/exforman , roles: ROLE_EXFORMAN }
         - { path: ^/prefabloc , roles: ROLE_PREFABLOC }
         - { path : ^/admin , roles : ROLE_ADMIN }
-        - { path: ^/ , roles : [ROLE_BTPVALROMEX , ROLE_AGREGAT , ROLE_EXFORMAN , ROLE_PREFABLOC] }
+        - { path: ^/ , roles : [ROLE_BTPVALROMEX , ROLE_AGREGAT , ROLE_EXFORMAN , ROLE_PREFABLOC, ROLE_EMPLOYE ] }
 
 
 

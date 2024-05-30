@@ -27,10 +27,7 @@ class RegistrationController extends AbstractController
         $form->handleRequest($request);
 
 
-        if ($form->isSubmitted() ) {
-
-            $errors = $validator->validate($user);
-
+        if ( $form->isSubmitted() && $form->isValid() ) {
             // encode the plain password
                 $user->setPassword(
                     $userPasswordHasher->hashPassword(
@@ -38,8 +35,6 @@ class RegistrationController extends AbstractController
                         $form->get('plainPassword')->getData()
                     )
                 );
-
-
 
             $societe = $form->get('societe')->getData();
             $societeNom = $societe->getLabel();
@@ -76,16 +71,8 @@ class RegistrationController extends AbstractController
                 }
             }
 
-
-            $user->setSociete($societe);
-
-            if ( $form->isValid()) {
-                $entityManager->persist($user);
-                $entityManager->flush();
-            }
-
-
-
+            $entityManager->persist($user);
+            $entityManager->flush();
 
 
             // do anything else you need here, like send an email
