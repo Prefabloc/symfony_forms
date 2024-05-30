@@ -1,8 +1,7 @@
 <?php
 
-namespace App\Tests\Unit;
+namespace App\Tests\Unit\BTPValromex;
 
-use App\Entity\Article;
 use App\Entity\Valromex\ValromexSaisieDeclassement;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Component\Validator\ConstraintViolation;

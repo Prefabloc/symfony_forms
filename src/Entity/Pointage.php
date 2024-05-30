@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\PointageRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: PointageRepository::class)]
 class Pointage
@@ -26,6 +27,8 @@ class Pointage
     private ?\DateTimeInterface $arrivedAt = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
+    #[Assert\GreaterThan(propertyPath: 'arrivedAt' , message: "La date de départ doit être postérieure à la date d'arrivée !")]
+
     private ?\DateTimeInterface $departedAt = null;
 
     public function getId(): ?int

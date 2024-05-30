@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Tests\Unit;
+namespace App\Tests\Unit\BTPValromex;
 
 use App\Entity\Valromex\ValromexSaisieProduction;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;

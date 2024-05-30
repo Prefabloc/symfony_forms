@@ -6,6 +6,7 @@ use App\Repository\SiteRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: SiteRepository::class)]
 class Site
@@ -16,12 +17,15 @@ class Site
     private ?int $id = null;
 
     #[ORM\Column(length: 50)]
+    #[Assert\Length(min: 1, max: 50, minMessage: 'Votre nom de site doit contenir plus de caractères !', maxMessage: "Votre site ne peut contenir plus de 50 caractères !")]
     private ?string $nomSite = null;
 
     #[ORM\Column(length: 10, nullable: true)]
+    #[Assert\Length( max: 50, maxMessage: "Votre numéro de rue ne peut contenir plus de 10 caractères !")]
     private ?string $noRue = null;
 
     #[ORM\Column(length: 100)]
+    #[Assert\Length(min: 1, max: 100, minMessage: 'Votre adresse doit contenir plus de caractères !', maxMessage: "Votre adresse ne peut contenir plus de 100 caractères !")]
     private ?string $adresse = null;
 
     /**
