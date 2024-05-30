@@ -426,7 +426,7 @@ tr:nth-child(even){
 
 /* Fenêtre Modale Signalements */
 .modal{
-    display: block;
+    display: none;
     position: fixed;
     z-index: 1;
     left: 0;
@@ -444,7 +444,7 @@ tr:nth-child(even){
     padding: 20px;
     border: 1px solid #888;
     width: 30%;
-    height: 30%;
+    height: 35%;
     border-radius: 10px;
 }
 
@@ -462,12 +462,41 @@ tr:nth-child(even){
     cursor: pointer;
 }
 
-.button {
+.type {
+    display: flex;
+    flex-direction: column;
+}
+
+#type {
+    margin: 10px 0 10px 0;
+    border-radius: 5px;
+    background-color: #ffffff;
+    padding-left: 10px;
+}
+
+.message {
     margin-top: 20px;
 }
 
 #infoMessage {
+    padding-left: 10px;
+}
+
+#infoMessage {
+    margin: 10px 0 10px 0;
     width: 100%;
     height: 50%;
     border-radius: 10px;
+    border: 1px solid #000000;
+}
+
+.button {
+    margin-top: 20px;
+    display: flex;
+    justify-content: flex-end;
+    flex-wrap: wrap;
+}
+
+#return {
+    margin-left: 20px;
 }
