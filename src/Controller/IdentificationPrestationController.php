@@ -9,34 +9,54 @@ use App\Service\YouSignService;
 use Doctrine\ORM\EntityManagerInterface;
 use Dompdf\Dompdf;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use function mysql_xdevapi\getSession;
+use function Symfony\Component\String\s;
 
 #[Route('/identification_prestation', name: 'app_identification_prestation_')]
 class IdentificationPrestationController extends AbstractController
 {
     #[Route('/create', name: 'create')]
-    public function identificationPrestationForm(Request $request, EntityManagerInterface $entityManager): Response
+    public function identificationPrestationForm(Request $request, EntityManagerInterface $entityManager , IdentificationPrestationRepository $identificationPrestationRepository): Response
     {
         date_default_timezone_set('Europe/Paris');
-        $identificationPrestation = new IdentificationPrestation();
+        $session = $request->getSession();
 
-        $dateTimeArrivee = new \DateTime();
-        $identificationPrestation->setHeureArrivee($dateTimeArrivee);
 
-        $identificationPrestationForm = $this->createForm(IdentificationPrestationType::class, $identificationPrestation);
-        $identificationPrestationForm->handleRequest($request);
+        if ( $session->has('idIdentification') ) {
+            $idIdentification = $session->get('idIdentification');
+            $identificationPrestation = $identificationPrestationRepository->find($idIdentification);
 
-        if ($identificationPrestationForm->isSubmitted() && $identificationPrestationForm->isValid()) {
-
-            $entityManager->persist($identificationPrestation);
-            $entityManager->flush();
-
-            $this->addFlash('success', 'Formulaire identification rempli.');
-            return $this->redirectToRoute('app_identification_prestation_forms');
+            return $this->render('identification_prestation/identificationPrestation.html.twig' , [
+                'identificationPrestation' => $identificationPrestation
+            ]) ;
         } else {
-            return $this->render('identification_prestation/identificationPrestation.html.twig', ['identificationPrestationForm' => $identificationPrestationForm->createView()]);
+            $identificationPrestation = new IdentificationPrestation();
+
+            $dateTimeArrivee = new \DateTime();
+            $identificationPrestation->setHeureArrivee($dateTimeArrivee);
+
+            $identificationPrestationForm = $this->createForm(IdentificationPrestationType::class, $identificationPrestation);
+            $identificationPrestationForm->handleRequest($request);
+
+            if ($identificationPrestationForm->isSubmitted() && $identificationPrestationForm->isValid()) {
+
+                $entityManager->persist($identificationPrestation);
+                $entityManager->flush();
+
+                $idIP = $identificationPrestation->getId();
+                $session->set('idIdentification' , $idIP );
+
+                $this->addFlash('success', 'Formulaire identification rempli. Signez en partant.');
+                return $this->redirectToRoute('app_identification_prestation_create');
+            } else {
+                return $this->render('identification_prestation/identificationPrestation.html.twig', [
+                    'identificationPrestationForm' => $identificationPrestationForm->createView(),
+                ]);
+            }
         }
     }
 
@@ -54,36 +74,16 @@ class IdentificationPrestationController extends AbstractController
     #[Route('validate/{id}', name: 'validate')]
     public function validateForm(Request $request, EntityManagerInterface $entityManager, IdentificationPrestationRepository $identificationPrestationRepository, int $id): Response
     {
-
+        date_default_timezone_set('Europe/Paris');
+        $session = $request->getSession();
         $identificationPrestation = $identificationPrestationRepository->find($id);
-        $identificationPrestationForm = $this->createForm(IdentificationPrestationType::class, $identificationPrestation);
-        $identificationPrestationForm->handleRequest($request);
 
-        if ($identificationPrestationForm->isSubmitted() && $identificationPrestationForm->isValid()) {
-            $societe = $identificationPrestationForm->get('societe')->getData();
-            $nomPrenom = $identificationPrestationForm->get('nomPrenom')->getData();
-            $prestation = $identificationPrestationForm->get('prestation')->getData();
-            $commanditaire = $identificationPrestationForm->get('commanditaire')->getData();
+        $identificationPrestation->setHeureDepart( new \DateTime() );
+        $entityManager->persist($identificationPrestation);
+        $entityManager->flush();
+        $session->clear();
 
-            $identificationPrestation->setSociete($societe);
-            $identificationPrestation->setNomPrenom($nomPrenom);
-            $identificationPrestation->setPrestation($prestation);
-            $identificationPrestation->setCommanditaire($commanditaire);
-
-            $dateTimeDepart = new \DateTime('now', new \DateTimeZone('Europe/Paris'));
-            $identificationPrestation->setHeureDepart($dateTimeDepart);
-
-            $entityManager->persist($identificationPrestation);
-            $entityManager->flush();
-
-            $this->addFlash('succes', 'Formulaire clos');
-            return $this->redirectToRoute('app_identification_prestation_forms');
-        }
-
-        return $this->render('identification_prestation/editForm.html.twig', [
-            'identificationPrestationForm' => $identificationPrestationForm,
-            'identificationPrestation' => $identificationPrestation
-        ]);
+        return $this->redirectToRoute('app_identification_prestation_create');
     }
 
     #[Route('/pdf/{id}', name: 'pdf')]
@@ -121,38 +121,25 @@ class IdentificationPrestationController extends AbstractController
         return $this->redirectToRoute('app_identification_prestation_forms');
     }
 
-    // #[Route('/sign/{id}' , name : 'sign')]
-    // public function signature( EntityManagerInterface $entityManager , YouSignService $youSignService , IdentificationPrestationRepository $identificationPrestationRepository , int $id ) : Response {
+    #[Route('/sign' , name: 'sign')]
+    public function sign( Request $request) : Response
+    {
+        //On récupère le contenu du fetch
+        $donnees = $request->getContent();
+        //On décode le JSON
+        $dataDecode = json_decode( $donnees , false );
+        //On explode une fois les data pour séparer le type de contenu du contenu
+        list($type , $data) = explode( ';' , $dataDecode->image );
+        //On explode une deuxième fois pour séparer le type de l'image de son nom en lui même
+        list(  , $img ) = explode( ','  , $data ) ;
+        //On décode l'image et on génère son fichier
+        $image_decodee = base64_decode($img);
+        //On prévoit le nom du fichier en lui mettant un nom en série automatique et en rajoutant le format png
+        $fichier = md5(uniqid()).'.png' ;
+        //On écrit
+        file_put_contents(__DIR__."/../../public/img/$fichier" , $image_decodee );
 
-    //     //Création de la demande de signature
-    //     $identificationPrestation = $identificationPrestationRepository->find($id);
-    //     $youSignSignatureRequest = $youSignService->signatureRequest();
-    //     $identificationPrestation->setSignatureId($youSignSignatureRequest['id']);
-    //     $entityManager->persist($identificationPrestation);
 
-    //     //Upload du document
-    //     $uploadDocument = $youSignService->uploadDocument($identificationPrestation->getSignatureId() , $identificationPrestation->getPdfSansSignature());
-    //     $identificationPrestation->setDocumentId($uploadDocument['id']);
-    //     $entityManager->persist($identificationPrestation);
-
-    //     //Ajout des signataires
-    //     $signerId = $youSignService->addSigner(
-    //         $identificationPrestation->getSignatureId(),
-    //         $identificationPrestation->getDocumentId(),
-    //         'userEmailToSend@gmail.com',
-    //         $identificationPrestation->getNomPrenom(),
-    //         'TEST'
-    //     );
-
-    //     $identificationPrestation->setSignerId($signerId['id']);
-    //     $entityManager->persist($identificationPrestation);
-    //     $entityManager->flush();
-
-    //     //Envoi de la demande de signature
-    //     $youSignService->activateSignatureRequest($identificationPrestation->getSignatureId());
-
-    //     return $this->redirectToRoute('app_identification_prestation_forms');
-
-    // }
-
+       return new JsonResponse([]);
+    }
 }
