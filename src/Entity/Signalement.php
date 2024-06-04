@@ -16,11 +16,16 @@ class Signalement
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank()]
     private ?string $type = null;
 
     #[ORM\Column(type: Types::TEXT)]
     #[Assert\NotBlank()]
     private ?string $message = null;
+
+    #[ORM\ManyToOne(inversedBy: 'signalements')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?ProductionForm $productionForm = null;
 
     public function getId(): ?int
     {
@@ -47,6 +52,18 @@ class Signalement
     public function setMessage(string $message): static
     {
         $this->message = $message;
+
+        return $this;
+    }
+
+    public function getProductionForm(): ?ProductionForm
+    {
+        return $this->productionForm;
+    }
+
+    public function setProductionForm(?ProductionForm $productionForm): static
+    {
+        $this->productionForm = $productionForm;
 
         return $this;
     }

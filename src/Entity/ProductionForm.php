@@ -10,6 +10,8 @@ use App\Entity\Agregat\AgregatConcassageProductionPelle;
 use App\Entity\BTP\BTPProduction;
 use App\Entity\Exforman\ExformanProductionAlimentation;
 use App\Entity\Prefabloc\PrefablocProduction;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -44,6 +46,17 @@ abstract class ProductionForm
     #[Assert\GreaterThan(propertyPath: 'startedAt', message: "Le moment du début doit être postérieur à celui de la fin !")]
     private ?\DateTimeInterface $endedAt = null;
 
+    /**
+     * @var Collection<int, Signalement>
+     */
+    #[ORM\OneToMany(targetEntity: Signalement::class, mappedBy: 'productionForm')]
+    private Collection $signalements;
+
+    public function __construct()
+    {
+        $this->signalements = new ArrayCollection();
+    }
+
     public function getId(): ?int
     {
         return $this->id;
@@ -69,6 +82,36 @@ abstract class ProductionForm
     public function setEndedAt(?\DateTimeInterface $endedAt): static
     {
         $this->endedAt = $endedAt;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Signalement>
+     */
+    public function getSignalements(): Collection
+    {
+        return $this->signalements;
+    }
+
+    public function addSignalement(Signalement $signalement): static
+    {
+        if (!$this->signalements->contains($signalement)) {
+            $this->signalements->add($signalement);
+            $signalement->setProductionForm($this);
+        }
+
+        return $this;
+    }
+
+    public function removeSignalement(Signalement $signalement): static
+    {
+        if ($this->signalements->removeElement($signalement)) {
+            // set the owning side to null (unless already changed)
+            if ($signalement->getProductionForm() === $this) {
+                $signalement->setProductionForm(null);
+            }
+        }
 
         return $this;
     }

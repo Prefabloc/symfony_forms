@@ -15,6 +15,7 @@ class SignalementController extends AbstractController
     #[Route('/signalement', name: 'app_signalement')]
     public function index(Request $request, EntityManagerInterface $entityManager): Response
     {
+        $url = $request->getUri();
         $signalement = new Signalement();
         $signalementForm = $this->createForm(SignalementType::class, $signalement);
         $signalementForm->handleRequest($request);
@@ -26,6 +27,8 @@ class SignalementController extends AbstractController
         }
         return $this->render('includes/_modalSignalement.html.twig', [
             'controller_name' => 'SignalementController',
+            'label' => 'Signalement',
+            'url' => $url,
             'signalementForm' => $signalementForm->createView()
         ]);
     }
