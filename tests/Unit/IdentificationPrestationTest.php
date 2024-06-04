@@ -82,7 +82,7 @@ class IdentificationPrestationTest extends KernelTestCase
         $heureDepart = $idPresta->getHeureDepart();
 
         $idPresta
-            ->setHeureDepart($heureDepart->modify('-10 hours'));
+            ->setHeureArrivee($heureDepart->modify('-10 hours'));
 
         $this->assertHasErrors($idPresta , 1);
     }

@@ -45,7 +45,7 @@ class IdentificationPrestation
     private ?\DateTimeInterface $heureArrivee = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
-    #[Assert\GreaterThan(propertyPath: 'heureArrivee' , message: "La date de départ doit être postérieure à la date d'arrivée !")]
+    #[Assert\GreaterThan(propertyPath: 'heureArrivee' , message: "Le moment du départ doit être postérieur à celui de l'arrivée !")]
     private ?\DateTimeInterface $heureDepart = null;
 
     #[ORM\Column(length: 255, nullable: true)]
