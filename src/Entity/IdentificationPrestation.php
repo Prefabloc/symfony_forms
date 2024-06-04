@@ -126,14 +126,14 @@ class IdentificationPrestation
         return $this;
     }
 
-    public function getPdfSansSignature(): ?string
+    public function getSignature(): ?string
     {
-        return $this->pdfSansSignature;
+        return $this->signature;
     }
 
-    public function setPdfSansSignature(?string $pdfSansSignature): static
+    public function setSignature(?string $signature): static
     {
-        $this->pdfSansSignature = $pdfSansSignature;
+        $this->signature = $signature ;
 
         return $this;
     }

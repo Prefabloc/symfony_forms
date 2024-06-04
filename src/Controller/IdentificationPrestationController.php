@@ -5,7 +5,6 @@ namespace App\Controller;
 use App\Entity\IdentificationPrestation;
 use App\Form\IdentificationPrestationType;
 use App\Repository\IdentificationPrestationRepository;
-use App\Service\YouSignService;
 use Doctrine\ORM\EntityManagerInterface;
 use Dompdf\Dompdf;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -13,20 +12,18 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
-use function mysql_xdevapi\getSession;
-use function Symfony\Component\String\s;
 
 #[Route('/identification_prestation', name: 'app_identification_prestation_')]
 class IdentificationPrestationController extends AbstractController
 {
     #[Route('/create', name: 'create')]
-    public function identificationPrestationForm(Request $request, EntityManagerInterface $entityManager , IdentificationPrestationRepository $identificationPrestationRepository): Response
+    public function identificationPrestationForm(Request $request, EntityManagerInterface $entityManager , IdentificationPrestationRepository $identificationPrestationRepository ): Response
     {
         date_default_timezone_set('Europe/Paris');
         $session = $request->getSession();
 
 
-        if ( $session->has('idIdentification') ) {
+        if ( $session->has('idIdentification' ) ) {
             $idIdentification = $session->get('idIdentification');
             $identificationPrestation = $identificationPrestationRepository->find($idIdentification);
 
@@ -63,7 +60,6 @@ class IdentificationPrestationController extends AbstractController
     #[Route('/forms', name: 'forms')]
     public function showForms(IdentificationPrestationRepository $identificationPrestationRepository): Response
     {
-
         $formulairesIdentificationPrestation = $identificationPrestationRepository->findAll();
 
         return $this->render('identification_prestation/formulaires.html.twig', [
@@ -71,21 +67,33 @@ class IdentificationPrestationController extends AbstractController
         ]);
     }
 
-    #[Route('validate/{id}', name: 'validate')]
+    #[Route('/validate/{id}', name: 'validate')]
     public function validateForm(Request $request, EntityManagerInterface $entityManager, IdentificationPrestationRepository $identificationPrestationRepository, int $id): Response
     {
         date_default_timezone_set('Europe/Paris');
         $session = $request->getSession();
+        $referer = $request->headers->get('referer');
         $identificationPrestation = $identificationPrestationRepository->find($id);
-
         $identificationPrestation->setHeureDepart( new \DateTime() );
-        $entityManager->persist($identificationPrestation);
-        $entityManager->flush();
-        $session->clear();
 
-        return $this->redirectToRoute('app_identification_prestation_create');
+        if ( $referer === "http://127.0.0.1:8000/identification_prestation/forms" )
+        {
+            $session->clear();
+
+            return $this->render('identification_prestation/identificationPrestation.html.twig' , [
+                'identificationPrestation' => $identificationPrestation
+            ]);
+        } else {
+            $entityManager->persist($identificationPrestation);
+            $entityManager->flush();
+            $session->clear();
+
+            return $this->redirectToRoute('app_identification_prestation_create');
+        }
     }
 
+
+    /*
     #[Route('/pdf/{id}', name: 'pdf')]
     public function pdf(int $id, IdentificationPrestationRepository $identificationPrestationRepository, EntityManagerInterface $entityManager, Request $request): Response
     {
@@ -120,26 +128,45 @@ class IdentificationPrestationController extends AbstractController
 
         return $this->redirectToRoute('app_identification_prestation_forms');
     }
+    */
 
     #[Route('/sign' , name: 'sign')]
-    public function sign( Request $request) : Response
+    public function sign( Request $request , EntityManagerInterface $entityManager , IdentificationPrestationRepository $identificationPrestationRepository ) : Response
     {
         //On récupère le contenu du fetch
         $donnees = $request->getContent();
         //On décode le JSON
         $dataDecode = json_decode( $donnees , false );
-        //On explode une fois les data pour séparer le type de contenu du contenu
-        list($type , $data) = explode( ';' , $dataDecode->image );
+
+        //On s'occupe de récupérer l'identificationPrestation
+        $idFormulaire = $dataDecode->idPrestation ;
+        $identificationPrestation = $identificationPrestationRepository->find( $idFormulaire );
+
+        //On explode une fois les data de l'image pour séparer le type de contenu du contenu
+        list( $type , $data ) = explode( ';' , $dataDecode->image );
         //On explode une deuxième fois pour séparer le type de l'image de son nom en lui même
         list(  , $img ) = explode( ','  , $data ) ;
         //On décode l'image et on génère son fichier
         $image_decodee = base64_decode($img);
+
         //On prévoit le nom du fichier en lui mettant un nom en série automatique et en rajoutant le format png
+        //$path = __DIR__ . "/../../public/img/signatures/" ;
+        //$path2 = "C:\wamp64\www\symfony_forms\public\img\signatures/";
+        $path3= $this->getParameter('kernel.project_dir') . '/public/img/signatures/';
         $fichier = md5(uniqid()).'.png' ;
-        //On écrit
-        file_put_contents(__DIR__."/../../public/img/$fichier" , $image_decodee );
+        $finalPath = $path3 . $fichier ;
 
+        //$realPath = realpath( $finalPath );
+        //dump($finalPath);
 
-       return new JsonResponse([]);
+        //On écrit le fichier dans le répértoire pour stocker
+        file_put_contents( $finalPath , $image_decodee );
+
+        //On persist le chemin de l'image dans la bdd
+        $identificationPrestation->setSignature( $finalPath );
+        $entityManager->persist($identificationPrestation);
+        $entityManager->flush();
+
+        return new JsonResponse([]);
     }
 }
