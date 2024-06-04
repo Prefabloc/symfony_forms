@@ -19,7 +19,7 @@ class IdentificationPrestationController extends AbstractController
     #[Route('/create', name: 'create')]
     public function identificationPrestationForm(Request $request, EntityManagerInterface $entityManager , IdentificationPrestationRepository $identificationPrestationRepository ): Response
     {
-        date_default_timezone_set('Europe/Paris');
+        date_default_timezone_set('Indian/Reunion');
         $session = $request->getSession();
 
 
@@ -27,9 +27,14 @@ class IdentificationPrestationController extends AbstractController
             $idIdentification = $session->get('idIdentification');
             $identificationPrestation = $identificationPrestationRepository->find($idIdentification);
 
-            return $this->render('identification_prestation/identificationPrestation.html.twig' , [
-                'identificationPrestation' => $identificationPrestation
-            ]) ;
+            if ( $identificationPrestation->getHeureDepart() != null ) {
+                $session->clear();
+                return $this->redirectToRoute('app_identification_prestation_create');
+            } else {
+                return $this->render('identification_prestation/identificationPrestation.html.twig' , [
+                    'identificationPrestation' => $identificationPrestation
+                ]) ;
+            }
         } else {
             $identificationPrestation = new IdentificationPrestation();
 
@@ -70,7 +75,7 @@ class IdentificationPrestationController extends AbstractController
     #[Route('/validate/{id}', name: 'validate')]
     public function validateForm(Request $request, EntityManagerInterface $entityManager, IdentificationPrestationRepository $identificationPrestationRepository, int $id): Response
     {
-        date_default_timezone_set('Europe/Paris');
+        date_default_timezone_set('Indian/Reunion');
         $session = $request->getSession();
         $referer = $request->headers->get('referer');
         $identificationPrestation = $identificationPrestationRepository->find($id);

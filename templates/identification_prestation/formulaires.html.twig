@@ -39,7 +39,7 @@
                         <td data-label="Heure Arrivée">{{ formulaire.heureArrivee | date ('Y-m-d H:i:s') }}</td>
                         <td data-label="Heure Départ">
                             {% if formulaire.heureDepart is not null %}
-                                {{ formulaire.heureDepart | date ('Y-m-d H:i:s') }}
+                                {{ formulaire.heureDepart | date ('Y-m-d H:i:s' ) }}
                             {% else %}
                                 Non renseigné
                             {% endif %}
