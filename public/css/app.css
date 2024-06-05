@@ -443,8 +443,8 @@ tr:nth-child(even){
     margin: 15% auto;
     padding: 20px;
     border: 1px solid #888;
-    width: 30%;
-    height: 35%;
+    width: fit-content;
+    height: fit-content;
     border-radius: 10px;
 }
 
