@@ -49,7 +49,8 @@ class BTPValromexController extends AbstractController
             "url" => $url,
             "productionForm" => $form->createView(),
             "productionId" => $entity == null ? 0 : $entity->getId(),
-            'articleLabel' => $articleLabel
+            'articleLabel' => $articleLabel,
+            "productionType" => "btpvalromex"
         ]);
     }
 

@@ -3,7 +3,6 @@
 namespace App\Controller;
 
 use App\Entity\LitigeQualite;
-use App\Entity\Societe;
 use App\Form\LitigeQualiteType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;

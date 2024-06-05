@@ -7,7 +7,6 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ButtonType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
-use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -18,39 +17,39 @@ class IdentificationPrestationType extends AbstractType
     {
         $builder
             ->add('societe', TextType::class, [
-                'label' => 'Société : ',
+                'label' => 'Société',
                 'label_attr' => [
                     'class' => 'block text-sm font-medium leading-6 text-gray-900'
                 ],
                 'attr' => [
-                    'class' => 'block w-full rounded-md  border dark:border-gray-600 py-1.5 text-gray-900 shadow-sm  placeholder:text-gray-400  sm:text-sm sm:leading-6'
+                    'class' => 'block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6'
                 ]
             ])
             ->add('nomPrenom', TextType::class, [
-                'label' => 'Nom / Prénom : ',
+                'label' => 'Nom / Prénom',
                 'label_attr' => [
                     'class' => 'block text-sm font-medium leading-6 text-gray-900'
                 ],
                 'attr' => [
-                    'class' => 'block w-full rounded-md border dark:border-gray-600 py-1.5 text-gray-900 shadow-sm  placeholder:text-gray-400  sm:text-sm sm:leading-6'
+                    'class' => 'block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6'
                 ]
             ])
-            ->add('prestation', TextareaType::class, [
-                'label' => 'Prestation : ',
+            ->add('prestation', TextType::class, [
+                'label' => 'Prestations',
                 'label_attr' => [
                     'class' => 'block text-sm font-medium leading-6 text-gray-900'
                 ],
                 'attr' => [
-                    'class' => 'block p-2.5 w-full text-sm text-gray-900 bg-white rounded-md border border-gray-300  focus:border-orange-500 dark:bg-white dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-orange-500 dark:focus:border-orange-500'
+                    'class' => 'block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6'
                 ]
             ])
             ->add('commanditaire', TextType::class, [
-                'label' => 'Commanditaire : ',
+                'label' => 'Commanditaire ',
                 'label_attr' => [
                     'class' => 'block text-sm font-medium leading-6 text-gray-900'
                 ],
                 'attr' => [
-                    'class' => 'block w-full rounded-md border dark:border-gray-600 py-1.5 text-gray-900 shadow-sm placeholder:text-gray-400 sm:text-sm sm:leading-6'
+                    'class' => 'block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6'
                 ]
             ])
             ->add('save', SubmitType::class, [
