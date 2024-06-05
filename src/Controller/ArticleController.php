@@ -28,22 +28,22 @@ class ArticleController extends AbstractController
 
         //Sinon, on va chercher dans le repository des articles dont le label contient le mot
         $results = $articleRepository->findByTerm($mot, $this->getUser()->getSociete()->getId());
+
         //Pour éviter les soucis de conversion en JSON, on va passer par un service tiers développé au préalable qui reconstitue l'objet
         //Array_map applique une callback à chaque élément d'un tableau, donc ici chaque objet de results, donc chaque article, et va le reconstituer grâce à
         //l'objet créée dans le service 'ArticleDTO' ( Data Transfer Object )
         $data = array_map(function ($article) {
-            return new ArticleDTO($article->getId(), $article->getLabel(), $article->getReference(), $article->getSociete()->getLabel(), $article->getStock());
+            return new ArticleDTO($article->getId(), $article->getLabel(), $article->getReference(), $article->getSociete()->getLabel(), $article->getStock() , $article->getTypeArticle());
         }, $results);
 
         //On renvoie la data transférée en JSON
         return new JsonResponse($data);
     }
 
+
     #[Route('/gestion_stock', name: 'gestion_stock')]
     public function gestionStock()
     {
-
-
         return $this->render('article/gestionStock.html.twig', [
             'controller_name' => 'ArticleController',
         ]);

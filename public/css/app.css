@@ -424,3 +424,26 @@ tr:nth-child(even){
     padding: 1rem;
 }
 
+.divChampsForm {
+    border : 1px solid black;
+    background-color: white;
+    border-radius: 10px;
+}
+
+.mtop2 {
+    margin-top: 2rem;
+}
+
+.divAutocompleteArticle{
+    text-align: center;
+    position: relative;
+}
+
+#divPrefablocProductionArticle{
+    text-align: center;
+    position: relative;
+}
+#divPrefablocDeclassementArticle{
+    text-align: center;
+    position: relative;
+}

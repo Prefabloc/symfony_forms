@@ -12,7 +12,7 @@
         </div>
         <div style="width: 100%">
             {{ form_start(productionForm) }}
-            <div id="divPrefablocProductionArticle" style="text-align: center ; position: relative">
+            <div class="divAutocompleteArticle" >
                 <label for="{{ field_name(productionForm.article ) }}">Article : </label>
                     <input type="text"
                            id="prefablocProductionSearchArticle"
@@ -73,7 +73,7 @@
                     suggestions.style.display = 'none' ;
                 }
 
-                fetch(`/prefabloc/autocomplete?mot=${encodeURIComponent(mot)}`)
+                fetch(`/article/autocomplete?mot=${encodeURIComponent(mot)}`)
                     .then( response => response.json() )
                     .then( data => {
                         suggestions.innerHTML = '' ;

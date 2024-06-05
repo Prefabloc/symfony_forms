@@ -54,6 +54,7 @@ class PrefablocController extends AbstractController
         ]);
     }
 
+    /*
     #[Route('/autocomplete', name: 'autocomplete')]
     public function autocomplete(ArticleRepository $articleRepository, Request $request): Response
     {
@@ -72,7 +73,7 @@ class PrefablocController extends AbstractController
 
         return new JsonResponse($data);
     }
-
+    */
 
     #[Route('/production/start', name: 'start', methods: ['POST'])]
     public function start(Request $request, EntityManagerInterface $entityManager, ArticleRepository $articleRepository): Response
