@@ -101,13 +101,21 @@ class BTPValromexController extends AbstractController
     }
 
     #[Route('/saisie/declassement', name: 'saisie_declassement')]
-    public function btpValromexSaisieDeclassement(Request $request, EntityManagerInterface $entityManager): Response
+    public function btpValromexSaisieDeclassement(Request $request, EntityManagerInterface $entityManager, ArticleRepository $articleRepository): Response
     {
         $valromexSaisieDeclassement = new ValromexSaisieDeclassement();
         $valromexSaisieDeclassementForm = $this->createForm(ValromexSaisieDeclassementType::class, $valromexSaisieDeclassement);
         $valromexSaisieDeclassementForm->handleRequest($request);
 
+
         if ($valromexSaisieDeclassementForm->isSubmitted() && $valromexSaisieDeclassementForm->isValid()) {
+
+            $formData = $valromexSaisieDeclassementForm->getData();
+            $labelArticle = $formData->getArticle() ;
+            dd($formData);
+            $article = $articleRepository->findOneBy(['label' => $labelArticle]);
+            $valromexSaisieDeclassement->setArticle($article);
+
             $entityManager->persist($valromexSaisieDeclassement);
             $entityManager->flush();
 

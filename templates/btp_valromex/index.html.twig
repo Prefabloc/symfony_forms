@@ -72,7 +72,7 @@
                     suggestions.style.display = 'none' ;
                 }
 
-                fetch(`/btpvalromex/autocomplete?mot=${encodeURIComponent(mot)}`)
+                fetch(`/article/autocomplete?mot=${encodeURIComponent(mot)}`)
                     .then( response => response.json() )
                     .then( data => {
                         suggestions.innerHTML = '' ;

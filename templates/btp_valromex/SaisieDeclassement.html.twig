@@ -3,64 +3,142 @@
 {% block body %}
 
     <div class="centered-content">
-        <div>
-            <img class="mx-auto" src="https://prefabloc.re/wp-content/uploads/2020/08/pfb-logo-horizontal-clr-01.png"
-                 alt="" width="300" height="200" style="margin-top: 2vh">
-        </div>
         <div class="my-2">
-            <h2 class="text-2xl font-bold text-center text-black-500">Valromex Saisie Déclassement</h2>
+            <h2 class="text-2xl font-bold text-center text-black-500 mtop2">Valromex Saisie Déclassement</h2>
         </div>
         <div class="max-w-sm mx-auto">
             {{ form_start(valromexSaisieDeclassementForm) }}
-            <div class="mb-5">
-                <div style="display: flex" class="divSeparator">
-                    <div class="inputSeparator">
-                        {{ form_label(valromexSaisieDeclassementForm.article) }}
+            <div class="divChampsForm">
+                <div class="mb-5">
+                    <div style="display: flex ; justify-content: space-between" class="divSeparator divAutocompleteArticle" >
+                        <label for="{{ field_name(valromexSaisieDeclassementForm.article ) }}">Article : </label>
+                        <input type="text"
+                               id="valromexDeclassementInputArticle"
+                               name="valromexDeclassementInputArticle"
+                               placeholder="Nom de l'article..."
+                               autocomplete="off"
+                               class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-black-600 sm:text-sm sm:leading-6"
+                               style="height: 2rem ; width: 40%"
+                        >
+                        <ul id="valromexDeclassementSuggestionsArticle" class="suggestionsArticle"></ul>
+                    </div>
+
+                    <div>
+                        {{ form_errors(valromexSaisieDeclassementForm.article) }}
+                    </div>
+                </div>
+
+                <div class="mb-5">
+                    <div style="display: flex" class="divSeparator">
+                        <div class="inputSeparator">
+                            {{ form_label(valromexSaisieDeclassementForm.motifDeclassement) }}
+                        </div>
+                        <div>
+                            {{ form_widget(valromexSaisieDeclassementForm.motifDeclassement) }}
+                        </div>
                     </div>
                     <div>
-                        {{ form_widget(valromexSaisieDeclassementForm.article) }}
+                        {{ form_errors(valromexSaisieDeclassementForm.motifDeclassement) }}
                     </div>
                 </div>
-                <div>
-                    {{ form_errors(valromexSaisieDeclassementForm.article) }}
-                </div>
-            </div>
-            <div class="mb-5">
-                <div style="display: flex" class="divSeparator">
-                    <div class="inputSeparator">
-                        {{ form_label(valromexSaisieDeclassementForm.motifDeclassement) }}
-                    </div>
-                    <div>
-                        {{ form_widget(valromexSaisieDeclassementForm.motifDeclassement) }}
-                    </div>
-                </div>
-                <div>
-                    {{ form_errors(valromexSaisieDeclassementForm.motifDeclassement) }}
-                </div>
-            </div>
-            <div class="mb-5">
-                <div style="display: flex" class="divSeparator">
-                    <div class="inputSeparator">
-                        {{ form_label(valromexSaisieDeclassementForm.quantite) }}
+                <div class="mb-5">
+                    <div style="display: flex" class="divSeparator">
+                        <div class="inputSeparator">
+                            {{ form_label(valromexSaisieDeclassementForm.quantite) }}
+                        </div>
+                        <div>
+                            {{ form_widget(valromexSaisieDeclassementForm.quantite) }}
+                        </div>
                     </div>
                     <div>
-                        {{ form_widget(valromexSaisieDeclassementForm.quantite) }}
+                        {{ form_errors(valromexSaisieDeclassementForm.quantite) }}
                     </div>
                 </div>
-                <div>
-                    {{ form_errors(valromexSaisieDeclassementForm.quantite) }}
-                </div>
             </div>
-            <div>
+
+            <div class="mtop2">
                 {{ form_row( valromexSaisieDeclassementForm.save) }}
             </div>
 
             {{ form_end(valromexSaisieDeclassementForm) }}
         </div>
     </div>
+
+
+
+    <button type="button" id="testLabel">ITEM LABEL ?</button>
 {% endblock %}
 
 {% block title %}
     Valromex | Saisie | Déclassement
 {% endblock %}
 
+{% block javascripts %}
+    <script>
+        let idArticle = null ;
+
+        document.addEventListener('DOMContentLoaded' , function () {
+            const searchArticle = document.getElementById('valromexDeclassementInputArticle');
+            const suggestions = document.getElementById('valromexDeclassementSuggestionsArticle')
+            const boutonEnvoi = document.getElementById('valromex_saisie_declassement_save');
+
+
+            searchArticle.addEventListener('input' , function () {
+                const mot = searchArticle.value ;
+
+                if ( mot.length < 2 ) {
+                    suggestions.style.display = 'none' ;
+                }
+
+                fetch(`/article/autocomplete?mot=${encodeURIComponent(mot)}`)
+                    .then( response => response.json() )
+                    .then( data => {
+                        suggestions.innerHTML = '' ;
+
+                        if ( data.length > 0 ) {
+                            suggestions.style.display = 'block' ;
+
+                            data.forEach( item => {
+                                const liGlobale = document.createElement('li');
+                                const divNom = document.createElement('div');
+                                const divRefStock = document.createElement('div');
+
+                                divNom.innerHTML = '<strong>' + item.label + '</strong>';
+                                divRefStock.innerHTML= '<strong> Ref : </strong>' + item.reference + '<strong> / Stock : </strong>'  + item.stock;
+
+
+                                liGlobale.addEventListener( 'click' , () => {
+                                    idArticle = item.id ;
+                                    searchArticle.value = item.label ;
+                                    suggestions.style.display = 'none' ;
+                                    verifArticle = true ;
+                                })
+
+                                liGlobale.appendChild(divNom);
+                                liGlobale.appendChild(divRefStock);
+                                suggestions.appendChild(liGlobale);
+                            })
+                        } else {
+                            suggestions.style.display = 'none' ;
+                        }
+                    })
+            })
+
+            document.addEventListener('click', function (event) {
+                if (searchArticle.contains(event.target)) {
+                    suggestions.style.display = 'none';
+                }
+            });
+
+            boutonEnvoi.addEventListener( 'click' , ( event ) => {
+                event.preventDefault();
+
+                fetch
+            })
+
+
+        })
+
+
+    </script>
+{% endblock %}
