@@ -5,89 +5,91 @@
 
     <div class="centered-content">
         <div class="my-2">
-            <h2 class="text-2xl font-bold text-center text-black-500" style="margin-top: 2vh">Valromex Saisie Production</h2>
+            <h2 class="text-2xl font-bold text-center text-black-500 mtop2" style="margin-top: 2vh">Valromex Saisie Production</h2>
         </div>
         <div class="max-w-sm mx-auto">
             {{ form_start(valromexSaisieProductionForm) }}
-            <div class="mb-5">
-                <div style="display: flex" class="divSeparator">
-                    <div class="inputSeparator">
-                        {{ form_label(valromexSaisieProductionForm.qte04) }}
+            <div class="divChampsForm">
+                <div class="mb-5">
+                    <div style="display: flex" class="divSeparator">
+                        <div class="inputSeparator">
+                            {{ form_label(valromexSaisieProductionForm.qte04) }}
+                        </div>
+                        <div>
+                            {{ form_widget(valromexSaisieProductionForm.qte04) }}
+                        </div>
                     </div>
                     <div>
-                        {{ form_widget(valromexSaisieProductionForm.qte04) }}
+                        {{ form_errors(valromexSaisieProductionForm.qte04) }}
                     </div>
                 </div>
-                <div>
-                    {{ form_errors(valromexSaisieProductionForm.qte04) }}
-                </div>
-            </div>
-            <div class="mb-5">
-                <div style="display: flex" class="divSeparator">
-                    <div class="inputSeparator">
-                        {{ form_label(valromexSaisieProductionForm.qte610) }}
-                    </div>
-                    <div>
-                        {{ form_widget(valromexSaisieProductionForm.qte610) }}
-                    </div>
-                </div>
-                <div>
-                    {{ form_errors(valromexSaisieProductionForm.qte610) }}
-                </div>
-            </div>
-            <div class="mb-5">
-                <div style="display: flex" class="divSeparator">
-                    <div class="inputSeparator">
-                        {{ form_label(valromexSaisieProductionForm.qteCEM) }}
+                <div class="mb-5">
+                    <div style="display: flex" class="divSeparator">
+                        <div class="inputSeparator">
+                            {{ form_label(valromexSaisieProductionForm.qte610) }}
+                        </div>
+                        <div>
+                            {{ form_widget(valromexSaisieProductionForm.qte610) }}
+                        </div>
                     </div>
                     <div>
-                        {{ form_widget(valromexSaisieProductionForm.qteCEM) }}
+                        {{ form_errors(valromexSaisieProductionForm.qte610) }}
                     </div>
                 </div>
-                <div>
-                    {{ form_errors(valromexSaisieProductionForm.qteCEM) }}
-                </div>
-            </div>
-            <div class="mb-5">
-                <div style="display: flex" class="divSeparator">
-                    <div class="inputSeparator">
-                        {{ form_label(valromexSaisieProductionForm.qteAdjuvant) }}
-                    </div>
-                    <div>
-                        {{ form_widget(valromexSaisieProductionForm.qteAdjuvant) }}
-                    </div>
-                </div>
-                <div>
-                    {{ form_errors(valromexSaisieProductionForm.qteAdjuvant) }}
-                </div>
-            </div>
-            <div class="mb-5">
-                <div style="display: flex" class="divSeparator">
-                    <div class="inputSeparator">
-                        {{ form_label(valromexSaisieProductionForm.qteHuile) }}
+                <div class="mb-5">
+                    <div style="display: flex" class="divSeparator">
+                        <div class="inputSeparator">
+                            {{ form_label(valromexSaisieProductionForm.qteCEM) }}
+                        </div>
+                        <div>
+                            {{ form_widget(valromexSaisieProductionForm.qteCEM) }}
+                        </div>
                     </div>
                     <div>
-                        {{ form_widget(valromexSaisieProductionForm.qteHuile) }}
+                        {{ form_errors(valromexSaisieProductionForm.qteCEM) }}
                     </div>
                 </div>
-                <div>
-                    {{ form_errors(valromexSaisieProductionForm.qteHuile) }}
-                </div>
-            </div>
-            <div class="mb-5">
-                <div style="display: flex" class="divSeparator">
-                    <div class="inputSeparator">
-                        {{ form_label(valromexSaisieProductionForm.qteEau) }}
+                <div class="mb-5">
+                    <div style="display: flex" class="divSeparator">
+                        <div class="inputSeparator">
+                            {{ form_label(valromexSaisieProductionForm.qteAdjuvant) }}
+                        </div>
+                        <div>
+                            {{ form_widget(valromexSaisieProductionForm.qteAdjuvant) }}
+                        </div>
                     </div>
                     <div>
-                        {{ form_widget(valromexSaisieProductionForm.qteEau) }}
+                        {{ form_errors(valromexSaisieProductionForm.qteAdjuvant) }}
                     </div>
                 </div>
-                <div>
-                    {{ form_errors(valromexSaisieProductionForm.qteEau) }}
+                <div class="mb-5">
+                    <div style="display: flex" class="divSeparator">
+                        <div class="inputSeparator">
+                            {{ form_label(valromexSaisieProductionForm.qteHuile) }}
+                        </div>
+                        <div>
+                            {{ form_widget(valromexSaisieProductionForm.qteHuile) }}
+                        </div>
+                    </div>
+                    <div>
+                        {{ form_errors(valromexSaisieProductionForm.qteHuile) }}
+                    </div>
+                </div>
+                <div class="mb-5">
+                    <div style="display: flex" class="divSeparator">
+                        <div class="inputSeparator">
+                            {{ form_label(valromexSaisieProductionForm.qteEau) }}
+                        </div>
+                        <div>
+                            {{ form_widget(valromexSaisieProductionForm.qteEau) }}
+                        </div>
+                    </div>
+                    <div>
+                        {{ form_errors(valromexSaisieProductionForm.qteEau) }}
+                    </div>
                 </div>
             </div>
-            <div>
+            <div class="mtop2">
                 {{ form_row( valromexSaisieProductionForm.save ) }}
             </div>
 

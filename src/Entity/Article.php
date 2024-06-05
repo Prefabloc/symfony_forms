@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Entity\Prefabloc\ReparationPalette;
+use App\Entity\Valromex\ValromexSaisieDeclassement;
 use App\Repository\ArticleRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -52,11 +53,18 @@ class Article
     #[ORM\OneToMany(targetEntity: ReparationPalette::class, mappedBy: 'typePalette')]
     private Collection $reparationPalettes;
 
+    /**
+     * @var Collection<int, ValromexSaisieDeclassement>
+     */
+    #[ORM\OneToMany(targetEntity: ValromexSaisieDeclassement::class, mappedBy: 'article')]
+    private Collection $valromexSaisieDeclassements;
+
 
     public function __construct()
     {
         $this->historiqueActionsArticles = new ArrayCollection();
         $this->reparationPalettes = new ArrayCollection();
+        $this->valromexSaisieDeclassements = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -190,6 +198,36 @@ class Article
             // set the owning side to null (unless already changed)
             if ($reparationPalette->getTypePalette() === $this) {
                 $reparationPalette->setTypePalette(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, ValromexSaisieDeclassement>
+     */
+    public function getValromexSaisieDeclassements(): Collection
+    {
+        return $this->valromexSaisieDeclassements;
+    }
+
+    public function addValromexSaisieDeclassement(ValromexSaisieDeclassement $valromexSaisieDeclassement): static
+    {
+        if (!$this->valromexSaisieDeclassements->contains($valromexSaisieDeclassement)) {
+            $this->valromexSaisieDeclassements->add($valromexSaisieDeclassement);
+            $valromexSaisieDeclassement->setArticle($this);
+        }
+
+        return $this;
+    }
+
+    public function removeValromexSaisieDeclassement(ValromexSaisieDeclassement $valromexSaisieDeclassement): static
+    {
+        if ($this->valromexSaisieDeclassements->removeElement($valromexSaisieDeclassement)) {
+            // set the owning side to null (unless already changed)
+            if ($valromexSaisieDeclassement->getArticle() === $this) {
+                $valromexSaisieDeclassement->setArticle(null);
             }
         }
 
