@@ -30,14 +30,12 @@ class IdentificationPrestation
 
     #[ORM\Column(length: 100)]
     #[Assert\NotBlank(message: 'Vous devez renseigner une prestation !')]
-    #[Assert\Length(min: 1, max: 50 , minMessage: "Vous devez entrer au moins un caractère !" , maxMessage: "Vous devez entrer moins de 51 caractères !")]
-
+    #[Assert\Length(min: 1, max: 100 , minMessage: "Vous devez entrer au moins un caractère !" , maxMessage: "Vous devez entrer moins de 101 caractères !")]
     private ?string $prestation = null;
 
     #[ORM\Column(length: 50)]
     #[Assert\NotBlank(message: 'Vous devez renseigner un commanditaire !')]
     #[Assert\Length(min: 1, max: 50 , minMessage: "Vous devez entrer au moins un caractère !" , maxMessage: "Vous devez entrer moins de 51 caractères !")]
-
     private ?string $commanditaire = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
@@ -45,20 +43,11 @@ class IdentificationPrestation
     private ?\DateTimeInterface $heureArrivee = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
-    #[Assert\GreaterThan(propertyPath: 'heureArrivee' , message: "Le moment du départ doit être postérieur à celui de l'arrivée !")]
+    #[Assert\GreaterThan(propertyPath: 'heureArrivee' , message: "La date de départ doit être postérieure à la date d'arrivée !")]
     private ?\DateTimeInterface $heureDepart = null;
 
     #[ORM\Column(length: 255, nullable: true)]
-    private ?string $signatureId = null;
-
-    #[ORM\Column(length: 255, nullable: true)]
-    private ?string $documentId = null;
-
-    #[ORM\Column(length: 255, nullable: true)]
-    private ?string $signerId = null;
-
-    #[ORM\Column(length: 255, nullable: true)]
-    private ?string $pdfSansSignature = null;
+    private ?string $signature = null;
 
     public function getId(): ?int
     {
@@ -137,50 +126,14 @@ class IdentificationPrestation
         return $this;
     }
 
-    public function getSignatureId(): ?string
+    public function getSignature(): ?string
     {
-        return $this->signatureId;
+        return $this->signature;
     }
 
-    public function setSignatureId(?string $signatureId): static
+    public function setSignature(?string $signature): static
     {
-        $this->signatureId = $signatureId;
-
-        return $this;
-    }
-
-    public function getDocumentId(): ?string
-    {
-        return $this->documentId;
-    }
-
-    public function setDocumentId(?string $documentId): static
-    {
-        $this->documentId = $documentId;
-
-        return $this;
-    }
-
-    public function getSignerId(): ?string
-    {
-        return $this->signerId;
-    }
-
-    public function setSignerId(?string $signerId): static
-    {
-        $this->signerId = $signerId;
-
-        return $this;
-    }
-
-    public function getPdfSansSignature(): ?string
-    {
-        return $this->pdfSansSignature;
-    }
-
-    public function setPdfSansSignature(?string $pdfSansSignature): static
-    {
-        $this->pdfSansSignature = $pdfSansSignature;
+        $this->signature = $signature ;
 
         return $this;
     }

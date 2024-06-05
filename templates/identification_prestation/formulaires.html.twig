@@ -22,15 +22,10 @@
                     <th>Commanditaire</th>
                     <th>Heure Arrivée</th>
                     <th>Heure Départ</th>
-                    <th>Créer PDF</th>
-                    <th>Demande Signature</th>
                 </tr>
             </thead>
             <tbody>
                 {% for formulaire in formulairesIdentificationPrestation %}
-
-
-
                     <tr>
                         {% if formulaire.heureDepart is null %}
                         <td data-label="Id Formulaire"><a style="color: blue ; text-decoration: underline" href="{{ path('app_identification_prestation_validate' , { 'id' : formulaire.id }) }}">{{ formulaire.id }}</a></td>
@@ -44,16 +39,10 @@
                         <td data-label="Heure Arrivée">{{ formulaire.heureArrivee | date ('Y-m-d H:i:s') }}</td>
                         <td data-label="Heure Départ">
                             {% if formulaire.heureDepart is not null %}
-                                {{ formulaire.heureDepart | date ('Y-m-d H:i:s') }}
+                                {{ formulaire.heureDepart | date ('Y-m-d H:i:s' ) }}
                             {% else %}
                                 Non renseigné
                             {% endif %}
-                        </td>
-                        <td data-label="Créer PDF">
-                            <a style="color: blue ; text-decoration: underline" href="{{ path('app_identification_prestation_pdf' , { id : formulaire.id }) }}">PDF</a>
-                        </td>
-                        <td data-label="Signature">
-                            <a style="color: blue ; text-decoration: underline" href="#">Envoyer à Signer</a>
                         </td>
                     </tr>
                 {% endfor %}
