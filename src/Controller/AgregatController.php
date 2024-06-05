@@ -54,6 +54,7 @@ class AgregatController extends AbstractController
             'label' => "Production Pelle Carriere",
             "url" => $url,
             "form" => $form->createView(),
+            'productionType' => "agregat_carriere_pelle"
         ]);
     }
 
@@ -101,6 +102,7 @@ class AgregatController extends AbstractController
             'label' => "Production Pelle Carriere",
             "url" => $url,
             "form" => $form->createView(),
+            "productionType" => "agregat_carriere_mobile"
         ]);
     }
 
@@ -151,6 +153,7 @@ class AgregatController extends AbstractController
             'label' => "Production Pelle Concassage",
             "url" => $url,
             "form" => $form->createView(),
+            "productionType" => "agregat_carriere_chargeuse"
         ]);
     }
 
@@ -184,43 +187,43 @@ class AgregatController extends AbstractController
     }
 
 
-    #[Route('/agregat/carriere/saisie/debit' , name : 'app_agregat_carriere_saisie_debit')]
-    public function agregatCarriereSaisieDebit(Request $request , EntityManagerInterface $entityManager ) : Response
+    #[Route('/agregat/carriere/saisie/debit', name: 'app_agregat_carriere_saisie_debit')]
+    public function agregatCarriereSaisieDebit(Request $request, EntityManagerInterface $entityManager): Response
     {
         $agregatCarriereSaisieDebit = new CarriereSaisieDebit();
 
-        $agregatCarriereSaisieDebitForm = $this->createForm( CarriereSaisieDebitType::class, $agregatCarriereSaisieDebit );
+        $agregatCarriereSaisieDebitForm = $this->createForm(CarriereSaisieDebitType::class, $agregatCarriereSaisieDebit);
         $agregatCarriereSaisieDebitForm->handleRequest($request);
 
-        if ( $agregatCarriereSaisieDebitForm->isSubmitted() && $agregatCarriereSaisieDebitForm->isValid() ) {
+        if ($agregatCarriereSaisieDebitForm->isSubmitted() && $agregatCarriereSaisieDebitForm->isValid()) {
             $entityManager->persist($agregatCarriereSaisieDebit);
             $entityManager->flush();
 
-            $this->addFlash('success' , 'Saisie du débit enregistrée !');
+            $this->addFlash('success', 'Saisie du débit enregistrée !');
             return $this->redirectToRoute('app_agregat_carriere_saisie_debit');
         } else {
-            return $this->render('agregat/CarriereSaisieDebit.html.twig' , [ 'agregatCarriereSaisieDebitForm' => $agregatCarriereSaisieDebitForm->createView()]);
+            return $this->render('agregat/CarriereSaisieDebit.html.twig', ['agregatCarriereSaisieDebitForm' => $agregatCarriereSaisieDebitForm->createView()]);
         }
     }
 
 
-    #[Route('/agregat/carriere/saisie/pelle' , name : 'app_agregat_carriere_saisie_pelle ')]
-    public function agregatCarriereSaisiePelle( Request $request , EntityManagerInterface $entityManager ) : Response
+    #[Route('/agregat/carriere/saisie/pelle', name: 'app_agregat_carriere_saisie_pelle ')]
+    public function agregatCarriereSaisiePelle(Request $request, EntityManagerInterface $entityManager): Response
     {
-       $agregatCarriereSaisiePelle = new CarriereSaisiePelle();
+        $agregatCarriereSaisiePelle = new CarriereSaisiePelle();
 
-       $agregatCarriereSaisiePelleForm = $this->createForm( CarriereSaisiePelleType::class , $agregatCarriereSaisiePelle );
-       $agregatCarriereSaisiePelleForm->handleRequest($request);
+        $agregatCarriereSaisiePelleForm = $this->createForm(CarriereSaisiePelleType::class, $agregatCarriereSaisiePelle);
+        $agregatCarriereSaisiePelleForm->handleRequest($request);
 
-       if ( $agregatCarriereSaisiePelleForm->isSubmitted() && $agregatCarriereSaisiePelleForm->isValid() ) {
-           $entityManager->persist($agregatCarriereSaisiePelle);
-           $entityManager->flush();
+        if ($agregatCarriereSaisiePelleForm->isSubmitted() && $agregatCarriereSaisiePelleForm->isValid()) {
+            $entityManager->persist($agregatCarriereSaisiePelle);
+            $entityManager->flush();
 
-           $this->addFlash('success' , 'Saisie de pelle ( ?? ) enregistrée !');
-           return $this->redirectToRoute('app_agregat_carriere_saisie_pelle ');
-       } else {
-           return $this->render('agregat/CarriereSaisiePelle.html.twig' , [ 'agregatCarriereSaisiePellForm' => $agregatCarriereSaisiePelleForm->createView()]);
-       }
+            $this->addFlash('success', 'Saisie de pelle ( ?? ) enregistrée !');
+            return $this->redirectToRoute('app_agregat_carriere_saisie_pelle ');
+        } else {
+            return $this->render('agregat/CarriereSaisiePelle.html.twig', ['agregatCarriereSaisiePellForm' => $agregatCarriereSaisiePelleForm->createView()]);
+        }
 
     }
 
@@ -248,6 +251,7 @@ class AgregatController extends AbstractController
             'label' => "Production Pelle Concassage",
             "url" => $url,
             "form" => $form->createView(),
+            "productionType" => "agregat_concassage_pelle"
         ]);
     }
 
@@ -294,6 +298,7 @@ class AgregatController extends AbstractController
             'label' => "Production Pelle Concassage",
             "url" => $url,
             "form" => $form->createView(),
+            "productionType" => "agregat_concassage_chargeuse"
         ]);
     }
 
@@ -318,60 +323,60 @@ class AgregatController extends AbstractController
     }
 
 
-    #[Route('/agregat/concassage/saisie/chargeuse' , name : 'app_agregat_concassage_saisie_chargeuse')]
-    public function agregatConcassageSaisieChargeuse(Request $request , EntityManagerInterface $entityManager ) : Response
+    #[Route('/agregat/concassage/saisie/chargeuse', name: 'app_agregat_concassage_saisie_chargeuse')]
+    public function agregatConcassageSaisieChargeuse(Request $request, EntityManagerInterface $entityManager): Response
     {
         $agregatConcassageSaisieChargeuse = new ConcassageSaisieChargeuse();
 
-        $agregatConcassageSaisieChargeuseForm = $this->createForm( ConcassageSaisieChargeuseType::class , $agregatConcassageSaisieChargeuse );
+        $agregatConcassageSaisieChargeuseForm = $this->createForm(ConcassageSaisieChargeuseType::class, $agregatConcassageSaisieChargeuse);
         $agregatConcassageSaisieChargeuseForm->handleRequest($request);
 
-        if ( $agregatConcassageSaisieChargeuseForm->isSubmitted() && $agregatConcassageSaisieChargeuseForm->isValid() ) {
+        if ($agregatConcassageSaisieChargeuseForm->isSubmitted() && $agregatConcassageSaisieChargeuseForm->isValid()) {
             $entityManager->persist($agregatConcassageSaisieChargeuse);
             $entityManager->flush();
 
-            $this->addFlash('success' , 'Saisie de la chargeuse enregistrée !');
+            $this->addFlash('success', 'Saisie de la chargeuse enregistrée !');
             return $this->redirectToRoute('app_agregat_concassage_saisie_chargeuse');
         } else {
-            return $this->render('agregat/ConcassageSaisieChargeuse.html.twig' , [ 'agregatConcassageSaisieChargeuseForm' => $agregatConcassageSaisieChargeuseForm->createView()]);
+            return $this->render('agregat/ConcassageSaisieChargeuse.html.twig', ['agregatConcassageSaisieChargeuseForm' => $agregatConcassageSaisieChargeuseForm->createView()]);
         }
     }
 
-    #[Route('/agregat/concassage/saisie/debit' , name : 'app_agregat_concassage_saisie_debit')]
-    public function agregatConcassageSaisieDebit(Request $request , EntityManagerInterface $entityManager ) : Response
+    #[Route('/agregat/concassage/saisie/debit', name: 'app_agregat_concassage_saisie_debit')]
+    public function agregatConcassageSaisieDebit(Request $request, EntityManagerInterface $entityManager): Response
     {
         $agregatConcassageSaisieDebit = new ConcassageSaisieDebit();
 
-        $agregatConcassageSaisieDebitForm = $this->createForm( ConcassageSaisieDebitType::class , $agregatConcassageSaisieDebit ) ;
+        $agregatConcassageSaisieDebitForm = $this->createForm(ConcassageSaisieDebitType::class, $agregatConcassageSaisieDebit);
         $agregatConcassageSaisieDebitForm->handleRequest($request);
 
-        if ( $agregatConcassageSaisieDebitForm->isSubmitted() && $agregatConcassageSaisieDebitForm->isValid() ) {
+        if ($agregatConcassageSaisieDebitForm->isSubmitted() && $agregatConcassageSaisieDebitForm->isValid()) {
             $entityManager->persist($agregatConcassageSaisieDebit);
             $entityManager->flush();
 
-            $this->addFlash('success' , 'Saisie du débit enregistrée !');
+            $this->addFlash('success', 'Saisie du débit enregistrée !');
             return $this->redirectToRoute('app_agregat_concassage_saisie_debit');
         } else {
-            return $this->render('agregat/ConcassageSaisieDebit.html.twig' , [ 'agregatConcassageSaisieDebitForm' => $agregatConcassageSaisieDebitForm->createView()]);
+            return $this->render('agregat/ConcassageSaisieDebit.html.twig', ['agregatConcassageSaisieDebitForm' => $agregatConcassageSaisieDebitForm->createView()]);
         }
     }
 
-    #[Route('/agregat/concassage/saisie/pelle' , name : 'app_agregat_concassage_saisie_pelle')]
-    public function agregatConcassageSaisiePelle(Request $request , EntityManagerInterface $entityManager ) : Response
+    #[Route('/agregat/concassage/saisie/pelle', name: 'app_agregat_concassage_saisie_pelle')]
+    public function agregatConcassageSaisiePelle(Request $request, EntityManagerInterface $entityManager): Response
     {
         $agregatConcassageSaisiePelle = new ConcassageSaisiePelle();
 
-        $agregatConcassageSaisiePelleForm = $this->createForm( ConcassageSaisiePelleType::class , $agregatConcassageSaisiePelle ) ;
+        $agregatConcassageSaisiePelleForm = $this->createForm(ConcassageSaisiePelleType::class, $agregatConcassageSaisiePelle);
         $agregatConcassageSaisiePelleForm->handleRequest($request);
 
-        if ( $agregatConcassageSaisiePelleForm->isSubmitted() && $agregatConcassageSaisiePelleForm->isValid() ) {
+        if ($agregatConcassageSaisiePelleForm->isSubmitted() && $agregatConcassageSaisiePelleForm->isValid()) {
             $entityManager->persist($agregatConcassageSaisiePelle);
             $entityManager->flush();
 
-            $this->addFlash('success' , 'Saisie de la pelle enregistrée !');
+            $this->addFlash('success', 'Saisie de la pelle enregistrée !');
             return $this->redirectToRoute('app_agregat_concassage_saisie_pelle');
         } else {
-            return $this->render('agregat/ConcassageSaisiePelle.html.twig' , [ 'agregatConcassageSaisiePelleForm' => $agregatConcassageSaisiePelleForm->createView()]);
+            return $this->render('agregat/ConcassageSaisiePelle.html.twig', ['agregatConcassageSaisiePelleForm' => $agregatConcassageSaisiePelleForm->createView()]);
         }
     }
 

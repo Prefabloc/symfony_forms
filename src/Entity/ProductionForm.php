@@ -31,7 +31,6 @@ use Symfony\Component\Validator\Constraints as Assert;
         "agregat_concassage_pelle" => AgregatConcassageProductionPelle::class
     ]
 )]
-
 abstract class ProductionForm
 {
     #[ORM\Id]
