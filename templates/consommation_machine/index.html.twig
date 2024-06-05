@@ -1,0 +1,72 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello ConsommationMachineController!{% endblock %}
+
+{% block body %}
+    <div>
+        <a href="/">
+            <svg class="pointer" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="50" height="50"
+                 fill="none" stroke="currentColor" stroke-width="1.5">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18" />
+            </svg>
+        </a>
+    </div>
+
+    <div class="centered-content">
+        <div class="my-2">
+            <h2 class="text-2xl font-bold text-center text-black-500">{{ label }}</h2>
+        </div>
+
+        <div class="max-w-sm mx-auto">
+            {{ form_start(consoForm) }}
+            <div class="mb-5">
+                <div style="display: flex" class="divSeparator">
+                    <div class="inputSeparator">
+                        {{ form_label(consoForm.type) }}
+                    </div>
+                    <div>
+                        {{ form_widget(consoForm.type) }}
+                    </div>
+                </div>
+                <div>
+                    {{ form_errors(consoForm.type) }}
+                </div>
+            </div>
+
+            <div class="mb-5">
+                <div style="display: flex" class="divSeparator">
+                    <div class="inputSeparator">
+                        {{ form_label(consoForm.label) }}
+                    </div>
+                    <div>
+                        {{ form_widget(consoForm.label) }}
+                    </div>
+                </div>
+                <div>
+                    {{ form_errors(consoForm.label) }}
+                </div>
+            </div>
+
+            <div class="mb-5">
+                <div style="display: flex" class="divSeparator">
+                    <div class="inputSeparator">
+                        {{ form_label(consoForm.qteEssence) }}
+                    </div>
+                    <div>
+                        {{ form_widget(consoForm.qteEssence) }}
+                    </div>
+                </div>
+                <div>
+                    {{ form_errors(consoForm.qteEssence) }}
+                </div>
+            </div>
+
+            <div class="mb-5">
+                <div>
+                    {{ form_row(consoForm.valider) }}
+                </div>
+            </div>
+            {{ form_end(consoForm) }}
+        </div>
+    </div>
+{% endblock %}
