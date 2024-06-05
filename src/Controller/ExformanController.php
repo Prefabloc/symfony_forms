@@ -40,6 +40,7 @@ class ExformanController extends AbstractController
             'label' => "Prefabloc Production",
             "url" => $url,
             "form" => $form->createView(),
+            "productionType" => "exforman"
         ]);
     }
 
@@ -73,60 +74,60 @@ class ExformanController extends AbstractController
         return $this->redirectToRoute('app_exforman');
     }
 
-    #[Route('/exforman/saisie/alimentation' , name : 'app_exforman_saisie_alimentation')]
-    public function exformanSaisieAlimentation(Request $request , EntityManagerInterface $entityManager ) : Response
+    #[Route('/exforman/saisie/alimentation', name: 'app_exforman_saisie_alimentation')]
+    public function exformanSaisieAlimentation(Request $request, EntityManagerInterface $entityManager): Response
     {
         $exformanSaisieAlimentation = new SaisieAlimentation();
 
-        $exformanSaisieAlimentationForm = $this->createForm( SaisieAlimentationType::class , $exformanSaisieAlimentation );
+        $exformanSaisieAlimentationForm = $this->createForm(SaisieAlimentationType::class, $exformanSaisieAlimentation);
         $exformanSaisieAlimentationForm->handleRequest($request);
 
-        if ( $exformanSaisieAlimentationForm->isSubmitted() && $exformanSaisieAlimentationForm->isValid() ) {
+        if ($exformanSaisieAlimentationForm->isSubmitted() && $exformanSaisieAlimentationForm->isValid()) {
             $entityManager->persist($exformanSaisieAlimentation);
             $entityManager->flush();
 
-            $this->addFlash('success' , "Saisie de l'alimentation enregistrée !");
+            $this->addFlash('success', "Saisie de l'alimentation enregistrée !");
             return $this->redirectToRoute('app_exforman_saisie_alimentation');
         } else {
-            return $this->render('exforman/SaisieAlimentation.html.twig', [ 'exformanSaisieAlimentationForm' => $exformanSaisieAlimentationForm->createView()]);
+            return $this->render('exforman/SaisieAlimentation.html.twig', ['exformanSaisieAlimentationForm' => $exformanSaisieAlimentationForm->createView()]);
         }
     }
 
-    #[Route('/exforman/saisie/debit' , name : 'app_exforman_saisie_debit')]
-    public function exformanSaisieDebit(Request $request , EntityManagerInterface $entityManager ) : Response
+    #[Route('/exforman/saisie/debit', name: 'app_exforman_saisie_debit')]
+    public function exformanSaisieDebit(Request $request, EntityManagerInterface $entityManager): Response
     {
         $exformanSaisieDebit = new SaisieDebit();
 
-        $exformanSaisieDebitForm = $this->createForm( SaisieDebitType::class , $exformanSaisieDebit ) ;
+        $exformanSaisieDebitForm = $this->createForm(SaisieDebitType::class, $exformanSaisieDebit);
         $exformanSaisieDebitForm->handleRequest($request);
 
-        if ( $exformanSaisieDebitForm->isSubmitted() && $exformanSaisieDebitForm->isValid() ) {
+        if ($exformanSaisieDebitForm->isSubmitted() && $exformanSaisieDebitForm->isValid()) {
             $entityManager->persist($exformanSaisieDebit);
             $entityManager->flush();
 
-            $this->addFlash('success' , "Saisie du débit enregistrée !");
+            $this->addFlash('success', "Saisie du débit enregistrée !");
             return $this->redirectToRoute('app_exforman_saisie_debit');
         } else {
-            return $this->render('exforman/SaisieDebit.html.twig', [ 'exformanSaisieDebitForm' => $exformanSaisieDebitForm->createView()]);
+            return $this->render('exforman/SaisieDebit.html.twig', ['exformanSaisieDebitForm' => $exformanSaisieDebitForm->createView()]);
         }
     }
 
-    #[Route('/exforman/saisie/destockage' , name : 'app_exforman_saisie_destockage')]
-    public function exformanSaisieDestockage(Request $request , EntityManagerInterface $entityManager ) : Response
+    #[Route('/exforman/saisie/destockage', name: 'app_exforman_saisie_destockage')]
+    public function exformanSaisieDestockage(Request $request, EntityManagerInterface $entityManager): Response
     {
         $exformanSaisieDestockage = new SaisieDestockage();
 
-        $exformanSaisieDestockageForm = $this->createForm( SaisieDestockageType::class , $exformanSaisieDestockage ) ;
+        $exformanSaisieDestockageForm = $this->createForm(SaisieDestockageType::class, $exformanSaisieDestockage);
         $exformanSaisieDestockageForm->handleRequest($request);
 
-        if ( $exformanSaisieDestockageForm->isSubmitted() && $exformanSaisieDestockageForm->isValid() ) {
+        if ($exformanSaisieDestockageForm->isSubmitted() && $exformanSaisieDestockageForm->isValid()) {
             $entityManager->persist($exformanSaisieDestockage);
             $entityManager->flush();
 
-            $this->addFlash('success' , "Saisie du destockage enregistrée !");
+            $this->addFlash('success', "Saisie du destockage enregistrée !");
             return $this->redirectToRoute('app_exforman_saisie_destockage');
         } else {
-            return $this->render('exforman/SaisieDestockage.html.twig', [ 'exformanSaisieDestockageForm' => $exformanSaisieDestockageForm->createView()]);
+            return $this->render('exforman/SaisieDestockage.html.twig', ['exformanSaisieDestockageForm' => $exformanSaisieDestockageForm->createView()]);
         }
     }
 }
