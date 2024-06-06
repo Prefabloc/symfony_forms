@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use App\Entity\Exforman\SaisieDebit;
+use App\Entity\Exforman\SaisieDestockage;
 use App\Entity\Prefabloc\ReparationPalette;
 use App\Entity\Prefabloc\SaisieDeclassement;
 use App\Entity\Valromex\ValromexSaisieDeclassement;
@@ -66,6 +68,18 @@ class Article
     #[ORM\OneToMany(targetEntity: SaisieDeclassement::class, mappedBy: 'article')]
     private Collection $saisieDeclassements;
 
+    /**
+     * @var Collection<int, SaisieDebit>
+     */
+    #[ORM\OneToMany(targetEntity: SaisieDebit::class, mappedBy: 'article')]
+    private Collection $saisieDebits;
+
+    /**
+     * @var Collection<int, SaisieDestockage>
+     */
+    #[ORM\OneToMany(targetEntity: SaisieDestockage::class, mappedBy: 'article')]
+    private Collection $saisieDestockages;
+
 
     public function __construct()
     {
@@ -73,6 +87,8 @@ class Article
         $this->reparationPalettes = new ArrayCollection();
         $this->valromexSaisieDeclassements = new ArrayCollection();
         $this->saisieDeclassements = new ArrayCollection();
+        $this->saisieDebits = new ArrayCollection();
+        $this->saisieDestockages = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -266,6 +282,66 @@ class Article
             // set the owning side to null (unless already changed)
             if ($saisieDeclassement->getArticle() === $this) {
                 $saisieDeclassement->setArticle(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, SaisieDebit>
+     */
+    public function getSaisieDebits(): Collection
+    {
+        return $this->saisieDebits;
+    }
+
+    public function addSaisieDebit(SaisieDebit $saisieDebit): static
+    {
+        if (!$this->saisieDebits->contains($saisieDebit)) {
+            $this->saisieDebits->add($saisieDebit);
+            $saisieDebit->setArticle($this);
+        }
+
+        return $this;
+    }
+
+    public function removeSaisieDebit(SaisieDebit $saisieDebit): static
+    {
+        if ($this->saisieDebits->removeElement($saisieDebit)) {
+            // set the owning side to null (unless already changed)
+            if ($saisieDebit->getArticle() === $this) {
+                $saisieDebit->setArticle(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, SaisieDestockage>
+     */
+    public function getSaisieDestockages(): Collection
+    {
+        return $this->saisieDestockages;
+    }
+
+    public function addSaisieDestockage(SaisieDestockage $saisieDestockage): static
+    {
+        if (!$this->saisieDestockages->contains($saisieDestockage)) {
+            $this->saisieDestockages->add($saisieDestockage);
+            $saisieDestockage->setArticle($this);
+        }
+
+        return $this;
+    }
+
+    public function removeSaisieDestockage(SaisieDestockage $saisieDestockage): static
+    {
+        if ($this->saisieDestockages->removeElement($saisieDestockage)) {
+            // set the owning side to null (unless already changed)
+            if ($saisieDestockage->getArticle() === $this) {
+                $saisieDestockage->setArticle(null);
             }
         }
 

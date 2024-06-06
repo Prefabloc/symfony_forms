@@ -2,50 +2,52 @@
 
 {% block body %}
 
-
-
     <div class="centered-content">
-        <div>
-            <img class="mx-auto" src="https://prefabloc.re/wp-content/uploads/2020/08/pfb-logo-horizontal-clr-01.png"
-                 alt="" width="300" height="200">
-        </div>
         <div class="my-2">
-            <h2 class="text-2xl font-bold text-center text-black-500">Exforman Saisie alimentation</h2>
+            <h2 class="text-2xl font-bold text-center text-black-500 mtop2">Exforman Saisie alimentation</h2>
+        </div>
+
+        <div class="max-w-sm mx-auto" style="width: 100%">
+            {{ form_start(exformanSaisieAlimentationForm) }}
+            <div class="divChampsForm">
+                <div class="mb-5">
+                    <div style="display: flex" class="divSeparator">
+                        <div class="inputSeparator">
+                            {{ form_label(exformanSaisieAlimentationForm.typeMateriau) }}
+                        </div>
+
+                        <div>
+                            {{ form_widget(exformanSaisieAlimentationForm.typeMateriau) }}
+                        </div>
+                    </div>
+
+                    <div>
+                        {{ form_errors(exformanSaisieAlimentationForm.typeMateriau) }}
+                    </div>
+                 </div>
+
+                <div class="mb-5">
+                    <div style="display: flex" class="divSeparator">
+                        <div class="inputSeparator">
+                            {{ form_label(exformanSaisieAlimentationForm.quantite ) }}
+                        </div>
+
+                        <div>
+                            {{ form_widget(exformanSaisieAlimentationForm.quantite) }}
+                        </div>
+                    </div>
+
+                    <div>
+                        {{ form_errors(exformanSaisieAlimentationForm.quantite) }}
+                    </div>
+                </div>
+            </div>
         </div>
         <div>
-            {{ form_start(exformanSaisieAlimentationForm) }}
-            <div>
-                <div style="display: flex" class="divSeparator">
-                    <div class="inputSeparator">
-                        {{ form_label(exformanSaisieAlimentationForm.typeMateriau) }}
-                    </div>
-                    <div>
-                        {{ form_widget(exformanSaisieAlimentationForm.typeMateriau) }}
-                    </div>
-                </div>
-                <div>
-                    {{ form_errors(exformanSaisieAlimentationForm.typeMateriau) }}
-                </div>
-            </div>
-            <div>
-                <div style="display: flex" class="divSeparator">
-                    <div class="inputSeparator">
-                        {{ form_label(exformanSaisieAlimentationForm.quantite ) }}
-                    </div>
-                    <div>
-                        {{ form_widget(exformanSaisieAlimentationForm.quantite) }}
-                    </div>
-                </div>
-                <div>
-                    {{ form_errors(exformanSaisieAlimentationForm.quantite) }}
-                </div>
-            </div>
-            <div>
-                {{ form_row( exformanSaisieAlimentationForm.save ) }}
-            </div>
-
-            {{ form_end(exformanSaisieAlimentationForm) }}
+            {{ form_row( exformanSaisieAlimentationForm.save ) }}
         </div>
+
+        {{ form_end(exformanSaisieAlimentationForm) }}
     </div>
 {% endblock %}
 

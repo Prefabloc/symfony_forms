@@ -19,7 +19,7 @@ class ArticleFixtures extends Fixture implements DependentFixtureInterface
             'Poutrelles'
         ];
 
-        for ( $i = 1 ; $i <= 20 ; $i ++ ) {
+        for ( $i = 1 ; $i <= 30 ; $i ++ ) {
             $rand = random_int(0 , 3);
             $article = new Article();
             $article
