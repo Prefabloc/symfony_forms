@@ -8,6 +8,11 @@ use Doctrine\Persistence\ManagerRegistry;
 
 /**
  * @extends ServiceEntityRepository<MotifDeclassement>
+ *
+ * @method MotifDeclassement|null find($id, $lockMode = null, $lockVersion = null)
+ * @method MotifDeclassement|null findOneBy(array $criteria, array $orderBy = null)
+ * @method MotifDeclassement[]    findAll()
+ * @method MotifDeclassement[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
 class MotifDeclassementRepository extends ServiceEntityRepository
 {

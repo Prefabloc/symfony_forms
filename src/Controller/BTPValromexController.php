@@ -10,6 +10,7 @@ use App\Form\BTP\BTPProductionType;
 use App\Form\Valromex\ValromexSaisieDeclassementType;
 use App\Form\Valromex\ValromexSaisieProductionType;
 use App\Repository\BTP\BTPProductionRepository;
+use App\Repository\MotifDeclassementRepository;
 use App\Service\ArticleDTO;
 use App\Repository\ArticleRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -106,25 +107,49 @@ class BTPValromexController extends AbstractController
     {
         $valromexSaisieDeclassement = new ValromexSaisieDeclassement();
         $valromexSaisieDeclassementForm = $this->createForm(ValromexSaisieDeclassementType::class, $valromexSaisieDeclassement);
-        $valromexSaisieDeclassementForm->handleRequest($request);
 
+        /*
+        $formData = $valromexSaisieDeclassementForm->getData();
+        $labelArticle = $formData->getArticle() ;
+        dd($formData);
+        $article = $articleRepository->findOneBy(['label' => $labelArticle]);
+        $valromexSaisieDeclassement->setArticle($article);
 
-        if ($valromexSaisieDeclassementForm->isSubmitted() && $valromexSaisieDeclassementForm->isValid()) {
+        $entityManager->persist($valromexSaisieDeclassement);
+        $entityManager->flush();
+        */
 
-            $formData = $valromexSaisieDeclassementForm->getData();
-            $labelArticle = $formData->getArticle() ;
-            dd($formData);
-            $article = $articleRepository->findOneBy(['label' => $labelArticle]);
-            $valromexSaisieDeclassement->setArticle($article);
+        return $this->render('btp_valromex/SaisieDeclassement.html.twig' , [
+            'valromexSaisieDeclassementForm' => $valromexSaisieDeclassementForm
+        ] );
+    }
 
-            $entityManager->persist($valromexSaisieDeclassement);
-            $entityManager->flush();
+    #[Route('/saisie/declassement/validate' , name: 'saisie_declassement_validate')]
+    public function btpValromexSaisieDeclassementValidate( Request $request , EntityManagerInterface $entityManager , ArticleRepository $articleRepository , MotifDeclassementRepository $motifDeclassementRepository )
+    {
+        $jsonContent = $request->getContent();
 
-            $this->addFlash('success', "Saisie du déclassement enregistrée !");
-            return $this->redirectToRoute('app_btpvalromex_saisie_declassement');
-        } else {
-            return $this->render('btp_valromex/SaisieDeclassement.html.twig', ['valromexSaisieDeclassementForm' => $valromexSaisieDeclassementForm->createView()]);
-        }
+        $data = json_decode($jsonContent , true );
+
+        $articleId = $data['idArticle'] ?? null ;
+        $article = $articleRepository->find($articleId);
+
+        $motifDeclassementId = $data['idMotif'] ?? null ;
+        $motifDeclassement = $motifDeclassementRepository->find($motifDeclassementId);
+
+        $quantite = $data['qte'] ?? null ;
+
+        $valromexSaisieDeclassement = new ValromexSaisieDeclassement();
+        $valromexSaisieDeclassement
+            ->setArticle($article)
+            ->setMotifDeclassement($motifDeclassement)
+            ->setQuantite($quantite);
+
+        $entityManager->persist($valromexSaisieDeclassement);
+        $entityManager->flush();
+
+        $this->addFlash('success' , 'Saisie Declassement réussie.');
+        return $this->redirectToRoute('app_btpvalromex_saisie_declassement');
     }
 
     #[Route('/saisie/production', name: 'saisie_production')]
