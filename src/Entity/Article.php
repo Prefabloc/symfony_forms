@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Entity\Prefabloc\ReparationPalette;
+use App\Entity\Prefabloc\SaisieDeclassement;
 use App\Entity\Valromex\ValromexSaisieDeclassement;
 use App\Repository\ArticleRepository;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -59,12 +60,19 @@ class Article
     #[ORM\OneToMany(targetEntity: ValromexSaisieDeclassement::class, mappedBy: 'article')]
     private Collection $valromexSaisieDeclassements;
 
+    /**
+     * @var Collection<int, SaisieDeclassement>
+     */
+    #[ORM\OneToMany(targetEntity: SaisieDeclassement::class, mappedBy: 'article')]
+    private Collection $saisieDeclassements;
+
 
     public function __construct()
     {
         $this->historiqueActionsArticles = new ArrayCollection();
         $this->reparationPalettes = new ArrayCollection();
         $this->valromexSaisieDeclassements = new ArrayCollection();
+        $this->saisieDeclassements = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -228,6 +236,36 @@ class Article
             // set the owning side to null (unless already changed)
             if ($valromexSaisieDeclassement->getArticle() === $this) {
                 $valromexSaisieDeclassement->setArticle(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, SaisieDeclassement>
+     */
+    public function getSaisieDeclassements(): Collection
+    {
+        return $this->saisieDeclassements;
+    }
+
+    public function addSaisieDeclassement(SaisieDeclassement $saisieDeclassement): static
+    {
+        if (!$this->saisieDeclassements->contains($saisieDeclassement)) {
+            $this->saisieDeclassements->add($saisieDeclassement);
+            $saisieDeclassement->setArticle($this);
+        }
+
+        return $this;
+    }
+
+    public function removeSaisieDeclassement(SaisieDeclassement $saisieDeclassement): static
+    {
+        if ($this->saisieDeclassements->removeElement($saisieDeclassement)) {
+            // set the owning side to null (unless already changed)
+            if ($saisieDeclassement->getArticle() === $this) {
+                $saisieDeclassement->setArticle(null);
             }
         }
 

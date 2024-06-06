@@ -10,6 +10,7 @@ use App\Form\Prefabloc\PrefablocProductionType;
 use App\Form\Prefabloc\ReparationPaletteType;
 use App\Form\Prefabloc\SaisieDeclassementType;
 use App\Form\Prefabloc\SaisieProductionType;
+use App\Repository\MotifDeclassementRepository;
 use App\Repository\Prefabloc\PrefablocProductionRepository;
 use App\Service\ArticleDTO;
 use App\Repository\ArticleRepository;
@@ -54,27 +55,6 @@ class PrefablocController extends AbstractController
         ]);
     }
 
-    /*
-    #[Route('/autocomplete', name: 'autocomplete')]
-    public function autocomplete(ArticleRepository $articleRepository, Request $request): Response
-    {
-
-        $mot = $request->query->get('mot');
-
-        if (!$mot) {
-            return new JsonResponse([]);
-        }
-
-        $results = $articleRepository->findByTerm($mot, $this->getUser()->getSociete()->getId());
-
-        $data = array_map(function ($article) {
-            return new ArticleDTO($article->getId(), $article->getLabel(), $article->getReference(), $article->getSociete()->getLabel(), $article->getStock());
-        }, $results);
-
-        return new JsonResponse($data);
-    }
-    */
-
     #[Route('/production/start', name: 'start', methods: ['POST'])]
     public function start(Request $request, EntityManagerInterface $entityManager, ArticleRepository $articleRepository): Response
     {
@@ -102,22 +82,42 @@ class PrefablocController extends AbstractController
     }
 
     #[Route('/saisie/declassement', name: 'saisie_declassement')]
-    public function prefablocSaisieDeclassement(Request $request, EntityManagerInterface $entityManager): Response
+    public function prefablocSaisieDeclassement(): Response
     {
         $prefablocSaisieDeclassement = new SaisieDeclassement();
-
         $prefablocSaisieDeclassementForm = $this->createForm(SaisieDeclassementType::class, $prefablocSaisieDeclassement);
-        $prefablocSaisieDeclassementForm->handleRequest($request);
 
-        if ($prefablocSaisieDeclassementForm->isSubmitted() && $prefablocSaisieDeclassementForm->isValid()) {
-            $entityManager->persist($prefablocSaisieDeclassement);
-            $entityManager->flush();
+        return $this->render('prefabloc/SaisieDeclassement.html.twig', [
+            'prefablocSaisieDeclassementForm' => $prefablocSaisieDeclassementForm->createView()
+        ]);
+    }
 
-            $this->addFlash('success', "Saisie du déclassement enregistrée !");
-            return $this->redirectToRoute('app_prefabloc_saisie_declassement');
-        } else {
-            return $this->render('prefabloc/SaisieDeclassement.html.twig', ['prefablocSaisieDeclassementForm' => $prefablocSaisieDeclassementForm->createView()]);
-        }
+    #[Route('/saisie/declassement/validate' , name: 'saisie_declassement_validate')]
+    public function prefablocSaisieDeclassementValidate( Request $request , EntityManagerInterface $entityManager , ArticleRepository $articleRepository , MotifDeclassementRepository $motifDeclassementRepository )
+    {
+        $jsonContent = $request->getContent();
+
+        $data = json_decode($jsonContent, true);
+
+        $articleId = $data['idArticle'] ?? null;
+        $article = $articleRepository->find($articleId);
+
+        $motifDeclassementId = $data['idMotif'] ?? null;
+        $motifDeclassement = $motifDeclassementRepository->find($motifDeclassementId);
+
+        $quantite = $data['qte'] ?? null;
+
+        $prefablocSaisieDeclassement = new SaisieDeclassement();
+        $prefablocSaisieDeclassement
+            ->setArticle($article)
+            ->setMotifDeclassement($motifDeclassement)
+            ->setQuantite($quantite);
+
+        $entityManager->persist($prefablocSaisieDeclassement);
+        $entityManager->flush();
+
+        $this->addFlash('success' , 'Saisie Déclassement réussie.');
+        return $this->redirectToRoute('app_prefabloc_saisie_declassement');
     }
 
     #[Route('/saisie/production', name: 'saisie_production')]
@@ -145,8 +145,6 @@ class PrefablocController extends AbstractController
             $entityManager->persist($production);
             $entityManager->persist($prefablocSaisieProduction);
             $entityManager->flush();
-
-
 
             $this->addFlash('success', "Saisie de la production enregistrée !");
             return $this->redirectToRoute('app_prefabloc_production');
