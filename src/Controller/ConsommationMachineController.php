@@ -4,8 +4,10 @@ namespace App\Controller;
 
 use App\Entity\ConsommationMachine;
 use App\Form\ConsommationMachineType;
+use App\Repository\ConsommationMachineRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
@@ -22,7 +24,7 @@ class ConsommationMachineController extends AbstractController
         if ($consoForm->isSubmitted() && $consoForm->isValid()) {
             $entityManager->persist($conso);
             $entityManager->flush();
-            $this->addFlash('success', "Saisie du litige enregistrée !");
+            $this->addFlash('success', "Saisie de la consommation enregistrée !");
         }
 
         return $this->render('consommation_machine/index.html.twig', [

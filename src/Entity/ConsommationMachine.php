@@ -20,7 +20,7 @@ class ConsommationMachine
 
     #[ORM\Column(length: 255)]
     #[Assert\NotBlank()]
-    #[Assert\Type(type: ['engin', 'vehicule'])]
+//    #[Assert\Type(type: ['engin', 'vehicule'])]
     private ?string $type = null;
 
     #[ORM\Column(nullable: true)]
