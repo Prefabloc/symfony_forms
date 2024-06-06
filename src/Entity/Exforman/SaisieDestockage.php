@@ -2,6 +2,7 @@
 
 namespace App\Entity\Exforman;
 
+use App\Entity\Article;
 use App\Repository\Exforman\SaisieDestockageRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -14,29 +15,22 @@ class SaisieDestockage
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(length: 255)]
-    private ?string $typeArticle = null;
+
 
     #[ORM\Column]
     #[Assert\Range(notInRangeMessage: "Vous devez choisir un poids entre 1 et 1000 tonnes", min: 0, max: 1000)]
     private ?int $quantite = null;
+
+    #[ORM\ManyToOne(inversedBy: 'saisieDestockages')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Article $article = null;
 
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getTypeArticle(): ?string
-    {
-        return $this->typeArticle;
-    }
 
-    public function setTypeArticle(string $typeArticle): static
-    {
-        $this->typeArticle = $typeArticle;
-
-        return $this;
-    }
 
     public function getQuantite(): ?int
     {
@@ -46,6 +40,18 @@ class SaisieDestockage
     public function setQuantite(int $quantite): static
     {
         $this->quantite = $quantite;
+
+        return $this;
+    }
+
+    public function getArticle(): ?Article
+    {
+        return $this->article;
+    }
+
+    public function setArticle(?Article $article): static
+    {
+        $this->article = $article;
 
         return $this;
     }

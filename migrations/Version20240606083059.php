@@ -10,7 +10,7 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20240606080920 extends AbstractMigration
+final class Version20240606083059 extends AbstractMigration
 {
     public function getDescription(): string
     {
@@ -41,12 +41,13 @@ final class Version20240606080920 extends AbstractMigration
         $this->addSql('CREATE TABLE prefabloc_production (id INT NOT NULL, article_id INT DEFAULT NULL, consommation_id INT DEFAULT NULL, INDEX IDX_6D5A99447294869C (article_id), UNIQUE INDEX UNIQ_6D5A9944C1076F84 (consommation_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
         $this->addSql('CREATE TABLE production_form (id INT AUTO_INCREMENT NOT NULL, started_at DATETIME NOT NULL, ended_at DATETIME DEFAULT NULL, indicateur VARCHAR(255) NOT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
         $this->addSql('CREATE TABLE reparation_palette (id INT AUTO_INCREMENT NOT NULL, type_palette_id INT NOT NULL, quantite INT NOT NULL, INDEX IDX_BE3C5CB2140B6A51 (type_palette_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
-        $this->addSql('CREATE TABLE saisie_alimentation (id INT AUTO_INCREMENT NOT NULL, type_materiau VARCHAR(255) NOT NULL, quantite INT NOT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
-        $this->addSql('CREATE TABLE saisie_debit (id INT AUTO_INCREMENT NOT NULL, type_article VARCHAR(255) NOT NULL, quantite INT NOT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
+        $this->addSql('CREATE TABLE saisie_alimentation (id INT AUTO_INCREMENT NOT NULL, type_materiau_id INT NOT NULL, quantite INT NOT NULL, INDEX IDX_A8C0C3A850063EB (type_materiau_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
+        $this->addSql('CREATE TABLE saisie_debit (id INT AUTO_INCREMENT NOT NULL, article_id INT NOT NULL, quantite INT NOT NULL, INDEX IDX_7E3BC2F07294869C (article_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
         $this->addSql('CREATE TABLE saisie_declassement (id INT AUTO_INCREMENT NOT NULL, motif_declassement_id INT NOT NULL, article_id INT NOT NULL, quantite VARCHAR(50) NOT NULL, INDEX IDX_438F8DE3AF30B184 (motif_declassement_id), INDEX IDX_438F8DE37294869C (article_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
-        $this->addSql('CREATE TABLE saisie_destockage (id INT AUTO_INCREMENT NOT NULL, type_article VARCHAR(255) NOT NULL, quantite INT NOT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
+        $this->addSql('CREATE TABLE saisie_destockage (id INT AUTO_INCREMENT NOT NULL, article_id INT NOT NULL, quantite INT NOT NULL, INDEX IDX_781D55187294869C (article_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
         $this->addSql('CREATE TABLE saisie_production (id INT AUTO_INCREMENT NOT NULL, qte04 DOUBLE PRECISION NOT NULL, qte610 DOUBLE PRECISION NOT NULL, qte_cem DOUBLE PRECISION NOT NULL, qte_adjuvant DOUBLE PRECISION NOT NULL, qte_huile DOUBLE PRECISION NOT NULL, qte_eau DOUBLE PRECISION NOT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
         $this->addSql('CREATE TABLE societe (id INT AUTO_INCREMENT NOT NULL, label VARCHAR(255) NOT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
+        $this->addSql('CREATE TABLE type_materiau (id INT AUTO_INCREMENT NOT NULL, type VARCHAR(50) NOT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
         $this->addSql('CREATE TABLE user (id INT AUTO_INCREMENT NOT NULL, societe_id INT DEFAULT NULL, username VARCHAR(180) NOT NULL, roles JSON NOT NULL, password VARCHAR(255) NOT NULL, nom VARCHAR(50) NOT NULL, prenom VARCHAR(50) NOT NULL, INDEX IDX_8D93D649FCF77503 (societe_id), UNIQUE INDEX UNIQ_IDENTIFIER_USERNAME (username), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
         $this->addSql('CREATE TABLE valromex_saisie_declassement (id INT AUTO_INCREMENT NOT NULL, article_id INT NOT NULL, motif_declassement_id INT NOT NULL, quantite INT NOT NULL, INDEX IDX_D1B20AA97294869C (article_id), INDEX IDX_D1B20AA9AF30B184 (motif_declassement_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
         $this->addSql('CREATE TABLE valromex_saisie_production (id INT AUTO_INCREMENT NOT NULL, qte04 DOUBLE PRECISION NOT NULL, qte610 DOUBLE PRECISION NOT NULL, qte_cem DOUBLE PRECISION NOT NULL, qte_adjuvant DOUBLE PRECISION NOT NULL, qte_huile DOUBLE PRECISION NOT NULL, qte_eau DOUBLE PRECISION NOT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
@@ -67,8 +68,11 @@ final class Version20240606080920 extends AbstractMigration
         $this->addSql('ALTER TABLE prefabloc_production ADD CONSTRAINT FK_6D5A9944C1076F84 FOREIGN KEY (consommation_id) REFERENCES saisie_production (id)');
         $this->addSql('ALTER TABLE prefabloc_production ADD CONSTRAINT FK_6D5A9944BF396750 FOREIGN KEY (id) REFERENCES production_form (id) ON DELETE CASCADE');
         $this->addSql('ALTER TABLE reparation_palette ADD CONSTRAINT FK_BE3C5CB2140B6A51 FOREIGN KEY (type_palette_id) REFERENCES article (id)');
+        $this->addSql('ALTER TABLE saisie_alimentation ADD CONSTRAINT FK_A8C0C3A850063EB FOREIGN KEY (type_materiau_id) REFERENCES type_materiau (id)');
+        $this->addSql('ALTER TABLE saisie_debit ADD CONSTRAINT FK_7E3BC2F07294869C FOREIGN KEY (article_id) REFERENCES article (id)');
         $this->addSql('ALTER TABLE saisie_declassement ADD CONSTRAINT FK_438F8DE3AF30B184 FOREIGN KEY (motif_declassement_id) REFERENCES motif_declassement (id)');
         $this->addSql('ALTER TABLE saisie_declassement ADD CONSTRAINT FK_438F8DE37294869C FOREIGN KEY (article_id) REFERENCES article (id)');
+        $this->addSql('ALTER TABLE saisie_destockage ADD CONSTRAINT FK_781D55187294869C FOREIGN KEY (article_id) REFERENCES article (id)');
         $this->addSql('ALTER TABLE user ADD CONSTRAINT FK_8D93D649FCF77503 FOREIGN KEY (societe_id) REFERENCES societe (id)');
         $this->addSql('ALTER TABLE valromex_saisie_declassement ADD CONSTRAINT FK_D1B20AA97294869C FOREIGN KEY (article_id) REFERENCES article (id)');
         $this->addSql('ALTER TABLE valromex_saisie_declassement ADD CONSTRAINT FK_D1B20AA9AF30B184 FOREIGN KEY (motif_declassement_id) REFERENCES motif_declassement (id)');
@@ -94,8 +98,11 @@ final class Version20240606080920 extends AbstractMigration
         $this->addSql('ALTER TABLE prefabloc_production DROP FOREIGN KEY FK_6D5A9944C1076F84');
         $this->addSql('ALTER TABLE prefabloc_production DROP FOREIGN KEY FK_6D5A9944BF396750');
         $this->addSql('ALTER TABLE reparation_palette DROP FOREIGN KEY FK_BE3C5CB2140B6A51');
+        $this->addSql('ALTER TABLE saisie_alimentation DROP FOREIGN KEY FK_A8C0C3A850063EB');
+        $this->addSql('ALTER TABLE saisie_debit DROP FOREIGN KEY FK_7E3BC2F07294869C');
         $this->addSql('ALTER TABLE saisie_declassement DROP FOREIGN KEY FK_438F8DE3AF30B184');
         $this->addSql('ALTER TABLE saisie_declassement DROP FOREIGN KEY FK_438F8DE37294869C');
+        $this->addSql('ALTER TABLE saisie_destockage DROP FOREIGN KEY FK_781D55187294869C');
         $this->addSql('ALTER TABLE user DROP FOREIGN KEY FK_8D93D649FCF77503');
         $this->addSql('ALTER TABLE valromex_saisie_declassement DROP FOREIGN KEY FK_D1B20AA97294869C');
         $this->addSql('ALTER TABLE valromex_saisie_declassement DROP FOREIGN KEY FK_D1B20AA9AF30B184');
@@ -126,6 +133,7 @@ final class Version20240606080920 extends AbstractMigration
         $this->addSql('DROP TABLE saisie_destockage');
         $this->addSql('DROP TABLE saisie_production');
         $this->addSql('DROP TABLE societe');
+        $this->addSql('DROP TABLE type_materiau');
         $this->addSql('DROP TABLE user');
         $this->addSql('DROP TABLE valromex_saisie_declassement');
         $this->addSql('DROP TABLE valromex_saisie_production');

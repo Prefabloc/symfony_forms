@@ -9,13 +9,16 @@ use App\Form\Exforman\ExformanProductionAlimentationType;
 use App\Form\Exforman\SaisieAlimentationType;
 use App\Form\Exforman\SaisieDebitType;
 use App\Form\Exforman\SaisieDestockageType;
+use App\Repository\ArticleRepository;
 use App\Repository\Exforman\ExformanProductionAlimentationRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use FontLib\Table\Type\name;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
+#[Route('/exforman' , name: 'app_exforman_')]
 class ExformanController extends AbstractController
 {
     // #[Route('/exforman', name: 'app_exforman')]
@@ -26,7 +29,7 @@ class ExformanController extends AbstractController
     //     ]);
     // }
 
-    #[Route('/exforman/production', name: 'app_exforman')]
+    #[Route('/production', name: 'production')]
     public function production(Request $request, ExformanProductionAlimentationRepository $repository): Response
     {
         $url = $request->getUri();
@@ -44,7 +47,7 @@ class ExformanController extends AbstractController
     }
 
 
-    #[Route('/exforman/production/end', name: 'app_exforman_end', methods: ['POST'])]
+    #[Route('/production/end', name: 'production_end', methods: ['POST'])]
     public function end(Request $request, ExformanProductionAlimentationRepository $repository): Response
     {
         $id = $request->query->get('id');
@@ -54,7 +57,7 @@ class ExformanController extends AbstractController
         return $this->redirectToRoute('app_exforman');
     }
 
-    #[Route('/exforman/production/start', name: 'app_exforman_start', methods: ['POST'])]
+    #[Route('/production/start', name: 'production_start', methods: ['POST'])]
     public function start(Request $request, ExformanProductionAlimentationRepository $repository): Response
     {
         // Retrieve the raw JSON content from the request
@@ -73,7 +76,7 @@ class ExformanController extends AbstractController
         return $this->redirectToRoute('app_exforman');
     }
 
-    #[Route('/exforman/saisie/alimentation' , name : 'app_exforman_saisie_alimentation')]
+    #[Route('/saisie/alimentation' , name : 'saisie_alimentation')]
     public function exformanSaisieAlimentation(Request $request , EntityManagerInterface $entityManager ) : Response
     {
         $exformanSaisieAlimentation = new SaisieAlimentation();
@@ -92,26 +95,44 @@ class ExformanController extends AbstractController
         }
     }
 
-    #[Route('/exforman/saisie/debit' , name : 'app_exforman_saisie_debit')]
-    public function exformanSaisieDebit(Request $request , EntityManagerInterface $entityManager ) : Response
+    #[Route('/saisie/debit' , name : 'saisie_debit')]
+    public function exformanSaisieDebit() : Response
     {
         $exformanSaisieDebit = new SaisieDebit();
-
         $exformanSaisieDebitForm = $this->createForm( SaisieDebitType::class , $exformanSaisieDebit ) ;
-        $exformanSaisieDebitForm->handleRequest($request);
 
-        if ( $exformanSaisieDebitForm->isSubmitted() && $exformanSaisieDebitForm->isValid() ) {
-            $entityManager->persist($exformanSaisieDebit);
-            $entityManager->flush();
-
-            $this->addFlash('success' , "Saisie du débit enregistrée !");
-            return $this->redirectToRoute('app_exforman_saisie_debit');
-        } else {
-            return $this->render('exforman/SaisieDebit.html.twig', [ 'exformanSaisieDebitForm' => $exformanSaisieDebitForm->createView()]);
-        }
+        return $this->render('exforman/SaisieDebit.html.twig', [
+            'exformanSaisieDebitForm' => $exformanSaisieDebitForm->createView()
+        ]);
     }
 
-    #[Route('/exforman/saisie/destockage' , name : 'app_exforman_saisie_destockage')]
+    #[Route('/saisie/debit/validate' , name: 'saisie_declassement_validate')]
+    public function prefablocSaisieDeclassementValidate( Request $request , EntityManagerInterface $entityManager , ArticleRepository $articleRepository )
+    {
+        $jsonContent = $request->getContent();
+
+        $data = json_decode($jsonContent, true);
+
+        $articleId = $data['idArticle'] ?? null;
+        $article = $articleRepository->find($articleId);
+
+        $quantite = $data['qte'] ?? null;
+
+        $exformanSaisieDebit = new SaisieDebit();
+        $exformanSaisieDebit
+            ->setArticle($article)
+            ->setQuantite($quantite);
+
+        $entityManager->persist($exformanSaisieDebit);
+        $entityManager->flush();
+
+        $this->addFlash('success' , 'Saisie Déclassement réussie.');
+        return $this->redirectToRoute('app_exforman_saisie_debit');
+    }
+
+
+
+    #[Route('/saisie/destockage' , name : 'saisie_destockage')]
     public function exformanSaisieDestockage(Request $request , EntityManagerInterface $entityManager ) : Response
     {
         $exformanSaisieDestockage = new SaisieDestockage();
