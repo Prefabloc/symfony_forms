@@ -70,9 +70,14 @@
 
 {% block javascripts %}
     <script>
+        let idArticle = null ;
+
         document.addEventListener('DOMContentLoaded' , function () {
-            const searchArticle = document.getElementById('prefablocDeclassementInputArticle');
             const suggestions = document.getElementById('prefablocDeclassementSuggestionsArticle')
+            const searchArticle = document.getElementById('prefablocDeclassementInputArticle');
+            const inputMotif = document.getElementById('saisie_declassement_motifDeclassement');
+            const quantiteInput = document.getElementById('saisie_declassement_quantite');
+            const boutonEnvoi = document.getElementById('saisie_declassement_save');
 
 
             searchArticle.addEventListener('input' , function () {
@@ -121,6 +126,30 @@
                     suggestions.style.display = 'none';
                 }
             });
+
+            boutonEnvoi.addEventListener( 'click' , ( event ) => {
+                event.preventDefault();
+
+                let url = window.location.href ;
+                let fullUrl = `${url}/validate`
+
+                console.log(idArticle);
+                console.log(inputMotif.value)
+                console.log(quantiteInput.value)
+
+                fetch( fullUrl , {
+                    method : 'POST' ,
+                    headers : {
+                        'Content-Type': 'application/json'
+                    },
+                    body : JSON.stringify({
+                        'idArticle' : idArticle,
+                        'idMotif' : inputMotif.value,
+                        'qte' : quantiteInput.value
+                    })
+                })
+                window.location.href = url ;
+            })
         })
 
     </script>

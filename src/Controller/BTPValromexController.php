@@ -68,7 +68,7 @@ class BTPValromexController extends AbstractController
         $results = $articleRepository->findByTerm($mot, $this->getUser()->getSociete()->getId());
 
         $data = array_map(function ($article) {
-            return new ArticleDTO($article->getId(), $article->getLabel(), $article->getReference(), $article->getSociete()->getLabel(), $article->getStock());
+            return new ArticleDTO($article->getId(), $article->getLabel(), $article->getReference(), $article->getSociete()->getLabel(), $article->getStock() , $article->getTypeArticle());
         }, $results);
 
         return new JsonResponse($data);
@@ -103,21 +103,10 @@ class BTPValromexController extends AbstractController
     }
 
     #[Route('/saisie/declassement', name: 'saisie_declassement')]
-    public function btpValromexSaisieDeclassement(Request $request, EntityManagerInterface $entityManager, ArticleRepository $articleRepository): Response
+    public function btpValromexSaisieDeclassement(): Response
     {
         $valromexSaisieDeclassement = new ValromexSaisieDeclassement();
         $valromexSaisieDeclassementForm = $this->createForm(ValromexSaisieDeclassementType::class, $valromexSaisieDeclassement);
-
-        /*
-        $formData = $valromexSaisieDeclassementForm->getData();
-        $labelArticle = $formData->getArticle() ;
-        dd($formData);
-        $article = $articleRepository->findOneBy(['label' => $labelArticle]);
-        $valromexSaisieDeclassement->setArticle($article);
-
-        $entityManager->persist($valromexSaisieDeclassement);
-        $entityManager->flush();
-        */
 
         return $this->render('btp_valromex/SaisieDeclassement.html.twig' , [
             'valromexSaisieDeclassementForm' => $valromexSaisieDeclassementForm
@@ -148,7 +137,7 @@ class BTPValromexController extends AbstractController
         $entityManager->persist($valromexSaisieDeclassement);
         $entityManager->flush();
 
-        $this->addFlash('success' , 'Saisie Declassement réussie.');
+        $this->addFlash('success' , 'Saisie Déclassement réussie.');
         return $this->redirectToRoute('app_btpvalromex_saisie_declassement');
     }
 
