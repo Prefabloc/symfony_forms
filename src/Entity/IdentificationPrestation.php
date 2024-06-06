@@ -51,6 +51,9 @@ class IdentificationPrestation
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $signature = null;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $photoBonPrestation = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -136,6 +139,18 @@ class IdentificationPrestation
     public function setSignature(?string $signature): static
     {
         $this->signature = $signature;
+
+        return $this;
+    }
+
+    public function getPhotoBonPrestation(): ?string
+    {
+        return $this->photoBonPrestation;
+    }
+
+    public function setPhotoBonPrestation(?string $photoBonPrestation): static
+    {
+        $this->photoBonPrestation = $photoBonPrestation;
 
         return $this;
     }

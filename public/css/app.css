@@ -561,3 +561,11 @@ tr:nth-child(even) {
 #return {
     margin-left: 20px;
 }
+
+.divFormInput{
+    background-color: white;
+    border-radius: 10px;
+    border: 1px solid black;
+    width: 100%;
+    max-width: 90%;
+}

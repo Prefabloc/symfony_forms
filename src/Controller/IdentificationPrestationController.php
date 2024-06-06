@@ -7,10 +7,12 @@ use App\Form\IdentificationPrestationType;
 use App\Repository\IdentificationPrestationRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\String\Slugger\SluggerInterface;
 
 #[Route('/identification_prestation', name: 'app_identification_prestation_')]
 class IdentificationPrestationController extends AbstractController
@@ -171,6 +173,40 @@ class IdentificationPrestationController extends AbstractController
         $entityManager->flush();
 
         return new JsonResponse([]);
+    }
+
+    #[Route('/upload_photo' , name : 'upload_photo')]
+    public function uploadPicture( Request $request , SluggerInterface $slugger ) : JsonResponse
+    {
+        //On récupère le fichier
+        $file = $request->files->get('photo');
+        //On vérifie qu'il soit bien reçu
+        if ( $file ) {
+            //Obtention du nom original du fichier
+            $originalFileName = pathinfo( $file->getClientOriginalName() , PATHINFO_FILENAME ) ;
+            //Génération d'un nom de fichier sur pour stockage
+            $safeFileName = $slugger->slug($originalFileName);
+            //Ajout d'un identifiant unique au nom de fichier
+            $newFileName = $safeFileName . '-' . uniqid() . '.' . $file->guessExtension();
+
+
+        $path = $this->getParameter('kernel.project_dir') . DIRECTORY_SEPARATOR . 'public' . DIRECTORY_SEPARATOR . 'img' . DIRECTORY_SEPARATOR . 'photosBons' . DIRECTORY_SEPARATOR;
+
+
+        try {
+            //Déplacement du fichier vers le répértoire de stockage
+            $file->move( $path , $newFileName );
+        } catch ( FileException $e ) {
+            //Gestion erreur de déplacement
+            return new JsonResponse(['status' => 'error' , 'message' => 'could not upload file'] , Response::HTTP_INTERNAL_SERVER_ERROR );
+        }
+
+        //Retourner un JSON indiquant le succès de l'upload
+        return new JsonResponse(['status' => 'success' , 'filename' => $newFileName ]);
+    }
+
+        // Retourner une réponse JSON indiquant une erreur si aucun fichier n'a été uploadé
+        return new JsonResponse(['status' => 'error', 'message' => 'No file uploaded'], Response::HTTP_BAD_REQUEST);
     }
 
 }
