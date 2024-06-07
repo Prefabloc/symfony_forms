@@ -176,10 +176,15 @@ class IdentificationPrestationController extends AbstractController
     }
 
     #[Route('/upload_photo' , name : 'upload_photo')]
-    public function uploadPicture( Request $request , SluggerInterface $slugger ) : JsonResponse
+    public function uploadPicture( Request $request , SluggerInterface $slugger , EntityManagerInterface $entityManager , IdentificationPrestationRepository $identificationPrestationRepository ) : JsonResponse
     {
-        //On récupère le fichier
+        //On récupère la photo prise
         $file = $request->files->get('photo');
+        $file2 = $request->files->get('photo2');
+
+        //On met en place le path
+        $path = $this->getParameter('kernel.project_dir') . DIRECTORY_SEPARATOR . 'public' . DIRECTORY_SEPARATOR . 'img' . DIRECTORY_SEPARATOR . 'photosBons' . DIRECTORY_SEPARATOR;
+
         //On vérifie qu'il soit bien reçu
         if ( $file ) {
             //Obtention du nom original du fichier
@@ -189,21 +194,58 @@ class IdentificationPrestationController extends AbstractController
             //Ajout d'un identifiant unique au nom de fichier
             $newFileName = $safeFileName . '-' . uniqid() . '.' . $file->guessExtension();
 
+            $path = $this->getParameter('kernel.project_dir') . DIRECTORY_SEPARATOR . 'public' . DIRECTORY_SEPARATOR . 'img' . DIRECTORY_SEPARATOR . 'photosBons' . DIRECTORY_SEPARATOR;
 
-        $path = $this->getParameter('kernel.project_dir') . DIRECTORY_SEPARATOR . 'public' . DIRECTORY_SEPARATOR . 'img' . DIRECTORY_SEPARATOR . 'photosBons' . DIRECTORY_SEPARATOR;
+            //On récupère l'id de la presta
+            $idPresta = $request->request->get('idPrestation');
 
+            //On récupère la presta
+            $presta = $identificationPrestationRepository->find($idPresta);
+            //On persist l'adresse de la photo
+            $presta->setPhotoBonPrestation($path);
+            $entityManager->persist($presta);
+            $entityManager->flush();
 
         try {
             //Déplacement du fichier vers le répértoire de stockage
             $file->move( $path , $newFileName );
-        } catch ( FileException $e ) {
+        } catch ( FileException ) {
             //Gestion erreur de déplacement
             return new JsonResponse(['status' => 'error' , 'message' => 'could not upload file'] , Response::HTTP_INTERNAL_SERVER_ERROR );
         }
 
         //Retourner un JSON indiquant le succès de l'upload
         return new JsonResponse(['status' => 'success' , 'filename' => $newFileName ]);
-    }
+
+    } elseif ( $file2 ) {
+            //Obtention du nom original du fichier
+            $originalFileName = pathinfo( $file2->getClientOriginalName() , PATHINFO_FILENAME ) ;
+            //Génération d'un nom de fichier sur pour stockage
+            $safeFileName = $slugger->slug($originalFileName);
+            //Ajout d'un identifiant unique au nom de fichier
+            $newFileName = $safeFileName . '-' . uniqid() . '.' . $file2->guessExtension();
+
+
+            //On récupère l'id de la presta
+            $idPresta = $request->request->get('idPrestation');
+            //On récupère la presta
+            $presta = $identificationPrestationRepository->find($idPresta);
+            //On persist l'adresse de la photo
+            $presta->setPhotoBonPrestation($path);
+            $entityManager->persist($presta);
+            $entityManager->flush();
+
+            try {
+                //Déplacement du fichier vers le répértoire de stockage
+                $file2->move( $path , $newFileName );
+            } catch ( FileException ) {
+                //Gestion erreur de déplacement
+                return new JsonResponse(['status' => 'error' , 'message' => 'could not upload file'] , Response::HTTP_INTERNAL_SERVER_ERROR );
+            }
+
+            //Retourner un JSON indiquant le succès de l'upload
+            return new JsonResponse(['status' => 'success' , 'filename' => $newFileName ]);
+        }
 
         // Retourner une réponse JSON indiquant une erreur si aucun fichier n'a été uploadé
         return new JsonResponse(['status' => 'error', 'message' => 'No file uploaded'], Response::HTTP_BAD_REQUEST);
