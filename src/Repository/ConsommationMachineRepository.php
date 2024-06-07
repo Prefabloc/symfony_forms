@@ -21,20 +21,15 @@ class ConsommationMachineRepository extends ServiceEntityRepository
         parent::__construct($registry, ConsommationMachine::class);
     }
 
-    //    /**
-    //     * @return ConsommationMachine[] Returns an array of ConsommationMachine objects
-    //     */
-    //    public function findByExampleField($value): array
-    //    {
-    //        return $this->createQueryBuilder('c')
-    //            ->andWhere('c.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->orderBy('c.id', 'ASC')
-    //            ->setMaxResults(10)
-    //            ->getQuery()
-    //            ->getResult()
-    //        ;
-    //    }
+//        public function findDistinctTypes(): array
+//        {
+//            return $this->createQueryBuilder('c')
+//                ->select('c.type')
+//                ->distinct()
+//                ->getQuery()
+//                ->getResult()
+//            ;
+//        }
 
     //    public function findOneBySomeField($value): ?ConsommationMachine
     //    {

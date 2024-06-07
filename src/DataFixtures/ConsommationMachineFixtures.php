@@ -13,7 +13,7 @@ class ConsommationMachineFixtures extends Fixture
         for ( $i = 1; $i <= 10; $i++ ) {
             $conso = new ConsommationMachine();
             $conso
-                ->setLabel('Label'.$i)
+                ->setLabel('Machine#'.$i)
                 ->setType(random_int(0, 1) === 0 ? 'engin' : 'vehicule');
 
             $manager->persist($conso);

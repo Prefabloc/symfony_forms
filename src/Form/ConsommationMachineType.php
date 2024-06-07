@@ -16,18 +16,18 @@ class ConsommationMachineType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('type', ChoiceType::class, [
-                'label' => 'Type machine',
-                'placeholder' => '-- Sélectionner un type --',
-                'attr' => [
-                    'class' => "bg-neutral-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus: block w-full p-2.5"
-                ],
-                "choices" => [
-                    "engin" => "engin" ,
-                    "vehicule" => "vehicule"
-                ],
-                'required' => true
-            ])
+//            ->add('type', ChoiceType::class, [
+//                'label' => 'Type machine',
+//                'placeholder' => '-- Sélectionner un type --',
+//                'attr' => [
+//                    'class' => "bg-neutral-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus: block w-full p-2.5"
+//                ],
+//                "choices" => [
+//                    "engin" => "engin" ,
+//                    "vehicule" => "vehicule"
+//                ],
+//                'required' => true
+//            ])
             ->add('label', TextType::class, [
                 'label' => 'Machine',
                 'attr' => [
