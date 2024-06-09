@@ -24,28 +24,29 @@ class Signature {
         this.canvas.addEventListener('touchcancel', this.stopSigning.bind(this));
     }
 
+    getClientOffset(event) {
+        const rect = this.canvas.getBoundingClientRect();
+        const clientX = event.clientX || (event.touches ? event.touches[0].clientX : 0);
+        const clientY = event.clientY || (event.touches ? event.touches[0].clientY : 0);
+        return {
+            x: clientX - rect.left,
+            y: clientY - rect.top
+        };
+    }
+
     startSigning(event) {
         this.sign = true;
-
-        let clientX = event.clientX || event.touches[0].clientX;
-        let clientY = event.clientY || event.touches[0].clientY;
-
-        this.prevX = clientX - this.canvas.offsetLeft;
-        this.prevY = clientY - this.canvas.offsetTop;
+        const { x, y } = this.getClientOffset(event);
+        this.prevX = x;
+        this.prevY = y;
     }
 
     signing(event) {
         if (this.sign) {
-            let clientX = event.clientX || event.touches[0].clientX;
-            let clientY = event.clientY || event.touches[0].clientY;
-
-            let currX = clientX - this.canvas.offsetLeft;
-            let currY = clientY - this.canvas.offsetTop;
-
-            this.draw(this.prevX, this.prevY, currX, currY);
-
-            this.prevX = currX;
-            this.prevY = currY;
+            const { x, y } = this.getClientOffset(event);
+            this.draw(this.prevX, this.prevY, x, y);
+            this.prevX = x;
+            this.prevY = y;
 
             // Prevent scrolling on touch move
             event.preventDefault();
