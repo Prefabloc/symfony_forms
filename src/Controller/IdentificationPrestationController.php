@@ -7,10 +7,12 @@ use App\Form\IdentificationPrestationType;
 use App\Repository\IdentificationPrestationRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\String\Slugger\SluggerInterface;
 
 #[Route('/identification_prestation', name: 'app_identification_prestation_')]
 class IdentificationPrestationController extends AbstractController
@@ -173,4 +175,56 @@ class IdentificationPrestationController extends AbstractController
         return new JsonResponse([]);
     }
 
+    #[Route('/upload_photo', name: 'upload_photo')]
+    public function uploadPicture(
+        Request $request,
+        SluggerInterface $slugger,
+        EntityManagerInterface $entityManager,
+        IdentificationPrestationRepository $identificationPrestationRepository
+    ): JsonResponse {
+        $file = $request->files->get('photo') ?: $request->files->get('photo2');
+        $idPresta = $request->request->get('idPrestation');
+
+        if ($file && $idPresta) {
+            $path = $this->getParameter('kernel.project_dir') . DIRECTORY_SEPARATOR . 'public' . DIRECTORY_SEPARATOR . 'img' . DIRECTORY_SEPARATOR . 'photosBons' . DIRECTORY_SEPARATOR;
+            $newFileName = $this->generateFileName($file, $slugger);
+
+            if ($this->saveFile($file, $path, $newFileName) && $this->updatePrestaPhoto($idPresta, $path, $identificationPrestationRepository, $entityManager)) {
+                return new JsonResponse(['status' => 'success', 'filename' => $newFileName]);
+            }
+
+            return new JsonResponse(['status' => 'error', 'message' => 'could not upload file'], Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
+
+        return new JsonResponse(['status' => 'error', 'message' => 'No file uploaded or missing idPrestation'], Response::HTTP_BAD_REQUEST);
+    }
+
+    private function generateFileName($file, SluggerInterface $slugger): string
+    {
+        $originalFileName = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
+        $safeFileName = $slugger->slug($originalFileName);
+        return $safeFileName . '-' . uniqid() . '.' . $file->guessExtension();
+    }
+
+    private function saveFile($file, string $path, string $fileName): bool
+    {
+        try {
+            $file->move($path, $fileName);
+            return true;
+        } catch (FileException $e) {
+            return false;
+        }
+    }
+
+    private function updatePrestaPhoto(int $idPresta, string $path, IdentificationPrestationRepository $repository, EntityManagerInterface $entityManager): bool
+    {
+        $presta = $repository->find($idPresta);
+        if ($presta) {
+            $presta->setPhotoBonPrestation($path);
+            $entityManager->persist($presta);
+            $entityManager->flush();
+            return true;
+        }
+        return false;
+    }
 }
