@@ -189,7 +189,7 @@ class IdentificationPrestationController extends AbstractController
             $path = $this->getParameter('kernel.project_dir') . DIRECTORY_SEPARATOR . 'public' . DIRECTORY_SEPARATOR . 'img' . DIRECTORY_SEPARATOR . 'photosBons' . DIRECTORY_SEPARATOR;
             $newFileName = $this->generateFileName($file, $slugger);
 
-            if ($this->saveFile($file, $path, $newFileName) && $this->updatePrestaPhoto($idPresta, $path, $identificationPrestationRepository, $entityManager)) {
+            if ($this->saveFile($file, $path, $newFileName) && $this->updatePrestaPhoto($idPresta, $path, $newFileName, $identificationPrestationRepository, $entityManager)) {
                 return new JsonResponse(['status' => 'success', 'filename' => $newFileName]);
             }
 
@@ -216,15 +216,17 @@ class IdentificationPrestationController extends AbstractController
         }
     }
 
-    private function updatePrestaPhoto(int $idPresta, string $path, IdentificationPrestationRepository $repository, EntityManagerInterface $entityManager): bool
+    private function updatePrestaPhoto(int $idPresta, string $path, string $fileName, IdentificationPrestationRepository $repository, EntityManagerInterface $entityManager): bool
     {
         $presta = $repository->find($idPresta);
         if ($presta) {
-            $presta->setPhotoBonPrestation($path);
+            $fullPath = $path . $fileName; // Append filename to path
+            $presta->setPhotoBonPrestation($fullPath);
             $entityManager->persist($presta);
             $entityManager->flush();
             return true;
         }
         return false;
     }
+
 }
