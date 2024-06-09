@@ -1,84 +1,105 @@
 class Signature {
-    //Définition du constructeur, avec un seul paramètre, le canvas sur lequel on dessine
-    constructor(canvas) {
-        //On initie un boolean sign à false qui nous servira pour savoir si on est actuellement en train de signer ou non
-        this.sign = false
-        //On rajoute les coordonnées du click
+    constructor(canvasSelector) {
+        this.sign = false;
         this.prevX = 0;
         this.prevY = 0;
 
-        //Séléction de l'élément canvas grâce au QuerySelector
-        this.canvas = document.querySelector(canvas);
-        //on fait en sorte que la taille du canvas soit toujours égale à son affichage sur le navigateur pour eviter la désynchro
+        this.canvas = document.querySelector(canvasSelector);
         this.canvas.width = this.canvas.offsetWidth;
         this.canvas.height = this.canvas.offsetHeight;
-
-        //Obtention du contexte 2D du canvas et stockage dans la propriété ctx ( contexte )
         this.ctx = this.canvas.getContext('2d');
-        //Paramètre du contexte, ici on définit la couleur du trait du 'stylo'
         this.ctx.strokeStyle = 'black';
-        //Définition de l'épaisseur du trait
         this.ctx.lineWidth = 2;
 
-        //Récupération des coordonnées de départ
-        this.canvas.addEventListener('mousedown', (event) => {
-            //On passe la signature à true ( c'est pour se dire "je suis en train de signer" )
-            this.sign = true;
+        this.canvas.addEventListener('mousedown', this.startDrawing.bind(this));
+        this.canvas.addEventListener('mousemove', this.draw.bind(this));
+        this.canvas.addEventListener('mouseup', this.stopDrawing.bind(this));
+        this.canvas.addEventListener('mouseout', this.stopDrawing.bind(this));
 
-            //Je stocke mes coordonnées de départ
-            this.prevX = event.clientX - this.canvas.offsetLeft;
-            this.prevY = event.clientY - this.canvas.offsetTop;
-        })
+        this.canvas.addEventListener('touchstart', this.handleTouchStart.bind(this), { passive: false });
+        this.canvas.addEventListener('touchmove', this.handleTouchMove.bind(this), { passive: false });
+        this.canvas.addEventListener('touchend', this.handleTouchEnd.bind(this), { passive: false });
 
-        //On suit le déplacement de la souris si on a commencé à signer, donc si on a cliqué une fois pour passer la variable sign à true
-        this.canvas.addEventListener('mousemove', (event) => {
+        document.body.addEventListener('touchstart', this.preventTouchScrolling.bind(this), { passive: false });
+        document.body.addEventListener('touchend', this.preventTouchScrolling.bind(this), { passive: false });
+        document.body.addEventListener('touchmove', this.preventTouchScrolling.bind(this), { passive: false });
 
-            if (this.sign) {
-                //On garde toujours la variable prevX et prevY parce qu'on devra tracer un trait entre currX/currY et prevX/prevY
-                let currX = event.offsetX;
-                let currY = event.offsetY;
-                //On appelle la méthode draw définie juste en dessous pour dessiner
-                this.draw(this.prevX, this.prevY, currX, currY);
-                //On redéfinit
-                this.prevX = currX;
-                this.prevY = currY;
-            }
-        })
-
-        //Si on lâche le clic de la souris, on arrête de dessiner
-        this.canvas.addEventListener('mouseup', () => {
-            this.sign = false;
-        })
-
-        this.canvas.addEventListener('mouseout', () => {
-            this.sign = false;
-        })
+        document.getElementById('effacerSignature').addEventListener('click', () => this.clearCanvas());
+        document.getElementById('enregistrerSignature').addEventListener('click', () => this.saveSignature());
     }
 
-
-    //Méthode pour dessiner
-    draw(depX, depY, destX, destY) {
-        //dessiner un nouveau trait
-        this.ctx.beginPath()
-        //placer le crayon sur A
-        this.ctx.moveTo(depX, depY)
-        //faire le trait de A à B
-        this.ctx.lineTo(destX, destY)
-        //arrêter de dessiner
-        this.ctx.closePath()
-        //faire le trait
-        this.ctx.stroke()
+    startDrawing(event) {
+        this.sign = true;
+        this.prevX = event.clientX - this.canvas.offsetLeft;
+        this.prevY = event.clientY - this.canvas.offsetTop;
     }
 
-    //Méthode pour effacer
-    effacer() {
-        this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height)
+    draw(event) {
+        if (!this.sign) return;
+        const currX = event.offsetX;
+        const currY = event.offsetY;
+        this.drawLine(this.prevX, this.prevY, currX, currY);
+        this.prevX = currX;
+        this.prevY = currY;
     }
 
+    stopDrawing() {
+        this.sign = false;
+        this.ctx.beginPath();
+    }
 
-    //Méthode pour générer l'image de la signature
-    genererImg() {
-        let image = this.canvas.toDataURL('image/png').replace('image/png', 'image/octet-stream')
+    handleTouchStart(event) {
+        event.preventDefault();
+        const touch = event.touches[0];
+        const mouseEvent = new MouseEvent('mousedown', {
+            clientX: touch.clientX,
+            clientY: touch.clientY
+        });
+        this.canvas.dispatchEvent(mouseEvent);
+    }
+
+    handleTouchMove(event) {
+        event.preventDefault();
+        const touch = event.touches[0];
+        const mouseEvent = new MouseEvent('mousemove', {
+            clientX: touch.clientX,
+            clientY: touch.clientY
+        });
+        this.canvas.dispatchEvent(mouseEvent);
+    }
+
+    handleTouchEnd(event) {
+        event.preventDefault();
+        const mouseEvent = new MouseEvent('mouseup', {});
+        this.canvas.dispatchEvent(mouseEvent);
+    }
+
+    preventTouchScrolling(event) {
+        if (event.target === this.canvas) {
+            event.preventDefault();
+        }
+    }
+
+    drawLine(depX, depY, destX, destY) {
+        this.ctx.beginPath();
+        this.ctx.moveTo(depX, depY);
+        this.ctx.lineTo(destX, destY);
+        this.ctx.closePath();
+        this.ctx.stroke();
+    }
+
+    clearCanvas() {
+        this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+    }
+
+    saveSignature() {
+        const image = this.canvas.toDataURL('image/png').replace('image/png', 'image/octet-stream');
         return image;
     }
 }
+
+document.addEventListener('DOMContentLoaded', () => {
+    const signature = new Signature('#signature');
+});
+
+// 
