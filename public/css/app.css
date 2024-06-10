@@ -6,6 +6,8 @@
     #tableauFormulaires {
         height: 70vh !important;
     }
+
+
 }
 
 @media screen and (max-width: 1000px) {
@@ -93,6 +95,14 @@
     }
 
 }
+
+@media screen and ( max-width: 650px ) {
+    #fileInput2{
+        width: 80%;
+        height: 2rem;
+    }
+}
+
 
 @media screen and (max-width: 560px) {
     .gridCalendar {
@@ -613,31 +623,24 @@ tr:nth-child(even) {
     justify-content: center;
 }
 
-.divBoutonsPhotos{
+.divBoutonsPhotos {
     display: flex;
     justify-content: space-evenly;
     width: 100%;
 }
 
-.divBoutonsPhotos > * {
-    margin: 10px;
-    padding: 10px;
-    border: 3px solid black ;
-    background-color: #64748b;
-    border-radius: 10px;
-    font-weight: bold;
+
+#uploadFromDevice2:hover {
+    background-color: #cbd5e1 ;
 }
 
-.divBoutonsPhotos > button:hover {
-    background-color: #cbd5e1;
-}
 
-.modalConfirmation{
+.modalConfirmation {
     background-color: #ffedd5;
     border-radius: 10px;
     padding: 30px;
     font-weight: bold;
-    border : solid 1px black;
+    border: solid 1px black;
 }
 
 #modaleConfirmationPhotoIdentificationPrestation{
@@ -678,4 +681,21 @@ tr:nth-child(even) {
 
 #divUpload{
     margin: 10px;
+    text-align: center;
+    border-radius: 10px;
+    gap: 2rem;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+}
+
+#divUpload2 {
+    display: none;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+}
+
+#divUpload2 > * {
+    margin-bottom: 1.5rem;
 }
