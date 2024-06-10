@@ -2,22 +2,22 @@
 
 namespace App\Repository;
 
-use App\Entity\ConsommationMachine;
+use App\Entity\ConsommationEssence;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @extends ServiceEntityRepository<ConsommationMachine>
+ * @extends ServiceEntityRepository<ConsommationEssence>
  */
-class ConsommationMachineRepository extends ServiceEntityRepository
+class ConsommationEssenceRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, ConsommationMachine::class);
+        parent::__construct($registry, ConsommationEssence::class);
     }
 
     //    /**
-    //     * @return ConsommationMachine[] Returns an array of ConsommationMachine objects
+    //     * @return ConsommationEssence[] Returns an array of ConsommationEssence objects
     //     */
     //    public function findByExampleField($value): array
     //    {
@@ -31,7 +31,7 @@ class ConsommationMachineRepository extends ServiceEntityRepository
     //        ;
     //    }
 
-    //    public function findOneBySomeField($value): ?ConsommationMachine
+    //    public function findOneBySomeField($value): ?ConsommationEssence
     //    {
     //        return $this->createQueryBuilder('c')
     //            ->andWhere('c.exampleField = :val')

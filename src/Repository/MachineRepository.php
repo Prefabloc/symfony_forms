@@ -2,39 +2,39 @@
 
 namespace App\Repository;
 
-use App\Entity\ConsommationMachine;
+use App\Entity\Machine;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @extends ServiceEntityRepository<ConsommationMachine>
+ * @extends ServiceEntityRepository<Machine>
  */
-class ConsommationMachineRepository extends ServiceEntityRepository
+class MachineRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, ConsommationMachine::class);
+        parent::__construct($registry, Machine::class);
     }
 
     //    /**
-    //     * @return ConsommationMachine[] Returns an array of ConsommationMachine objects
+    //     * @return Machine[] Returns an array of Machine objects
     //     */
     //    public function findByExampleField($value): array
     //    {
-    //        return $this->createQueryBuilder('c')
-    //            ->andWhere('c.exampleField = :val')
+    //        return $this->createQueryBuilder('m')
+    //            ->andWhere('m.exampleField = :val')
     //            ->setParameter('val', $value)
-    //            ->orderBy('c.id', 'ASC')
+    //            ->orderBy('m.id', 'ASC')
     //            ->setMaxResults(10)
     //            ->getQuery()
     //            ->getResult()
     //        ;
     //    }
 
-    //    public function findOneBySomeField($value): ?ConsommationMachine
+    //    public function findOneBySomeField($value): ?Machine
     //    {
-    //        return $this->createQueryBuilder('c')
-    //            ->andWhere('c.exampleField = :val')
+    //        return $this->createQueryBuilder('m')
+    //            ->andWhere('m.exampleField = :val')
     //            ->setParameter('val', $value)
     //            ->getQuery()
     //            ->getOneOrNullResult()

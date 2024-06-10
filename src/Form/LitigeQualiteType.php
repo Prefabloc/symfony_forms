@@ -25,7 +25,8 @@ class LitigeQualiteType extends AbstractType
                 'class' => Societe::class,
                 'choice_label' => 'label',
                 'query_builder' => function (SocieteRepository $societeRepository) {
-                    return $societeRepository->createQueryBuilder('s')->orderBy('s.label', 'ASC');
+                    return $societeRepository->createQueryBuilder('s')
+                                             ->orderBy('s.label', 'ASC');
                 },
                 'attr' => [
                     'class' => "bg-neutral-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus: block w-full p-2.5"

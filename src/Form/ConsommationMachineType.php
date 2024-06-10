@@ -4,7 +4,6 @@ namespace App\Form;
 
 use App\Entity\ConsommationMachine;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -25,6 +24,20 @@ class ConsommationMachineType extends AbstractType
 //                "choices" => [
 //                    "engin" => "engin" ,
 //                    "vehicule" => "vehicule"
+//                ],
+//                'required' => true
+//            ])
+//            ->add('label', EntityType::class, [
+//                'label' => 'Machine',
+//                'placeholder' => '-- Sélectionner votre machine --',
+//                'class' => ConsommationMachine::class,
+//                'choice_label' => 'label',
+//                'query_builder' => function (ConsommationMachineRepository $consommationMachineRepository) {
+//                    return $consommationMachineRepository->createQueryBuilder('c')
+//                                                         ->orderBy('c.label', 'ASC');
+//                },
+//                'attr' => [
+//                    'class' => "bg-neutral-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus: block w-full p-2.5"
 //                ],
 //                'required' => true
 //            ])

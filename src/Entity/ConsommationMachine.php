@@ -62,7 +62,7 @@ class ConsommationMachine
 
     public function setQteEssence(?float $qteEssence): static
     {
-        $this->qteEssence += $qteEssence;
+        $this->qteEssence = $qteEssence;
 
         return $this;
     }
