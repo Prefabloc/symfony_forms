@@ -23,12 +23,14 @@ use App\Repository\Agregat\AgregatCarriereProductionMobileRepository;
 use App\Repository\Agregat\AgregatCarriereProductionPelleRepository;
 use App\Repository\Agregat\AgregatConcassageProductionChargeuseRepository;
 use App\Repository\Agregat\AgregatConcassageProductionPelleRepository;
+use App\Repository\ArticleRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
+#[Route('/agregat' , name: 'app_agregat_')]
 class AgregatController extends AbstractController
 {
     // #[Route('/agregat', name: 'app_agregat')]
@@ -40,7 +42,7 @@ class AgregatController extends AbstractController
     // }
 
     //CARRIERE
-    #[Route('/agregat/carriere/production/pelle', name: 'app_agregat_carriere_production_pelle')]
+    #[Route('/carriere/production/pelle', name: 'carriere_production_pelle')]
     public function carriereProductionPelle(Request $request, AgregatCarriereProductionPelleRepository $repository): Response
     {
         $url = $request->getUri();
@@ -58,7 +60,7 @@ class AgregatController extends AbstractController
     }
 
 
-    #[Route('/agregat/carriere/production/pelle/end', name: 'app_agregat_carriere_production_pelle_end', methods: ['POST'])]
+    #[Route('/carriere/production/pelle/end', name: 'carriere_production_pelle_end', methods: ['POST'])]
     public function endCarriereProductionPellearriereProductionPelle(Request $request, AgregatCarriereProductionPelleRepository $repository): Response
     {
         $id = $request->query->get('id');
@@ -68,7 +70,7 @@ class AgregatController extends AbstractController
         return $this->redirectToRoute('app_agregat_carriere_production_pelle');
     }
 
-    #[Route('/agregat/carriere/production/pelle/start', name: 'app_agregat_carriere_production_pelle_start', methods: ['POST'])]
+    #[Route('/carriere/production/pelle/start', name: 'carriere_production_pelle_start', methods: ['POST'])]
     public function startCarriereProductionPelle(Request $request, AgregatCarriereProductionPelleRepository $repository): Response
     {
         // Retrieve the raw JSON content from the request
@@ -87,7 +89,7 @@ class AgregatController extends AbstractController
         return $this->redirectToRoute('app_agregat_carriere_production_pelle');
     }
 
-    #[Route('/agregat/carriere/production/mobile', name: 'app_agregat_carriere_production_mobile')]
+    #[Route('/carriere/production/mobile', name: 'carriere_production_mobile')]
     public function carriereProductionMobile(Request $request, AgregatCarriereProductionMobileRepository $repository): Response
     {
         $url = $request->getUri();
@@ -104,7 +106,7 @@ class AgregatController extends AbstractController
         ]);
     }
 
-    #[Route('/agregat/carriere/production/mobile/end', name: 'app_agregat_carriere_production_mobile_end')]
+    #[Route('/carriere/production/mobile/end', name: 'carriere_production_mobile_end')]
     public function endCarriereProductionMobile(Request $request, AgregatCarriereProductionMobileRepository $repository): Response
     {
         $id = $request->query->get('id');
@@ -116,7 +118,7 @@ class AgregatController extends AbstractController
 
 
 
-    #[Route('/agregat/carriere/production/mobile/start', name: 'app_agregat_carriere_production_mobile_start')]
+    #[Route('/carriere/production/mobile/start', name: 'carriere_production_mobile_start')]
     public function startCarriereProductionMobile(Request $request, AgregatCarriereProductionMobileRepository $repository): Response
     {
         // Retrieve the raw JSON content from the request
@@ -137,7 +139,7 @@ class AgregatController extends AbstractController
         return $this->redirectToRoute('app_agregat_carriere_production_mobile');
     }
 
-    #[Route('/agregat/carriere/production/chargeuse', name: 'app_agregat_carriere_production_chargeuse')]
+    #[Route('/carriere/production/chargeuse', name: 'carriere_production_chargeuse')]
     public function carriereProductionChargeuse(Request $request, AgregatCarriereProductionChargeuseRepository $repository): Response
     {
         $url = $request->getUri();
@@ -154,7 +156,7 @@ class AgregatController extends AbstractController
         ]);
     }
 
-    #[Route('/agregat/carriere/production/chargeuse/end', name: 'app_agregat_carriere_production_chargeuse_end')]
+    #[Route('/carriere/production/chargeuse/end', name: 'carriere_production_chargeuse_end')]
     public function endCarriereProductionChargeuse(Request $request, AgregatCarriereProductionChargeuseRepository $repository): Response
     {
         $id = $request->query->get('id');
@@ -164,7 +166,7 @@ class AgregatController extends AbstractController
         return $this->redirectToRoute('app_agregat_carriere_production_chargeuse');
     }
 
-    #[Route('/agregat/carriere/production/chargeuse/start', name: 'app_agregat_carriere_production_chargeuse_start')]
+    #[Route('/carriere/production/chargeuse/start', name: 'carriere_production_chargeuse_start')]
     public function startCarriereProductionChargeuse(Request $request, AgregatCarriereProductionChargeuseRepository $repository): Response
     {
         // Retrieve the raw JSON content from the request
@@ -184,27 +186,44 @@ class AgregatController extends AbstractController
     }
 
 
-    #[Route('/agregat/carriere/saisie/debit' , name : 'app_agregat_carriere_saisie_debit')]
-    public function agregatCarriereSaisieDebit(Request $request , EntityManagerInterface $entityManager ) : Response
+    #[Route('/carriere/saisie/debit' , name : 'carriere_saisie_debit')]
+    public function agregatCarriereSaisieDebit() : Response
     {
         $agregatCarriereSaisieDebit = new CarriereSaisieDebit();
-
         $agregatCarriereSaisieDebitForm = $this->createForm( CarriereSaisieDebitType::class, $agregatCarriereSaisieDebit );
-        $agregatCarriereSaisieDebitForm->handleRequest($request);
 
-        if ( $agregatCarriereSaisieDebitForm->isSubmitted() && $agregatCarriereSaisieDebitForm->isValid() ) {
-            $entityManager->persist($agregatCarriereSaisieDebit);
-            $entityManager->flush();
+        return $this->render('agregat/CarriereSaisieDebit.html.twig' , [
+            'agregatCarriereSaisieDebitForm' => $agregatCarriereSaisieDebitForm->createView()
+        ]);
 
-            $this->addFlash('success' , 'Saisie du débit enregistrée !');
-            return $this->redirectToRoute('app_agregat_carriere_saisie_debit');
-        } else {
-            return $this->render('agregat/CarriereSaisieDebit.html.twig' , [ 'agregatCarriereSaisieDebitForm' => $agregatCarriereSaisieDebitForm->createView()]);
-        }
     }
 
+    #[Route('/carriere/saisie/debit/validate' , name: 'saisie_declassement_validate')]
+    public function agregatCarriereSaisieDebitValidate( Request $request , EntityManagerInterface $entityManager , ArticleRepository $articleRepository )
+    {
+        $jsonContent = $request->getContent();
 
-    #[Route('/agregat/carriere/saisie/pelle' , name : 'app_agregat_carriere_saisie_pelle ')]
+        $data = json_decode($jsonContent, true);
+
+        $articleId = $data['idArticle'] ?? null;
+
+        $article = $articleRepository->find($articleId);
+
+        $quantite = $data['qte'] ?? null;
+
+        $agregatCarriereSaisieDebit = new CarriereSaisieDebit();
+        $agregatCarriereSaisieDebit
+            ->setArticle($article)
+            ->setQuantite($quantite);
+
+        $entityManager->persist($agregatCarriereSaisieDebit);
+        $entityManager->flush();
+
+        $this->addFlash('success' , 'Saisie Débit réussie.');
+        return $this->redirectToRoute('app_agregat_carriere_saisie_debit');
+    }
+
+    #[Route('carriere/saisie/pelle' , name : 'carriere_saisie_pelle ')]
     public function agregatCarriereSaisiePelle( Request $request , EntityManagerInterface $entityManager ) : Response
     {
        $agregatCarriereSaisiePelle = new CarriereSaisiePelle();
@@ -234,7 +253,7 @@ class AgregatController extends AbstractController
 
 
     //CONCASSAGE
-    #[Route('/agregat/concassage/production/pelle', name: 'app_agregat_concassage_production_pelle')]
+    #[Route('/concassage/production/pelle', name: 'concassage_production_pelle')]
     public function concassageProductionPelle(Request $request, AgregatConcassageProductionPelleRepository $repository): Response
     {
         $url = $request->getUri();
@@ -251,7 +270,7 @@ class AgregatController extends AbstractController
         ]);
     }
 
-    #[Route('/agregat/concassage/production/pelle/end', name: 'app_agregat_concassage_production_pelle_end', methods: ['POST'])]
+    #[Route('/concassage/production/pelle/end', name: 'oncassage_production_pelle_end', methods: ['POST'])]
     public function endConcassageProductionPelle(Request $request, AgregatConcassageProductionPelleRepository $repository): Response
     {
         $id = $request->query->get('id');
@@ -261,7 +280,7 @@ class AgregatController extends AbstractController
         return $this->redirectToRoute('app_agregat_concassage_production_pelle');
     }
 
-    #[Route('/agregat/concassage/production/pelle/start', name: 'app_agregat_concassage_production_pelle_start')]
+    #[Route('/concassage/production/pelle/start', name: 'concassage_production_pelle_start')]
     public function startConcassageProductionPelle(Request $request, AgregatConcassageProductionPelleRepository $repository): Response
     {
         // Retrieve the raw JSON content from the request
@@ -280,7 +299,7 @@ class AgregatController extends AbstractController
         return $this->redirectToRoute('app_agregat_concassage_production_pelle');
     }
 
-    #[Route('/agregat/concassage/production/chargeuse', name: 'app_agregat_concassage_production_chargeuse')]
+    #[Route('/concassage/production/chargeuse', name: 'concassage_production_chargeuse')]
     public function concassageProductionChargeuse(Request $request, AgregatConcassageProductionChargeuseRepository $repository): Response
     {
         $url = $request->getUri();
@@ -297,7 +316,7 @@ class AgregatController extends AbstractController
         ]);
     }
 
-    #[Route('/agregat/concassage/production/chargeuse/end', name: 'app_agregat_concassage_production_chargeuse_end', methods: ['POST'])]
+    #[Route('/concassage/production/chargeuse/end', name: 'concassage_production_chargeuse_end', methods: ['POST'])]
     public function endConcassageProductionChargeuse(Request $request, AgregatConcassageProductionChargeuseRepository $repository): Response
     {
         $id = $request->query->get('id');
@@ -307,7 +326,7 @@ class AgregatController extends AbstractController
         return $this->redirectToRoute('app_agregat_concassage_production_chargeuse');
     }
 
-    #[Route('/agregat/concassage/production/chargeuse/start', name: 'app_agregat_concassage_production_chargeuse_start')]
+    #[Route('/concassage/production/chargeuse/start', name: 'concassage_production_chargeuse_start')]
     public function startConcassageProductionChargeuse(Request $request, AgregatConcassageProductionChargeuseRepository $repository): Response
     {
         // Start production 
@@ -318,7 +337,7 @@ class AgregatController extends AbstractController
     }
 
 
-    #[Route('/agregat/concassage/saisie/chargeuse' , name : 'app_agregat_concassage_saisie_chargeuse')]
+    #[Route('/concassage/saisie/chargeuse' , name : 'concassage_saisie_chargeuse')]
     public function agregatConcassageSaisieChargeuse(Request $request , EntityManagerInterface $entityManager ) : Response
     {
         $agregatConcassageSaisieChargeuse = new ConcassageSaisieChargeuse();
@@ -337,7 +356,7 @@ class AgregatController extends AbstractController
         }
     }
 
-    #[Route('/agregat/concassage/saisie/debit' , name : 'app_agregat_concassage_saisie_debit')]
+    #[Route('/concassage/saisie/debit' , name : 'concassage_saisie_debit')]
     public function agregatConcassageSaisieDebit(Request $request , EntityManagerInterface $entityManager ) : Response
     {
         $agregatConcassageSaisieDebit = new ConcassageSaisieDebit();
@@ -356,7 +375,7 @@ class AgregatController extends AbstractController
         }
     }
 
-    #[Route('/agregat/concassage/saisie/pelle' , name : 'app_agregat_concassage_saisie_pelle')]
+    #[Route('/concassage/saisie/pelle' , name : 'concassage_saisie_pelle')]
     public function agregatConcassageSaisiePelle(Request $request , EntityManagerInterface $entityManager ) : Response
     {
         $agregatConcassageSaisiePelle = new ConcassageSaisiePelle();

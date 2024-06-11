@@ -13,7 +13,9 @@
             {{ form_start(exformanSaisieDebitForm) }}
             <div class="divChampsForm">
                 <div class="mb-5">
+
                     <div style="display: flex ; justify-content: space-between" class="divSeparator divAutocompleteArticle" >
+
                         <label for="{{ field_name(exformanSaisieDebitForm.article ) }}">Article : </label>
                         <input type="text"
                                id="exformanSaisieDebit"
@@ -25,9 +27,11 @@
                         >
                         <ul id="exformanSaisieDebitSuggestionsArticle" class="suggestionsArticle"></ul>
                     </div>
+
                     <div>
                         {{ form_errors(exformanSaisieDebitForm.article) }}
                     </div>
+
                 </div>
 
                 <div class="mb-5">
@@ -56,7 +60,7 @@
 {% endblock %}
 
 {% block title %}
-    Exforman | Saisie | Débit
+    Exforman | Saisie Débit
 {% endblock %}
 
 {% block javascripts %}
@@ -122,9 +126,6 @@
 
                 let url = window.location.href ;
                 let fullUrl = `${url}/validate`
-
-                console.log(idArticle);
-                console.log(quantiteInput.value)
 
                 fetch( fullUrl , {
                     method : 'POST' ,
