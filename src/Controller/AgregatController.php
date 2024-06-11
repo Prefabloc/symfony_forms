@@ -434,24 +434,24 @@ class AgregatController extends AbstractController
         }
     }
 
-    #[Route('/agregat/concassage/production/mobile', name: 'app_agregat_concassage_production_mobile')]
-    public function concassageProductionMobile(Request $request, /*AgregatConcassageProductionMobileRepository $repository*/): Response
-    {
-        $url = $request->getUri();
-        // $entity = $repository->findLastActive();
+    // #[Route('/agregat/concassage/production/mobile', name: 'app_agregat_concassage_production_mobile')]
+    // public function concassageProductionMobile(Request $request, /*AgregatConcassageProductionMobileRepository $repository*/): Response
+    // {
+    //     $url = $request->getUri();
+    //     // $entity = $repository->findLastActive();
 
-        // $form = $this->createForm(AgregatCarriereProductionMobileType::class, $entity, [
-        //     'disable_fields' => $entity !== null
-        // ]);
+    //     // $form = $this->createForm(AgregatCarriereProductionMobileType::class, $entity, [
+    //     //     'disable_fields' => $entity !== null
+    //     // ]);
 
-        return $this->render('agregat/concassage/production/mobile.html.twig', [
-            'label' => "Production Mobile Concassage",
-            "url" => $url,
-            // "form" => $form->createView(),
-            // "productionId" => $entity == null ? 0 : $entity->getId(),
-            "productionType" => "agregat_concassage_mobile"
-        ]);
-    }
+    //     return $this->render('agregat/concassage/production/mobile.html.twig', [
+    //         'label' => "Production Mobile Concassage",
+    //         "url" => $url,
+    //         // "form" => $form->createView(),
+    //         // "productionId" => $entity == null ? 0 : $entity->getId(),
+    //         "productionType" => "agregat_concassage_mobile"
+    //     ]);
+    // }
 
     // #[Route('/agregat/concassage/saisie/pelle' , name : 'app_agregat_concassage_saisie_pelle')]
     // public function agregatConcassageSaisiePelle(Request $request , EntityManagerInterface $entityManager ) : Response
