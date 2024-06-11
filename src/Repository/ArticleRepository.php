@@ -34,6 +34,20 @@ class ArticleRepository extends ServiceEntityRepository
             ->getResult();
     }
 
+    public function findInBetonExforman( string $mot , int $idSociete )
+    {
+        return $this->createQueryBuilder('a')
+            ->andWhere('a.label LIKE :mot')
+            ->andWhere('a.societe = :val')
+            ->andWhere('a.typeArticle = :val2')
+            ->setParameter( 'mot' , '%' . $mot . '%')
+            ->setParameter( 'val' , $idSociete)
+            ->setParameter( 'val2' , 'Béton')
+            ->setMaxResults(10)
+            ->getQuery()
+            ->getResult();
+    }
+
     public function findInPalettes( string $mot , int $societeId )
     {
         return $this->createQueryBuilder('a')

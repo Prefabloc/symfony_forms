@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Entity\Agregat\CarriereSaisieDebit;
 use App\Entity\Exforman\SaisieDebit;
 use App\Entity\Exforman\SaisieDestockage;
 use App\Entity\Prefabloc\ReparationPalette;
@@ -80,6 +81,12 @@ class Article
     #[ORM\OneToMany(targetEntity: SaisieDestockage::class, mappedBy: 'article')]
     private Collection $saisieDestockages;
 
+    /**
+     * @var Collection<int, CarriereSaisieDebit>
+     */
+    #[ORM\OneToMany(targetEntity: CarriereSaisieDebit::class, mappedBy: 'article')]
+    private Collection $carriereSaisieDebits;
+
 
     public function __construct()
     {
@@ -89,6 +96,7 @@ class Article
         $this->saisieDeclassements = new ArrayCollection();
         $this->saisieDebits = new ArrayCollection();
         $this->saisieDestockages = new ArrayCollection();
+        $this->carriereSaisieDebits = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -342,6 +350,36 @@ class Article
             // set the owning side to null (unless already changed)
             if ($saisieDestockage->getArticle() === $this) {
                 $saisieDestockage->setArticle(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, CarriereSaisieDebit>
+     */
+    public function getCarriereSaisieDebits(): Collection
+    {
+        return $this->carriereSaisieDebits;
+    }
+
+    public function addCarriereSaisieDebit(CarriereSaisieDebit $carriereSaisieDebit): static
+    {
+        if (!$this->carriereSaisieDebits->contains($carriereSaisieDebit)) {
+            $this->carriereSaisieDebits->add($carriereSaisieDebit);
+            $carriereSaisieDebit->setArticle($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCarriereSaisieDebit(CarriereSaisieDebit $carriereSaisieDebit): static
+    {
+        if ($this->carriereSaisieDebits->removeElement($carriereSaisieDebit)) {
+            // set the owning side to null (unless already changed)
+            if ($carriereSaisieDebit->getArticle() === $this) {
+                $carriereSaisieDebit->setArticle(null);
             }
         }
 

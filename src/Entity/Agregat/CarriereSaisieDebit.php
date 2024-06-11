@@ -2,6 +2,7 @@
 
 namespace App\Entity\Agregat;
 
+use App\Entity\Article;
 use App\Repository\Agregat\CarriereSaisieDebitRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -14,39 +15,43 @@ class CarriereSaisieDebit
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(length: 50)]
-    private ?string $typeArticle = null;
+    #[ORM\ManyToOne(inversedBy: 'carriereSaisieDebits')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Article $article = null;
 
-    #[ORM\Column(length: 255 )]
+    #[ORM\Column]
     #[Assert\Range(notInRangeMessage: "Vous devez choisir un poids entre 1 et 1000 tonnes", min: 0, max: 1000)]
-    private ?string $nbrTonne = null;
+    private ?int $quantite = null;
 
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getTypeArticle(): ?string
+    public function getArticle(): ?Article
     {
-        return $this->typeArticle;
+        return $this->article;
     }
 
-    public function setTypeArticle(string $typeArticle): static
+    public function setArticle(?Article $article): static
     {
-        $this->typeArticle = $typeArticle;
+        $this->article = $article;
 
         return $this;
     }
 
-    public function getNbrTonne(): ?string
+    public function getQuantite(): ?int
     {
-        return $this->nbrTonne;
+        return $this->quantite;
     }
 
-    public function setNbrTonne(string $nbrTonne): static
+    public function setQuantite(int $quantite): static
     {
-        $this->nbrTonne = $nbrTonne;
+        $this->quantite = $quantite;
 
         return $this;
     }
+
+
+
 }
