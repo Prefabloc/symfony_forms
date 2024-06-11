@@ -70,7 +70,6 @@ class Signature {
     }
 
     genererImg() {
-        let image = this.canvas.toDataURL('image/png').replace('image/png', 'image/octet-stream');
-        return image;
+        return this.canvas.toDataURL('image/png').replace('image/png', 'image/octet-stream');
     }
 }

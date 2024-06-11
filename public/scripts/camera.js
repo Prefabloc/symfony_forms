@@ -15,7 +15,6 @@ document.addEventListener('DOMContentLoaded' , function() {
     const on = document.getElementById('camOn');
     const off = document.getElementById('camOff');
     const effacer = document.getElementById('effacer');
-    const svgNoCam = document.getElementById('noCamSVG');
     const showCamera = document.getElementById('afficherPhoto');
     const hideCamera = document.getElementById('masquerPhoto');
     const divPhotoBon = document.getElementById('divPhotoBon');
@@ -78,7 +77,6 @@ document.addEventListener('DOMContentLoaded' , function() {
             alert('Votre navigateur ne supporte pas getUserMedia');
         }
     }
-    on.addEventListener( "click", startCamera);
 
 
     //Fonction pour couper la caméra
@@ -91,7 +89,6 @@ document.addEventListener('DOMContentLoaded' , function() {
             takePicture.style.display = 'none';
         }
     }
-    off.addEventListener( 'click' , stopCamera );
 
 
     //Capturer la photo

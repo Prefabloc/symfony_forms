@@ -1,3 +1,13 @@
+@media screen and ( width: 2000px ) and ( height: 1200px ){
+    #afficherPhoto{
+        display: none;
+    }
+
+    #divUpload2{
+        display: flex !important;
+    }
+}
+
 @media screen and (max-width: 1200px) {
     .centered-content {
         width: 60% !important;
@@ -7,6 +17,13 @@
         height: 70vh !important;
     }
 
+    #afficherPhoto{
+        display: none;
+    }
+
+    #divUpload2{
+        display: flex !important;
+    }
 
 }
 
@@ -694,6 +711,8 @@ tr:nth-child(even) {
     flex-direction: column;
     justify-content: space-between;
     align-items: center;
+    text-align: center;
+    border-radius: 10px;
 }
 
 #divUpload2 > * {
