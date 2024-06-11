@@ -20,6 +20,10 @@ class ConsommationMachine
 
     #[ORM\Column(length: 255)]
     #[Assert\NotBlank()]
+//    #[Assert\Choice(choices: [
+//        'engin',
+//        'vehicule']
+//    )]
 //    #[Assert\Type(type: ['engin', 'vehicule'])]
     private ?string $type = null;
 

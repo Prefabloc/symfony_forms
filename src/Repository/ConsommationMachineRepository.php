@@ -16,28 +16,22 @@ class ConsommationMachineRepository extends ServiceEntityRepository
         parent::__construct($registry, ConsommationMachine::class);
     }
 
-    //    /**
-    //     * @return ConsommationMachine[] Returns an array of ConsommationMachine objects
-    //     */
-    //    public function findByExampleField($value): array
-    //    {
-    //        return $this->createQueryBuilder('c')
-    //            ->andWhere('c.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->orderBy('c.id', 'ASC')
-    //            ->setMaxResults(10)
-    //            ->getQuery()
-    //            ->getResult()
-    //        ;
-    //    }
+    public function findDistinctTypes(): array
+    {
+        $queryBuilder = $this->createQueryBuilder('m');
 
-    //    public function findOneBySomeField($value): ?ConsommationMachine
-    //    {
-    //        return $this->createQueryBuilder('c')
-    //            ->andWhere('c.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->getQuery()
-    //            ->getOneOrNullResult()
-    //        ;
-    //    }
+        $queryBuilder
+            ->select('m.label')
+            ->distinct();
+
+        $query = $queryBuilder->getQuery();
+
+        return $query->getResult();
+    }
+
+//    function (ConsommationMachineRepository $entityRepository) use ($options) {
+//                    return $entityRepository->createQueryBuilder('m')
+//                                            ->where('m.type = :type')
+//                                            ->setParameter('type', $options['type_machine'])
+//                                            ->orderBy('m.label', 'ASC');
 }
