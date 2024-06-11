@@ -2,6 +2,10 @@
 
 
 document.addEventListener('DOMContentLoaded' , function() {
+    //On récupère la taille de l'écran
+    let width = window.innerWidth ;
+    let height = window.innerHeight ;
+
     //On récupère les éléments html qui serviront
     const video = document.getElementById('video');
     const canvas = document.getElementById('canvasPhoto');
@@ -11,9 +15,10 @@ document.addEventListener('DOMContentLoaded' , function() {
     const on = document.getElementById('camOn');
     const off = document.getElementById('camOff');
     const effacer = document.getElementById('effacer');
-    const svgNoCam = document.getElementById('noCamSVG');
     const showCamera = document.getElementById('afficherPhoto');
+    const hideCamera = document.getElementById('masquerPhoto');
     const divPhotoBon = document.getElementById('divPhotoBon');
+    const divUpload2 = document.getElementById('divUpload2');
     const modalePhoto = document.getElementById('modaleConfirmationPhotoIdentificationPrestation')
     const boolPhoto = document.getElementById('validationPhoto');
     const boolSignature = document.getElementById('validationSignature');
@@ -27,20 +32,31 @@ document.addEventListener('DOMContentLoaded' , function() {
 
     //Afficher les divs pour la photo
     showCamera.addEventListener('click' , () => {
-        if ( divPhotoBon.style.display === 'none' ){
+        if ( width === 2000 && height === 1200 || width < 1200 ) {
+            divUpload2.style.display = 'flex';
+        } else {
             divPhotoBon.style.display = 'flex';
+            startCamera();
+            showCamera.style.display = 'none'
+            hideCamera.style.display = 'block'
+        }
+     })
+
+    hideCamera.addEventListener( 'click' , () => {
+        if ( width === 2000 && height === 1200 || width < 1200 ) {
+            divUpload2.style.display = 'none';
         } else {
             divPhotoBon.style.display = 'none';
+            hideCamera.style.display = 'none';
             stopCamera();
+            showCamera.style.display = 'flex';
+            showCamera.style.display = 'block';
         }
     })
 
     //Fonction pour lancer la caméra
     function startCamera() {
-        svgNoCam.style.display = 'none';
         video.style.display = 'block';
-        off.style.display = 'block';
-        on.style.display = 'none';
         takePicture.style.display = 'block';
         //On vérifie si le navigateur supporte l'API getUserMedia
         if ( navigator.mediaDevices && navigator.mediaDevices.getUserMedia() ) {
@@ -52,7 +68,6 @@ document.addEventListener('DOMContentLoaded' , function() {
                     video.onloadedmetadata = function ( e ) {
                         video.play();
                     }
-
                 })
                 .catch( function ( error ) {
                     console.error("Erreur lors de l'accès à la webcam : " , error )
@@ -62,7 +77,6 @@ document.addEventListener('DOMContentLoaded' , function() {
             alert('Votre navigateur ne supporte pas getUserMedia');
         }
     }
-    on.addEventListener( "click", startCamera);
 
 
     //Fonction pour couper la caméra
@@ -71,14 +85,10 @@ document.addEventListener('DOMContentLoaded' , function() {
             stream.getTracks().forEach( track => track.stop());
             video.srcObject = null ;
             stream = null ;
-            svgNoCam.style.display = 'flex';
             video.style.display = 'none'
             takePicture.style.display = 'none';
-            off.style.display = 'none';
-            on.style.display = 'block';
         }
     }
-    off.addEventListener( 'click' , stopCamera );
 
 
     //Capturer la photo
