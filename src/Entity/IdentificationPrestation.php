@@ -54,6 +54,10 @@ class IdentificationPrestation
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $photoBonPrestation = null;
 
+    #[ORM\ManyToOne(inversedBy: 'identificationPrestations')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Site $site = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -151,6 +155,18 @@ class IdentificationPrestation
     public function setPhotoBonPrestation(?string $photoBonPrestation): static
     {
         $this->photoBonPrestation = $photoBonPrestation;
+
+        return $this;
+    }
+
+    public function getSite(): ?Site
+    {
+        return $this->site;
+    }
+
+    public function setSite(?Site $site): static
+    {
+        $this->site = $site;
 
         return $this;
     }
