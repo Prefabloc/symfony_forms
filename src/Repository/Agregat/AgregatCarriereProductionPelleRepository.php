@@ -28,7 +28,7 @@ class AgregatCarriereProductionPelleRepository extends ServiceEntityRepository
 
         $entity = new AgregatCarriereProductionPelle();
         $entity->setMode($mode);
-        $timezone = new \DateTimeZone('Europe/Moscow'); // Example for UTC+3
+        $timezone = new \DateTimeZone('Indian/Reunion');
         $startedAt = new \DateTime('now', $timezone);
 
         // Set the endedAt time for the production
@@ -63,7 +63,7 @@ class AgregatCarriereProductionPelleRepository extends ServiceEntityRepository
         }
 
         // Create a DateTime object with UTC+3 time zone
-        $timezone = new \DateTimeZone('Europe/Moscow'); // Example for UTC+3
+        $timezone = new \DateTimeZone('Indian/Reunion');
         $endedAt = new \DateTime('now', $timezone);
 
         // Set the endedAt time for the production

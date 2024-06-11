@@ -1,0 +1,88 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+    <div class="centered-content">
+        <div>
+            <img id="imgPrefabloc" class="mx-auto" src="https://prefabloc.re/wp-content/uploads/2020/08/pfb-logo-horizontal-clr-01.png"
+                alt="" width="300" height="300" style="margin-top: 2vh">
+        </div>
+        <div class="my-2">
+            <h2 class="text-2xl font-bold text-center text-black-500">{{ label }}</h2>
+        </div>
+        <div style="width: 100%">
+            {{ form_start(form) }}
+            <div id="divPrefablocProductionArticle" style="text-align: center ; position: relative">
+                    {# <div class="divSeparator">
+                        <div class="inputSeparator">
+                            {{ form_label(form.mode ) }}
+                        </div>
+                        <div>
+                            {{ form_widget(form.mode ) }}
+                        </div>
+                    </div>
+                    <div>
+                        {{ form_errors(form.mode ) }}
+                    </div>
+                    </div>
+                <div> #}
+            </div>
+            {{ form_end(form, {'render_rest': false}) }}
+        </div>
+        <div class="flex gap-4">
+            {% if form.vars.value == null %}
+                <button class="bg-orange-900 hover:bg-orange-500 text-white font-bold py-2 px-4 rounded" onClick="startProduction()"> Démarrer
+                </button>
+            {% else %}
+                <button class="bg-red-500 text-white font-bold py-2 px-4 rounded"
+                    onClick="endProduction()"> Arreter
+                </button>
+                <button class="bg-gray-500 text-white font-bold py-2 px-4 rounded">
+                    Commentaire
+                </button>
+            {% endif %}
+        </div>
+        <div class="mt-10" id="productionInfoDiv">
+            {% if form.vars.value != null %}
+            <p>Commencé depuis {{form.vars.value.startedAt|date("d/m/Y h:i:s")}}</p>
+
+            {% endif %}
+        </div>
+    </div>
+{% endblock  %}
+
+{% block javascripts %}
+    <script>
+        let verifArticle = true;
+        let idArticle = null ;
+
+        function endProduction() {
+            productionId = "{{productionId}}"
+            window.location.href = `/agregat/concassage/saisie/chargeuse?id=${productionId}`;
+        }
+
+        async function startProduction() {
+            let url = "{{ url }}"
+            let fullUrl = `${url}/start`
+            //idArticle = document.getElementById('agregat_concassage_production_chargeuse_mode').value
+           
+                const response = await fetch(fullUrl, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        'idArticle': null
+                    })
+                })
+                
+                window.location.href = url
+            
+        }
+
+    </script>
+{% endblock %}
+
+{% block title %}
+    Saisie Production
+{% endblock %}
