@@ -25,6 +25,11 @@
                 </div>
                 <div class="mb-5">
                     <div style="display: flex; justify-content: space-between" class="divSeparator">
+                        <strong>Site : </strong> <span>{{ identificationPrestation.site.nom }}</span>
+                    </div>
+                </div>
+                <div class="mb-5">
+                    <div style="display: flex; justify-content: space-between" class="divSeparator">
                         <strong>Commanditaire : </strong> <span>{{ identificationPrestation.commanditaire }}</span>
                     </div>
                 </div>
@@ -155,6 +160,19 @@
                         </div>
                         <div>
                             {{ form_errors(identificationPrestationForm.prestation) }}
+                        </div>
+                    </div>
+                    <div class="mb-5">
+                        <div style="display: flex" class="divSeparator">
+                            <div class="inputSeparator">
+                                {{ form_label(identificationPrestationForm.site) }}
+                            </div>
+                            <div>
+                                {{ form_widget(identificationPrestationForm.site) }}
+                            </div>
+                        </div>
+                        <div>
+                            {{ form_errors(identificationPrestationForm.site) }}
                         </div>
                     </div>
                     <div class="mb-5">

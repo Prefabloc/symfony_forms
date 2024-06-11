@@ -2,6 +2,9 @@
 namespace App\Form;
 
 use App\Entity\IdentificationPrestation;
+use App\Entity\Site;
+use Svg\Tag\Text;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
@@ -41,6 +44,18 @@ class IdentificationPrestationType extends AbstractType
                     'class' => 'block p-2.5 w-full text-sm text-gray-900 bg-white rounded-md border border-gray-300  focus:border-orange-500 dark:bg-white dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-orange-500 dark:focus:border-orange-500'
                 ]
             ])
+            ->add('site', TextType::class, [
+                'label' => 'Site : ',
+                'data' => $options['site_name'],
+                'disabled' => true ,
+                'label_attr' => [
+                    'class' => 'block text-sm font-medium leading-6 text-gray-900'
+                ],
+                'attr' => [
+                    'class' => 'block p-2.5 w-full text-sm text-gray-900 bg-white rounded-md border border-gray-300  focus:border-orange-500 dark:bg-white dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-orange-500 dark:focus:border-orange-500',
+                    'readonly' => true
+                ]
+            ])
             ->add('commanditaire', TextType::class, [
                 'label' => 'Commanditaire : ',
                 'label_attr' => [
@@ -62,6 +77,7 @@ class IdentificationPrestationType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => IdentificationPrestation::class,
+            'site_name' => null,
         ]);
     }
 }

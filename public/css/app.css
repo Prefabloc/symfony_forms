@@ -293,9 +293,14 @@ input {
     text-align: center;
 }
 
+.flash-fail{
+    background-color: darkred; !important;
+    width: 40%;
+}
+
 .flash-success {
     background-color: forestgreen !important;
-    width: 20%;
+    width: 40%;
 }
 
 #divflash {

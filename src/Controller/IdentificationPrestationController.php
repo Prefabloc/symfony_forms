@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\IdentificationPrestation;
 use App\Form\IdentificationPrestationType;
 use App\Repository\IdentificationPrestationRepository;
+use App\Repository\SiteRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
@@ -18,7 +19,11 @@ use Symfony\Component\String\Slugger\SluggerInterface;
 class IdentificationPrestationController extends AbstractController
 {
     #[Route('/create', name: 'create')]
-    public function identificationPrestationForm(Request $request, EntityManagerInterface $entityManager, IdentificationPrestationRepository $identificationPrestationRepository): Response
+    public function identificationPrestationForm(Request $request,
+                                                 EntityManagerInterface $entityManager,
+                                                 IdentificationPrestationRepository $identificationPrestationRepository,
+                                                 SiteRepository $siteRepository
+    ): Response
     {
         date_default_timezone_set('Indian/Reunion');
         $session = $request->getSession();
@@ -30,6 +35,7 @@ class IdentificationPrestationController extends AbstractController
 
             if ($identificationPrestation->getHeureDepart() != null) {
                 $session->clear();
+                $this->addFlash('success', 'Identification Terminée !');
                 return $this->redirectToRoute('app_identification_prestation_create');
             } else {
                 return $this->render('identification_prestation/identificationPrestation.html.twig', [
@@ -37,12 +43,25 @@ class IdentificationPrestationController extends AbstractController
                 ]);
             }
         } else {
+
+            $nomSite = $request->query->get('site');
+            $site = $siteRepository->findOneBy(['nom' => $nomSite ]);
+
+            if ( !$site )
+            {
+                $this->addFlash('fail' , 'Pas de site trouvé avec ce QR Code.');
+                return $this->redirectToRoute('app_identification_prestation_create');
+            }
+
             $identificationPrestation = new IdentificationPrestation();
 
             $dateTimeArrivee = new \DateTime();
             $identificationPrestation->setHeureArrivee($dateTimeArrivee);
+            $identificationPrestation->setSite($site);
 
-            $identificationPrestationForm = $this->createForm(IdentificationPrestationType::class, $identificationPrestation);
+            $identificationPrestationForm = $this->createForm(IdentificationPrestationType::class, $identificationPrestation ,
+                [ 'site_name' => $nomSite ]
+            );
             $identificationPrestationForm->handleRequest($request);
 
             if ($identificationPrestationForm->isSubmitted() && $identificationPrestationForm->isValid()) {
