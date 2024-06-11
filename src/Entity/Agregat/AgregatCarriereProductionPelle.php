@@ -15,6 +15,15 @@ class AgregatCarriereProductionPelle extends ProductionForm
     #[ORM\Column(length: 255)]
     private ?string $mode = null;
 
+    #[ORM\OneToOne(mappedBy: 'production', cascade: ['persist', 'remove'])]
+    private ?CarriereSaisiePelle $carriereSaisiePelle = null;
+
+
+    public function __construct()
+    {
+        $this->comments = new ArrayCollection();
+    }
+
     public function getMode(): ?string
     {
         return $this->mode;
@@ -23,6 +32,23 @@ class AgregatCarriereProductionPelle extends ProductionForm
     public function setMode(string $mode): static
     {
         $this->mode = $mode;
+
+        return $this;
+    }
+
+    public function getCarriereSaisiePelle(): ?CarriereSaisiePelle
+    {
+        return $this->carriereSaisiePelle;
+    }
+
+    public function setCarriereSaisiePelle(CarriereSaisiePelle $carriereSaisiePelle): static
+    {
+        // set the owning side of the relation if necessary
+        if ($carriereSaisiePelle->getProduction() !== $this) {
+            $carriereSaisiePelle->setProduction($this);
+        }
+
+        $this->carriereSaisiePelle = $carriereSaisiePelle;
 
         return $this;
     }

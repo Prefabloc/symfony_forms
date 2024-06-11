@@ -91,7 +91,7 @@ class BTPValromexController extends AbstractController
         $btpProduction = new BTPProduction();
         $btpProduction->setArticle($article);
 
-        $timezone = new \DateTimeZone('Europe/Moscow'); // Example for UTC+3
+        $timezone = new \DateTimeZone('Indian/Reunion');
         $startedAt = new \DateTime('now', $timezone);
         $btpProduction->setStartedAt($startedAt);
 
@@ -136,7 +136,7 @@ class BTPValromexController extends AbstractController
         $valromexSaisieProductionForm->handleRequest($request);
 
         if ($valromexSaisieProductionForm->isSubmitted() && $valromexSaisieProductionForm->isValid()) {
-            $timezone = new \DateTimeZone('Europe/Moscow'); // Example for UTC+3
+            $timezone = new \DateTimeZone('Indian/Reunion'); // Example for UTC+3
             $endedAt = new \DateTime('now', $timezone);
             $production->setEndedAt($endedAt);
 

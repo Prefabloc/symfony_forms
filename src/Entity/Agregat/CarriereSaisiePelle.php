@@ -22,6 +22,10 @@ class CarriereSaisiePelle
     #[Assert\Range(notInRangeMessage: 'Vous devez choisir un nombre entre 0 et 1000 !', min: 0, max: 1000)]
     private ?int $quantite = null;
 
+    #[ORM\OneToOne(inversedBy: 'carriereSaisiePelle', cascade: ['persist', 'remove'])]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?AgregatCarriereProductionPelle $production = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -47,6 +51,18 @@ class CarriereSaisiePelle
     public function setQuantite(int $quantite): static
     {
         $this->quantite = $quantite;
+
+        return $this;
+    }
+
+    public function getProduction(): ?AgregatCarriereProductionPelle
+    {
+        return $this->production;
+    }
+
+    public function setProduction(AgregatCarriereProductionPelle $production): static
+    {
+        $this->production = $production;
 
         return $this;
     }

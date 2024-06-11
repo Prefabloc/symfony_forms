@@ -26,7 +26,7 @@ docker volume rm $(docker volume ls -q)
 
 ### Create database
 ``` 
-php bin/console doctrine:database:create
+php bin/console doctrine:database:create; 
 ```
 
 ### Make migration
@@ -44,8 +44,12 @@ php bin/console doctrine:migrations:migrate
 php bin/console doctrine:fixtures:load
 ```
 
-
-
-
 # Super command ()
 
+```
+docker-compose down; docker rmi -f $(docker images -a -q); docker volume rm $(docker volume ls -q); docker-compose up
+
+php bin/console doctrine:database:create; php bin/console make:migration; php bin/console doctrine:migrations:migrate; php bin/console doctrine:fixtures:load
+
+php bin/console --env=test doctrine:database:create; php bin/console --env=test doctrine:migrations:migrate; php bin/console --env=test doctrine:fixtures:load
+```

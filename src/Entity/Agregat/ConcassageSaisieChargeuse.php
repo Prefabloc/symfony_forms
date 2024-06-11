@@ -22,6 +22,9 @@ class ConcassageSaisieChargeuse
     #[Assert\Range(notInRangeMessage: "Vous devez choisir un poids entre 1 et 1000 tonnes", min: 0, max: 1000)]
     private ?int $quantite = null;
 
+    #[ORM\OneToOne(cascade: ['persist', 'remove'])]
+    private ?AgregatConcassageProductionChargeuse $production = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -47,6 +50,18 @@ class ConcassageSaisieChargeuse
     public function setQuantite(int $quantite): static
     {
         $this->quantite = $quantite;
+
+        return $this;
+    }
+
+    public function getProduction(): ?AgregatConcassageProductionChargeuse
+    {
+        return $this->production;
+    }
+
+    public function setProduction(?AgregatConcassageProductionChargeuse $production): static
+    {
+        $this->production = $production;
 
         return $this;
     }
