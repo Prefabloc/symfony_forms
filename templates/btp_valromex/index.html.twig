@@ -34,11 +34,10 @@
 
         <div class="flex gap-4">
             {% if productionForm.vars.value == null %}
-                <button class="bg-orange-900 hover:bg-orange-500 text-white font-bold py-2 px-4 rounded" onClick="startProduction()"> Demarrer
+                <button id="startProd" class="bg-orange-900 hover:bg-orange-500 text-white font-bold py-2 px-4 rounded"> Demarrer
                 </button>
             {% else %}
-                <button class="bg-red-500 text-white font-bold py-2 px-4 rounded"
-                        onClick="endProduction()"> Arreter
+                <button id="stopProd" class="bg-red-500 text-white font-bold py-2 px-4 rounded"> Arreter
                 </button>
                 <button class="bg-gray-500 text-white font-bold py-2 px-4 rounded">
                     Commentaire
@@ -55,91 +54,33 @@
 {% endblock  %}
 
 {% block javascripts %}
+    <script src="{{ asset('scripts/Autocomplete.js') }}"></script>
+    <script src="{{ asset('scripts/functionsEnvoiBack.js') }}"></script>
+
     <script>
-        let verifArticle = false ;
-        let idArticle = null ;
-
-
         document.addEventListener('DOMContentLoaded' , function () {
+            const startProd = document.getElementById('startProd');
+            const stopProd = document.getElementById('stopProd')
             const searchArticle = document.getElementById('BTPProductionSearchArticle');
             const suggestions = document.getElementById('BTPProductionSuggestionsArticle')
+            const url = '/article/autocomplete' ;
 
+            const autoC = new Autocomplete( searchArticle , suggestions , url )
+            document.addEventListener( 'click' , autoC.hideSuggestions );
 
-            searchArticle.addEventListener('input' , function () {
-                const mot = searchArticle.value ;
-
-                if ( mot.length < 2 ) {
-                    suggestions.style.display = 'none' ;
-                }
-
-                fetch(`/article/autocomplete?mot=${encodeURIComponent(mot)}`)
-                    .then( response => response.json() )
-                    .then( data => {
-                        suggestions.innerHTML = '' ;
-
-                        if ( data.length > 0 ) {
-                            suggestions.style.display = 'block' ;
-
-                            data.forEach( item => {
-                                const liGlobale = document.createElement('li');
-                                const divNom = document.createElement('div');
-                                const divRefStock = document.createElement('div');
-
-                                divNom.innerHTML = '<strong>' + item.label + '</strong>';
-                                divRefStock.innerHTML= '<strong> Ref : </strong>' + item.reference + '<strong> / Stock : </strong>'  + item.stock;
-
-
-                                liGlobale.addEventListener( 'click' , () => {
-                                    idArticle = item.id ;
-                                    searchArticle.value = item.label;
-                                    suggestions.style.display = 'none' ;
-                                    verifArticle = true ;
-                                })
-
-                                liGlobale.appendChild(divNom);
-                                liGlobale.appendChild(divRefStock);
-                                suggestions.appendChild(liGlobale);
-                            })
-                        } else {
-                            suggestions.style.display = 'none' ;
-                        }
-                    })
-            })
-
-            document.addEventListener('click', function (event) {
-                if (searchArticle.contains(event.target)) {
-                    suggestions.style.display = 'none';
-                }
-            });
-        })
-
-        function endProduction() {
-            productionId = "{{productionId}}"
-            window.location.href = `/btpvalromex/saisie/production?id=${productionId}`;
-        }
-
-        async function startProduction() {
-            let searchArticle = document.getElementById('BTPProductionSearchArticle');
-            let url = "{{ url }}"
-            let fullUrl = `${url}/start`
-
-            if ( verifArticle !== true ) {
-                alert('Veuillez choisir un article parmi la liste déroulante !!')
-            } else {
-                const response = await fetch(fullUrl, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({
-                        'idArticle' : idArticle
-                    })
+            if ( startProd ) {
+                startProd.addEventListener( 'click' , async function startProduction() {
+                    let idArticle = autoC.idArticle ;
+                    envoyerDonnees( idArticle );
                 })
-
-                window.location.href = url
             }
 
-        }
+            stopProd.addEventListener( "click",  function endProduction() {
+                productionId = "{{productionId}}"
+                window.location.href = `/btpvalromex/saisie/production?id=${productionId}`;
+            })
+
+        })
 
     </script>
 {% endblock %}
