@@ -16,6 +16,18 @@ class ConsommationEssenceRepository extends ServiceEntityRepository
         parent::__construct($registry, ConsommationEssence::class);
     }
 
+//    public function findDistinctTypes(): array
+//    {
+//        $queryBuilder = $this->createQueryBuilder('m');
+//
+//        $queryBuilder
+//            ->select('m.label')
+//            ->distinct();
+//
+//        $query = $queryBuilder->getQuery();
+//
+//        return $query->getResult();
+//    }
     //    /**
     //     * @return ConsommationEssence[] Returns an array of ConsommationEssence objects
     //     */
