@@ -53,48 +53,61 @@
     </div>
 </div>
 
+
+{% endblock %}
+
+
 {% block javascripts %}
 
-    <script>
-        document.addEventListener('DOMContentLoaded' , function () {
-            document.getElementById('inputPassword').addEventListener('input', function (e) {
+ <script>
+    document.addEventListener('DOMContentLoaded', function () {
+        document.getElementById('inputPassword').addEventListener('input', function (e) {
             this.value = this.value.replace(/[^0-9]/g, '');
         });
 
-            const searchId = document.getElementById('inputUsername');
-            const suggestions = document.getElementById('suggestionsId');
-            searchId.addEventListener('input' , function () {
-                const mot = searchId.value ;
-                if ( mot.length < 2 ) {
+        const searchId = document.getElementById('inputUsername');
+        const suggestions = document.getElementById('suggestionsId');
+        let debounceTimeout;
+
+        searchId.addEventListener('input', function () {
+            const mot = searchId.value;
+
+            clearTimeout(debounceTimeout);
+            debounceTimeout = setTimeout(() => {
+                if (mot.length < 2) {
                     suggestions.style.display = 'none';
+                    return;
                 }
+
                 fetch(`/login/autocomplete?mot=${encodeURIComponent(mot)}`)
-                    .then( response => response.json() )
-                    .then( data => {
+                    .then(response => response.json())
+                    .then(data => {
                         suggestions.innerHTML = '';
-                        if ( data.length > 0 ) {
-                            suggestions.style.display = 'block' ;
-                            data.forEach( item => {
+                        if (data.length > 0) {
+                            suggestions.style.display = 'block';
+                            data.forEach(item => {
                                 const li = document.createElement('li');
-                                li.innerHTML = '<strong>' + item.username + '<strong>'
-                                li.addEventListener( 'click' , () => {
-                                    searchId.value = item.username ;
+                                li.innerHTML = '<strong>' + item.username + '</strong>';
+                                li.addEventListener('click', () => {
+                                    searchId.value = item.username;
                                     suggestions.style.display = 'none';
-                                })
+                                });
                                 suggestions.appendChild(li);
-                            })
+                            });
                         } else {
                             suggestions.style.display = 'none';
                         }
-                    })
-            })
-          /*  document.addEventListener('click' , function( event ) {
-                if ( searchId.contains( event.target )) {
-                    suggestions.style.display = 'none' ;
-                }
-            })*/
-        })
-    </script>
+                    });
+            }, 500);
+        });
 
-{% endblock %}
+        document.addEventListener('click', function (event) {
+            if (!searchId.contains(event.target)) {
+                suggestions.style.display = 'none';
+            }
+        });
+    });
+</script>
+
+
 {% endblock %}
