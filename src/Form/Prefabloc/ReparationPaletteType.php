@@ -23,7 +23,7 @@ class ReparationPaletteType extends AbstractType
                     'class' => "block text-sm font-medium leading-6 text-gray-900"
                 ],
                 'class' => Article::class,
-                'placeholder' => 'Choisissez un type de palette...' ,
+                'placeholder' => '-- Choisissez un type de palette --' ,
                 'attr' => [
                     'class' => "bg-neutral-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus: block w-full p-2.5"
                 ],

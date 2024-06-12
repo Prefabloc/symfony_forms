@@ -6,7 +6,7 @@
         <div class="my-2">
             <h2 class="text-2xl font-bold text-center text-black-500 mtop2">Prefabloc Saisie Déclassement</h2>
         </div>
-        <div class="max-w-sm mx-auto" style="width: 100%">
+        <div class="mx-auto">
             {{ form_start(prefablocSaisieDeclassementForm) }}
             <div class="divChampsForm">
                 <div class="mb-5">
@@ -69,86 +69,29 @@
 {% endblock %}
 
 {% block javascripts %}
-    <script>
-        let idArticle = null ;
+    <script src="{{ asset('scripts/Autocomplete.js') }}"></script>
+    <script src="{{ asset('scripts/functionsEnvoiBack.js') }}"></script>
 
+    <script>
         document.addEventListener('DOMContentLoaded' , function () {
             const suggestions = document.getElementById('prefablocDeclassementSuggestionsArticle')
             const searchArticle = document.getElementById('prefablocDeclassementInputArticle');
-            const inputMotif = document.getElementById('saisie_declassement_motifDeclassement');
+            const inputMotif = document.getElementById('saisie_declassement_motifDeclassement')
             const quantiteInput = document.getElementById('saisie_declassement_quantite');
             const boutonEnvoi = document.getElementById('saisie_declassement_save');
+            const url = '/article/autocomplete'
 
+            const autoC = new Autocomplete( searchArticle , suggestions , url );
 
-            searchArticle.addEventListener('input' , function () {
-                const mot = searchArticle.value ;
-
-                if ( mot.length < 2 ) {
-                    suggestions.style.display = 'none' ;
-                }
-
-                fetch(`/article/autocomplete?mot=${encodeURIComponent(mot)}`)
-                    .then( response => response.json() )
-                    .then( data => {
-                        suggestions.innerHTML = '' ;
-
-                        if ( data.length > 0 ) {
-                            suggestions.style.display = 'block' ;
-
-                            data.forEach( item => {
-                                const liGlobale = document.createElement('li');
-                                const divNom = document.createElement('div');
-                                const divRefStock = document.createElement('div');
-
-                                divNom.innerHTML = '<strong>' + item.label + '</strong>';
-                                divRefStock.innerHTML= '<strong> Ref : </strong>' + item.reference + '<strong> / Stock : </strong>'  + item.stock;
-
-
-                                liGlobale.addEventListener( 'click' , () => {
-                                    idArticle = item.id ;
-                                    searchArticle.value = item.label;
-                                    suggestions.style.display = 'none' ;
-                                    verifArticle = true ;
-                                })
-
-                                liGlobale.appendChild(divNom);
-                                liGlobale.appendChild(divRefStock);
-                                suggestions.appendChild(liGlobale);
-                            })
-                        } else {
-                            suggestions.style.display = 'none' ;
-                        }
-                    })
-            })
-
-            document.addEventListener('click', function (event) {
-                if (searchArticle.contains(event.target)) {
-                    suggestions.style.display = 'none';
-                }
-            });
+            document.addEventListener( 'click' , autoC.hideSuggestions );
 
             boutonEnvoi.addEventListener( 'click' , ( event ) => {
                 event.preventDefault();
+                let idArticle = autoC.idArticle ;
+                let idMotif = inputMotif.value;
+                let qte = quantiteInput.value ;
 
-                let url = window.location.href ;
-                let fullUrl = `${url}/validate`
-
-                console.log(idArticle);
-                console.log(inputMotif.value)
-                console.log(quantiteInput.value)
-
-                fetch( fullUrl , {
-                    method : 'POST' ,
-                    headers : {
-                        'Content-Type': 'application/json'
-                    },
-                    body : JSON.stringify({
-                        'idArticle' : idArticle,
-                        'idMotif' : inputMotif.value,
-                        'qte' : quantiteInput.value
-                    })
-                })
-                window.location.href = url ;
+                envoyerDonneesMotifQte( idArticle , idMotif , qte );
             })
         })
 
