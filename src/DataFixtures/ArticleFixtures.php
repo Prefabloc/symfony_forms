@@ -11,6 +11,14 @@ class ArticleFixtures extends Fixture implements DependentFixtureInterface
 {
     public function load(ObjectManager $manager): void
     {
+        $typesArticles = [
+            'Préfabrication' ,
+            'Palettes',
+            'Béton',
+            'Fer',
+            'Poutrelles'
+        ];
+
         for ( $i = 1 ; $i <= 20 ; $i ++ ) {
             $rand = random_int(0 , 3);
             $article = new Article();
@@ -19,6 +27,7 @@ class ArticleFixtures extends Fixture implements DependentFixtureInterface
                 ->setReference("Rérérence".$i )
                 ->setStock(1000 )
                 ->setSociete($this->getReference('SOCIETE' . $rand ))
+                ->setTypeArticle( $typesArticles[random_int( 0 , 4 )])
                 ->setCanBeProduced(true);
 
             $manager->persist($article);

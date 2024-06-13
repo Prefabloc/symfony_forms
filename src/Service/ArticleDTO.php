@@ -10,8 +10,9 @@ class ArticleDTO
     public $societe;
     public $stock;
     public $canBeProduced ;
+    public $typeArticle;
 
-    public function __construct( $id , $label , $reference , $societe , $stock )
+    public function __construct( $id , $label , $reference , $societe , $stock , $typeArticle )
     {
         $this->id = $id ;
         $this->label = $label ;
@@ -19,6 +20,7 @@ class ArticleDTO
         $this->societe = $societe ;
         $this->stock = $stock ;
         $this->canBeProduced = true ;
+        $this->typeArticle = $typeArticle;
     }
 
 }

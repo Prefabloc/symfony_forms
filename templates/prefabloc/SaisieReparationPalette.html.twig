@@ -4,37 +4,39 @@
 
     <div class="centered-content">
         <div class="my-2">
-            <h2 class="text-2xl font-bold text-center text-black-500">Prefabloc Réparation Palette</h2>
+            <h2 class="text-2xl font-bold text-center text-black-500 mtop2">Prefabloc Réparation Palette</h2>
         </div>
         <div class="max-w-sm mx-auto">
             {{ form_start(prefablocRepartitionPaletteForm) }}
-            <div class="mb-5">
-                <div style="display: flex" class="divSeparator">
-                    <div class="inputSeparator">
-                        {{ form_label(prefablocRepartitionPaletteForm.typePalette) }}
+            <div class="divChampsForm">
+                <div class="mb-5">
+                    <div style="display: flex" class="divSeparator">
+                        <div class="inputSeparator">
+                            {{ form_label(prefablocRepartitionPaletteForm.typePalette) }}
+                        </div>
+                        <div>
+                            {{ form_widget(prefablocRepartitionPaletteForm.typePalette) }}
+                        </div>
                     </div>
                     <div>
-                        {{ form_widget(prefablocRepartitionPaletteForm.typePalette) }}
+                        {{ form_errors(prefablocRepartitionPaletteForm.typePalette) }}
                     </div>
                 </div>
-                <div>
-                    {{ form_errors(prefablocRepartitionPaletteForm.typePalette) }}
-                </div>
-            </div>
-            <div class="mb-5">
-                <div style="display: flex" class="divSeparator">
-                    <div class="inputSeparator">
-                        {{ form_label(prefablocRepartitionPaletteForm.quantite) }}
+                <div class="mb-5">
+                    <div style="display: flex" class="divSeparator">
+                        <div class="inputSeparator">
+                            {{ form_label(prefablocRepartitionPaletteForm.quantite) }}
+                        </div>
+                        <div>
+                            {{ form_widget(prefablocRepartitionPaletteForm.quantite) }}
+                        </div>
                     </div>
                     <div>
-                        {{ form_widget(prefablocRepartitionPaletteForm.quantite) }}
+                        {{ form_errors(prefablocRepartitionPaletteForm.quantite) }}
                     </div>
                 </div>
-                <div>
-                    {{ form_errors(prefablocRepartitionPaletteForm.quantite) }}
-                </div>
             </div>
-            <div>
+            <div class="mtop2">
                 {{ form_row( prefablocRepartitionPaletteForm.save) }}
             </div>
 

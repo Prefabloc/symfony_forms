@@ -34,6 +34,20 @@ class ArticleRepository extends ServiceEntityRepository
             ->getResult();
     }
 
+    public function findInPalettes( string $mot , int $societeId )
+    {
+        return $this->createQueryBuilder('a')
+            ->andWhere('a.label LIKE :mot')
+            ->andWhere( 'a.societe = :val')
+            ->andWhere( 'a.typeArticle = :val2' )
+            ->setParameter( 'mot' , '%' . $mot . '%')
+            ->setParameter( 'val' , $societeId )
+            ->setParameter( 'val2' , 'Palettes' )
+            ->setMaxResults( 10 )
+            ->getQuery()
+            ->getResult();
+    }
+
     //    /**
 //     * @return Article[] Returns an array of Article objects
 //     */
