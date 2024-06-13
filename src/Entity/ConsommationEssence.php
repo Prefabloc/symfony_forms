@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\ConsommationEssenceRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: ConsommationEssenceRepository::class)]
 class ConsommationEssence
@@ -14,6 +15,7 @@ class ConsommationEssence
     private ?int $id = null;
 
     #[ORM\Column]
+    #[Assert\GreaterThan(0)]
     private ?float $quantite = null;
 
     #[ORM\ManyToOne(inversedBy: 'consommationEssences')]

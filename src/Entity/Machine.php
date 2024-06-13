@@ -6,6 +6,7 @@ use App\Repository\MachineRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: MachineRepository::class)]
 class Machine
@@ -16,16 +17,16 @@ class Machine
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    #[Assert\NotBlank()]
+    #[Assert\NotBlank(message: "Vous devez renseigner le nom d'une machine !")]
+    #[Assert\Length(min: 1, minMessage: "Vous devez saisie au moins un caractère !")]
     private ?string $label = null;
 
     #[ORM\Column(length: 255)]
     #[Assert\NotBlank()]
-//    #[Assert\Choice(choices: [
-//        'engin',
-//        'vehicule']
-//    )]
-//    #[Assert\Type(type: ['engin', 'vehicule'])]
+    #[Assert\Choice(choices: [
+        'engin',
+        'vehicule']
+    )]
     private ?string $type = null;
 
     #[ORM\Column]

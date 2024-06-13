@@ -18,17 +18,19 @@ class LitigeQualite
     #[ORM\JoinColumn(nullable: false)]
     private ?Societe $societe = null;
 
-    #[ORM\Column(length: 255)]
-    #[Assert\NotBlank()]
-    #[Assert\Length(min: 2, max: 50)]
+    #[ORM\Column(length: 50)]
+    #[Assert\NotBlank(message: 'Vous devez renseigner un client !')]
+    #[Assert\Length(min: 1, max: 50,
+        minMessage: 'Vous devez saisir au moins un caractère !',
+        maxMessage: 'Vous devez saisir moins de 51 caractères !')]
     private ?string $clients = null;
 
     #[ORM\Column(length: 255)]
-    #[Assert\NotBlank()]
+    #[Assert\NotBlank(message: 'Vous devez renseigner un numéro de bon de livraison !')]
     private ?string $blv = null;
 
     #[ORM\Column(length: 255)]
-    #[Assert\NotBlank()]
+    #[Assert\NotBlank(message: 'Vous devez renseigner un article !')]
     private ?string $article = null;
 
     #[ORM\Column]
@@ -36,7 +38,7 @@ class LitigeQualite
     private ?int $volume = null;
 
     #[ORM\Column(length: 255)]
-    #[Assert\NotBlank()]
+    #[Assert\NotBlank(message: 'Vous devez renseigner un motif de non conformité !')]
     private ?string $conformite = null;
 
     public function getId(): ?int
