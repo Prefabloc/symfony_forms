@@ -24,13 +24,14 @@ class ArticleController extends AbstractController
         //On récupère le mot entré dans le champ de recherche
         $mot = $request->query->get('mot');
 
-        //Si pas de mot, on retourne une réponse Json vide
+        //Si pas de mot, on retourne une réponse Json vid
         if (!$mot) {
             return new JsonResponse([]);
         }
 
-        if ( $referer === 'https://127.0.0.1:8000/exforman/saisie/debit' || $referer === 'https://127.0.0.1:8000/agregat/carriere/saisie/debit' ) {
-            $results = $articleRepository->findInBetonExforman( $mot , $this->getUser()->getSociete()->getId());
+        if ( $referer === 'https://127.0.0.1:8000/exforman/saisie/debit' || $referer === 'https://127.0.0.1:8000/agregat/carriere/saisie/debit'
+            || $referer === 'https://127.0.0.1:8000/agregat/concassage/saisie/chargeuse') {
+            $results = $articleRepository->findInBeton( $mot , $this->getUser()->getSociete()->getId());
         } else {
             //Sinon, on va chercher dans le repository des articles dont le label contient le mot
             $results = $articleRepository->findByTerm($mot, $this->getUser()->getSociete()->getId());

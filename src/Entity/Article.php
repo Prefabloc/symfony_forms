@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Entity\Agregat\CarriereSaisieDebit;
+use App\Entity\Agregat\ConcassageSaisieChargeuse;
+use App\Entity\Agregat\ConcassageSaisiePelle;
 use App\Entity\Exforman\SaisieDebit;
 use App\Entity\Exforman\SaisieDestockage;
 use App\Entity\Prefabloc\ReparationPalette;
@@ -87,6 +89,18 @@ class Article
     #[ORM\OneToMany(targetEntity: CarriereSaisieDebit::class, mappedBy: 'article')]
     private Collection $carriereSaisieDebits;
 
+    /**
+     * @var Collection<int, ConcassageSaisieChargeuse>
+     */
+    #[ORM\OneToMany(targetEntity: ConcassageSaisieChargeuse::class, mappedBy: 'article')]
+    private Collection $concassageSaisieChargeuses;
+
+    /**
+     * @var Collection<int, ConcassageSaisiePelle>
+     */
+    #[ORM\OneToMany(targetEntity: ConcassageSaisiePelle::class, mappedBy: 'article')]
+    private Collection $concassageSaisiePelles;
+
 
     public function __construct()
     {
@@ -97,6 +111,8 @@ class Article
         $this->saisieDebits = new ArrayCollection();
         $this->saisieDestockages = new ArrayCollection();
         $this->carriereSaisieDebits = new ArrayCollection();
+        $this->concassageSaisieChargeuses = new ArrayCollection();
+        $this->concassageSaisiePelles = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -380,6 +396,66 @@ class Article
             // set the owning side to null (unless already changed)
             if ($carriereSaisieDebit->getArticle() === $this) {
                 $carriereSaisieDebit->setArticle(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, ConcassageSaisieChargeuse>
+     */
+    public function getConcassageSaisieChargeuses(): Collection
+    {
+        return $this->concassageSaisieChargeuses;
+    }
+
+    public function addConcassageSaisieChargeus(ConcassageSaisieChargeuse $concassageSaisieChargeus): static
+    {
+        if (!$this->concassageSaisieChargeuses->contains($concassageSaisieChargeus)) {
+            $this->concassageSaisieChargeuses->add($concassageSaisieChargeus);
+            $concassageSaisieChargeus->setArticle($this);
+        }
+
+        return $this;
+    }
+
+    public function removeConcassageSaisieChargeus(ConcassageSaisieChargeuse $concassageSaisieChargeus): static
+    {
+        if ($this->concassageSaisieChargeuses->removeElement($concassageSaisieChargeus)) {
+            // set the owning side to null (unless already changed)
+            if ($concassageSaisieChargeus->getArticle() === $this) {
+                $concassageSaisieChargeus->setArticle(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, ConcassageSaisiePelle>
+     */
+    public function getConcassageSaisiePelles(): Collection
+    {
+        return $this->concassageSaisiePelles;
+    }
+
+    public function addConcassageSaisiePelle(ConcassageSaisiePelle $concassageSaisiePelle): static
+    {
+        if (!$this->concassageSaisiePelles->contains($concassageSaisiePelle)) {
+            $this->concassageSaisiePelles->add($concassageSaisiePelle);
+            $concassageSaisiePelle->setArticle($this);
+        }
+
+        return $this;
+    }
+
+    public function removeConcassageSaisiePelle(ConcassageSaisiePelle $concassageSaisiePelle): static
+    {
+        if ($this->concassageSaisiePelles->removeElement($concassageSaisiePelle)) {
+            // set the owning side to null (unless already changed)
+            if ($concassageSaisiePelle->getArticle() === $this) {
+                $concassageSaisiePelle->setArticle(null);
             }
         }
 

@@ -38,7 +38,7 @@ class ValromexSaisieDeclassementType extends AbstractType
                 ],
                 'class' => MotifDeclassement::class,
                 'choice_label' => 'motif' ,
-                'placeholder' => 'Choisissez un motif' ,
+                'placeholder' => '-- Choisissez un motif --' ,
                 "required" => true
             ])
             ->add('quantite',  IntegerType::class , [

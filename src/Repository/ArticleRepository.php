@@ -34,7 +34,7 @@ class ArticleRepository extends ServiceEntityRepository
             ->getResult();
     }
 
-    public function findInBetonExforman( string $mot , int $idSociete )
+    public function findInBeton( string $mot , int $idSociete )
     {
         return $this->createQueryBuilder('a')
             ->andWhere('a.label LIKE :mot')
