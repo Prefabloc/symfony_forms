@@ -5,37 +5,43 @@
 
     <div class="centered-content">
         <div class="my-2">
-            <h2 class="text-2xl font-bold text-center text-black-500">Exforman Saisie Déstockage</h2>
+            <h2 class="text-2xl font-bold text-center text-black-500 mtop2">Exforman Saisie Déstockage</h2>
         </div>
         <div>
             {{ form_start(exformanSaisieDestockageForm) }}
-            <div>
-                <div style="display: flex" class="divSeparator">
-                    <div class="inputSeparator">
-                        {{ form_label(exformanSaisieDestockageForm.typeArticle) }}
+            <div class="divChampsForm">
+                <div>
+                    <div class="divSeparator searchContainer">
+                        <label for="{{ field_name(exformanSaisieDestockageForm.article ) }}">Article : </label>
+                        <input type="text"
+                               id="exformanSaisieDestockage"
+                               name="exformanSaisieDestockage"
+                               placeholder="Nom de l'article..."
+                               autocomplete="off"
+                               class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-black-600 sm:text-sm sm:leading-6"
+                               style="height: 2rem ; width: 40%"
+                        >
+                        <ul id="exformanSaisieDestockageSuggestionsArticle" class="suggestionsArticle"></ul>
                     </div>
                     <div>
-                        {{ form_widget(exformanSaisieDestockageForm.typeArticle) }}
+                        {{ form_errors(exformanSaisieDestockageForm.article) }}
                     </div>
                 </div>
                 <div>
-                    {{ form_errors(exformanSaisieDestockageForm.typeArticle) }}
-                </div>
-            </div>
-            <div>
-                <div style="display: flex" class="divSeparator">
-                    <div class="inputSeparator">
-                        {{ form_label(exformanSaisieDestockageForm.quantite) }}
+                    <div style="display: flex" class="divSeparator">
+                        <div class="inputSeparator">
+                            {{ form_label(exformanSaisieDestockageForm.quantite) }}
+                        </div>
+                        <div>
+                            {{ form_widget(exformanSaisieDestockageForm.quantite) }}
+                        </div>
                     </div>
                     <div>
-                        {{ form_widget(exformanSaisieDestockageForm.quantite) }}
+                        {{ form_errors(exformanSaisieDestockageForm.quantite) }}
                     </div>
                 </div>
-                <div>
-                    {{ form_errors(exformanSaisieDestockageForm.quantite) }}
-                </div>
             </div>
-            <div>
+            <div class="mtop2">
                 {{ form_row( exformanSaisieDestockageForm.save ) }}
             </div>
 
@@ -48,3 +54,30 @@
     Exforman | Saisie | Déstockage
 {% endblock %}
 
+
+{% block javascripts %}
+    <script src="{{ asset('scripts/Autocomplete.js') }}"></script>
+    <script src="{{ asset('scripts/functionsEnvoiBack.js') }}"></script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded' , async function () {
+            const suggestions = document.getElementById('exformanSaisieDestockageSuggestionsArticle')
+            const searchArticle = document.getElementById('exformanSaisieDestockage');
+            const quantiteInput = document.getElementById('saisie_destockage_quantite');
+            const boutonEnvoi = document.getElementById('saisie_destockage_save');
+            const url = '/article/autocomplete'
+
+            const autoC = new Autocomplete( searchArticle , suggestions , url );
+
+            document.addEventListener( 'click' , autoC.hideSuggestions );
+
+            boutonEnvoi.addEventListener( 'click' , ( event ) => {
+                event.preventDefault();
+                let idArticle = autoC.idArticle ;
+                let quantite = quantiteInput.value ;
+
+                envoyerDonneesQte( idArticle , quantite );
+            })
+        })
+    </script>
+{% endblock %}

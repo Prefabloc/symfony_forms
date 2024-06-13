@@ -91,8 +91,9 @@ class AgregatController extends AbstractController
         return $this->redirectToRoute('app_agregat_carriere_production_pelle');
     }
 
+    /*
     #[Route('/carriere/production/mobile', name: 'carriere_production_mobile')]
-    public function agregatCarriereSaisiePelle(Request $request, EntityManagerInterface $entityManager, AgregatCarriereProductionPelleRepository $repository): Response
+    public function agregatCarriereProductionMobile(Request $request, EntityManagerInterface $entityManager, AgregatCarriereProductionPelleRepository $repository): Response
     {
         $agregatCarriereSaisiePelle = new CarriereSaisiePelle();
 
@@ -122,7 +123,7 @@ class AgregatController extends AbstractController
             return $this->render('agregat/CarriereSaisiePelle.html.twig', ['agregatCarriereSaisiePellForm' => $agregatCarriereSaisiePelleForm->createView()]);
         }
     }
-
+    */
     #[Route('/agregat/carriere/production/mobile', name: 'app_agregat_carriere_production_mobile')]
     public function carriereProductionMobile(Request $request, AgregatCarriereProductionMobileRepository $repository): Response
     {
@@ -338,6 +339,7 @@ class AgregatController extends AbstractController
         return $this->redirectToRoute('app_agregat_concassage_production_pelle');
     }
 
+    /*
     #[Route('/concassage/production/chargeuse', name: 'concassage_production_chargeuse')]
     public function agregatConcassageSaisiePelle(Request $request, EntityManagerInterface $entityManager, AgregatConcassageProductionPelleRepository $repository): Response
     {
@@ -369,6 +371,7 @@ class AgregatController extends AbstractController
             return $this->render('agregat/ConcassageSaisiePelle.html.twig', ['agregatConcassageSaisiePelleForm' => $agregatConcassageSaisiePelleForm->createView()]);
         }
     }
+    */
 
     #[Route('/agregat/concassage/production/chargeuse', name: 'app_agregat_concassage_production_chargeuse')]
     public function concassageProductionChargeuse(Request $request, AgregatConcassageProductionChargeuseRepository $repository): Response

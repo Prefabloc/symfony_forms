@@ -14,7 +14,7 @@
             <div class="divChampsForm">
                 <div class="mb-5">
 
-                    <div style="display: flex ; justify-content: space-between" class="divSeparator divAutocompleteArticle" >
+                    <div class="divSeparator searchContainer" >
 
                         <label for="{{ field_name(exformanSaisieDebitForm.article ) }}">Article : </label>
                         <input type="text"
@@ -48,8 +48,24 @@
                         {{ form_errors(exformanSaisieDebitForm.quantite) }}
                     </div>
                 </div>
+
+
+                <div id="divMinuteur">
+                    <div id="minuteur">
+                        <span id="minutes">00</span>:<span id="seconds">00</span>
+                    </div>
+
+                    <div id="divBoutonsMinuteur">
+                        <button type="button" id="startChrono" class="mall1 px-3 py-2 text-xs font-medium text-center inline-flex items-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 dark:bg-green-600 dark:hover:bg-green-700 ">Start</button>
+                        <button type="button" id="stopChrono" class="mall1 px-3 py-2 text-xs font-medium text-center inline-flex items-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 dark:bg-red-600 dark:hover:bg-red-700 ">Stop</button>
+                        <button type="button" id="resetChrono" class="mall1 px-3 py-2 text-xs font-medium text-center inline-flex items-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 dark:bg-yellow-500 dark:hover:bg-yellow-600 ">Reset</button>
+                    </div>
+                </div>
+
              </div>
         </div>
+
+
             <div>
                 {{ form_row( exformanSaisieDebitForm.save ) }}
             </div>
@@ -66,6 +82,7 @@
 {% block javascripts %}
     <script src="{{ asset('scripts/Autocomplete.js') }}"></script>
     <script src="{{ asset('scripts/functionsEnvoiBack.js') }}"></script>
+    <script src="{{ asset('scripts/minuteur.js') }}"></script>
 
     <script>
         document.addEventListener('DOMContentLoaded' , async function () {
@@ -74,6 +91,10 @@
             const quantiteInput = document.getElementById('saisie_debit_quantite');
             const boutonEnvoi = document.getElementById('saisie_debit_save');
             const url = '/article/autocomplete'
+            const start = document.getElementById('startChrono');
+            const stop = document.getElementById('stopChrono');
+            const reset = document.getElementById('resetChrono');
+
 
             const autoC = new Autocomplete( searchArticle , suggestions , url );
 
@@ -85,6 +106,19 @@
                 let quantite = quantiteInput.value ;
 
                 envoyerDonneesQte( idArticle , quantite );
+            })
+
+            start.addEventListener( "click", ( event ) => {
+                event.preventDefault();
+                startTimer();
+            })
+            stop.addEventListener( "click", ( event ) => {
+                event.preventDefault();
+                stopTimer();
+            })
+            reset.addEventListener( "click", ( event ) => {
+                event.preventDefault();
+                resetTimer();
             })
         })
     </script>

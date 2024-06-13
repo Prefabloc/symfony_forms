@@ -233,7 +233,7 @@ main {
     margin-top: 10vh;
     border-radius: 20px;
     height: fit-content;
-    width: 50vw;
+    width: 40vw;
     gap: 2vh;
     padding-bottom: 2vh;
 
@@ -272,6 +272,7 @@ input {
 }
 
 .divSeparator {
+    display: flex;
     margin: 20px;
     justify-content: space-between;
     align-items: center;
@@ -420,6 +421,10 @@ tr:nth-child(even) {
     border-radius: 10px;
 }
 
+.searchContainer {
+    position: relative;
+}
+
 .suggestionsArticle {
     list-style-type: none;
     padding: 5px;
@@ -433,7 +438,6 @@ tr:nth-child(even) {
     background-color: #fff;
     width: 100%;
     display: none;
-
 }
 
 .suggestionsArticle li {
@@ -722,4 +726,34 @@ tr:nth-child(even) {
 
 #divUpload2 > * {
     margin-bottom: 1.5rem;
+}
+
+.mtop2{
+    margin-top: 2rem;
+}
+
+.divChampsForm {
+    border: 1px solid black;
+    border-radius: 10px;
+    background-color: white;
+}
+
+.mall1 {
+    margin : 1rem ;
+}
+
+#divMinuteur{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+#minuteur {
+    border : 1px solid black ;
+    border-radius: 20px;
+    width: 30%;
+    background-color: black;
+    color: white;
+    font-size: 2rem;
 }

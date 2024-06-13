@@ -12,14 +12,12 @@ document.addEventListener('DOMContentLoaded' , function() {
     const takePicture = document.getElementById('snap');
     const upload = document.getElementById('upload');
     const context = canvas.getContext('2d');
-    const on = document.getElementById('camOn');
-    const off = document.getElementById('camOff');
     const effacer = document.getElementById('effacer');
     const showCamera = document.getElementById('afficherPhoto');
     const hideCamera = document.getElementById('masquerPhoto');
     const divPhotoBon = document.getElementById('divPhotoBon');
     const divUpload2 = document.getElementById('divUpload2');
-    const modalePhoto = document.getElementById('modaleConfirmationPhotoIdentificationPrestation')
+    const modalePhoto = document.getElementById('modaleConfirmationPhotoIdentificationPrestation');
     const boolPhoto = document.getElementById('validationPhoto');
     const boolSignature = document.getElementById('validationSignature');
     const registerIdentification = document.getElementById('registerIdentification');

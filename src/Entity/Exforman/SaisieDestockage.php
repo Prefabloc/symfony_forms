@@ -15,8 +15,6 @@ class SaisieDestockage
     #[ORM\Column]
     private ?int $id = null;
 
-
-
     #[ORM\Column]
     #[Assert\Range(notInRangeMessage: "Vous devez choisir un poids entre 1 et 1000 tonnes", min: 0, max: 1000)]
     private ?int $quantite = null;

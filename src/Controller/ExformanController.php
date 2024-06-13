@@ -127,28 +127,44 @@ class ExformanController extends AbstractController
         $entityManager->persist($exformanSaisieDebit);
         $entityManager->flush();
 
-        $this->addFlash('success' , 'Saisie Déclassement réussie.');
+        $this->addFlash('success' , 'Saisie Débit réussie.');
         return $this->redirectToRoute('app_exforman_saisie_debit');
     }
 
 
 
     #[Route('/saisie/destockage' , name : 'saisie_destockage')]
-    public function exformanSaisieDestockage(Request $request , EntityManagerInterface $entityManager ) : Response
+    public function exformanSaisieDestockage() : Response
     {
         $exformanSaisieDestockage = new SaisieDestockage();
-
         $exformanSaisieDestockageForm = $this->createForm(SaisieDestockageType::class, $exformanSaisieDestockage);
-        $exformanSaisieDestockageForm->handleRequest($request);
 
-        if ($exformanSaisieDestockageForm->isSubmitted() && $exformanSaisieDestockageForm->isValid()) {
-            $entityManager->persist($exformanSaisieDestockage);
-            $entityManager->flush();
+        return $this->render('exforman/SaisieDestockage.html.twig', ['exformanSaisieDestockageForm' => $exformanSaisieDestockageForm->createView()]);
 
-            $this->addFlash('success', "Saisie du destockage enregistrée !");
-            return $this->redirectToRoute('app_exforman_saisie_destockage');
-        } else {
-            return $this->render('exforman/SaisieDestockage.html.twig', ['exformanSaisieDestockageForm' => $exformanSaisieDestockageForm->createView()]);
-        }
+    }
+
+    #[Route('/saisie/destockage/validate' , name : 'saisie_destockage_validate')]
+    public function exformanSaisieDestockageValidate( Request $request , EntityManagerInterface $entityManager , ArticleRepository $articleRepository )
+    {
+        $jsonContent = $request->getContent();
+
+        $data = json_decode($jsonContent, true);
+
+        $articleId = $data['idArticle'] ?? null;
+        $article = $articleRepository->find($articleId);
+
+        $quantite = $data['qte'] ?? null;
+
+        $exformanSaisieDestock = new SaisieDebit();
+        $exformanSaisieDestock
+            ->setArticle($article)
+            ->setQuantite($quantite);
+
+        $entityManager->persist($exformanSaisieDestock);
+        $entityManager->flush();
+
+        $this->addFlash('success' , 'Saisie Destockage réussie.');
+        return $this->redirectToRoute('app_exforman_saisie_destockage');
+
     }
 }

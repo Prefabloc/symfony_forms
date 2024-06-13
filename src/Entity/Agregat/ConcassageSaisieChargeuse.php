@@ -2,6 +2,7 @@
 
 namespace App\Entity\Agregat;
 
+use App\Entity\Article;
 use App\Repository\Agregat\ConcassageSaisieChargeuseRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;

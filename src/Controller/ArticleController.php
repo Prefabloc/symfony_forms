@@ -30,7 +30,7 @@ class ArticleController extends AbstractController
         }
 
         if ( $referer === 'https://127.0.0.1:8000/exforman/saisie/debit' || $referer === 'https://127.0.0.1:8000/agregat/carriere/saisie/debit'
-            || $referer === 'https://127.0.0.1:8000/agregat/concassage/saisie/chargeuse') {
+            || $referer === 'https://127.0.0.1:8000/agregat/concassage/saisie/chargeuse' || $referer === 'https://127.0.0.1:8000/exforman/saisie/destockage') {
             $results = $articleRepository->findInBeton( $mot , $this->getUser()->getSociete()->getId());
         } else {
             //Sinon, on va chercher dans le repository des articles dont le label contient le mot

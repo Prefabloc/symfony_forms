@@ -3,7 +3,7 @@
 namespace App\Entity\Agregat;
 
 use App\Entity\ProductionForm;
-use App\Repository\AgregatCarriereProductionMobileRepository;
+use App\Repository\Agregat\AgregatCarriereProductionMobileRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: AgregatCarriereProductionMobileRepository::class)]
