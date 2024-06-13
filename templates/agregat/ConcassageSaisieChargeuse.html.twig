@@ -4,42 +4,47 @@
 
 
     <div class="centered-content">
-        <div>
-            <img class="mx-auto" src="https://prefabloc.re/wp-content/uploads/2020/08/pfb-logo-horizontal-clr-01.png"
-                 alt="" width="300" height="200">
-        </div>
         <div class="my-2">
-            <h2 class="text-2xl font-bold text-center text-black-500">Concassage Saisie chargeuse</h2>
+            <h2 class="text-2xl font-bold text-center text-black-500 mtop2">Concassage Saisie chargeuse</h2>
         </div>
-        <div>
+        <div class="mx-auto">
             {{ form_start(agregatConcassageSaisieChargeuseForm) }}
-            <div>
-                <div style="display: flex" class="divSeparator">
-                    <div class="inputSeparator">
-                        {{ form_label(agregatConcassageSaisieChargeuseForm.typeArticle) }}
+            <div class="divChampsForm">
+                <div>
+                    <div style="display: flex ; justify-content: space-between" class="divSeparator divAutocompleteArticle" >
+
+                        <label for="{{ field_name(agregatConcassageSaisieChargeuseForm.article ) }}">Article : </label>
+                        <input type="text"
+                               id="agregatConcassageSaisieChargeuseInput"
+                               name="agregatConcassageSaisieChargeuseInput"
+                               placeholder="Nom de l'article..."
+                               autocomplete="off"
+                               class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-black-600 sm:text-sm sm:leading-6"
+                               style="height: 2.3rem ; width: 55%"
+                        >
+                        <ul id="agregatConcassageSaisieChargeuseSuggestionsArticle" class="suggestionsArticle"></ul>
                     </div>
                     <div>
-                        {{ form_widget(agregatConcassageSaisieChargeuseForm.typeArticle) }}
+                        {{ form_errors(agregatConcassageSaisieChargeuseForm.article) }}
                     </div>
                 </div>
                 <div>
-                    {{ form_errors(agregatConcassageSaisieChargeuseForm.typeArticle) }}
-                </div>
-            </div>
-            <div>
-                <div style="display: flex" class="divSeparator">
-                    <div class="inputSeparator">
-                        {{ form_label(agregatConcassageSaisieChargeuseForm.quantite) }}
+                    <div style="display: flex" class="divSeparator">
+                        <div class="inputSeparator">
+                            {{ form_label(agregatConcassageSaisieChargeuseForm.quantite) }}
+                        </div>
+                        <div>
+                            {{ form_widget(agregatConcassageSaisieChargeuseForm.quantite) }}
+                        </div>
                     </div>
                     <div>
-                        {{ form_widget(agregatConcassageSaisieChargeuseForm.quantite) }}
+                        {{ form_errors(agregatConcassageSaisieChargeuseForm.quantite) }}
                     </div>
                 </div>
-                <div>
-                    {{ form_errors(agregatConcassageSaisieChargeuseForm.quantite) }}
-                </div>
+
             </div>
-            <div>
+
+            <div class="mtop2">
                 {{ form_row(agregatConcassageSaisieChargeuseForm.save ) }}
             </div>
 
@@ -52,3 +57,30 @@
     Agregat | Concassage | Saisie | Chargeuse
 {% endblock %}
 
+{% block javascripts %}
+    <script src="{{ asset('scripts/Autocomplete.js') }}"></script>
+    <script src="{{ asset('scripts/functionsEnvoiBack.js') }}"></script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded' , function () {
+            const suggestions = document.getElementById('agregatConcassageSaisieChargeuseSuggestionsArticle')
+            const searchArticle = document.getElementById('agregatConcassageSaisieChargeuseInput');
+            const quantiteInput = document.getElementById('concassage_saisie_chargeuse_quantite');
+            const boutonEnvoi = document.getElementById('concassage_saisie_chargeuse_save');
+            const url = '/article/autocomplete'
+
+            const autoC = new Autocomplete( searchArticle , suggestions , url );
+
+            document.addEventListener( 'click' , autoC.hideSuggestions );
+
+            boutonEnvoi.addEventListener( 'click' , ( event ) => {
+                event.preventDefault();
+                let idArticle = autoC.idArticle ;
+                let quantite = quantiteInput.value ;
+
+                envoyerDonneesQte( idArticle , quantite );
+            })
+        })
+
+    </script>
+{% endblock %}

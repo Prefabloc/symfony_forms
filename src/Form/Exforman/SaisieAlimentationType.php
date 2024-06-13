@@ -25,7 +25,7 @@ class SaisieAlimentationType extends AbstractType
                 ],
                 'class' => TypeMateriau::class,
                 'choice_label' => 'type',
-                'placeholder' => 'Choisissez le type de matériau...',
+                'placeholder' => '-- Choisissez le type de matériau --',
                 'attr' => [
                     'class' => "bg-neutral-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus: block w-full p-2.5"
                 ],

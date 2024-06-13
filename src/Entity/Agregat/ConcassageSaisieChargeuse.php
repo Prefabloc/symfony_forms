@@ -14,33 +14,21 @@ class ConcassageSaisieChargeuse
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(length: 255)]
-    private ?string $typeArticle = null;
 
     #[ORM\Column]
     #[Assert\Positive]
     #[Assert\Range(notInRangeMessage: "Vous devez choisir un poids entre 1 et 1000 tonnes", min: 0, max: 1000)]
     private ?int $quantite = null;
 
-    #[ORM\OneToOne(cascade: ['persist', 'remove'])]
-    private ?AgregatConcassageProductionChargeuse $production = null;
+    #[ORM\ManyToOne(inversedBy: 'concassageSaisieChargeuses')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Article $article = null;
 
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getTypeArticle(): ?string
-    {
-        return $this->typeArticle;
-    }
-
-    public function setTypeArticle(string $typeArticle): static
-    {
-        $this->typeArticle = $typeArticle;
-
-        return $this;
-    }
 
     public function getQuantite(): ?int
     {
@@ -54,14 +42,14 @@ class ConcassageSaisieChargeuse
         return $this;
     }
 
-    public function getProduction(): ?AgregatConcassageProductionChargeuse
+    public function getArticle(): ?Article
     {
-        return $this->production;
+        return $this->article;
     }
 
-    public function setProduction(?AgregatConcassageProductionChargeuse $production): static
+    public function setArticle(?Article $article): static
     {
-        $this->production = $production;
+        $this->article = $article;
 
         return $this;
     }

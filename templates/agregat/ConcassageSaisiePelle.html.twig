@@ -5,15 +5,12 @@
 
 
     <div class="centered-content">
-        <div>
-            <img class="mx-auto" src="https://prefabloc.re/wp-content/uploads/2020/08/pfb-logo-horizontal-clr-01.png"
-                 alt="" width="300" height="200">
-        </div>
         <div class="my-2">
-            <h2 class="text-2xl font-bold text-center text-black-500">Concassage Saisie pelle</h2>
+            <h2 class="text-2xl font-bold text-center text-black-500 mtop2">Concassage Saisie pelle</h2>
         </div>
         <div>
             {{ form_start(agregatConcassageSaisiePelleForm) }}
+        <div class="divChampsForm">
             <div>
                 <div style="display: flex" class="divSeparator">
                     <div class="inputSeparator">
@@ -27,6 +24,7 @@
                     {{ form_errors(agregatConcassageSaisiePelleForm.typeMateriau) }}
                 </div>
             </div>
+
             <div>
                 <div style="display: flex" class="divSeparator">
                     <div class="inputSeparator">
@@ -40,7 +38,8 @@
                     {{ form_errors(agregatConcassageSaisiePelleForm.quantite) }}
                 </div>
             </div>
-            <div>
+        </div>
+            <div class="mtop2">
                 {{ form_row( agregatConcassageSaisiePelleForm.save) }}
             </div>
 

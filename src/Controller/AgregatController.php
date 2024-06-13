@@ -411,34 +411,40 @@ class AgregatController extends AbstractController
 
 
     #[Route('/concassage/saisie/chargeuse' , name : 'concassage_saisie_chargeuse')]
-    public function agregatConcassageSaisieChargeuse(Request $request , EntityManagerInterface $entityManager ) : Response
+    public function agregatConcassageSaisieChargeuse() : Response
     {
         $agregatConcassageSaisieChargeuse = new ConcassageSaisieChargeuse();
+        $agregatConcassageSaisieChargeuseForm = $this->createForm( ConcassageSaisieChargeuseType::class , $agregatConcassageSaisieChargeuse );
 
-        $id = $request->query->get('id');
-        $production = $repository->find($id);
+        return $this->render('agregat/ConcassageSaisieChargeuse.html.twig' , [
+            'agregatConcassageSaisieChargeuseForm' => $agregatConcassageSaisieChargeuseForm->createView()
+        ]);
 
-        if (!$production) {
-            return $this->redirectToRoute('app_agregat_concassage_production_chargeuse');
-        }
+    }
 
-        $agregatConcassageSaisieChargeuse->setProduction($production);
-        $agregatConcassageSaisieChargeuseForm = $this->createForm(ConcassageSaisieChargeuseType::class, $agregatConcassageSaisieChargeuse);
-        $agregatConcassageSaisieChargeuseForm->handleRequest($request);
+    #[Route('/concassage/saisie/chargeuse/validate' , name : 'concassage_saisie_chargeuse_validate')]
+    public function agregatConcassageSaisieChargeuseValidate(Request $request , EntityManagerInterface $entityManager , ArticleRepository $articleRepository )
+    {
+        $jsonContent = $request->getContent();
 
-        if ($agregatConcassageSaisieChargeuseForm->isSubmitted() && $agregatConcassageSaisieChargeuseForm->isValid()) {
-            $timezone = new \DateTimeZone('Indian/Reunion'); // change to indian ocean
-            $endedAt = new \DateTime('now', $timezone);
-            $production->setEndedAt($endedAt);
+        $data = json_decode($jsonContent, true);
 
-            $entityManager->persist($agregatConcassageSaisieChargeuse);
-            $entityManager->persist($production);
-            $entityManager->flush();
-            $this->addFlash('success', 'Saisie de la chargeuse enregistrée !');
-            return $this->redirectToRoute('app_agregat_concassage_production_chargeuse');
-        } else {
-            return $this->render('agregat/ConcassageSaisieChargeuse.html.twig', ['agregatConcassageSaisieChargeuseForm' => $agregatConcassageSaisieChargeuseForm->createView()]);
-        }
+        $articleId = $data['idArticle'] ?? null;
+
+        $article = $articleRepository->find($articleId);
+
+        $quantite = $data['qte'] ?? null;
+
+        $concassageSaiseChargeuse = new ConcassageSaisieChargeuse();
+        $concassageSaiseChargeuse
+            ->setArticle($article)
+            ->setQuantite($quantite);
+
+        $entityManager->persist($concassageSaiseChargeuse);
+        $entityManager->flush();
+
+        $this->addFlash('success' , 'Saisie Débit réussie.');
+        return $this->redirectToRoute('app_agregat_concassage_saisie_chargeuse');
     }
 
     #[Route('/concassage/saisie/debit' , name : 'concassage_saisie_debit')]

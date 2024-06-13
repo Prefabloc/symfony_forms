@@ -3,6 +3,8 @@
 namespace App\Form\Agregat;
 
 use App\Entity\Agregat\ConcassageSaisiePelle;
+use App\Entity\TypeMateriau;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
@@ -15,20 +17,17 @@ class ConcassageSaisiePelleType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('typeMateriau' , ChoiceType::class, [
-                "label" => "Choix du type de matériau",
+            ->add('typeMateriau' , EntityType::class, [
+                "label" => "Type de matériau : ",
                 'label_attr' => [
                     'class' => "block text-sm font-medium leading-6 text-gray-900"
                 ],
+                'class' => TypeMateriau::class,
+                'choice_label' => 'type' ,
+                'placeholder' => '-- Choisissez le type de matériau --',
                 'attr' => [
                     'class' => "bg-neutral-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus: block w-full p-2.5"
                 ],
-                "choices" => [
-                    "MP Rocheux" => "MP Rocheux" ,
-                    "MP Terreux" => "MP Terreux" ,
-                    "MP Mouillé" => "MP Mouillé" ,
-                    "Autres" => "Autres"
-                ] ,
                 "required" => true
             ])
             ->add('quantite', IntegerType::class , [

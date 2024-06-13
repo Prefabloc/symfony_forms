@@ -27,7 +27,7 @@
                                placeholder="Nom de l'article..."
                                autocomplete="off"
                                class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-black-600 sm:text-sm sm:leading-6"
-                               style="height: 2rem ; width: 40%"
+                               style="height: 2.3rem ; width: 55%"
                         >
                         <ul id="agregatCarriereSaisieDebitSuggestionsArticle" class="suggestionsArticle"></ul>
                     </div>
@@ -63,6 +63,9 @@
 {% endblock %}
 
 {% block javascripts %}
+    <script src="{{ asset('scripts/Autocomplete.js') }}"></script>
+    <script src="{{ asset('scripts/functionsEnvoiBack.js') }}"></script>
+
     <script>
         let idArticle = null ;
 
@@ -71,73 +74,18 @@
             const searchArticle = document.getElementById('agregatCarriereSaisieDebit');
             const quantiteInput = document.getElementById('carriere_saisie_debit_quantite');
             const boutonEnvoi = document.getElementById('carriere_saisie_debit_save');
+            const url = '/article/autocomplete'
 
+            const autoC = new Autocomplete( searchArticle , suggestions , url );
 
-            searchArticle.addEventListener('input' , function () {
-                const mot = searchArticle.value ;
-
-                if ( mot.length < 2 ) {
-                    suggestions.style.display = 'none' ;
-                }
-
-                fetch(`/article/autocomplete?mot=${encodeURIComponent(mot)}`)
-                    .then( response => response.json() )
-                    .then( data => {
-                        suggestions.innerHTML = '' ;
-
-                        if ( data.length > 0 ) {
-                            suggestions.style.display = 'block' ;
-
-                            data.forEach( item => {
-                                const liGlobale = document.createElement('li');
-                                const divNom = document.createElement('div');
-                                const divRefStock = document.createElement('div');
-
-                                divNom.innerHTML = '<strong>' + item.label + '</strong>';
-                                divRefStock.innerHTML= '<strong> Ref : </strong>' + item.reference + '<strong> / Stock : </strong>'  + item.stock;
-
-
-                                liGlobale.addEventListener( 'click' , () => {
-                                    idArticle = item.id ;
-                                    searchArticle.value = item.label;
-                                    suggestions.style.display = 'none' ;
-                                    verifArticle = true ;
-                                })
-
-                                liGlobale.appendChild(divNom);
-                                liGlobale.appendChild(divRefStock);
-                                suggestions.appendChild(liGlobale);
-                            })
-                        } else {
-                            suggestions.style.display = 'none' ;
-                        }
-                    })
-            })
-
-            document.addEventListener('click', function (event) {
-                if (searchArticle.contains(event.target)) {
-                    suggestions.style.display = 'none';
-                }
-            });
+            document.addEventListener( 'click' , autoC.hideSuggestions );
 
             boutonEnvoi.addEventListener( 'click' , ( event ) => {
                 event.preventDefault();
+                let idArticle = autoC.idArticle ;
+                let quantite = quantiteInput.value ;
 
-                let url = window.location.href ;
-                let fullUrl = `${url}/validate`
-
-                fetch( fullUrl , {
-                    method : 'POST' ,
-                    headers : {
-                        'Content-Type': 'application/json'
-                    },
-                    body : JSON.stringify({
-                        'idArticle' : idArticle,
-                        'qte' : quantiteInput.value
-                    })
-                })
-
-                window.location.href = url ;
+                envoyerDonneesQte( idArticle , quantite );
             })
         })
 

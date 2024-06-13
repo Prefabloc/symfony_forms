@@ -9,15 +9,12 @@
 
 
     <div class="centered-content">
-        <div>
-            <img class="mx-auto" src="https://prefabloc.re/wp-content/uploads/2020/08/pfb-logo-horizontal-clr-01.png"
-                 alt="" width="300" height="200">
-        </div>
         <div class="my-2">
-            <h2 class="text-2xl font-bold text-center text-black-500">Carrière Saisie Pelle</h2>
+            <h2 class="text-2xl font-bold text-center text-black-500 mtop2">Carrière Saisie Pelle</h2>
         </div>
         <div>
             {{ form_start(agregatCarriereSaisiePellForm) }}
+        <div class="divChampsForm">
             <div>
                 <div style="display: flex" class="divSeparator">
                     <div class="inputSeparator">
@@ -31,6 +28,7 @@
                     {{ form_errors(agregatCarriereSaisiePellForm.typeMateriau ) }}
                 </div>
             </div>
+
             <div>
                 <div style="display: flex" class="divSeparator">
                     <div class="inputSeparator">
@@ -44,9 +42,10 @@
                     {{ form_errors(agregatCarriereSaisiePellForm.quantite ) }}
                 </div>
             </div>
-            <div>
+        </div>
+        <div class="mtop2">
                 {{ form_row(agregatCarriereSaisiePellForm.save ) }}
-            </div>
+        </div>
 
             {{ form_end(agregatCarriereSaisiePellForm) }}
         </div>

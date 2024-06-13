@@ -2,6 +2,8 @@
 
 namespace App\Entity\Agregat;
 
+use App\Entity\Article;
+use App\Entity\TypeMateriau;
 use App\Repository\Agregat\ConcassageSaisiePelleRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -15,33 +17,22 @@ class ConcassageSaisiePelle
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(length: 255)]
-    private ?string $typeMateriau = null;
+
 
     #[ORM\Column]
     #[Assert\Range(notInRangeMessage: "Vous devez choisir un poids entre 1 et 1000 tonnes", min: 0, max: 1000)]
     private ?int $quantite = null;
 
-    #[ORM\OneToOne(cascade: ['persist', 'remove'])]
+    #[ORM\ManyToOne(inversedBy: 'concassageSaisiePelles')]
     #[ORM\JoinColumn(nullable: false)]
-    private ?AgregatConcassageProductionPelle $production = null;
+    private ?TypeMateriau $typeMateriau = null;
+
 
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getTypeMateriau(): ?string
-    {
-        return $this->typeMateriau;
-    }
-
-    public function setTypeMateriau(string $typeMateriau): static
-    {
-        $this->typeMateriau = $typeMateriau;
-
-        return $this;
-    }
 
     public function getQuantite(): ?int
     {
@@ -55,15 +46,17 @@ class ConcassageSaisiePelle
         return $this;
     }
 
-    public function getProduction(): ?AgregatConcassageProductionPelle
+    public function getTypeMateriau(): ?TypeMateriau
     {
-        return $this->production;
+        return $this->typeMateriau;
     }
 
-    public function setProduction(AgregatConcassageProductionPelle $production): static
+    public function setTypeMateriau(?TypeMateriau $typeMateriau): static
     {
-        $this->production = $production;
+        $this->typeMateriau = $typeMateriau;
 
         return $this;
     }
+
+
 }
