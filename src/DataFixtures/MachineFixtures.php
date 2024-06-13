@@ -10,6 +10,8 @@ class MachineFixtures extends Fixture
 {
     public function load(ObjectManager $manager): void
     {
+        date_default_timezone_set('Indian/Reunion');
+
         for ( $i = 1; $i <= 10; $i++ ) {
             $machine = new Machine();
             $machine

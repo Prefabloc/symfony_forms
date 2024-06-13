@@ -17,6 +17,12 @@ class AgregatCarriereProductionChargeuseType extends AbstractType
             ->add('startedAt', HiddenType::class, ['disabled' => $options['disable_fields']])
             ->add('endedAt', HiddenType::class, ['disabled' => $options['disable_fields']])
             ->add('mode', ChoiceType::class, [
+                'label_attr' => [
+                    'class' => "block text-sm font-medium leading-6 text-gray-900"
+                ],
+                'attr' => [
+                    'class' => "bg-neutral-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus: block w-full p-2.5"
+                ],
                 "choices" => [
                     "Remblais" => "Remblais",
                     "Amenagement Piste" => "Amenagement Piste"

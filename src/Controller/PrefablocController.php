@@ -90,7 +90,7 @@ class PrefablocController extends AbstractController
 
         $prefablocProduction = new PrefablocProduction();
         $prefablocProduction->setArticle($article);
-        $timezone = new \DateTimeZone('Europe/Moscow'); // Example for UTC+3
+        $timezone = new \DateTimeZone('Indian/Reunion');
         $startedAt = new \DateTime('now', $timezone);
         $prefablocProduction->setStartedAt($startedAt);
 
@@ -137,7 +137,7 @@ class PrefablocController extends AbstractController
         $prefablocSaisieProductionForm->handleRequest($request);
 
         if ($prefablocSaisieProductionForm->isSubmitted() && $prefablocSaisieProductionForm->isValid()) {
-            $timezone = new \DateTimeZone('Europe/Moscow'); // Example for UTC+3
+            $timezone = new \DateTimeZone('Indian/Reunion'); 
             $endedAt = new \DateTime('now', $timezone);
             $production->setEndedAt($endedAt);
 

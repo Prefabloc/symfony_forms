@@ -1,0 +1,182 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+    <div class="centered-content">
+        <div>
+            <img id="imgPrefabloc" class="mx-auto" src="https://prefabloc.re/wp-content/uploads/2020/08/pfb-logo-horizontal-clr-01.png"
+                alt="" width="300" height="300" style="margin-top: 2vh">
+        </div>
+        <div class="my-2">
+            <h2 class="text-2xl font-bold text-center text-black-500">{{ label }}</h2>
+        </div>
+        <div style="width: 100%">
+        
+        <div id="machines" class="grid grid-cols-2 gap-5 mt-5 w-full">
+        </div>
+
+         <div class="mt-5 w-full" id="cribles">
+        </div>
+
+            {# {{ form_start(form) }}
+            <div id="divPrefablocProductionArticle" style="text-align: center ; position: relative">
+                <div class="divSeparator">
+                    <div class="inputSeparator">
+                            {{ form_label(form.etage1 ) }}
+                    </div>
+                    <div>
+                        {{ form_widget(form.etage1 ) }}
+                    </div>
+                </div>
+                <div>
+                    {{ form_errors(form.etage1 ) }}
+                </div>
+
+                 <div class="divSeparator">
+                    <div class="inputSeparator">
+                            {{ form_label(form.etage2 ) }}
+                    </div>
+                    <div>
+                        {{ form_widget(form.etage2 ) }}
+                    </div>
+                </div>
+                <div>
+                    {{ form_errors(form.etage2 ) }}
+                </div>
+
+                 <div class="divSeparator">
+                    <div class="inputSeparator">
+                            {{ form_label(form.etage3 ) }}
+                    </div>
+                    <div>
+                        {{ form_widget(form.etage3 ) }}
+                    </div>
+                </div>
+                <div>
+                    {{ form_errors(form.etage3 ) }}
+                </div>
+            </div>
+            {{ form_end(form, {'render_rest': false}) }} #}
+        </div>
+        <div class="flex gap-4">
+            {# {% if form.vars.value == null %}
+                <button class="bg-orange-900 hover:bg-orange-500 text-white font-bold py-2 px-4 rounded" onClick="startProduction()"> Démarrer
+                </button>
+            {% else %}
+                <button class="bg-red-500 text-white font-bold py-2 px-4 rounded"
+                    onClick="endProduction()"> Arreter
+                </button>
+                <button class="bg-gray-500 text-white font-bold py-2 px-4 rounded">
+                    Commentaire
+                </button>
+            {% endif %} #}
+        </div>
+        <div class="mt-10" id="productionInfoDiv">
+            {# {% if form.vars.value != null %}
+            <p>Commencé depuis {{form.vars.value.startedAt|date("d/m/Y h:i:s")}}</p>
+
+            {% endif %} #}
+        </div>
+    </div>
+{% endblock  %}
+
+{% block javascripts %}
+    <script>
+        const machines = [
+            { label: "BISON", img: "https://www.terex.com/images/librariesprovider2/product-images/bison/bison-280/bison-280.jpg?sfvrsn=d24e6ec_10" },
+            { label: "KEESTRACK C", img: "https://keestrack.com/sites/default/files/styles/image_1170x455_front/public/front_slider/c6e-webslider_4.jpg?itok=3lLun2Bt" },
+            { label: "MAASTRACK", img: "https://prefabloc.re/wp-content/uploads/2020/08/pfb-logo-horizontal-clr-01.png" },
+            { label: "KEESTRACK C4", img: "https://www.eds-industrie.com/medias/picts/installations/2000x2000/explorer-1500-03-_1-148-5mr.jpg" }
+        ]
+
+        let selectedMachines = []
+ function renderMachine() {
+            document.getElementById('machines').innerHTML = machines.map(machine => {
+                return `<div class="card p-6 max-w-sm mx-auto bg-white rounded-xl shadow-md flex items-center space-x-4"
+                onclick="selectCard(event)">
+                <div>
+                    <img src=${machine.img}
+                        alt="">
+                    <p class="text-gray-500 text-center">${machine.label}</p>
+                </div>
+                </div>`}).join('')
+        }
+
+        function selectCard(event) {
+            var card = event.currentTarget;
+            if (card.classList.contains("selected")) {
+                card.classList.remove("selected");
+                // remove machine from selected machines
+                selectedMachines = selectedMachines.filter(machine => machine.label !== card.querySelector('p').innerText)
+            } else {
+                card.classList.add("selected");
+                // add machine to selected machines
+                selectedMachines.push({
+                    label: card.querySelector('p').innerText,
+                    img: card.querySelector('img').src
+                })
+
+            }
+
+            renderCribles()
+        }
+
+        function renderCribles() {
+            // display crible + label of selected machines
+            document.getElementById('cribles').innerHTML = selectedMachines.map(machine => {
+                return `
+                     <select name="maille" id="selectMaille${machine.label}"
+                        class="select-dropdown w-full border border-gray-300 rounded-lg p-2 mt-2">
+                    <option value="">Choisir grille Crible ${machine.label}</option>
+                    <option value="1">Maille 20</option>
+                    <option value="2">Maille 10</option>
+                    <option value="3">Maille 5</option>
+                </select>
+                `
+            }).join('')
+        }
+
+        window.onload = () => {
+        renderMachine()
+
+        }
+
+//
+
+        {# let verifArticle = true;
+        let idArticle = null ;
+
+        function endProduction() {
+            productionId = "{{productionId}}"
+            window.location.href = `/agregat/carriere/saisie/mobile?id=${productionId}`;
+        }
+
+        async function startProduction() {
+            let url = "{{ url }}"
+            let fullUrl = `${url}/start`
+            let idArticle1 = document.getElementById('agregat_carriere_production_mobile_etage1').value
+            let idArticle2 = document.getElementById('agregat_carriere_production_mobile_etage2').value
+            let idArticle3 = document.getElementById('agregat_carriere_production_mobile_etage3').value
+
+                const response = await fetch(fullUrl, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        'etage1': idArticle1,
+                        'etage2':idArticle2,
+                        'etage3':idArticle3
+                    })
+                })
+                
+                window.location.href = url
+            
+        } #}
+
+    </script>
+{% endblock %}
+
+{% block title %}
+    Production Mobile
+{% endblock %}

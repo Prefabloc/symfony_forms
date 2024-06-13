@@ -15,6 +15,8 @@ class ConsommationEssenceController extends AbstractController
     #[Route('/consommation/essence', name: 'app_consommation_essence')]
     public function index(Request $request, EntityManagerInterface $entityManager): Response
     {
+        date_default_timezone_set('Indian/Reunion');
+
         $conso = new ConsommationEssence();
         $consoForm = $this->createForm(ConsommationEssenceType::class, $conso);
         $consoForm->handleRequest($request);

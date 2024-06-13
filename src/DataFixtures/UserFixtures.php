@@ -34,7 +34,7 @@ class UserFixtures extends Fixture implements DependentFixtureInterface
             $user = (new User());
             $user->setRoles([$userData[0]])
                 ->setUsername($userData[1])
-                ->setPassword($this->hasher->hashPassword($user, $userData[1]))
+                ->setPassword($this->hasher->hashPassword($user, 1234))
                 ->setNom($userData[1])
                 ->setPrenom($userData[1])
                 ->setSociete($this->getReference( $userData[3] ));

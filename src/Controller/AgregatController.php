@@ -21,6 +21,7 @@ use App\Form\Agregat\ConcassageSaisiePelleType;
 use App\Repository\Agregat\AgregatCarriereProductionChargeuseRepository;
 use App\Repository\Agregat\AgregatCarriereProductionMobileRepository;
 use App\Repository\Agregat\AgregatCarriereProductionPelleRepository;
+use App\Repository\Agregat\AgregatCarriereSaisiePelleRepository;
 use App\Repository\Agregat\AgregatConcassageProductionChargeuseRepository;
 use App\Repository\Agregat\AgregatConcassageProductionPelleRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -50,10 +51,11 @@ class AgregatController extends AbstractController
             'disable_fields' => $entity !== null
         ]);
 
-        return $this->render('production/simple_select.html.twig', [
+        return $this->render('agregat/carriere/production/pelle.html.twig', [
             'label' => "Production Pelle Carriere",
             "url" => $url,
             "form" => $form->createView(),
+            "productionId" => $entity == null ? 0 : $entity->getId(),
             'productionType' => "agregat_carriere_pelle"
         ]);
     }
@@ -79,13 +81,45 @@ class AgregatController extends AbstractController
         $data = json_decode($jsonContent, true);
 
         // Access the 'mode' variable from the decoded array
-        $mode = $data['mode'] ?? null;
+        $mode = $data['idArticle'] ?? null;
 
         // Start production with the mode retrieved from the request
         $repository->startProduction($mode);
 
         // Redirect to another route after processing
         return $this->redirectToRoute('app_agregat_carriere_production_pelle');
+    }
+
+    #[Route('/agregat/carriere/saisie/pelle', name: 'app_agregat_carriere_saisie_pelle ')]
+    public function agregatCarriereSaisiePelle(Request $request, EntityManagerInterface $entityManager, AgregatCarriereProductionPelleRepository $repository): Response
+    {
+        $agregatCarriereSaisiePelle = new CarriereSaisiePelle();
+
+        $id = $request->query->get('id');
+        $production = $repository->find($id);
+
+        if (!$production) {
+            return $this->redirectToRoute('app_prefabloc_production');
+        }
+
+        $agregatCarriereSaisiePelle->setProduction($production);
+        $agregatCarriereSaisiePelleForm = $this->createForm(CarriereSaisiePelleType::class, $agregatCarriereSaisiePelle);
+        $agregatCarriereSaisiePelleForm->handleRequest($request);
+
+        if ($agregatCarriereSaisiePelleForm->isSubmitted() && $agregatCarriereSaisiePelleForm->isValid()) {
+            $timezone = new \DateTimeZone('Indian/Reunion');
+            $endedAt = new \DateTime('now', $timezone);
+            $production->setEndedAt($endedAt);
+
+            $entityManager->persist($agregatCarriereSaisiePelle);
+            $entityManager->persist($production);
+            $entityManager->flush();
+
+            $this->addFlash('success', 'Saisie de pelle enregistrée !');
+            return $this->redirectToRoute('app_agregat_carriere_production_pelle');
+        } else {
+            return $this->render('agregat/CarriereSaisiePelle.html.twig', ['agregatCarriereSaisiePellForm' => $agregatCarriereSaisiePelleForm->createView()]);
+        }
     }
 
     #[Route('/agregat/carriere/production/mobile', name: 'app_agregat_carriere_production_mobile')]
@@ -98,15 +132,16 @@ class AgregatController extends AbstractController
             'disable_fields' => $entity !== null
         ]);
 
-        return $this->render('production/triple_select.html.twig', [
-            'label' => "Production Pelle Carriere",
+        return $this->render('agregat/carriere/production/mobile.html.twig', [
+            'label' => "Production Mobile Carriere",
             "url" => $url,
             "form" => $form->createView(),
+            "productionId" => $entity == null ? 0 : $entity->getId(),
             "productionType" => "agregat_carriere_mobile"
         ]);
     }
 
-    #[Route('/agregat/carriere/production/mobile/end', name: 'app_agregat_carriere_production_mobile_end')]
+    #[Route('/agregat/carriere/saisie/mobile', name: 'app_agregat_carriere_production_mobile_end')]
     public function endCarriereProductionMobile(Request $request, AgregatCarriereProductionMobileRepository $repository): Response
     {
         $id = $request->query->get('id');
@@ -115,7 +150,6 @@ class AgregatController extends AbstractController
 
         return $this->redirectToRoute('app_agregat_carriere_production_mobile');
     }
-
 
 
     #[Route('/agregat/carriere/production/mobile/start', name: 'app_agregat_carriere_production_mobile_start')]
@@ -149,15 +183,16 @@ class AgregatController extends AbstractController
             'disable_fields' => $entity !== null
         ]);
 
-        return $this->render('production/simple_select.html.twig', [
-            'label' => "Production Pelle Concassage",
+        return $this->render('agregat/carriere/production/chargeuse.html.twig', [
+            'label' => "Production Chargeuse Carriere",
             "url" => $url,
             "form" => $form->createView(),
+            "productionId" => $entity == null ? 0 : $entity->getId(),
             "productionType" => "agregat_carriere_chargeuse"
         ]);
     }
 
-    #[Route('/agregat/carriere/production/chargeuse/end', name: 'app_agregat_carriere_production_chargeuse_end')]
+    #[Route('/agregat/carriere/saisie/chargeuse', name: 'app_agregat_carriere_production_chargeuse_end')]
     public function endCarriereProductionChargeuse(Request $request, AgregatCarriereProductionChargeuseRepository $repository): Response
     {
         $id = $request->query->get('id');
@@ -177,7 +212,7 @@ class AgregatController extends AbstractController
         $data = json_decode($jsonContent, true);
 
         // Access the 'mode' variable from the decoded array
-        $mode = $data['mode'] ?? null;
+        $mode = $data['idArticle'] ?? null;
 
         // Start production with the mode retrieved from the request
         $repository->startProduction($mode);
@@ -207,34 +242,27 @@ class AgregatController extends AbstractController
     }
 
 
-    #[Route('/agregat/carriere/saisie/pelle', name: 'app_agregat_carriere_saisie_pelle ')]
-    public function agregatCarriereSaisiePelle(Request $request, EntityManagerInterface $entityManager): Response
-    {
-        $agregatCarriereSaisiePelle = new CarriereSaisiePelle();
+    // #[Route('/agregat/carriere/saisie/pelle' , name : 'app_agregat_carriere_saisie_pelle ')]
+    // public function agregatCarriereSaisiePelle( Request $request , EntityManagerInterface $entityManager ) : Response
+    // {
+    //    $agregatCarriereSaisiePelle = new CarriereSaisiePelle();
 
-        $agregatCarriereSaisiePelleForm = $this->createForm(CarriereSaisiePelleType::class, $agregatCarriereSaisiePelle);
-        $agregatCarriereSaisiePelleForm->handleRequest($request);
+    //    $agregatCarriereSaisiePelleForm = $this->createForm( CarriereSaisiePelleType::class , $agregatCarriereSaisiePelle );
+    //    $agregatCarriereSaisiePelleForm->handleRequest($request);
 
-        if ($agregatCarriereSaisiePelleForm->isSubmitted() && $agregatCarriereSaisiePelleForm->isValid()) {
-            $entityManager->persist($agregatCarriereSaisiePelle);
-            $entityManager->flush();
+    //    if ( $agregatCarriereSaisiePelleForm->isSubmitted() && $agregatCarriereSaisiePelleForm->isValid() ) {
+    //        $entityManager->persist($agregatCarriereSaisiePelle);
+    //        $entityManager->flush();
 
-            $this->addFlash('success', 'Saisie de pelle ( ?? ) enregistrée !');
-            return $this->redirectToRoute('app_agregat_carriere_saisie_pelle ');
-        } else {
-            return $this->render('agregat/CarriereSaisiePelle.html.twig', ['agregatCarriereSaisiePellForm' => $agregatCarriereSaisiePelleForm->createView()]);
-        }
+    //        $this->addFlash('success' , 'Saisie de pelle ( ?? ) enregistrée !');
+    //        return $this->redirectToRoute('app_agregat_carriere_saisie_pelle ');
+    //    } else {
+    //        return $this->render('agregat/CarriereSaisiePelle.html.twig' , [ 'agregatCarriereSaisiePellForm' => $agregatCarriereSaisiePelleForm->createView()]);
+    //    }
 
-    }
+    // }
 
     //END CARRIERE
-
-
-
-
-
-
-
 
     //CONCASSAGE
     #[Route('/agregat/concassage/production/pelle', name: 'app_agregat_concassage_production_pelle')]
@@ -247,10 +275,11 @@ class AgregatController extends AbstractController
             'disable_fields' => $entity !== null
         ]);
 
-        return $this->render('production/simple_select.html.twig', [
+        return $this->render('agregat/concassage/production/pelle.html.twig', [
             'label' => "Production Pelle Concassage",
             "url" => $url,
             "form" => $form->createView(),
+            "productionId" => $entity == null ? 0 : $entity->getId(),
             "productionType" => "agregat_concassage_pelle"
         ]);
     }
@@ -273,15 +302,46 @@ class AgregatController extends AbstractController
 
         // Decode the JSON content to an associative array
         $data = json_decode($jsonContent, true);
-
         // Access the 'mode' variable from the decoded array
-        $mode = $data['mode'] ?? null;
+        $mode = $data['idArticle'] ?? null;
 
         // Start production with the mode retrieved from the request
         $repository->startProduction($mode);
 
         // Redirect to another route after processing
         return $this->redirectToRoute('app_agregat_concassage_production_pelle');
+    }
+
+    #[Route('/agregat/concassage/saisie/pelle', name: 'app_agregat_concassage_saisie_pelle')]
+    public function agregatConcassageSaisiePelle(Request $request, EntityManagerInterface $entityManager, AgregatConcassageProductionPelleRepository $repository): Response
+    {
+        $agregatConcassageSaisiePelle = new ConcassageSaisiePelle();
+
+        $id = $request->query->get('id');
+        $production = $repository->find($id);
+
+        if (!$production) {
+            return $this->redirectToRoute('app_prefabloc_production');
+        }
+
+        $agregatConcassageSaisiePelle->setProduction($production);
+        $agregatConcassageSaisiePelleForm = $this->createForm(ConcassageSaisiePelleType::class, $agregatConcassageSaisiePelle);
+        $agregatConcassageSaisiePelleForm->handleRequest($request);
+
+        if ($agregatConcassageSaisiePelleForm->isSubmitted() && $agregatConcassageSaisiePelleForm->isValid()) {
+            $timezone = new \DateTimeZone('Indian/Reunion');
+            $endedAt = new \DateTime('now', $timezone);
+            $production->setEndedAt($endedAt);
+
+            $entityManager->persist($agregatConcassageSaisiePelle);
+            $entityManager->persist($production);
+            $entityManager->flush();
+
+            $this->addFlash('success', 'Saisie de la pelle enregistrée !');
+            return $this->redirectToRoute('app_agregat_concassage_production_pelle');
+        } else {
+            return $this->render('agregat/ConcassageSaisiePelle.html.twig', ['agregatConcassageSaisiePelleForm' => $agregatConcassageSaisiePelleForm->createView()]);
+        }
     }
 
     #[Route('/agregat/concassage/production/chargeuse', name: 'app_agregat_concassage_production_chargeuse')]
@@ -294,10 +354,11 @@ class AgregatController extends AbstractController
             'disable_fields' => $entity !== null
         ]);
 
-        return $this->render('production/no_data.html.twig', [
-            'label' => "Production Pelle Concassage",
+        return $this->render('agregat/concassage/production/chargeuse.html.twig', [
+            'label' => "Production Chargeuse Concassage",
             "url" => $url,
             "form" => $form->createView(),
+            "productionId" => $entity == null ? 0 : $entity->getId(),
             "productionType" => "agregat_concassage_chargeuse"
         ]);
     }
@@ -324,19 +385,31 @@ class AgregatController extends AbstractController
 
 
     #[Route('/agregat/concassage/saisie/chargeuse', name: 'app_agregat_concassage_saisie_chargeuse')]
-    public function agregatConcassageSaisieChargeuse(Request $request, EntityManagerInterface $entityManager): Response
+    public function agregatConcassageSaisieChargeuse(Request $request, EntityManagerInterface $entityManager, AgregatConcassageProductionChargeuseRepository $repository): Response
     {
         $agregatConcassageSaisieChargeuse = new ConcassageSaisieChargeuse();
 
+        $id = $request->query->get('id');
+        $production = $repository->find($id);
+
+        if (!$production) {
+            return $this->redirectToRoute('app_agregat_concassage_production_chargeuse');
+        }
+
+        $agregatConcassageSaisieChargeuse->setProduction($production);
         $agregatConcassageSaisieChargeuseForm = $this->createForm(ConcassageSaisieChargeuseType::class, $agregatConcassageSaisieChargeuse);
         $agregatConcassageSaisieChargeuseForm->handleRequest($request);
 
         if ($agregatConcassageSaisieChargeuseForm->isSubmitted() && $agregatConcassageSaisieChargeuseForm->isValid()) {
-            $entityManager->persist($agregatConcassageSaisieChargeuse);
-            $entityManager->flush();
+            $timezone = new \DateTimeZone('Indian/Reunion'); // change to indian ocean
+            $endedAt = new \DateTime('now', $timezone);
+            $production->setEndedAt($endedAt);
 
+            $entityManager->persist($agregatConcassageSaisieChargeuse);
+            $entityManager->persist($production);
+            $entityManager->flush();
             $this->addFlash('success', 'Saisie de la chargeuse enregistrée !');
-            return $this->redirectToRoute('app_agregat_concassage_saisie_chargeuse');
+            return $this->redirectToRoute('app_agregat_concassage_production_chargeuse');
         } else {
             return $this->render('agregat/ConcassageSaisieChargeuse.html.twig', ['agregatConcassageSaisieChargeuseForm' => $agregatConcassageSaisieChargeuseForm->createView()]);
         }
@@ -361,24 +434,43 @@ class AgregatController extends AbstractController
         }
     }
 
-    #[Route('/agregat/concassage/saisie/pelle', name: 'app_agregat_concassage_saisie_pelle')]
-    public function agregatConcassageSaisiePelle(Request $request, EntityManagerInterface $entityManager): Response
-    {
-        $agregatConcassageSaisiePelle = new ConcassageSaisiePelle();
+    // #[Route('/agregat/concassage/production/mobile', name: 'app_agregat_concassage_production_mobile')]
+    // public function concassageProductionMobile(Request $request, /*AgregatConcassageProductionMobileRepository $repository*/): Response
+    // {
+    //     $url = $request->getUri();
+    //     // $entity = $repository->findLastActive();
 
-        $agregatConcassageSaisiePelleForm = $this->createForm(ConcassageSaisiePelleType::class, $agregatConcassageSaisiePelle);
-        $agregatConcassageSaisiePelleForm->handleRequest($request);
+    //     // $form = $this->createForm(AgregatCarriereProductionMobileType::class, $entity, [
+    //     //     'disable_fields' => $entity !== null
+    //     // ]);
 
-        if ($agregatConcassageSaisiePelleForm->isSubmitted() && $agregatConcassageSaisiePelleForm->isValid()) {
-            $entityManager->persist($agregatConcassageSaisiePelle);
-            $entityManager->flush();
+    //     return $this->render('agregat/concassage/production/mobile.html.twig', [
+    //         'label' => "Production Mobile Concassage",
+    //         "url" => $url,
+    //         // "form" => $form->createView(),
+    //         // "productionId" => $entity == null ? 0 : $entity->getId(),
+    //         "productionType" => "agregat_concassage_mobile"
+    //     ]);
+    // }
 
-            $this->addFlash('success', 'Saisie de la pelle enregistrée !');
-            return $this->redirectToRoute('app_agregat_concassage_saisie_pelle');
-        } else {
-            return $this->render('agregat/ConcassageSaisiePelle.html.twig', ['agregatConcassageSaisiePelleForm' => $agregatConcassageSaisiePelleForm->createView()]);
-        }
-    }
+    // #[Route('/agregat/concassage/saisie/pelle' , name : 'app_agregat_concassage_saisie_pelle')]
+    // public function agregatConcassageSaisiePelle(Request $request , EntityManagerInterface $entityManager ) : Response
+    // {
+    //     $agregatConcassageSaisiePelle = new ConcassageSaisiePelle();
+
+    //     $agregatConcassageSaisiePelleForm = $this->createForm( ConcassageSaisiePelleType::class , $agregatConcassageSaisiePelle ) ;
+    //     $agregatConcassageSaisiePelleForm->handleRequest($request);
+
+    //     if ( $agregatConcassageSaisiePelleForm->isSubmitted() && $agregatConcassageSaisiePelleForm->isValid() ) {
+    //         $entityManager->persist($agregatConcassageSaisiePelle);
+    //         $entityManager->flush();
+
+    //         $this->addFlash('success' , 'Saisie de la pelle enregistrée !');
+    //         return $this->redirectToRoute('app_agregat_concassage_saisie_pelle');
+    //     } else {
+    //         return $this->render('agregat/ConcassageSaisiePelle.html.twig' , [ 'agregatConcassageSaisiePelleForm' => $agregatConcassageSaisiePelleForm->createView()]);
+    //     }
+    // }
 
 
     //END CONCASSAGE

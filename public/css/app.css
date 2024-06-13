@@ -1,29 +1,53 @@
-@media screen and ( max-width: 1200px ) {
-    .centered-content {
-        width: 60% !important ;
+@media screen and ( width: 2000px ) and ( height: 1200px ){
+    #afficherPhoto{
+        display: none;
     }
-    #tableauFormulaires {
-        height: 70vh !important;
+
+    #divUpload2{
+        display: flex !important;
     }
 }
 
-@media screen and ( max-width: 1000px ){
-    #divInfosArticle{
+@media screen and (max-width: 1200px) {
+    .centered-content {
+        width: 60% !important;
+    }
+
+    #tableauFormulaires {
+        height: 70vh !important;
+    }
+
+    #afficherPhoto{
+        display: none;
+    }
+
+    #divUpload2{
+        display: flex !important;
+    }
+
+}
+
+@media screen and (max-width: 1000px) {
+    #divInfosArticle {
         width: 100% !important;
     }
 }
 
-@media screen and ( max-width: 850px ) {
+@media screen and (max-width: 850px) {
     .gridCalendar {
-        grid-template-columns: repeat( 2 , 1fr )!important;
+        grid-template-columns: repeat(2, 1fr) !important;
     }
 
     .centered-content {
-        width: 90% !important ;
-        height: 65vh !important;
+        width: 90% !important;
     }
 
-    thead , tbody, table, tr, th , td {
+    thead,
+    tbody,
+    table,
+    tr,
+    th,
+    td {
         display: block;
     }
 
@@ -39,17 +63,17 @@
     }
 
     td::before {
-        content : attr(data-label);
+        content: attr(data-label);
         position: absolute;
         top: 0;
         left: 0;
         width: 130px;
-        bottom : 0;
-        background-color: rgb(255 , 237 , 213 );
+        bottom: 0;
+        background-color: rgb(255, 237, 213);
         display: flex;
         align-items: center;
         padding: 10px;
-        font-weight: bold ;
+        font-weight: bold;
     }
 
     thead {
@@ -61,7 +85,7 @@
     }
 
     #navbar {
-        display: none ;
+        display: none;
     }
 
     #faviconBurger {
@@ -70,30 +94,39 @@
 
 }
 
-@media screen and ( max-width: 768px ) {
-    #divGestionStock{
+@media screen and (max-width: 768px) {
+    #divGestionStock {
         width: 50vw !important;
     }
 
-    #boutonsAjoutRetrait{
+    #boutonsAjoutRetrait {
         flex-direction: column;
         align-items: center;
         justify-content: space-evenly;
     }
 
-    #boutonsAjoutRetrait button, #boutonsAjoutRetrait input {
+    #boutonsAjoutRetrait button,
+    #boutonsAjoutRetrait input {
         width: 60%;
         margin-top: 10px;
     }
 
 }
 
-@media screen and ( max-width: 560px ) {
+@media screen and ( max-width: 650px ) {
+    #fileInput2{
+        width: 80%;
+        height: 2rem;
+    }
+}
+
+
+@media screen and (max-width: 560px) {
     .gridCalendar {
-        grid-template-columns: repeat( 1 , 1fr ) !important;
+        grid-template-columns: repeat(1, 1fr) !important;
     }
 
-    #divGestionStock{
+    #divGestionStock {
         width: 70vw !important;
     }
 
@@ -101,14 +134,14 @@
 
 
 
-@media screen and ( max-width: 470px ) {
+@media screen and (max-width: 470px) {
     #navLogoEtMenu {
         display: flex;
         flex-direction: column;
         justify-content: center;
     }
 
-    #divGestionStock{
+    #divGestionStock {
         width: 80vw !important;
     }
 
@@ -124,30 +157,44 @@
 
 }
 
-@media screen and ( max-width: 400px ) {
-    #imgPrefabloc{
+@media screen and (max-width: 400px) {
+    #imgPrefabloc {
         width: 90%;
         height: 100%;
     }
+
+    #divBoutonsIdentificationPrestation{
+        flex-direction: column;
+    }
+
+    #divBoutonsIdentificationPrestation > button {
+        width: 90%;
+    }
+
+    #afficherPhoto {
+        width: 20% !important;
+    }
+
 }
 
 @keyframes fadeOut {
     from {
         opacity: 1;
     }
+
     to {
         opacity: 0;
     }
 }
 
 .fade-out {
-    animation : fadeOut 2s forwards;
+    animation: fadeOut 2s forwards;
 }
 
 :root {
-    --main-color : rgba(250,94,0,0.7301295518207283);
-    --bg-color : rgba(238,188,177,1);
-    --second-color : rgb(255,255,255)
+    --main-color: rgba(250, 94, 0, 0.7301295518207283);
+    --bg-color: rgba(238, 188, 177, 1);
+    --second-color: rgb(255, 255, 255)
 }
 
 html {
@@ -186,11 +233,12 @@ main {
     margin-top: 10vh;
     border-radius: 20px;
     height: fit-content;
-    width: 30vw;
+    width: 50vw;
     gap: 2vh;
     padding-bottom: 2vh;
 
 }
+
 /* Added for central div styling
 .centered-content {
     position: absolute;
@@ -213,13 +261,14 @@ main {
 }
 */
 
-input, select {
+input,
+select {
     border: 1px solid black;
     width: 50%;
 }
 
-input{
-    padding-left: 10px!important;
+input {
+    padding-left: 10px !important;
 }
 
 .divSeparator {
@@ -239,38 +288,44 @@ input{
     font-weight: bold;
     font-size: 1.4rem;
     border-radius: 5px;
-    margin : 10px;
+    margin: 10px;
     border: 10px;
     text-align: center;
 }
 
-.flash-success  {
-    background-color: forestgreen !important;
-    width: 20%;
+.flash-fail{
+    background-color: darkred; !important;
+    width: 40%;
 }
 
-#divflash{
+.flash-success {
+    background-color: forestgreen !important;
+    width: 40%;
+}
+
+#divflash {
     display: flex;
     justify-content: center;
 }
+
 .flash-fail {
     background-color: darkred !important;
     width: 20%;
 }
 
-.gridCalendar{
+.gridCalendar {
     display: grid;
-    grid-template-columns: repeat( 3 , 1fr );
+    grid-template-columns: repeat(3, 1fr);
     gap: 0.5rem;
     height: 50vh;
     padding-top: 10vh;
 
 
-        & div {
-            display: grid ;
-            place-items: center ;
-            font-size: 1.5rem;
-        }
+    & div {
+        display: grid;
+        place-items: center;
+        font-size: 1.5rem;
+    }
 }
 
 .gridCalendar a {
@@ -279,7 +334,7 @@ input{
 
 .marginPaddin {
     margin: 1rem;
-    padding : 1rem;
+    padding: 1rem;
 }
 
 #tableauFormulaires {
@@ -296,19 +351,20 @@ input{
     flex-direction: column;
     background-color: #ffedd5;
     border-radius: 10px;
-    margin : 2rem;
-    padding : 2rem ;
+    margin: 2rem;
+    padding: 2rem;
 }
 
-th , td {
-    border : solid 1px rgb(124 , 45, 18);
+th,
+td {
+    border: solid 1px rgb(124, 45, 18);
 }
 
 th {
-    background-color: #fdba74 ;
+    background-color: #fdba74;
 }
 
-td{
+td {
     height: 100px;
 }
 
@@ -319,12 +375,13 @@ tr {
 tr:nth-child(odd) {
     background-color: lightgoldenrodyellow;
 }
-tr:nth-child(even){
+
+tr:nth-child(even) {
     background-color: white;
 }
 
-#dropdown{
-    display: none ;
+#dropdown {
+    display: none;
     z-index: 1;
     position: absolute;
     right: 0;
@@ -337,7 +394,7 @@ tr:nth-child(even){
 
 }
 
-#divLogin{
+#divLogin {
     background-color: #ffedd5;
     border-radius: 10px;
     width: 25rem;
@@ -352,12 +409,12 @@ tr:nth-child(even){
     border-radius: 7px;
 }
 
-#divInputBoutonsSuggestions{
+#divInputBoutonsSuggestions {
     position: relative;
     text-align: center;
 }
 
-#searchArticle{
+#searchArticle {
     z-index: 1;
     height: 40px;
     border-radius: 10px;
@@ -401,14 +458,14 @@ tr:nth-child(even){
     width: 40vw;
 }
 
-#boutonsAjoutRetrait{
+#boutonsAjoutRetrait {
     display: none;
     width: 100%;
     margin-top: 2vh;
 }
 
 #divInfosArticle {
-    display: none ;
+    display: none;
     background-color: white;
     border: 1px solid black;
     border-radius: 10px;
@@ -424,8 +481,57 @@ tr:nth-child(even){
     padding: 1rem;
 }
 
+#divInfosIdentificationPrestation {
+    background-color: white;
+    border-radius: 10px;
+    border: 1px solid black;
+    width: 100%;
+    max-width: 90%;
+}
+
+#signature {
+    border: solid 1px black;
+    margin: 5%;
+    border-radius: 10px;
+}
+
+#divSignature {
+    display: flex;
+    flex-direction: column;
+
+}
+
+#labelsInput {
+    border: 1px solid black;
+    border-radius: 10px;
+    margin: 10px;
+    background-color: white;
+
+}
+
+#modalConfirmationIdentificationPrestation {
+    position: fixed;
+    top: 0%;
+    left: 0%;
+    padding: 20px;
+    border: none;
+    border-radius: 5px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+    background-color: #ffedd5;
+}
+
+#divBoutonsModaleConfirmationIdentificationPrestation {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+}
+
+#divBoutonsModaleConfirmationIdentificationPrestation>* {
+    margin-top: 30px;
+}
+
 /* Fenêtre Modale Signalements */
-.modal{
+.modal {
     display: none;
     position: fixed;
     z-index: 1;
@@ -434,8 +540,8 @@ tr:nth-child(even){
     width: 100%;
     height: 100%;
     overflow: auto;
-    background-color: rgb(0,0,0);
-    background-color: rgba(0,0,0,0.4);
+    background-color: rgb(0, 0, 0);
+    background-color: rgba(0, 0, 0, 0.4);
 }
 
 .modal-content {
@@ -499,4 +605,121 @@ tr:nth-child(even){
 
 #return {
     margin-left: 20px;
+}
+
+.divFormInput{
+    background-color: white;
+    border-radius: 10px;
+    border: 1px solid black;
+    width: 100%;
+    max-width: 90%;
+}
+
+#divIdentificationPrestation{
+    width: 50vw;
+}
+
+#divBoutonsIdentificationPrestation{
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
+#divBoutonsIdentificationPrestation > button {
+    margin: 10px;
+}
+
+#divPhotoBon{
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+#noCamSVG {
+    border-radius: 10px;
+    border: 5px solid black;
+    background-color: #64748b ;
+    width: 90%;
+    display: flex;
+    justify-content: center;
+}
+
+.divBoutonsPhotos {
+    display: flex;
+    justify-content: space-evenly;
+    width: 100%;
+}
+
+
+#uploadFromDevice2:hover {
+    background-color: #cbd5e1 ;
+}
+
+
+.modalConfirmation {
+    background-color: #ffedd5;
+    border-radius: 10px;
+    padding: 30px;
+    font-weight: bold;
+    border: solid 1px black;
+}
+
+#modaleConfirmationPhotoIdentificationPrestation{
+    flex-direction: column;
+    align-items: center;
+}
+
+#modaleConfirmationPhotoIdentificationPrestation > p {
+    text-align: center;
+    font-weight: bold;
+    margin : 10px
+}
+
+#effacer , #upload {
+    margin: 10px;
+    padding: 10px;
+    border: 3px solid black !important ;
+    background-color: #64748b !important;
+    border-radius: 10px;
+    font-weight: bold;
+}
+
+#effacer:hover , #upload:hover {
+    background-color: #cbd5e1 !important;
+}
+
+#video{
+    width: 90%;
+}
+
+
+#canvasPhoto {
+    display: none;
+    border-radius: 10px;
+    border: 3px solid black;
+    width: 100%;
+}
+
+#divUpload{
+    margin: 10px;
+    text-align: center;
+    border-radius: 10px;
+    gap: 2rem;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+}
+
+#divUpload2 {
+    display: none;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    text-align: center;
+    border-radius: 10px;
+}
+
+#divUpload2 > * {
+    margin-bottom: 1.5rem;
 }

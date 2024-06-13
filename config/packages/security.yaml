@@ -44,8 +44,10 @@ security:
     # Note: Only the *first* access control that matches will be used
     access_control:
         - { path: ^/login$, roles: PUBLIC_ACCESS }
+        - { path: ^/login/autocomplete , roles : PUBLIC_ACCESS }
         - { path: ^/logout, roles: ROLE_USER }
-        - { path: ^/identification_prestation, roles: ROLE_ACCUEIL }
+        - { path: ^/identification_prestation, roles: PUBLIC_ACCESS }
+        # - { path: ^/identification_prestation, roles: ROLE_ACCUEIL }
         - { path: ^/btpvalromex , roles: ROLE_BTPVALROMEX }
         - { path: ^/agregat , roles: ROLE_AGREGAT }
         - { path: ^/exforman , roles: ROLE_EXFORMAN }

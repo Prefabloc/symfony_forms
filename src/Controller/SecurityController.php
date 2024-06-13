@@ -2,7 +2,11 @@
 
 namespace App\Controller;
 
+use App\Repository\UserRepository;
+use App\Service\UserDTO;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
@@ -22,6 +26,24 @@ class SecurityController extends AbstractController
         $lastUsername = $authenticationUtils->getLastUsername();
 
         return $this->render('security/login.html.twig', ['last_username' => $lastUsername, 'error' => $error]);
+    }
+
+    #[Route('/login/autocomplete', name: 'autocomplete', methods: "GET")]
+    public function autocomplete(UserRepository $repository, Request $request): JsonResponse
+    {
+        $mot = $request->query->get('mot');
+
+        if (!$mot) {
+            return new JsonResponse([]);
+        }
+
+        $results = $repository->findByTerm($mot);
+
+        $data = array_map(function ($user) {
+            return new UserDTO($user->getUsername());
+        }, $results);
+
+        return new JsonResponse($data);
     }
 
     #[Route(path: '/logout', name: 'app_logout')]

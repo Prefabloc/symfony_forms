@@ -17,6 +17,12 @@ class AgregatCarriereProductionMobileType extends AbstractType
             ->add('startedAt', HiddenType::class, ['disabled' => $options['disable_fields']])
             ->add('endedAt', HiddenType::class, ['disabled' => $options['disable_fields']])
             ->add('etage1', ChoiceType::class, [
+                'label_attr' => [
+                    'class' => "block text-sm font-medium leading-6 text-gray-900"
+                ],
+                'attr' => [
+                    'class' => "bg-neutral-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus: block w-full p-2.5"
+                ],
                 "choices" => [
                     "Maille 5" => "Maille 5",
                     "Maille 10" => "Maille 10",
@@ -25,6 +31,12 @@ class AgregatCarriereProductionMobileType extends AbstractType
                 'disabled' => $options['disable_fields']
             ])
             ->add('etage2', ChoiceType::class, [
+                'label_attr' => [
+                    'class' => "block text-sm font-medium leading-6 text-gray-900"
+                ],
+                'attr' => [
+                    'class' => "bg-neutral-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus: block w-full p-2.5"
+                ],
                 "choices" => [
                     "Maille 5" => "Maille 5",
                     "Maille 10" => "Maille 10",
@@ -33,6 +45,12 @@ class AgregatCarriereProductionMobileType extends AbstractType
                 'disabled' => $options['disable_fields']
             ])
             ->add('etage3', ChoiceType::class, [
+                'label_attr' => [
+                    'class' => "block text-sm font-medium leading-6 text-gray-900"
+                ],
+                'attr' => [
+                    'class' => "bg-neutral-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus: block w-full p-2.5"
+                ],
                 "choices" => [
                     "Maille 5" => "Maille 5",
                     "Maille 10" => "Maille 10",
