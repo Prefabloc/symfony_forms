@@ -82,7 +82,7 @@
 {% block javascripts %}
     <script src="{{ asset('scripts/Autocomplete.js') }}"></script>
     <script src="{{ asset('scripts/functionsEnvoiBack.js') }}"></script>
-    <script src="{{ asset('scripts/minuteur.js') }}"></script>
+    <script src="{{ asset('scripts/Minuteur.js') }}"></script>
 
     <script>
         document.addEventListener('DOMContentLoaded' , async function () {
@@ -94,6 +94,8 @@
             const start = document.getElementById('startChrono');
             const stop = document.getElementById('stopChrono');
             const reset = document.getElementById('resetChrono');
+            const minutes = document.getElementById('minutes');
+            const seconds = document.getElementById('seconds');
 
 
             const autoC = new Autocomplete( searchArticle , suggestions , url );
@@ -108,18 +110,8 @@
                 envoyerDonneesQte( idArticle , quantite );
             })
 
-            start.addEventListener( "click", ( event ) => {
-                event.preventDefault();
-                startTimer();
-            })
-            stop.addEventListener( "click", ( event ) => {
-                event.preventDefault();
-                stopTimer();
-            })
-            reset.addEventListener( "click", ( event ) => {
-                event.preventDefault();
-                resetTimer();
-            })
+            const timer = new Minuteur( start , stop , reset , minutes , seconds )
+
         })
     </script>
 {% endblock %}
