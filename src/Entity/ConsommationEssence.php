@@ -22,6 +22,9 @@ class ConsommationEssence
     #[ORM\JoinColumn(nullable: false)]
     private ?Machine $machine = null;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $photoCompteurCarburant = null;
+
     #[ORM\Column]
     private ?\DateTimeImmutable $createdAt = null;
 
@@ -50,6 +53,18 @@ class ConsommationEssence
     public function setMachine(?Machine $machine): static
     {
         $this->machine = $machine;
+
+        return $this;
+    }
+
+    public function getPhotoCompteurCarburant(): ?string
+    {
+        return $this->photoCompteurCarburant;
+    }
+
+    public function setPhotoCompteurCarburant(?string $photoCompteurCarburant): static
+    {
+        $this->photoCompteurCarburant = $photoCompteurCarburant;
 
         return $this;
     }

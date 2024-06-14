@@ -10,6 +10,7 @@ use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use function Symfony\Component\Clock\now;
@@ -19,15 +20,24 @@ class ConsommationEssenceType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('machine', EntityType::class, [
-                'label' => 'Machine',
-                'placeholder' => '-- Sélectionner votre machine --',
-                'class' => Machine::class,
-                'choice_label' => 'label',
+//            ->add('machine', EntityType::class, [
+//                'label' => 'Machine',
+//                'placeholder' => '-- Sélectionner votre machine --',
+//                'class' => Machine::class,
+//                'choice_label' => 'label',
+//                'attr' => [
+//                    'class' => "bg-neutral-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus: block w-full p-2.5"
+//                ],
+//                'required' => true
+//            ])
+            ->add('machine', TextType::class, [
+                'label' => 'Machine : ',
+                'data' => $options['machine_id'],
+                'disabled' => true ,
                 'attr' => [
-                    'class' => "bg-neutral-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus: block w-full p-2.5"
-                ],
-                'required' => true
+                    'class' => 'bg-neutral-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus: block w-full p-2.5',
+                    'readonly' => true
+                ]
             ])
             ->add('quantite',IntegerType::class, [
                 'label' => 'Litre de GazOil',
@@ -48,6 +58,7 @@ class ConsommationEssenceType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => ConsommationEssence::class,
+            'machine_id' => null,
         ]);
     }
 }

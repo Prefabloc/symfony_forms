@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\ConsommationEssence;
 use App\Form\ConsommationEssenceType;
+use App\Repository\MachineRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -13,12 +14,23 @@ use Symfony\Component\Routing\Attribute\Route;
 class ConsommationEssenceController extends AbstractController
 {
     #[Route('/consommation/essence', name: 'app_consommation_essence')]
-    public function index(Request $request, EntityManagerInterface $entityManager): Response
+    public function ConsommationEssenceForm(Request $request,
+                                            EntityManagerInterface $entityManager,
+                                            MachineRepository $machineRepository
+    ): Response
     {
         date_default_timezone_set('Indian/Reunion');
 
+        $idMachine = $request->query->get('machine');
+        $machine = $machineRepository->findOneBy(['id' => $idMachine ]);
+
         $conso = new ConsommationEssence();
-        $consoForm = $this->createForm(ConsommationEssenceType::class, $conso);
+        $conso->setMachine($machine);
+        $consoForm = $this->createForm(
+            ConsommationEssenceType::class,
+            $conso,
+            [ 'machine_id' => $idMachine ]
+        );
         $consoForm->handleRequest($request);
 
         if ($consoForm->isSubmitted() && $consoForm->isValid()) {
@@ -31,7 +43,7 @@ class ConsommationEssenceController extends AbstractController
 
             $entityManager->persist($conso);
             $entityManager->flush();
-            $this->addFlash('success', "Saisie de la consommation enregistrée !");
+            $this->addFlash('success', 'Saisie de la consommation enregistrée !');
         }
 
         return $this->render('consommation_essence/index.html.twig', [
