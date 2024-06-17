@@ -8,6 +8,7 @@ use App\Repository\MachineRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
@@ -21,7 +22,7 @@ class ConsommationEssenceController extends AbstractController
     {
         date_default_timezone_set('Indian/Reunion');
 
-        $idMachine = $request->query->get('machine');
+        $idMachine = $request->query->get('engin');
         $machine = $machineRepository->findOneBy(['id' => $idMachine ]);
 
         $conso = new ConsommationEssence();
@@ -29,7 +30,7 @@ class ConsommationEssenceController extends AbstractController
         $consoForm = $this->createForm(
             ConsommationEssenceType::class,
             $conso,
-            [ 'machine_id' => $idMachine ]
+            [ 'machine_label' => $machine->getLabel() ]
         );
         $consoForm->handleRequest($request);
 

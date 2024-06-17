@@ -48,6 +48,9 @@
                 </div>
             </div>
 
+            <input type="text" id="validationPhoto" value="false" style="display: none">
+            <input type="text" id="validationUpload" value="false" style="display: none">
+
             <div class="mb-5">
                 <div>
                     <div id="divBoutonsIdentificationPrestation">
@@ -100,9 +103,12 @@
 {% block javascripts %}
 
     <script src="{{ asset('scripts/camera.js') }}"></script>
+
     <script>
         // Au chargement de la page, on appelle les event listener
         window.onload = () => {
+            const ID_PRESTATION_DIV = document.getElementById('idPrestationDiv');
+            const ID_PRESTATION = ID_PRESTATION_DIV.value;
             const CONFIRM_MODAL_TRUE = document.getElementById('confirmModalButton');
             const CONFIRM_MODAL_FALSE = document.getElementById('cancelModalButton');
             const BOOL_PHOTO = document.getElementById('validationPhoto');
@@ -112,6 +118,39 @@
             const FILE_INPUT = document.getElementById('fileInput');
             const UPLOAD_PIC2 = document.getElementById('uploadFromDevice2');
             const FILE_INPUT2 = document.getElementById('fileInput2');
+
+            function uploadFile ( nomBouton, nomFileInput ) {
+                nomBouton.addEventListener( 'click' , function() {
+                    const FILE = nomFileInput.files[0];
+
+                    if ( file ) {
+                        const FORM_DATA = new FormData();
+                        FORM_DATA.append('photo2' , FILE );
+                        FORM_DATA.append('idPrestation' , ID_PRESTATION )
+
+                        fetch('/identification_prestation/upload_photo' , {
+                            method : 'POST' ,
+                            body : FORM_DATA
+                        })
+                            .then( response => response.json())
+                            .then( data => {
+                                alert( 'Photo envoyée avec succès !') ;
+                                console.log(data);
+                                //Vérification double
+                                BOOL_UPLOAD.value = 'true' ;
+                            })
+                            .catch( error => {
+                                console.error('Erreur lors de l\' envoi du fichier! ');
+                            })
+
+
+                    } else {
+                        alert( 'Veuillez séléctionner un fichier !');
+                    }
+                })
+            }
+            uploadFile( UPLOAD_PIC , FILE_INPUT );
+            uploadFile( UPLOAD_PIC2 , FILE_INPUT2 );
         }
 
     </script>
