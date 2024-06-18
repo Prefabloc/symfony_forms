@@ -8,6 +8,7 @@ use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -28,6 +29,13 @@ class ConsommationEssenceType extends AbstractType
                     'class' => 'bg-neutral-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus: block w-full p-2.5',
                     'readonly' => true
                 ]
+            ])
+            ->add('photoCompteurCarburant' , HiddenType::class , [
+                'attr' => [
+                    'id' => 'divIdConso'
+                ] ,
+                'label' => false,
+                'data' => ''
             ])
             ->add('quantite',IntegerType::class, [
                 'label' => 'Litre de GazOil : ',

@@ -48,13 +48,27 @@
                 </div>
             </div>
 
-            <input type="text" id="validationPhoto" value="false" style="display: none">
-            <input type="text" id="validationUpload" value="false" style="display: none">
+            <div class="mb-5">
+                <div style="display: flex" class="divSeparator">
+                    <div class="inputSeparator">
+                        {{ form_label(consoForm.photoCompteurCarburant) }}
+                    </div>
+                    <div>
+                        {{ form_widget(consoForm.photoCompteurCarburant) }}
+                    </div>
+                </div>
+                <div>
+                    {{ form_errors(consoForm.photoCompteurCarburant) }}
+                </div>
+            </div>
+
+            <input type="text" id="divIdConso" style="display: none">
+
 
             <div class="mb-5">
                 <div>
                     <div id="divBoutonsIdentificationPrestation">
-                        <button id="afficherPhoto" type="button" class="px-3 py-2 text-sm me-2 mb-2 font-medium text-center inline-flex items-center text-white bg-amber-800 rounded-lg hover:bg-blue-800 dark:bg-slate-500 dark:hover:bg-slate-700 ">
+                        <button id="afficherPhotoBis" type="button" class="px-3 py-2 text-sm me-2 mb-2 font-medium text-center inline-flex items-center text-white bg-amber-800 rounded-lg hover:bg-blue-800 dark:bg-slate-500 dark:hover:bg-slate-700 ">
                             <svg xmlns="http://www.w3.org/2000/svg" style="width: 40px ; height: 30px" viewBox="0 0 512 512"><path d="M149.1 64.8L138.7 96H64C28.7 96 0 124.7 0 160V416c0 35.3 28.7 64 64 64H448c35.3 0 64-28.7 64-64V160c0-35.3-28.7-64-64-64H373.3L362.9 64.8C356.4 45.2 338.1 32 317.4 32H194.6c-20.7 0-39 13.2-45.5 32.8zM256 192a96 96 0 1 1 0 192 96 96 0 1 1 0-192z"/></svg>
                         </button>
                         <button id="masquerPhoto"  style="display: none" type="button" class="px-3 py-2 text-sm me-2 mb-2 font-medium text-center inline-flex items-center text-white bg-amber-800 rounded-lg hover:bg-blue-800 dark:bg-slate-500 dark:hover:bg-slate-700 ">
@@ -102,53 +116,200 @@
 
 {% block javascripts %}
 
-    <script src="{{ asset('scripts/camera.js') }}"></script>
 
     <script>
+
         // Au chargement de la page, on appelle les event listener
         window.onload = () => {
-            const CONFIRM_MODAL_TRUE = document.getElementById('confirmModalButton');
-            const CONFIRM_MODAL_FALSE = document.getElementById('cancelModalButton');
-            const BOOL_PHOTO = document.getElementById('validationPhoto');
-            const BOOL_UPLOAD = document.getElementById('validationUpload');
-            const REGISTER_IDENTIFICATION = document.getElementById('registerIdentification');
-            const UPLOAD_PIC = document.getElementById('uploadFromDevice');
-            const FILE_INPUT = document.getElementById('fileInput');
-            const UPLOAD_PIC2 = document.getElementById('uploadFromDevice2');
-            const FILE_INPUT2 = document.getElementById('fileInput2');
+            /*
+                const CONFIRM_MODAL_TRUE = document.getElementById('confirmModalButton');
+                const CONFIRM_MODAL_FALSE = document.getElementById('cancelModalButton');
+                const BOOL_PHOTO = document.getElementById('validationPhoto');
+                const BOOL_UPLOAD = document.getElementById('validationUpload');
+                const REGISTER_IDENTIFICATION = document.getElementById('registerIdentification');
+                const UPLOAD_PIC = document.getElementById('uploadFromDevice');
+                const FILE_INPUT = document.getElementById('fileInput');
+                const UPLOAD_PIC2 = document.getElementById('uploadFromDevice2');
+                const FILE_INPUT2 = document.getElementById('fileInput2');
+    */
+            //On récupère la taille de l'écran
+            let width = window.innerWidth;
+            let height = window.innerHeight;
 
-            function uploadFile ( nomBouton, nomFileInput ) {
-                nomBouton.addEventListener( 'click' , function() {
+            //On récupère les éléments html qui serviront
+            const video = document.getElementById('video');
+            const canvas = document.getElementById('canvasPhoto');
+            const takePicture = document.getElementById('snap');
+            const upload = document.getElementById('upload');
+            const context = canvas.getContext('2d');
+            const on = document.getElementById('camOn');
+            const off = document.getElementById('camOff');
+            const effacer = document.getElementById('effacer');
+            const showCamera = document.getElementById('afficherPhotoBis');
+            const hideCamera = document.getElementById('masquerPhoto');
+            const divPhotoBon = document.getElementById('divPhotoBon');
+            const divUpload2 = document.getElementById('divUpload2');
+            const modalePhoto = document.getElementById('modaleConfirmationPhoto')
+            const boolPhoto = document.getElementById('validationPhoto');
+            const boolSignature = document.getElementById('validationSignature');
+            const registerIdentification = document.getElementById('registerIdentification');
+            const divIdConso = document.getElementById('consommation_essence_photoCompteurCarburant');
+
+
+            //On initialise une variable stream qui nous servira à couper / ouvrir le flux de video à volonté
+            let stream = null;
+
+            //Afficher les divs pour la photo
+            showCamera.addEventListener('click', (e) => {
+                if (width === 2000 && height === 1200 || width < 1200) {
+                    divUpload2.style.display = 'flex';
+                    console.log('OK Tablette')
+                } else {
+                    console.log('Ok Ordi')
+                    divPhotoBon.style.display = 'flex';
+                    startCamera();
+                    showCamera.style.display = 'none'
+                    hideCamera.style.display = 'block'
+                }
+            })
+
+
+            hideCamera.addEventListener('click', () => {
+                if (width === 2000 && height === 1200 || width < 1200) {
+                    divUpload2.style.display = 'none';
+                } else {
+                    divPhotoBon.style.display = 'none';
+                    hideCamera.style.display = 'none';
+                    stopCamera();
+                    showCamera.style.display = 'flex';
+                    showCamera.style.display = 'block';
+                }
+            })
+
+            //Fonction pour lancer la caméra
+            function startCamera() {
+                video.style.display = 'block';
+                takePicture.style.display = 'block';
+                //On vérifie si le navigateur supporte l'API getUserMedia
+                if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia()) {
+                    //Demander l'accès à la webcam
+                    navigator.mediaDevices.getUserMedia({video: true})
+                        .then(function (s) {
+                            stream = s;
+                            video.srcObject = stream;
+                            video.onloadedmetadata = function (e) {
+                                video.play();
+                            }
+                        })
+                        .catch(function (error) {
+                            console.error("Erreur lors de l'accès à la webcam : ", error)
+                            alert("Impossible d'accéder à la webcam, vérifiez les permissions du navigateur.");
+                        })
+                } else {
+                    alert('Votre navigateur ne supporte pas getUserMedia');
+                }
+            }
+
+
+            //Fonction pour couper la caméra
+            function stopCamera() {
+                if (stream) {
+                    stream.getTracks().forEach(track => track.stop());
+                    video.srcObject = null;
+                    stream = null;
+                    video.style.display = 'none'
+                    takePicture.style.display = 'none';
+                }
+            }
+
+
+            //Capturer la photo
+            takePicture.addEventListener('click', function (e) {
+                e.preventDefault();
+                context.drawImage(video, 0, 0, 640, 480);
+                canvas.style.display = 'block';
+                upload.style.display = 'block';
+                effacer.style.display = 'block';
+                modalePhoto.style.display = 'flex';
+                modalePhoto.showModal();
+            });
+
+            //Effacer la photo
+            effacer.addEventListener('click', function () {
+                context.clearRect(0, 0, canvas.width, canvas.height);
+                canvas.style.display = 'none';
+                upload.style.display = 'none';
+                effacer.style.display = 'none';
+                modalePhoto.style.display = 'none'
+                modalePhoto.close();
+            });
+
+
+            //Envoyer la photo
+            upload.addEventListener('click', function ( e ) {
+                e.preventDefault()
+                stopCamera();
+                modalePhoto.style.display = 'none';
+                modalePhoto.close();
+
+                canvas.toBlob(function (blob) {
+
+                    const formData = new FormData();
+                    formData.append('photo', blob, 'photo.png');
+
+
+                    fetch('/consommation/essence/uploadPicture', {
+                        method: 'POST',
+                        body: formData
+                    })
+                        .then(response => response.json())
+                        .then(data => {
+                            alert('Photo envoyée avec succès !');
+
+                            divIdConso.value = data['filename'];
+                            console.log( 'value' + divIdConso.value);
+                        })
+                        .catch(error => {
+                            console.error('Erreur lors de l\'envoi de la photo : ', error);
+                        })
+                })
+            })
+
+
+            function uploadFile(nomBouton, nomFileInput) {
+                nomBouton.addEventListener('click', function () {
                     const FILE = nomFileInput.files[0];
 
-                    if ( file ) {
+                    if (file) {
                         const FORM_DATA = new FormData();
-                        FORM_DATA.append('photo2' , FILE );
+                        FORM_DATA.append('photo2', FILE);
 
-                        fetch('/identification_prestation/upload_photo' , {
-                            method : 'POST' ,
-                            body : FORM_DATA
+                        fetch('/identification_prestation/upload_photo', {
+                            method: 'POST',
+                            body: FORM_DATA
                         })
-                            .then( response => response.json())
-                            .then( data => {
-                                alert( 'Photo envoyée avec succès !') ;
+                            .then(response => response.json())
+                            .then(data => {
+                                alert('Photo envoyée avec succès !');
                                 console.log(data);
                                 //Vérification double
-                                BOOL_UPLOAD.value = 'true' ;
+                                BOOL_UPLOAD.value = 'true';
                             })
-                            .catch( error => {
+                            .catch(error => {
                                 console.error('Erreur lors de l\' envoi du fichier! ');
                             })
 
 
                     } else {
-                        alert( 'Veuillez séléctionner un fichier !');
+                        alert('Veuillez séléctionner un fichier !');
                     }
                 })
             }
-            uploadFile( UPLOAD_PIC , FILE_INPUT );
-            uploadFile( UPLOAD_PIC2 , FILE_INPUT2 );
+
+            uploadFile(UPLOAD_PIC, FILE_INPUT);
+            uploadFile(UPLOAD_PIC2, FILE_INPUT2);
         }
+
 
     </script>
 {% endblock %}

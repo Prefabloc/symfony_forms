@@ -31,7 +31,7 @@ document.addEventListener('DOMContentLoaded' , function() {
 
 
     //Afficher les divs pour la photo
-    showCamera.addEventListener('click' , () => {
+    showCamera.addEventListener('click' , ( e ) => {
         if ( width === 2000 && height === 1200 || width < 1200 ) {
             divUpload2.style.display = 'flex';
             console.log('OK Tablette')
