@@ -34,7 +34,9 @@ document.addEventListener('DOMContentLoaded' , function() {
     showCamera.addEventListener('click' , () => {
         if ( width === 2000 && height === 1200 || width < 1200 ) {
             divUpload2.style.display = 'flex';
+            console.log('OK Tablette')
         } else {
+            console.log('Ok Ordi')
             divPhotoBon.style.display = 'flex';
             startCamera();
             showCamera.style.display = 'none'

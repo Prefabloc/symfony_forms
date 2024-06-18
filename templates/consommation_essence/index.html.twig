@@ -107,8 +107,6 @@
     <script>
         // Au chargement de la page, on appelle les event listener
         window.onload = () => {
-            const ID_PRESTATION_DIV = document.getElementById('idPrestationDiv');
-            const ID_PRESTATION = ID_PRESTATION_DIV.value;
             const CONFIRM_MODAL_TRUE = document.getElementById('confirmModalButton');
             const CONFIRM_MODAL_FALSE = document.getElementById('cancelModalButton');
             const BOOL_PHOTO = document.getElementById('validationPhoto');
@@ -126,7 +124,6 @@
                     if ( file ) {
                         const FORM_DATA = new FormData();
                         FORM_DATA.append('photo2' , FILE );
-                        FORM_DATA.append('idPrestation' , ID_PRESTATION )
 
                         fetch('/identification_prestation/upload_photo' , {
                             method : 'POST' ,
