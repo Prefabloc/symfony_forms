@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Entity\Agregat\CarriereSaisieDebit;
 use App\Entity\Agregat\ConcassageSaisieChargeuse;
+use App\Entity\Agregat\ConcassageSaisieDebit;
 use App\Entity\Agregat\ConcassageSaisiePelle;
 use App\Entity\Exforman\SaisieDebit;
 use App\Entity\Exforman\SaisieDestockage;
@@ -101,6 +102,12 @@ class Article
     #[ORM\OneToMany(targetEntity: ConcassageSaisiePelle::class, mappedBy: 'article')]
     private Collection $concassageSaisiePelles;
 
+    /**
+     * @var Collection<int, ConcassageSaisieDebit>
+     */
+    #[ORM\OneToMany(targetEntity: ConcassageSaisieDebit::class, mappedBy: 'article')]
+    private Collection $concassageSaisieDebits;
+
 
     public function __construct()
     {
@@ -113,6 +120,7 @@ class Article
         $this->carriereSaisieDebits = new ArrayCollection();
         $this->concassageSaisieChargeuses = new ArrayCollection();
         $this->concassageSaisiePelles = new ArrayCollection();
+        $this->concassageSaisieDebits = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -456,6 +464,36 @@ class Article
             // set the owning side to null (unless already changed)
             if ($concassageSaisiePelle->getArticle() === $this) {
                 $concassageSaisiePelle->setArticle(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, ConcassageSaisieDebit>
+     */
+    public function getConcassageSaisieDebits(): Collection
+    {
+        return $this->concassageSaisieDebits;
+    }
+
+    public function addConcassageSaisieDebit(ConcassageSaisieDebit $concassageSaisieDebit): static
+    {
+        if (!$this->concassageSaisieDebits->contains($concassageSaisieDebit)) {
+            $this->concassageSaisieDebits->add($concassageSaisieDebit);
+            $concassageSaisieDebit->setArticle($this);
+        }
+
+        return $this;
+    }
+
+    public function removeConcassageSaisieDebit(ConcassageSaisieDebit $concassageSaisieDebit): static
+    {
+        if ($this->concassageSaisieDebits->removeElement($concassageSaisieDebit)) {
+            // set the owning side to null (unless already changed)
+            if ($concassageSaisieDebit->getArticle() === $this) {
+                $concassageSaisieDebit->setArticle(null);
             }
         }
 

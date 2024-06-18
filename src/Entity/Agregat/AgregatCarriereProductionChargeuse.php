@@ -2,6 +2,7 @@
 
 namespace App\Entity\Agregat;
 
+use App\Entity\Mode;
 use App\Entity\ProductionForm;
 use App\Repository\Agregat\AgregatCarriereProductionChargeuseRepository;
 use Doctrine\DBAL\Types\Types;
@@ -11,16 +12,16 @@ use Symfony\Component\Validator\Constraints as Assert;
 #[ORM\Entity(repositoryClass: AgregatCarriereProductionChargeuseRepository::class)]
 class AgregatCarriereProductionChargeuse extends ProductionForm
 {
-    #[ORM\Column(length: 255)]
-    #[Assert\NotBlank()]
-    private ?string $mode = null;
+    #[ORM\ManyToOne(inversedBy: 'agregatCarriereProductionChargeuses')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Mode $mode = null;
 
-    public function getMode(): ?string
+    public function getMode(): ?Mode
     {
         return $this->mode;
     }
 
-    public function setMode(string $mode): static
+    public function setMode(?Mode $mode): static
     {
         $this->mode = $mode;
 

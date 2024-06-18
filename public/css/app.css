@@ -237,6 +237,7 @@ main {
     gap: 2vh;
     padding-bottom: 2vh;
 
+
 }
 
 /* Added for central div styling
@@ -730,6 +731,12 @@ tr:nth-child(even) {
 
 .mtop2{
     margin-top: 2rem;
+}
+.mbot2 {
+    margin-bottom: 2rem;
+}
+.nombot2 {
+    margin-bottom: -2rem;
 }
 
 .divChampsForm {

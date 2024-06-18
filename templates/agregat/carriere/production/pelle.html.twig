@@ -4,34 +4,34 @@
 
     <div class="centered-content">
         <div>
-            <img id="imgPrefabloc" class="mx-auto" src="https://prefabloc.re/wp-content/uploads/2020/08/pfb-logo-horizontal-clr-01.png"
-                alt="" width="300" height="300" style="margin-top: 2vh">
+            <h2 class="text-2xl font-bold text-center text-black-500 mtop2">{{ label }}</h2>
         </div>
-        <div class="my-2">
-            <h2 class="text-2xl font-bold text-center text-black-500">{{ label }}</h2>
-        </div>
-        <div style="width: 100%">
+        <div style="width: 60%" class="divChampsForm">
             {{ form_start(form) }}
-            <div id="divPrefablocProductionArticle" style="text-align: center ; position: relative">
-                    <div class="divSeparator">
-                        <div class="inputSeparator">
-                            {{ form_label(form.mode ) }}
-                        </div>
-                        <div>
-                            {{ form_widget(form.mode ) }}
-                        </div>
+
+            <div>
+                <div class="divSeparator">
+                    <div class="inputSeparator">
+                        {{ form_label(form.mode ) }}
                     </div>
+
                     <div>
-                        {{ form_errors(form.mode ) }}
+                        {{ form_widget(form.mode ) }}
                     </div>
-                    </div>
+                </div>
+
                 <div>
+                        {{ form_errors(form.mode ) }}
+                </div>
             </div>
-            {{ form_end(form, {'render_rest': false}) }}
+
         </div>
+            {{ form_end(form, {'render_rest': false}) }}
+
+
         <div class="flex gap-4">
             {% if form.vars.value == null %}
-                <button class="bg-orange-900 hover:bg-orange-500 text-white font-bold py-2 px-4 rounded" onClick="startProduction()"> Démarrer
+                <button class="bg-orange-900 hover:bg-orange-500 text-white font-bold py-2 px-4 rounded nombot2" onClick="startProduction()"> Démarrer
                 </button>
             {% else %}
                 <button class="bg-red-500 text-white font-bold py-2 px-4 rounded"
@@ -87,5 +87,5 @@
 {% endblock %}
 
 {% block title %}
-    Saisie Production
+    Saisie Production | Pelle Carrière
 {% endblock %}

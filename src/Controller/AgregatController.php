@@ -24,6 +24,7 @@ use App\Repository\Agregat\AgregatCarriereProductionPelleRepository;
 use App\Repository\Agregat\AgregatConcassageProductionChargeuseRepository;
 use App\Repository\Agregat\AgregatConcassageProductionPelleRepository;
 use App\Repository\ArticleRepository;
+use App\Repository\ModeRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -124,7 +125,7 @@ class AgregatController extends AbstractController
         }
     }
     */
-    #[Route('/agregat/carriere/production/mobile', name: 'app_agregat_carriere_production_mobile')]
+    #[Route('/agregat/carriere/production/mobile', name: 'carriere_production_mobile')]
     public function carriereProductionMobile(Request $request, AgregatCarriereProductionMobileRepository $repository): Response
     {
         $url = $request->getUri();
@@ -177,8 +178,10 @@ class AgregatController extends AbstractController
     }
 
     #[Route('/carriere/production/chargeuse', name: 'carriere_production_chargeuse')]
-    public function carriereProductionChargeuse(Request $request, AgregatCarriereProductionChargeuseRepository $repository): Response
+    public function carriereProductionChargeuse(Request $request, AgregatCarriereProductionChargeuseRepository $repository, ModeRepository $modeRepository): Response
     {
+        $modes = $modeRepository->findAll();
+
         $url = $request->getUri();
         $entity = $repository->findLastActive();
 
@@ -191,7 +194,7 @@ class AgregatController extends AbstractController
             "url" => $url,
             "form" => $form->createView(),
             "productionId" => $entity == null ? 0 : $entity->getId(),
-            "productionType" => "agregat_carriere_chargeuse"
+            "productionType" => "agregat_carriere_chargeuse" ,
         ]);
     }
 
@@ -373,7 +376,7 @@ class AgregatController extends AbstractController
     }
     */
 
-    #[Route('/agregat/concassage/production/chargeuse', name: 'app_agregat_concassage_production_chargeuse')]
+    #[Route('/agregat/concassage/production/chargeuse', name: 'concassage_production_chargeuse')]
     public function concassageProductionChargeuse(Request $request, AgregatConcassageProductionChargeuseRepository $repository): Response
     {
         $url = $request->getUri();
@@ -446,27 +449,44 @@ class AgregatController extends AbstractController
         $entityManager->persist($concassageSaiseChargeuse);
         $entityManager->flush();
 
-        $this->addFlash('success' , 'Saisie Débit réussie.');
+        $this->addFlash('success' , 'Saisie Chargeuse réussie.');
         return $this->redirectToRoute('app_agregat_concassage_saisie_chargeuse');
     }
 
     #[Route('/concassage/saisie/debit' , name : 'concassage_saisie_debit')]
-    public function agregatConcassageSaisieDebit(Request $request , EntityManagerInterface $entityManager ) : Response
+    public function agregatConcassageSaisieDebit() : Response
     {
         $agregatConcassageSaisieDebit = new ConcassageSaisieDebit();
-
         $agregatConcassageSaisieDebitForm = $this->createForm(ConcassageSaisieDebitType::class, $agregatConcassageSaisieDebit);
-        $agregatConcassageSaisieDebitForm->handleRequest($request);
 
-        if ($agregatConcassageSaisieDebitForm->isSubmitted() && $agregatConcassageSaisieDebitForm->isValid()) {
-            $entityManager->persist($agregatConcassageSaisieDebit);
-            $entityManager->flush();
+        return $this->render('agregat/ConcassageSaisieDebit.html.twig', [
+            'agregatConcassageSaisieDebitForm' => $agregatConcassageSaisieDebitForm->createView()
+        ]);
+    }
 
-            $this->addFlash('success', 'Saisie du débit enregistrée !');
-            return $this->redirectToRoute('app_agregat_concassage_saisie_debit');
-        } else {
-            return $this->render('agregat/ConcassageSaisieDebit.html.twig', ['agregatConcassageSaisieDebitForm' => $agregatConcassageSaisieDebitForm->createView()]);
-        }
+    #[Route('/concassage/saisie/debit/validate' , name : 'concassage_saisie_debit_validate')]
+    public function agregatConcassageSaisieDebitValidate(Request $request , EntityManagerInterface $entityManager , ArticleRepository $articleRepository )
+    {
+        $jsonContent = $request->getContent();
+
+        $data = json_decode($jsonContent, true);
+
+        $articleId = $data['idArticle'] ?? null;
+
+        $article = $articleRepository->find($articleId);
+
+        $quantite = $data['qte'] ?? null;
+
+        $concassageSaiseDebit = new ConcassageSaisieDebit();
+        $concassageSaiseDebit
+            ->setArticle($article)
+            ->setQuantite($quantite);
+
+        $entityManager->persist($concassageSaiseDebit);
+        $entityManager->flush();
+
+        $this->addFlash('success' , 'Saisie Débit réussie.');
+        return $this->redirectToRoute('app_agregat_concassage_saisie_debit');
     }
 
     #[Route('/concassage/saisie/pelle' , name : 'concassage_saisie_pelle')]

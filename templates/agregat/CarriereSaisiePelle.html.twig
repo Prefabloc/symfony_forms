@@ -14,38 +14,40 @@
         </div>
         <div>
             {{ form_start(agregatCarriereSaisiePellForm) }}
-        <div class="divChampsForm">
-            <div>
-                <div style="display: flex" class="divSeparator">
-                    <div class="inputSeparator">
-                        {{ form_label(agregatCarriereSaisiePellForm.typeMateriau ) }}
+
+            <div class="divChampsForm">
+                <div>
+                    <div style="display: flex" class="divSeparator">
+                        <div class="inputSeparator">
+                            {{ form_label(agregatCarriereSaisiePellForm.typeMateriau ) }}
+                        </div>
+                        <div>
+                            {{ form_widget(agregatCarriereSaisiePellForm.typeMateriau ) }}
+                        </div>
                     </div>
                     <div>
-                        {{ form_widget(agregatCarriereSaisiePellForm.typeMateriau ) }}
+                        {{ form_errors(agregatCarriereSaisiePellForm.typeMateriau ) }}
                     </div>
                 </div>
+
                 <div>
-                    {{ form_errors(agregatCarriereSaisiePellForm.typeMateriau ) }}
+                    <div style="display: flex" class="divSeparator">
+                        <div class="inputSeparator">
+                            {{ form_label(agregatCarriereSaisiePellForm.quantite ) }}
+                        </div>
+                        <div>
+                            {{ form_widget(agregatCarriereSaisiePellForm.quantite ) }}
+                        </div>
+                    </div>
+                    <div>
+                        {{ form_errors(agregatCarriereSaisiePellForm.quantite ) }}
+                    </div>
                 </div>
             </div>
 
-            <div>
-                <div style="display: flex" class="divSeparator">
-                    <div class="inputSeparator">
-                        {{ form_label(agregatCarriereSaisiePellForm.quantite ) }}
-                    </div>
-                    <div>
-                        {{ form_widget(agregatCarriereSaisiePellForm.quantite ) }}
-                    </div>
-                </div>
-                <div>
-                    {{ form_errors(agregatCarriereSaisiePellForm.quantite ) }}
-                </div>
+            <div class="mtop2 mbot2">
+                    {{ form_row(agregatCarriereSaisiePellForm.save ) }}
             </div>
-        </div>
-        <div class="mtop2">
-                {{ form_row(agregatCarriereSaisiePellForm.save ) }}
-        </div>
 
             {{ form_end(agregatCarriereSaisiePellForm) }}
         </div>

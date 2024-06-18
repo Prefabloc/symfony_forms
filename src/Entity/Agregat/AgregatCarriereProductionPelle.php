@@ -2,21 +2,24 @@
 
 namespace App\Entity\Agregat;
 
+use App\Entity\Mode;
 use App\Entity\ProductionForm;
-use App\Repository\AgregatCarriereProductionPelleRepository;
+use App\Repository\Agregat\AgregatCarriereProductionPelleRepository;
 use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
-use Doctrine\DBAL\Types\Types;
+
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: AgregatCarriereProductionPelleRepository::class)]
 class AgregatCarriereProductionPelle extends ProductionForm
 {
-    #[ORM\Column(length: 255)]
-    private ?string $mode = null;
+
 
     #[ORM\OneToOne(mappedBy: 'production', cascade: ['persist', 'remove'])]
     private ?CarriereSaisiePelle $carriereSaisiePelle = null;
+
+    #[ORM\ManyToOne(inversedBy: 'agregatCarriereProductionPelles')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Mode $mode = null;
 
 
     public function __construct()
@@ -24,17 +27,7 @@ class AgregatCarriereProductionPelle extends ProductionForm
         $this->comments = new ArrayCollection();
     }
 
-    public function getMode(): ?string
-    {
-        return $this->mode;
-    }
 
-    public function setMode(string $mode): static
-    {
-        $this->mode = $mode;
-
-        return $this;
-    }
 
     public function getCarriereSaisiePelle(): ?CarriereSaisiePelle
     {
@@ -49,6 +42,18 @@ class AgregatCarriereProductionPelle extends ProductionForm
         }
 
         $this->carriereSaisiePelle = $carriereSaisiePelle;
+
+        return $this;
+    }
+
+    public function getMode(): ?Mode
+    {
+        return $this->mode;
+    }
+
+    public function setMode(?Mode $mode): static
+    {
+        $this->mode = $mode;
 
         return $this;
     }

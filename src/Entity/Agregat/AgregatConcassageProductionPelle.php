@@ -2,23 +2,26 @@
 
 namespace App\Entity\Agregat;
 
+use App\Entity\Mode;
 use App\Entity\ProductionForm;
-use App\Repository\AgregatConcassageProductionPelleRepository;
-use Doctrine\DBAL\Types\Types;
+use App\Repository\Agregat\AgregatConcassageProductionPelleRepository;
+
+
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: AgregatConcassageProductionPelleRepository::class)]
 class AgregatConcassageProductionPelle extends ProductionForm
 {
-    #[ORM\Column(length: 255)]
-    private ?string $mode = null;
+    #[ORM\ManyToOne(inversedBy: 'agregatConcassageProductionPelles')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Mode $mode = null;
 
-    public function getMode(): ?string
+    public function getMode(): ?Mode
     {
         return $this->mode;
     }
 
-    public function setMode(string $mode): static
+    public function setMode(?Mode $mode): static
     {
         $this->mode = $mode;
 

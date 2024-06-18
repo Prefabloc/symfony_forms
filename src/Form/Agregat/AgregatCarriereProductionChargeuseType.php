@@ -3,8 +3,10 @@
 namespace App\Form\Agregat;
 
 use App\Entity\Agregat\AgregatCarriereProductionChargeuse;
+use App\Entity\Mode;
+use Doctrine\ORM\EntityRepository;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -16,20 +18,24 @@ class AgregatCarriereProductionChargeuseType extends AbstractType
         $builder
             ->add('startedAt', HiddenType::class, ['disabled' => $options['disable_fields']])
             ->add('endedAt', HiddenType::class, ['disabled' => $options['disable_fields']])
-            ->add('mode', ChoiceType::class, [
+            ->add('mode' , EntityType::class, [
+                "label" => "Mode : ",
                 'label_attr' => [
                     'class' => "block text-sm font-medium leading-6 text-gray-900"
                 ],
+                'class' => Mode::class,
+                'placeholder' => '-- Choisissez un mode --' ,
                 'attr' => [
                     'class' => "bg-neutral-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus: block w-full p-2.5"
                 ],
-                "choices" => [
-                    "Remblais" => "Remblais",
-                    "Amenagement Piste" => "Amenagement Piste"
-                ],
-                'disabled' => $options['disable_fields']
+                "required" => true,
+                'choice_label' => 'nom' ,
+                'query_builder' => function ( EntityRepository $er ) {
+                    return $er->createQueryBuilder('m')
+                        ->where('m.affiliation LIKE :type')
+                        ->setParameter( 'type' ,'%' . 'AgregatCarriereProductionChargeuse' . '%');                }
             ]);
-        ;
+
     }
 
     public function configureOptions(OptionsResolver $resolver): void
