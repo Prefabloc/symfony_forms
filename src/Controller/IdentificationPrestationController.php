@@ -19,12 +19,13 @@ use Symfony\Component\String\Slugger\SluggerInterface;
 class IdentificationPrestationController extends AbstractController
 {
     #[Route('/create', name: 'create')]
-    public function identificationPrestationForm(Request $request,
-                                                 EntityManagerInterface $entityManager,
-                                                 IdentificationPrestationRepository $identificationPrestationRepository,
-                                                 SiteRepository $siteRepository
-    ): Response
-    {
+    public function identificationPrestationForm(
+        Request $request,
+        EntityManagerInterface $entityManager,
+        IdentificationPrestationRepository $identificationPrestationRepository,
+        SiteRepository $siteRepository
+    ): Response {
+
         date_default_timezone_set('Indian/Reunion');
         $session = $request->getSession();
 
@@ -45,11 +46,10 @@ class IdentificationPrestationController extends AbstractController
         } else {
 
             $nomSite = $request->query->get('site');
-            $site = $siteRepository->findOneBy(['nom' => $nomSite ]);
+            $site = $siteRepository->findOneBy(['nom' => $nomSite]);
 
-            if ( !$site )
-            {
-                $this->addFlash('fail' , 'Pas de site trouvé avec ce QR Code.');
+            if (!$site) {
+                $this->addFlash('fail', 'Pas de site trouvé avec ce QR Code.');
                 return $this->redirectToRoute('app_identification_prestation_create');
             }
 
@@ -59,8 +59,10 @@ class IdentificationPrestationController extends AbstractController
             $identificationPrestation->setHeureArrivee($dateTimeArrivee);
             $identificationPrestation->setSite($site);
 
-            $identificationPrestationForm = $this->createForm(IdentificationPrestationType::class, $identificationPrestation ,
-                [ 'site_name' => $nomSite ]
+            $identificationPrestationForm = $this->createForm(
+                IdentificationPrestationType::class,
+                $identificationPrestation,
+                ['site_name' => $nomSite]
             );
             $identificationPrestationForm->handleRequest($request);
 
@@ -112,7 +114,7 @@ class IdentificationPrestationController extends AbstractController
         $entityManager->flush();
         $session->clear();
 
-        return $this->redirectToRoute('app_identification_prestation_create');
+        return $this->redirectToRoute('app_success');
         // }
     }
 

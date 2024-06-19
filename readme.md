@@ -26,7 +26,7 @@ docker volume rm $(docker volume ls -q)
 
 ### Create database
 ``` 
-php bin/console doctrine:database:create; 
+php bin/console doctrine:database:create
 ```
 
 ### Make migration
