@@ -31,6 +31,7 @@ class ConsommationEssenceController extends AbstractController
 
         $conso = new ConsommationEssence();
         $conso->setMachine($machine);
+        $conso->setUser($this->getUser());
         $consoForm = $this->createForm(
             ConsommationEssenceType::class,
             $conso,

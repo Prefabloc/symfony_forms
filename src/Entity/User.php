@@ -62,9 +62,16 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(targetEntity: HistoriqueActionsArticle::class, mappedBy: 'personneModifiant')]
     private Collection $historiqueActionsArticles;
 
+    /**
+     * @var Collection<int, ConsommationEssence>
+     */
+    #[ORM\OneToMany(targetEntity: ConsommationEssence::class, mappedBy: 'user')]
+    private Collection $consommationEssences;
+
     public function __construct()
     {
         $this->historiqueActionsArticles = new ArrayCollection();
+        $this->consommationEssences = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -200,6 +207,36 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
             // set the owning side to null (unless already changed)
             if ($historiqueActionsArticle->getPersonneModifiant() === $this) {
                 $historiqueActionsArticle->setPersonneModifiant(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, ConsommationEssence>
+     */
+    public function getConsommationEssences(): Collection
+    {
+        return $this->consommationEssences;
+    }
+
+    public function addConsommationEssence(ConsommationEssence $consommationEssence): static
+    {
+        if (!$this->consommationEssences->contains($consommationEssence)) {
+            $this->consommationEssences->add($consommationEssence);
+            $consommationEssence->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeConsommationEssence(ConsommationEssence $consommationEssence): static
+    {
+        if ($this->consommationEssences->removeElement($consommationEssence)) {
+            // set the owning side to null (unless already changed)
+            if ($consommationEssence->getUser() === $this) {
+                $consommationEssence->setUser(null);
             }
         }
 
