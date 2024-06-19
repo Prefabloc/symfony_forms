@@ -19,22 +19,22 @@ use Symfony\Component\String\Slugger\SluggerInterface;
 class ConsommationEssenceController extends AbstractController
 {
     #[Route('/consommation/essence', name: 'app_consommation_essence')]
-    public function ConsommationEssenceForm(Request $request,
-                                            EntityManagerInterface $entityManager,
-                                            MachineRepository $machineRepository
-    ): Response
-    {
+    public function ConsommationEssenceForm(
+        Request $request,
+        EntityManagerInterface $entityManager,
+        MachineRepository $machineRepository
+    ): Response {
         date_default_timezone_set('Indian/Reunion');
 
         $idMachine = $request->query->get('engin');
-        $machine = $machineRepository->findOneBy(['id' => $idMachine ]);
+        $machine = $machineRepository->findOneBy(['id' => $idMachine]);
 
         $conso = new ConsommationEssence();
         $conso->setMachine($machine);
         $consoForm = $this->createForm(
             ConsommationEssenceType::class,
             $conso,
-            [ 'machine_label' => $machine->getLabel() ]
+            ['machine_label' => $machine->getLabel()]
         );
         $consoForm->handleRequest($request);
 
@@ -50,7 +50,7 @@ class ConsommationEssenceController extends AbstractController
             $entityManager->flush();
             $this->addFlash('success', 'Saisie de la consommation enregistrée !');
 
-            return $this->redirectToRoute('app_consommation_essence' , ['engin' => $idMachine]);
+            return $this->redirectToRoute('app_success');
         }
 
         return $this->render('consommation_essence/index.html.twig', [
@@ -61,15 +61,15 @@ class ConsommationEssenceController extends AbstractController
 
 
     #[Route('/consommation/essence/uploadPicture')]
-    public function uploadPicture ( Request $request , SluggerInterface $slugger , EntityManagerInterface $entityManager , ConsommationEssenceRepository $consommationEssenceRepository )
+    public function uploadPicture(Request $request, SluggerInterface $slugger, EntityManagerInterface $entityManager, ConsommationEssenceRepository $consommationEssenceRepository)
     {
-        $file = $request->files->get('photo') ;
+        $file = $request->files->get('photo');
 
-        if ( $file ) {
+        if ($file) {
             $path = $this->getParameter('kernel.project_dir') . DIRECTORY_SEPARATOR . 'public' . DIRECTORY_SEPARATOR . 'img' . DIRECTORY_SEPARATOR . 'photosConso' . DIRECTORY_SEPARATOR;
             $newFileName = $this->generateFileName($file, $slugger);
 
-            if ( $this->saveFile( $file , $path , $newFileName )) {
+            if ($this->saveFile($file, $path, $newFileName)) {
                 return new JsonResponse(['status' => 'success', 'filename' => $path . $newFileName]);
             }
             return new JsonResponse(['status' => 'error', 'message' => 'could not upload file'], Response::HTTP_INTERNAL_SERVER_ERROR);

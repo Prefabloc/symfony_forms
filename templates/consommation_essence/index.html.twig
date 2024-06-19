@@ -3,15 +3,6 @@
 {% block title %}Formulaire Consommation Machine{% endblock %}
 
 {% block body %}
-    <div>
-        <a href="/">
-            <svg class="pointer" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="50" height="50"
-                 fill="none" stroke="currentColor" stroke-width="1.5">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18" />
-            </svg>
-        </a>
-    </div>
-
     <div class="centered-content">
         <div class="my-2">
             <h2 class="text-2xl font-bold text-center text-black-500">{{ label }}</h2>
@@ -95,14 +86,8 @@
 
                     <!-- MODAL CONFIRMATION PHOTO  -->
 
-                    <dialog id="modaleConfirmationPhoto" class="modalConfirmation">
-                        <canvas id="canvasPhoto" width="640" height="480"></canvas>
-                        <p>Confirmez-vous vouloir utiliser cette photo ?</p>
-                        <div style="display: flex" class="divBoutonsPhotos">
-                            <button id="effacer" style="display: none ; border-radius: 10px; border : 1px solid black ; background-color: grey">Effacer</button>
-                            <button id="upload" style="display: none; border-radius: 10px; border : 1px solid black ; background-color: grey">Envoyer</button>
-                        </div>
-                    </dialog>
+                    {% include 'includes/_modalPhotoConfirmation.html.twig' %}
+
 
                     <!-- END MODAL CONFIRMATION PHOTO -->
 
