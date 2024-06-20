@@ -14,7 +14,7 @@
         <button type="button" id="boutonMasquerDivPhoto" style="border: 1px solid black">Masquer Photo</button>
 
         <div id="divPhoto"></div>
-        <div id="divPhotoTablette"></div>
+        <div id="divPhotoTablette" style="display: none"></div>
         <dialog id="divModal"></dialog>
     </div>
 {% endblock %}
@@ -34,9 +34,7 @@
             const urlFetch = "/identification_prestation/upload_photo"
 
             const camera = new CameraClass( boutonAfficherDivPhoto , boutonMasquerDivPhoto , divPhoto , divPhotoTablette, divModal, urlFetch );
-            camera.structureDivPhoto();
-            camera.structureDivPhotoTablette();
-            camera.structureModalConfirm();
+            camera.init();
         }
 
     </script>

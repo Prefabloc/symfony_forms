@@ -664,7 +664,6 @@ tr:nth-child(even) {
     background-color: #cbd5e1 ;
 }
 
-
 .modalConfirmation {
     background-color: #ffedd5;
     border-radius: 10px;
@@ -673,12 +672,19 @@ tr:nth-child(even) {
     border: solid 1px black;
 }
 
-#modaleConfirmationPhotoIdentificationPrestation{
+.modalConfirmationPhotoIdentificationPrestation {
+    background-color: #ffedd5;
+    border-radius: 10px;
+    padding: 30px;
+    font-weight: bold;
+    border: solid 1px black;
     flex-direction: column;
     align-items: center;
 }
 
-#modaleConfirmationPhotoIdentificationPrestation > p {
+
+
+.modalConfirmationPhotoIdentificationPrestation > p {
     text-align: center;
     font-weight: bold;
     margin : 10px
@@ -704,7 +710,7 @@ tr:nth-child(even) {
 }
 
 
-#canvasPhoto {
+.canvasPhoto {
     display: none;
     border-radius: 10px;
     border: 3px solid black;
