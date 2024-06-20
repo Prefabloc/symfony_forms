@@ -250,8 +250,4 @@ class IdentificationPrestationController extends AbstractController
         return false;
     }
 
-    #[Route('/test' , name : 'test')]
-    public function test() {
-        return $this->render('identification_prestation/test.html.twig');
-    }
 }

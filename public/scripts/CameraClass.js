@@ -1,21 +1,20 @@
 
-class CameraClass
-{
-    constructor( boutonAfficherDivPhoto, boutonMasquerDivPhoto , divPhoto , divPhotoTablette , divModal , urlFetch ){
-        this.boutonAfficherDivPhoto = boutonAfficherDivPhoto ;
+class CameraClass {
+    constructor(boutonAfficherDivPhoto, boutonMasquerDivPhoto, divPhoto, divPhotoTablette, divModal, urlFetch) {
+        this.boutonAfficherDivPhoto = boutonAfficherDivPhoto;
         this.boutonMasquerDivPhoto = boutonMasquerDivPhoto;
-        this.divPhoto = divPhoto ;
+        this.divPhoto = divPhoto;
         this.divPhotoTablette = divPhotoTablette;
-        this.divModal = divModal ;
-        this.urlFetch = urlFetch ;
+        this.divModal = divModal;
+        this.urlFetch = urlFetch;
 
-        this.width = window.innerWidth ;
-        this.height = window.innerHeight ;
+        this.width = window.innerWidth;
+        this.height = window.innerHeight;
         this.stream = null;
 
         //variables bool qui servent pour la double vérification
-        this.boolPhoto = false ;
-        this.boolUpload = false ;
+        this.boolPhoto = false;
+        this.boolUpload = false;
         //formData atteignable depuis l'extérieur pour envoyer ce qu'on veut en plus de la photo, attention à gérer le controller après
         this.formData = new FormData();
 
@@ -29,13 +28,13 @@ class CameraClass
         this.uploadFromDevice = document.createElement('button');
 
         //divPhotoTablette
-        this.labelInput = document.createElement( 'label' );
-        this.inputFile2 = document.createElement( 'input');
+        this.labelInput = document.createElement('label');
+        this.inputFile2 = document.createElement('input');
         this.uploadFromDevice2 = document.createElement('button');
 
         //div Modal Confirm
         this.canvas = document.createElement('canvas');
-        this.context = this.canvas.getContext( '2d');
+        this.context = this.canvas.getContext('2d');
         this.para = document.createElement('p');
         this.divBoutonsConfirm = document.createElement('div');
         this.boutonEffacer = document.createElement('button');
@@ -55,20 +54,20 @@ class CameraClass
         this.uploadPhoto = this.uploadPhoto.bind(this);
         this.uploadFile = this.uploadFile.bind(this);
 
-        this.boutonAfficherDivPhoto.addEventListener( 'click' , () => this.showCamera() );
-        this.boutonMasquerDivPhoto.addEventListener( 'click' , () => this.hideCamera() );
-        this.boutonSnap.addEventListener('click' , () => this.capturePicture() );
-        this.boutonEffacer.addEventListener( 'click' , () => this.erasePicture() );
-        this.boutonEnvoyer.addEventListener( 'click', () => this.uploadPhoto() );
-        this.uploadFromDevice.addEventListener("click", () => this.uploadFile( this.inputFile ))
-        this.uploadFromDevice2.addEventListener("click", () => this.uploadFile( this.inputFile2 ))
+        this.boutonAfficherDivPhoto.addEventListener('click', () => this.showCamera());
+        this.boutonMasquerDivPhoto.addEventListener('click', () => this.hideCamera());
+        this.boutonSnap.addEventListener('click', (e) => { e.preventDefault(); this.capturePicture() });
+        this.boutonEffacer.addEventListener('click', () => this.erasePicture());
+        this.boutonEnvoyer.addEventListener('click', () => this.uploadPhoto());
+        this.uploadFromDevice.addEventListener("click", (e) => { e.preventDefault(); this.uploadFile(this.inputFile) })
+        this.uploadFromDevice2.addEventListener("click", (e) => { e.preventDefault(); this.uploadFile(this.inputFile2) })
     }
 
     //fonction pour remplir la divPhoto
     structureDivPhoto() {
         //style de la divPhoto qui va recevoir les autres divs
-        this.divPhoto.style.display = 'none' ;
-        this.divPhoto.style.flexDirection = 'column' ;
+        this.divPhoto.style.display = 'none';
+        this.divPhoto.style.flexDirection = 'column';
         this.divPhoto.style.justifyContent = 'center';
         this.divPhoto.style.alignItems = 'center';
 
@@ -76,7 +75,7 @@ class CameraClass
         this.video = document.createElement('video');
         this.video.height = 380;
         this.video.width = 540;
-        this.video.autoplay = true ;
+        this.video.autoplay = true;
         this.video.style.border = '3px solid black';
         this.video.style.borderRadius = '10px';
         this.video.style.margin = '10px'
@@ -98,8 +97,8 @@ class CameraClass
         this.divUpload.style.textAlign = 'center';
         this.divUpload.style.borderRadius = '10px';
         this.divUpload.style.gap = '2rem';
-        this.divUpload.style.justifyContent = 'center' ;
-        this.divUpload.style.alignItems = 'center' ;
+        this.divUpload.style.justifyContent = 'center';
+        this.divUpload.style.alignItems = 'center';
         this.divUpload.style.display = 'flex';
 
         //input file
@@ -114,10 +113,12 @@ class CameraClass
         this.divUpload.append(this.uploadFromDevice);
 
         //On met tout dans la divPhoto
-        this.divPhoto.append( this.video , this.divBoutonSnap , this.divUpload );
+        this.divPhoto.append(this.video, this.divBoutonSnap, this.divUpload);
     }
 
-    structureDivPhotoTablette (){
+
+
+    structureDivPhotoTablette() {
         //label
         this.labelInput.innerText = 'Upload file'
         this.labelInput.classList = "block mb-2 text-sm font-medium text-gray-900 dark:text-white"
@@ -131,16 +132,18 @@ class CameraClass
         this.uploadFromDevice2.classList = "focus:outline-none text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-900"
 
         //liaison à la div
-        this.divPhotoTablette.append( this.labelInput , this.inputFile2 , this.uploadFromDevice2 )
+        this.divPhotoTablette.append(this.labelInput, this.inputFile2, this.uploadFromDevice2)
     }
+
+
 
     structureModalConfirm() {
         //style de la balise dialog qui va recevoir les autres divs
-        this.divModal.className = 'modalConfirmationPhotoIdentificationPrestation' ;
+        this.divModal.className = 'modalConfirmationPhotoIdentificationPrestation';
 
         //canvas qui recevra la photo
-        this.canvas.width = 640 ;
-        this.canvas.height = 480 ;
+        this.canvas.width = 640;
+        this.canvas.height = 480;
         this.canvas.className = 'canvasPhoto'
 
         //paragraphe pour phrase confirmation
@@ -157,22 +160,25 @@ class CameraClass
 
         //bouton pour envoyer la photo
         this.boutonEnvoyer.className = 'boutonsConfirmPhoto'
-        this.boutonEnvoyer.innerText = 'Envoyer' ;
+        this.boutonEnvoyer.innerText = 'Envoyer';
         this.boutonEnvoyer.id = 'upload'
         this.divBoutonsConfirm.append(this.boutonEnvoyer);
 
         //On met tout dans la div Modal
-        this.divModal.append( this.canvas , this.para , this.divBoutonsConfirm );
+        this.divModal.append(this.canvas, this.para, this.divBoutonsConfirm);
     }
 
-    init()  {
+    init() {
         this.structureDivPhoto();
         this.structureDivPhotoTablette();
         this.structureModalConfirm();
     }
 
     showCamera() {
-        if ( this.width === 2000 && this.height === 1200 || this.width < 1200 ) {
+        const isLargeScreen = (this.width === 2000 && this.height === 1200);
+        const isSmallScreen = (this.width < 1200);
+
+        if (isLargeScreen || isSmallScreen) {
             this.divPhotoTablette.style.display = 'flex';
         } else {
             this.divPhoto.style.display = 'flex';
@@ -183,7 +189,10 @@ class CameraClass
     }
 
     hideCamera() {
-        if ( this.width === 2000 && this.height === 1200 || this.width < 1200 ) {
+        const isLargeScreen = (this.width === 2000 && this.height === 1200);
+        const isSmallScreen = (this.width < 1200);
+
+        if (isLargeScreen || isSmallScreen) {
             this.divPhotoTablette.style.display = 'none';
         } else {
             this.divPhoto.style.display = 'none';
@@ -197,17 +206,17 @@ class CameraClass
         this.video.style.display = 'block';
         this.boutonSnap.style.display = 'block';
 
-        if ( navigator.mediaDevices && navigator.mediaDevices.getUserMedia() ) {
-            navigator.mediaDevices.getUserMedia({ video : true } )
-                .then(( stream ) => {
+        if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia()) {
+            navigator.mediaDevices.getUserMedia({ video: true })
+                .then((stream) => {
                     this.stream = stream;
-                    this.video.srcObject = this.stream ;
+                    this.video.srcObject = this.stream;
                     this.video.onloadedmetadata = () => {
-                        this.video.play() ;
+                        this.video.play();
                     };
                 })
-                .catch( function ( error ) {
-                    console.error( 'Erreur lors de l\'accès à la webcam : ' , error )
+                .catch(function (error) {
+                    console.error('Erreur lors de l\'accès à la webcam : ', error)
                     alert('Impossible d\'accéder à la webcam, vérifiez les permissions du navigateur.');
                 })
         } else {
@@ -216,17 +225,17 @@ class CameraClass
     }
 
     stopCamera() {
-        if ( this.stream ) {
-            this.stream.getTracks().forEach( track => track.stop());
+        if (this.stream) {
+            this.stream.getTracks().forEach(track => track.stop());
             this.video.srcObject = null;
-            this.stream = null ;
+            this.stream = null;
             this.video.style.display = 'none';
             this.boutonSnap.style.display = 'none';
         }
     }
 
     capturePicture() {
-        this.context.drawImage( this.video , 0 , 0 , 640 , 480 );
+        this.context.drawImage(this.video, 0, 0, 640, 480);
         this.canvas.style.display = 'block';
         this.boutonEnvoyer.style.display = 'block';
         this.boutonEffacer.style.display = 'block';
@@ -235,7 +244,7 @@ class CameraClass
     }
 
     erasePicture() {
-        this.context.clearRect( 0 , 0 , this.canvas.width , this.canvas.height );
+        this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
         this.canvas.style.display = 'none';
         this.boutonEnvoyer.style.display = 'none';
         this.boutonEffacer.style.display = 'none';
@@ -248,76 +257,45 @@ class CameraClass
         this.divModal.style.display = 'none';
         this.divModal.close();
 
-        this.canvas.toBlob(( blob) => {
-            this.formData.append( 'photo' , blob , 'photo.png' );
+        this.canvas.toBlob((blob) => {
+            this.formData.append('photo', blob, 'photo.png');
 
-            fetch( this.urlFetch  , {
-                method : 'POST' ,
-                body : this.formData
+            fetch(this.urlFetch, {
+                method: 'POST',
+                body: this.formData
             })
-                .then( response => response.json() )
-                .then( data => {
-                    this.boolPhoto = true ;
-                    alert( 'Photo envoyée avec succès' );
+                .then(response => response.json())
+                .then(data => {
+                    this.boolPhoto = true;
+                    alert('Photo envoyée avec succès');
                 })
-                .catch( error => {
-                    console.error( 'Erreur lors de l\'envoi de la photo : ' , error );
+                .catch(error => {
+                    console.error('Erreur lors de l\'envoi de la photo : ', error);
                 })
         })
     }
 
-    uploadFile( fileInput ) {
-        const file = fileInput.files[0] ;
+    uploadFile(fileInput) {
+        const file = fileInput.files[0];
 
-        if ( file ) {
-            this.formData.append( 'photo2' , file );
+        if (file) {
+            this.formData.append('photo2', file);
 
-            fetch( this.urlFetch , {
-                method : 'POST',
-                body : this.formData
+            fetch(this.urlFetch, {
+                method: 'POST',
+                body: this.formData
             })
-                .then( response => response.json())
-                .then( data => {
+                .then(response => response.json())
+                .then(data => {
                     alert('Photo envoyée avec succès.');
-                    this.boolUpload = true ;
+                    this.boolUpload = true;
                 })
-                .catch( error => {
-                    console.error('Erreur lors de l\'envoi du fichier.' + error )
+                .catch(error => {
+                    console.error('Erreur lors de l\'envoi du fichier.' + error)
                 })
         } else {
-            alert( 'Veuillez séléctionner un fichier.');
+            alert('Veuillez séléctionner un fichier.');
         }
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 }

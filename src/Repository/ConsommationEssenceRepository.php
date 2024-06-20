@@ -21,7 +21,20 @@ class ConsommationEssenceRepository extends ServiceEntityRepository
         parent::__construct($registry, ConsommationEssence::class);
     }
 
-//    public function findDistinctTypes(): array
+    public function getLastElement(): ?ConsommationEssence
+    {
+        $result = $this->createQueryBuilder('a')
+            ->andWhere('a.isValidated = :validated')
+            ->setParameter('validated', 0)
+            ->orderBy('a.id', 'DESC')
+            ->setMaxResults(1)
+            ->getQuery()
+            ->getOneOrNullResult();
+
+        return $result;
+    }
+
+    //    public function findDistinctTypes(): array
 //    {
 //        $queryBuilder = $this->createQueryBuilder('m');
 //

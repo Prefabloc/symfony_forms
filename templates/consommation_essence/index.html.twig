@@ -53,246 +53,47 @@
                 </div>
             </div>
 
-            <input type="text" id="divIdConso" style="display: none">
-
-
             <div class="mb-5">
-                <div>
-                    <div id="divBoutonsIdentificationPrestation">
-                        <button id="afficherPhotoBis" type="button" class="px-3 py-2 text-sm me-2 mb-2 font-medium text-center inline-flex items-center text-white bg-amber-800 rounded-lg hover:bg-blue-800 dark:bg-slate-500 dark:hover:bg-slate-700 ">
+                <button id="afficherPhoto" type="button" class="px-3 py-2 text-sm me-2 mb-2 font-medium text-center inline-flex items-center text-white bg-amber-800 rounded-lg hover:bg-blue-800 dark:bg-slate-500 dark:hover:bg-slate-700 ">
                             <svg xmlns="http://www.w3.org/2000/svg" style="width: 40px ; height: 30px" viewBox="0 0 512 512"><path d="M149.1 64.8L138.7 96H64C28.7 96 0 124.7 0 160V416c0 35.3 28.7 64 64 64H448c35.3 0 64-28.7 64-64V160c0-35.3-28.7-64-64-64H373.3L362.9 64.8C356.4 45.2 338.1 32 317.4 32H194.6c-20.7 0-39 13.2-45.5 32.8zM256 192a96 96 0 1 1 0 192 96 96 0 1 1 0-192z"/></svg>
-                        </button>
-                        <button id="masquerPhoto"  style="display: none" type="button" class="px-3 py-2 text-sm me-2 mb-2 font-medium text-center inline-flex items-center text-white bg-amber-800 rounded-lg hover:bg-blue-800 dark:bg-slate-500 dark:hover:bg-slate-700 ">
-                            <svg xmlns="http://www.w3.org/2000/svg" style="width: 40px ; height: 30px; " viewBox="0 0 640 512"><path d="M38.8 5.1C28.4-3.1 13.3-1.2 5.1 9.2S-1.2 34.7 9.2 42.9l592 464c10.4 8.2 25.5 6.3 33.7-4.1s6.3-25.5-4.1-33.7L525.6 386.7c39.6-40.6 66.4-86.1 79.9-118.4c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C465.5 68.8 400.8 32 320 32c-68.2 0-125 26.3-169.3 60.8L38.8 5.1zM223.1 149.5C248.6 126.2 282.7 112 320 112c79.5 0 144 64.5 144 144c0 24.9-6.3 48.3-17.4 68.7L408 294.5c8.4-19.3 10.6-41.4 4.8-63.3c-11.1-41.5-47.8-69.4-88.6-71.1c-5.8-.2-9.2 6.1-7.4 11.7c2.1 6.4 3.3 13.2 3.3 20.3c0 10.2-2.4 19.8-6.6 28.3l-90.3-70.8zM373 389.9c-16.4 6.5-34.3 10.1-53 10.1c-79.5 0-144-64.5-144-144c0-6.9 .5-13.6 1.4-20.2L83.1 161.5C60.3 191.2 44 220.8 34.5 243.7c-3.3 7.9-3.3 16.7 0 24.6c14.9 35.7 46.2 87.7 93 131.1C174.5 443.2 239.2 480 320 480c47.8 0 89.9-12.9 126.2-32.5L373 389.9z"/></svg>
-                        </button>
-                    </div>
+                </button>
+                <button id="masquerPhoto"  style="display: none" type="button" class="px-3 py-2 text-sm me-2 mb-2 font-medium text-center inline-flex items-center text-white bg-amber-800 rounded-lg hover:bg-blue-800 dark:bg-slate-500 dark:hover:bg-slate-700 ">
+                    <svg xmlns="http://www.w3.org/2000/svg" style="width: 40px ; height: 30px; " viewBox="0 0 640 512"><path d="M38.8 5.1C28.4-3.1 13.3-1.2 5.1 9.2S-1.2 34.7 9.2 42.9l592 464c10.4 8.2 25.5 6.3 33.7-4.1s6.3-25.5-4.1-33.7L525.6 386.7c39.6-40.6 66.4-86.1 79.9-118.4c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C465.5 68.8 400.8 32 320 32c-68.2 0-125 26.3-169.3 60.8L38.8 5.1zM223.1 149.5C248.6 126.2 282.7 112 320 112c79.5 0 144 64.5 144 144c0 24.9-6.3 48.3-17.4 68.7L408 294.5c8.4-19.3 10.6-41.4 4.8-63.3c-11.1-41.5-47.8-69.4-88.6-71.1c-5.8-.2-9.2 6.1-7.4 11.7c2.1 6.4 3.3 13.2 3.3 20.3c0 10.2-2.4 19.8-6.6 28.3l-90.3-70.8zM373 389.9c-16.4 6.5-34.3 10.1-53 10.1c-79.5 0-144-64.5-144-144c0-6.9 .5-13.6 1.4-20.2L83.1 161.5C60.3 191.2 44 220.8 34.5 243.7c-3.3 7.9-3.3 16.7 0 24.6c14.9 35.7 46.2 87.7 93 131.1C174.5 443.2 239.2 480 320 480c47.8 0 89.9-12.9 126.2-32.5L373 389.9z"/></svg>
+                </button>
 
-                    <div id="divPhotoBon">
-                        <video id="video" width="540" height="380" style="border: 3px solid black ; border-radius: 10px ; margin: 10px; display: none" autoplay></video>
-                        <div class="divBoutonsPhotos">
-                            <button id="snap" style="display:none;" class="px-3 py-2 text-sm me-2 mb-2 font-medium text-center inline-flex items-center text-white bg-amber-800 rounded-lg hover:bg-blue-800 dark:bg-slate-500 dark:hover:bg-slate-700 " >Prendre une photo</button>
-                        </div>
-                        <div id="divUpload">
-                            <input id="fileInput" style="height: 1.5rem" class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-orange-100 dark:border-gray-600 dark:placeholder-gray-400" type="file">
-                            <button class="focus:outline-none text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-900" id="uploadFromDevice">Envoyer</button>
-                        </div>
-                    </div>
-
-                    <div id="divUpload2">
-                        <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white" for="file_input">Upload file</label>
-                        <input id="fileInput2" class="block text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-black focus:outline-none dark:bg-orange-100 dark:border-black dark:placeholder-black" type="file">
-                        <button id="uploadFromDevice2" class="focus:outline-none text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-900">Envoyer</button>
-                    </div>
-
-                    <!-- MODAL CONFIRMATION PHOTO  -->
-
-                    {% include 'includes/_modalPhotoConfirmation.html.twig' %}
-
-
-                    <!-- END MODAL CONFIRMATION PHOTO -->
-
-                    {{ form_row(consoForm.valider) }}
-                </div>
+                 <div id="divPhotoBon"></div>
+                <div id="divUpload2"></div>
             </div>
+            
             {{ form_end(consoForm) }}
+            
         </div>
     </div>
+    <dialog id="modalConfirmationPhoto" style="display: none"></dialog>
+
 {% endblock %}
 
 {% block javascripts %}
+    <script src="{{ asset('scripts/CameraClass.js') }}"></script>
 
 
     <script>
 
         // Au chargement de la page, on appelle les event listener
         window.onload = () => {
-            /*
-                const CONFIRM_MODAL_TRUE = document.getElementById('confirmModalButton');
-                const CONFIRM_MODAL_FALSE = document.getElementById('cancelModalButton');
-                const BOOL_PHOTO = document.getElementById('validationPhoto');
-                const BOOL_UPLOAD = document.getElementById('validationUpload');
-                const REGISTER_IDENTIFICATION = document.getElementById('registerIdentification');
-                const UPLOAD_PIC = document.getElementById('uploadFromDevice');
-                const FILE_INPUT = document.getElementById('fileInput');
-                const UPLOAD_PIC2 = document.getElementById('uploadFromDevice2');
-                const FILE_INPUT2 = document.getElementById('fileInput2');
-    */
-            //On récupère la taille de l'écran
-            let width = window.innerWidth;
-            let height = window.innerHeight;
+            const boutonAfficherDivPhoto = document.getElementById('afficherPhoto');
+            const boutonMasquerDivPhoto = document.getElementById('masquerPhoto');
+            const divPhoto = document.getElementById('divPhotoBon');
+            const divPhotoTablette = document.getElementById('divUpload2');
+            const divModal = document.getElementById('modalConfirmationPhoto');
+            const urlFetch = "/consommation/essence/upload_photo"
+            const consoEssenceId = "{{consoEssenceId}}"
+            console.log(consoEssenceId)
 
-            //On récupère les éléments html qui serviront
-            const video = document.getElementById('video');
-            const canvas = document.getElementById('canvasPhoto');
-            const takePicture = document.getElementById('snap');
-            const upload = document.getElementById('upload');
-            const context = canvas.getContext('2d');
-            const on = document.getElementById('camOn');
-            const off = document.getElementById('camOff');
-            const effacer = document.getElementById('effacer');
-            const showCamera = document.getElementById('afficherPhotoBis');
-            const hideCamera = document.getElementById('masquerPhoto');
-            const divPhotoBon = document.getElementById('divPhotoBon');
-            const divUpload2 = document.getElementById('divUpload2');
-            const modalePhoto = document.getElementById('modaleConfirmationPhoto')
-            const boolPhoto = document.getElementById('validationPhoto');
-            const boolSignature = document.getElementById('validationSignature');
-            const registerIdentification = document.getElementById('registerIdentification');
-            const divIdConso = document.getElementById('consommation_essence_photoCompteurCarburant');
+            const camera = new CameraClass( boutonAfficherDivPhoto , boutonMasquerDivPhoto , divPhoto , divPhotoTablette, divModal, urlFetch );
+            camera.init();
+            camera.formData.append( 'idConsoEssence' , consoEssenceId );
 
-
-            //On initialise une variable stream qui nous servira à couper / ouvrir le flux de video à volonté
-            let stream = null;
-
-            //Afficher les divs pour la photo
-            showCamera.addEventListener('click', (e) => {
-                if (width === 2000 && height === 1200 || width < 1200) {
-                    divUpload2.style.display = 'flex';
-                    console.log('OK Tablette')
-                } else {
-                    console.log('Ok Ordi')
-                    divPhotoBon.style.display = 'flex';
-                    startCamera();
-                    showCamera.style.display = 'none'
-                    hideCamera.style.display = 'block'
-                }
-            })
-
-
-            hideCamera.addEventListener('click', () => {
-                if (width === 2000 && height === 1200 || width < 1200) {
-                    divUpload2.style.display = 'none';
-                } else {
-                    divPhotoBon.style.display = 'none';
-                    hideCamera.style.display = 'none';
-                    stopCamera();
-                    showCamera.style.display = 'flex';
-                    showCamera.style.display = 'block';
-                }
-            })
-
-            //Fonction pour lancer la caméra
-            function startCamera() {
-                video.style.display = 'block';
-                takePicture.style.display = 'block';
-                //On vérifie si le navigateur supporte l'API getUserMedia
-                if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia()) {
-                    //Demander l'accès à la webcam
-                    navigator.mediaDevices.getUserMedia({video: true})
-                        .then(function (s) {
-                            stream = s;
-                            video.srcObject = stream;
-                            video.onloadedmetadata = function (e) {
-                                video.play();
-                            }
-                        })
-                        .catch(function (error) {
-                            console.error("Erreur lors de l'accès à la webcam : ", error)
-                            alert("Impossible d'accéder à la webcam, vérifiez les permissions du navigateur.");
-                        })
-                } else {
-                    alert('Votre navigateur ne supporte pas getUserMedia');
-                }
-            }
-
-
-            //Fonction pour couper la caméra
-            function stopCamera() {
-                if (stream) {
-                    stream.getTracks().forEach(track => track.stop());
-                    video.srcObject = null;
-                    stream = null;
-                    video.style.display = 'none'
-                    takePicture.style.display = 'none';
-                }
-            }
-
-
-            //Capturer la photo
-            takePicture.addEventListener('click', function (e) {
-                e.preventDefault();
-                context.drawImage(video, 0, 0, 640, 480);
-                canvas.style.display = 'block';
-                upload.style.display = 'block';
-                effacer.style.display = 'block';
-                modalePhoto.style.display = 'flex';
-                modalePhoto.showModal();
-            });
-
-            //Effacer la photo
-            effacer.addEventListener('click', function () {
-                context.clearRect(0, 0, canvas.width, canvas.height);
-                canvas.style.display = 'none';
-                upload.style.display = 'none';
-                effacer.style.display = 'none';
-                modalePhoto.style.display = 'none'
-                modalePhoto.close();
-            });
-
-
-            //Envoyer la photo
-            upload.addEventListener('click', function ( e ) {
-                e.preventDefault()
-                stopCamera();
-                modalePhoto.style.display = 'none';
-                modalePhoto.close();
-
-                canvas.toBlob(function (blob) {
-
-                    const formData = new FormData();
-                    formData.append('photo', blob, 'photo.png');
-
-
-                    fetch('/consommation/essence/uploadPicture', {
-                        method: 'POST',
-                        body: formData
-                    })
-                        .then(response => response.json())
-                        .then(data => {
-                            alert('Photo envoyée avec succès !');
-
-                            divIdConso.value = data['filename'];
-                            console.log( 'value' + divIdConso.value);
-                        })
-                        .catch(error => {
-                            console.error('Erreur lors de l\'envoi de la photo : ', error);
-                        })
-                })
-            })
-
-
-            function uploadFile(nomBouton, nomFileInput) {
-                nomBouton.addEventListener('click', function () {
-                    const FILE = nomFileInput.files[0];
-
-                    if (file) {
-                        const FORM_DATA = new FormData();
-                        FORM_DATA.append('photo2', FILE);
-
-                        fetch('/identification_prestation/upload_photo', {
-                            method: 'POST',
-                            body: FORM_DATA
-                        })
-                            .then(response => response.json())
-                            .then(data => {
-                                alert('Photo envoyée avec succès !');
-                                console.log(data);
-                                //Vérification double
-                                BOOL_UPLOAD.value = 'true';
-                            })
-                            .catch(error => {
-                                console.error('Erreur lors de l\' envoi du fichier! ');
-                            })
-
-
-                    } else {
-                        alert('Veuillez séléctionner un fichier !');
-                    }
-                })
-            }
-
-            uploadFile(UPLOAD_PIC, FILE_INPUT);
-            uploadFile(UPLOAD_PIC2, FILE_INPUT2);
         }
 
 
