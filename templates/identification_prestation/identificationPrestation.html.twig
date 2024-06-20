@@ -252,9 +252,7 @@
             const urlFetch = "/identification_prestation/upload_photo"
 
             const camera = new CameraClass( boutonAfficherDivPhoto , boutonMasquerDivPhoto , divPhoto , divPhotoTablette, divModal, urlFetch );
-            camera.structureDivPhoto();
-            camera.structureDivPhotoTablette();
-            camera.structureModalConfirm();
+            camera.init();
             camera.formData.append( 'idPrestation' , idPrestation );
             //Fin des éléments classe photo
 
