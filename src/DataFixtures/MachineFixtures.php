@@ -12,12 +12,11 @@ class MachineFixtures extends Fixture
     {
         date_default_timezone_set('Indian/Reunion');
 
-        for ( $i = 1; $i <= 10; $i++ ) {
+        for ($i = 1; $i <= 10; $i++) {
             $machine = new Machine();
             $machine
-                ->setLabel('Machine#'.$i)
-                ->setType(random_int(0, 1) === 0 ? 'engin' : 'vehicule')
-                ->setCreatedAt(new \DateTimeImmutable());
+                ->setLabel('Machine#' . $i)
+                ->setType(random_int(0, 1) === 0 ? 'engin' : 'vehicule');
 
             $manager->persist($machine);
         }
