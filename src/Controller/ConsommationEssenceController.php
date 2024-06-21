@@ -31,7 +31,7 @@ class ConsommationEssenceController extends AbstractController
         $idMachine = $request->query->get('engin');
         $machine = $machineRepository->findOneBy(['id' => $idMachine]);
 
-        $consoFromDb = $consommationEssenceRepository->getLastElement();
+        $consoFromDb = $consommationEssenceRepository->getLastElement($machine);
 
         // Vérifie que le dernier élément existe et qu'il n'est pas validé
         // Si le contraire, on crée une nouvelle entité

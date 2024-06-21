@@ -21,11 +21,13 @@ class ConsommationEssenceRepository extends ServiceEntityRepository
         parent::__construct($registry, ConsommationEssence::class);
     }
 
-    public function getLastElement(): ?ConsommationEssence
+    public function getLastElement($machine): ?ConsommationEssence
     {
         $result = $this->createQueryBuilder('a')
+            ->andWhere('a.machine = :machine') // Use the 'id' of the machine entity
             ->andWhere('a.isValidated = :validated')
             ->setParameter('validated', 0)
+            ->setParameter('machine', $machine)
             ->orderBy('a.id', 'DESC')
             ->setMaxResults(1)
             ->getQuery()
