@@ -25,16 +25,11 @@ class Machine
     #[Assert\NotBlank()]
     #[Assert\Choice(choices: [
         'engin',
-        'vehicule']
+        'vehicule'
+    ]
     )]
     private ?string $type = null;
 
-    #[ORM\Column]
-    #[Assert\NotBlank()]
-    private ?\DateTimeImmutable $createdAt = null;
-
-    #[ORM\Column(nullable: true)]
-    private ?\DateTimeImmutable $updateAt = null;
 
     /**
      * @var Collection<int, ConsommationEssence>
@@ -76,30 +71,6 @@ class Machine
         return $this;
     }
 
-    public function getCreatedAt(): ?\DateTimeImmutable
-    {
-        return $this->createdAt;
-    }
-
-    public function setCreatedAt(\DateTimeImmutable $createdAt): static
-    {
-        $this->createdAt = $createdAt;
-
-        return $this;
-    }
-
-    public function getUpdateAt(): ?\DateTimeImmutable
-    {
-        return $this->updateAt;
-    }
-
-    public function setUpdateAt(?\DateTimeImmutable $updateAt): static
-    {
-        $this->updateAt = $updateAt;
-
-        return $this;
-    }
-
     /**
      * @return Collection<int, ConsommationEssence>
      */
@@ -112,7 +83,7 @@ class Machine
     {
         if (!$this->consommationEssences->contains($consommationEssence)) {
             $this->consommationEssences->add($consommationEssence);
-            $consommationEssence->setMachineID($this);
+            $consommationEssence->setMachine($this);
         }
 
         return $this;
@@ -122,8 +93,8 @@ class Machine
     {
         if ($this->consommationEssences->removeElement($consommationEssence)) {
             // set the owning side to null (unless already changed)
-            if ($consommationEssence->getMachineID() === $this) {
-                $consommationEssence->setMachineID(null);
+            if ($consommationEssence->getMachine() === $this) {
+                $consommationEssence->setMachine(null);
             }
         }
 
