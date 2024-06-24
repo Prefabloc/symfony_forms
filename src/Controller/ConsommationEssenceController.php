@@ -40,6 +40,7 @@ class ConsommationEssenceController extends AbstractController
             $conso->setMachine($machine);
             $conso->setUser($this->getUser());
             $conso->setQuantite(1); // Set la quantité à 1 car 0 impossible
+            $conso->setUtilisation(1); // Set la quantité à 1 car 0 impossible
             $conso->setCreatedAt(new \DateTimeImmutable('now'));
             $conso->setValidated(false);
             $entityManager->persist($conso);
@@ -49,12 +50,13 @@ class ConsommationEssenceController extends AbstractController
         }
 
         $conso->setQuantite(0); // Reset la quantité pour le front ( si le front renvoie 0 il y aura une erreur)
+        $conso->setUtilisation(0); // Reset la quantité pour le front ( si le front renvoie 0 il y aura une erreur)
         $image = $conso->getPhotoCompteurCarburant(); // On récupère la photo avant que le formulaire n'efface notre entité
 
         $consoForm = $this->createForm(
             ConsommationEssenceType::class,
             $conso,
-            ['machine_label' => $machine->getLabel()]
+            ['machine_label' => $machine->getLabel(), "machineType" => $conso->getMachine()->getType()]
         );
 
         $consoForm->handleRequest($request);

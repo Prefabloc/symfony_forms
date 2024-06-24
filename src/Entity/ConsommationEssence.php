@@ -35,6 +35,9 @@ class ConsommationEssence
     #[ORM\Column]
     private ?bool $isValidated = null;
 
+    #[ORM\Column]
+    private ?float $utilisation = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -108,6 +111,18 @@ class ConsommationEssence
     public function setValidated(bool $isValidated): static
     {
         $this->isValidated = $isValidated;
+
+        return $this;
+    }
+
+    public function getUtilisation(): ?float
+    {
+        return $this->utilisation;
+    }
+
+    public function setUtilisation(float $utilisation): static
+    {
+        $this->utilisation = $utilisation;
 
         return $this;
     }
