@@ -28,6 +28,20 @@
             <div class="mb-5">
                 <div style="display: flex" class="divSeparator">
                     <div class="inputSeparator">
+                        {{ form_label(consoForm.utilisation) }}
+                    </div>
+                    <div>
+                        {{ form_widget(consoForm.utilisation) }}
+                    </div>
+                </div>
+                <div>
+                    {{ form_errors(consoForm.utilisation) }}
+                </div>
+            </div>
+
+            <div class="mb-5">
+                <div style="display: flex" class="divSeparator">
+                    <div class="inputSeparator">
                         {{ form_label(consoForm.quantite) }}
                     </div>
                     <div>
