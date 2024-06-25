@@ -29,9 +29,9 @@ class Article
     #[Assert\NotBlank()]
     private ?Societe $societe = null;
 
-    #[ORM\Column]
-    #[Assert\NotBlank()]
-    private ?bool $canBeProduced = null;
+    // #[ORM\Column]
+    // #[Assert\NotBlank()]
+    // private ?bool $canBeProduced = null;
 
     #[ORM\Column]
     private ?float $stock = null;
@@ -89,17 +89,17 @@ class Article
         return $this;
     }
 
-    public function isCanBeProduced(): ?bool
-    {
-        return $this->canBeProduced;
-    }
+    // public function isCanBeProduced(): ?bool
+    // {
+    //     return $this->canBeProduced;
+    // }
 
-    public function setCanBeProduced(bool $canBeProduced): static
-    {
-        $this->canBeProduced = $canBeProduced;
+    // public function setCanBeProduced(bool $canBeProduced): static
+    // {
+    //     $this->canBeProduced = $canBeProduced;
 
-        return $this;
-    }
+    //     return $this;
+    // }
 
     public function getStock(): ?float
     {

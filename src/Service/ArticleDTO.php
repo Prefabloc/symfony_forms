@@ -9,7 +9,7 @@ class ArticleDTO
     public $reference;
     public $societe;
     public $stock;
-    public $canBeProduced ;
+    // public $canBeProduced ;
 
     public function __construct( $id , $label , $reference , $societe , $stock )
     {
@@ -18,7 +18,7 @@ class ArticleDTO
         $this->reference = $reference ;
         $this->societe = $societe ;
         $this->stock = $stock ;
-        $this->canBeProduced = true ;
+        // $this->canBeProduced = true ;
     }
 
 }

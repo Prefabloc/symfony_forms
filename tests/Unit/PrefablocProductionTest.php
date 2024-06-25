@@ -21,27 +21,27 @@ class PrefablocProductionTest extends KernelTestCase
             ->setLabel('Article')
             ->setReference('Reference')
             ->setStock(1000)
-            ->setCanBeProduced(true)
+            // ->setCanBeProduced(true)
             ->setSociete($societe);
 
-        $heureCommencement = new \DateTime( '2024-05-27 10:00:00' );
+        $heureCommencement = new \DateTime('2024-05-27 10:00:00');
         $heureFin = new \DateTime('2024-05-27 12:00:00');
 
-        return ( new PrefablocProduction() )
+        return (new PrefablocProduction())
             ->setArticle($article)
-            ->setStartedAt($heureCommencement)
+            // ->setStartedAt($heureCommencement)
             ->setEndedAt($heureFin);
     }
 
-    public function assertHasErrors ( PrefablocProduction $production , int $nbr = 0 ){
+    public function assertHasErrors(PrefablocProduction $production, int $nbr = 0)
+    {
 
         self::bootKernel();
         $errors = self::getContainer()->get('validator')->validate($production);
-        $messages = [] ;
+        $messages = [];
 
         /** @var ConstraintViolation $error */
-        foreach ($errors as $error)
-        {
+        foreach ($errors as $error) {
             $messages[] = $error->getPropertyPath() . ' => ' . $error->getMessage();
         }
         $this->assertCount($nbr, $errors, implode(', ', $messages));
@@ -65,6 +65,6 @@ class PrefablocProductionTest extends KernelTestCase
         $prod
             ->setEndedAt($heureDebut->modify('-10 hours'));
 
-        $this->assertHasErrors( $prod , 1);
+        $this->assertHasErrors($prod, 1);
     }
 }

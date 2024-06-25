@@ -36,11 +36,11 @@ class ArticleTest extends KernelTestCase
         $this->assertHasErrors($article, 2);
     }
 
-    public function testInvalidFieldCanBeProduced()
-    {
-        $this->assertHasErrors($this->getEntityArticle()
-                                    ->setCanBeProduced(''), 1);
-        $this->assertHasErrors($this->getEntityArticle()
-                                    ->setCanBeProduced(false), 1);
-    }
+    // public function testInvalidFieldCanBeProduced()
+    // {
+    //     $this->assertHasErrors($this->getEntityArticle()
+    //                                 ->setCanBeProduced(''), 1);
+    //     $this->assertHasErrors($this->getEntityArticle()
+    //                                 ->setCanBeProduced(false), 1);
+    // }
 }

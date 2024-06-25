@@ -25,7 +25,7 @@ class ArticleRepository extends ServiceEntityRepository
     {
         return $this->createQueryBuilder('a')
             //On cherche dans les labels d'article les noms qui contiendraient le mot qu'on a entré dans la base de données
-            ->andWhere('a.label LIKE :mot')
+            ->andWhere('a.label LIKE :mot OR a.reference like :mot')
             ->andWhere('a.societe = :val')
             ->setParameter('mot', '%' . $mot . '%')
             ->setParameter('val', $societeId)
