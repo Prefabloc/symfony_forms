@@ -28,7 +28,7 @@ class PrefablocProductionRepository extends ServiceEntityRepository
     {
         return $this->createQueryBuilder('a')
             ->andWhere('a.article IS NOT NULL')
-            ->andWhere('a.consommation IS  NULL')
+            ->andWhere('a.consommation IS NULL OR a.consommationInfo IS NULL')
             ->setMaxResults(1)
             ->getQuery()
             ->getOneOrNullResult();

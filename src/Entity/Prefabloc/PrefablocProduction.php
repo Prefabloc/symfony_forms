@@ -24,8 +24,8 @@ class PrefablocProduction
     #[ORM\OneToOne(inversedBy: 'prefablocProduction', cascade: ['persist', 'remove'])]
     private ?SaisieProduction $consommation = null;
 
-    #[ORM\OneToOne(mappedBy: 'production', cascade: ['persist', 'remove'])]
-    private ?SaisieProductionInfo $saisieProductionInfo = null;
+    #[ORM\OneToOne(inversedBy: 'prefablocProduction', cascade: ['persist', 'remove'])]
+    private ?SaisieProductionInfo $consommationInfo = null;
 
     public function getId()
     {
@@ -56,19 +56,15 @@ class PrefablocProduction
         return $this;
     }
 
-    public function getSaisieProductionInfo(): ?SaisieProductionInfo
+
+    public function getConsommationInfo(): ?SaisieProductionInfo
     {
-        return $this->saisieProductionInfo;
+        return $this->consommationInfo;
     }
 
-    public function setSaisieProductionInfo(SaisieProductionInfo $saisieProductionInfo): static
+    public function setConsommationInfo(?SaisieProductionInfo $consommationInfo): static
     {
-        // set the owning side of the relation if necessary
-        if ($saisieProductionInfo->getProduction() !== $this) {
-            $saisieProductionInfo->setProduction($this);
-        }
-
-        $this->saisieProductionInfo = $saisieProductionInfo;
+        $this->consommationInfo = $consommationInfo;
 
         return $this;
     }

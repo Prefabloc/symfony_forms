@@ -46,7 +46,19 @@ class PrefablocController extends AbstractController
         if ($entity != null) {
             $article = $entity->getArticle();
             $articleLabel = $article->getLabel();
+
+            // dd($entity);
+            if ($entity->getConsommation() == null) {
+                return $this->redirectToRoute('app_prefabloc_saisie_production', [
+                    "id" => $entity->getId()
+                ]);
+            } else if ($entity->getConsommationInfo() == null) {
+                return $this->redirectToRoute('app_prefabloc_saisie_production2', [
+                    "id" => $entity->getId()
+                ]);
+            }
         }
+
 
         $form = $this->createForm(PrefablocProductionType::class, $entity);
 
@@ -215,10 +227,10 @@ class PrefablocController extends AbstractController
         if ($prefablocSaisieProductionForm->isSubmitted() && $prefablocSaisieProductionForm->isValid()) {
 
             $prefablocSaisieProduction->setPhoto("");
-
+            $production->setConsommationInfo($prefablocSaisieProduction);
             // Persist changes to the database
-            $entityManager->persist($production);
             $entityManager->persist($prefablocSaisieProduction);
+            $entityManager->persist($production);
             $entityManager->flush();
 
             $this->addFlash('success', "Saisie de la production enregistrée !");

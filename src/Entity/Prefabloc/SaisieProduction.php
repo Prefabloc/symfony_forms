@@ -30,10 +30,10 @@ class SaisieProduction
     #[Assert\Type(type: 'float', message: 'Vous devez renseigner un nombre !')]
     private ?float $qteAdjuvant = null; // plastiment-25 sikplastiment25
 
-    #[ORM\Column(length: 255)]
-    #[Assert\Range(minMessage: "Vous ne pouvez pas renseignez un chiffre au dessous de 0 ", min: 0)]
-    #[Assert\Type(type: 'float', message: 'Vous devez renseigner un nombre !')]
-    private ?float $qteHuile = null;
+    // #[ORM\Column(length: 255)]
+    // #[Assert\Range(minMessage: "Vous ne pouvez pas renseignez un chiffre au dessous de 0 ", min: 0)]
+    // #[Assert\Type(type: 'float', message: 'Vous devez renseigner un nombre !')]
+    // private ?float $qteHuile = null;
 
     #[ORM\Column(length: 255)]
     #[Assert\Range(minMessage: "Vous ne pouvez pas renseignez un chiffre au dessous de 0 ", min: 0)]
@@ -67,8 +67,8 @@ class SaisieProduction
     // #[ORM\Column(length: 255)]
     // private ?string $typeAdjuvant = null;
 
-    #[ORM\Column]
-    private ?float $adjuvant2 = null; // A040mp
+    // #[ORM\Column]
+    // private ?float $adjuvant2 = null; // A040mp
 
     public function getId(): ?int
     {
@@ -111,17 +111,17 @@ class SaisieProduction
         return $this;
     }
 
-    public function getQteHuile(): ?float
-    {
-        return $this->qteHuile;
-    }
+    // public function getQteHuile(): ?float
+    // {
+    //     return $this->qteHuile;
+    // }
 
-    public function setQteHuile(float $qteHuile): static
-    {
-        $this->qteHuile = $qteHuile;
+    // public function setQteHuile(float $qteHuile): static
+    // {
+    //     $this->qteHuile = $qteHuile;
 
-        return $this;
-    }
+    //     return $this;
+    // }
 
     public function getQteEau(): ?float
     {
@@ -253,17 +253,17 @@ class SaisieProduction
     //     return $this;
     // }
 
-    public function getAdjuvant2(): ?float
-    {
-        return $this->adjuvant2;
-    }
+    // public function getAdjuvant2(): ?float
+    // {
+    //     return $this->adjuvant2;
+    // }
 
-    public function setAdjuvant2(float $adjuvant2): static
-    {
-        $this->adjuvant2 = $adjuvant2;
+    // public function setAdjuvant2(float $adjuvant2): static
+    // {
+    //     $this->adjuvant2 = $adjuvant2;
 
-        return $this;
-    }
+    //     return $this;
+    // }
 
 
 }

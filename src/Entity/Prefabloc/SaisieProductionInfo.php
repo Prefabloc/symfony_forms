@@ -33,6 +33,9 @@ class SaisieProductionInfo
     #[ORM\Column(type: Types::TIME_MUTABLE)]
     private ?\DateTimeInterface $timeStop = null;
 
+    #[ORM\OneToOne(mappedBy: 'consommationInfo', cascade: ['persist', 'remove'])]
+    private ?PrefablocProduction $prefablocProduction = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -106,6 +109,28 @@ class SaisieProductionInfo
     public function setTimeStop(\DateTimeInterface $timeStop): static
     {
         $this->timeStop = $timeStop;
+
+        return $this;
+    }
+
+    public function getPrefablocProduction(): ?PrefablocProduction
+    {
+        return $this->prefablocProduction;
+    }
+
+    public function setPrefablocProduction(?PrefablocProduction $prefablocProduction): static
+    {
+        // unset the owning side of the relation if necessary
+        if ($prefablocProduction === null && $this->prefablocProduction !== null) {
+            $this->prefablocProduction->setConsommationInfo(null);
+        }
+
+        // set the owning side of the relation if necessary
+        if ($prefablocProduction !== null && $prefablocProduction->getConsommationInfo() !== $this) {
+            $prefablocProduction->setConsommationInfo($this);
+        }
+
+        $this->prefablocProduction = $prefablocProduction;
 
         return $this;
     }

@@ -115,18 +115,18 @@ class SaisieProductionType extends AbstractType
                 ],
                 "required" => true
             ])
-            ->add('adjuvant2', NumberType::class, [
-                "label" => "Quantité Adjuvant PLASTIMENT-25",
-                'label_attr' => [
-                    'class' => "block text-sm font-medium leading-6 text-gray-900"
-                ],
-                'attr' => [
-                    'class' => "block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                ],
-                "required" => true
-            ])
+            // ->add('adjuvant2', NumberType::class, [
+            //     "label" => "Quantité Adjuvant PLASTIMENT-25",
+            //     'label_attr' => [
+            //         'class' => "block text-sm font-medium leading-6 text-gray-900"
+            //     ],
+            //     'attr' => [
+            //         'class' => "block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+            //     ],
+            //     "required" => true
+            // ])
             ->add('qteAdjuvant', NumberType::class, [
-                "label" => "Quantité Adjuvant SIKAPLASTIMENT-25",
+                "label" => "Quantité Adjuvant  PLASTIMENT-25",// SIKAPLASTIMENT-25
                 'label_attr' => [
                     'class' => "block text-sm font-medium leading-6 text-gray-900"
                 ],
@@ -135,16 +135,16 @@ class SaisieProductionType extends AbstractType
                 ],
                 "required" => true
             ])
-            ->add('qteHuile', NumberType::class, [
-                "label" => "Quantité d'huile",
-                'label_attr' => [
-                    'class' => "block text-sm font-medium leading-6 text-gray-900"
-                ],
-                'attr' => [
-                    'class' => "block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                ],
-                "required" => true
-            ])
+            // ->add('qteHuile', NumberType::class, [
+            //     "label" => "Quantité d'huile",
+            //     'label_attr' => [
+            //         'class' => "block text-sm font-medium leading-6 text-gray-900"
+            //     ],
+            //     'attr' => [
+            //         'class' => "block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+            //     ],
+            //     "required" => true
+            // ])
             ->add('qteEau', NumberType::class, [
                 "label" => "Quantité d'eau",
                 'label_attr' => [
