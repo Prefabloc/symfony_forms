@@ -1,175 +1,183 @@
 {% extends 'base.html.twig' %}
 
 {%  block body  %}
-<div style="display: flex ; justify-content: center ; align-items: center ; margin-top: 2rem;">
-    <div class="gridCalendar">
+	<div style="display: flex ; justify-content: center ; align-items: center ; margin-top: 2rem;">
+		<div class="gridCalendar">
 
-        {% if app.user  %}
+			{% if app.user  %}
 
-            {% if app.user.societe is null %}
-                <h1>ADMIN MODE</h1>
+				{% if app.user.societe is null %}
+					<h1>ADMIN MODE</h1>
 
-            {% elseif app.user.societe.id is same as 3 %}
-                <a href="{{ path('app_btpvalromex_production') }}">
-                    <div class="max-w-sm rounded overflow-hidden shadow-lg bg-orange-100 dark:hover:bg-orange-300">
-                        <div class="px-6 py-4" style="display: flex ; height: 10rem">
-                            <div class="font-bold text-xl mb-2 " style="justify-content: center ; align-items: center">Production</div>
-                        </div>
-                    </div>
-                </a>
-                <a href="{{ path('app_btpvalromex_saisie_declassement') }}">
-                    <div class="max-w-sm rounded overflow-hidden shadow-lg bg-orange-100 dark:hover:bg-orange-300">
-                        <div class="px-6 py-4" style="display: flex ; height: 10rem">
-                            <div class="font-bold text-xl mb-2 " style="justify-content: center ; align-items: center">Saisie Déclassement</div>
-                        </div>
-                    </div>
-                </a>
+				{% elseif app.user.societe.id is same as 3 %}
+					<a href="{{ path('app_btpvalromex_production') }}">
+						<div class="max-w-sm rounded overflow-hidden shadow-lg bg-orange-100 dark:hover:bg-orange-300">
+							<div class="px-6 py-4" style="display: flex ; height: 10rem">
+								<div class="font-bold text-xl mb-2 " style="justify-content: center ; align-items: center">Production</div>
+							</div>
+						</div>
+					</a>
+					<a href="{{ path('app_btpvalromex_saisie_declassement') }}">
+						<div class="max-w-sm rounded overflow-hidden shadow-lg bg-orange-100 dark:hover:bg-orange-300">
+							<div class="px-6 py-4" style="display: flex ; height: 10rem">
+								<div class="font-bold text-xl mb-2 " style="justify-content: center ; align-items: center">Saisie Déclassement</div>
+							</div>
+						</div>
+					</a>
 
-            {% elseif app.user.societe.id is same as 1 %}
-                <a href="{{ path('app_prefabloc_production') }}">
-                    <div class="max-w-sm rounded overflow-hidden shadow-lg bg-orange-100 dark:hover:bg-orange-300">
-                        <div class="px-6 py-4" style="display: flex ; height: 10rem">
-                            <div class="font-bold text-xl mb-2 " style="justify-content: center ; align-items: center">Production</div>
-                        </div>
-                    </div>
-                </a>
-                <a href="{{ path('app_prefabloc_reparation_palette') }}">
-                    <div class="max-w-sm rounded overflow-hidden shadow-lg bg-orange-100 dark:hover:bg-orange-300">
-                        <div class="px-6 py-4" style="display: flex ; height: 10rem">
-                            <div class="font-bold text-xl mb-2 " style="justify-content: center ; align-items: center">Réparation Palette</div>
-                        </div>
-                    </div>
-                </a>
-                <a href="{{ path('app_prefabloc_saisie_declassement') }}">
-                    <div class="max-w-sm rounded overflow-hidden shadow-lg bg-orange-100 dark:hover:bg-orange-300">
-                        <div class="px-6 py-4" style="display: flex ; height: 10rem">
-                            <div class="font-bold text-xl mb-2 " style="justify-content: center ; align-items: center"> Saisie Déclassement</div>
-                        </div>
-                    </div>
-                </a>
+				{% elseif app.user.societe.id is same as 1 %}
+					<a href="{{ path('app_prefabloc_production') }}">
+						<div class="max-w-sm rounded overflow-hidden shadow-lg bg-orange-100 dark:hover:bg-orange-300">
+							<div class="px-6 py-4" style="display: flex ; height: 10rem">
+								<div class="font-bold text-xl mb-2 " style="justify-content: center ; align-items: center">Production</div>
+							</div>
+						</div>
+					</a>
+					<a href="{{ path('app_prefabloc_reparation_palette') }}">
+						<div class="max-w-sm rounded overflow-hidden shadow-lg bg-orange-100 dark:hover:bg-orange-300">
+							<div class="px-6 py-4" style="display: flex ; height: 10rem">
+								<div class="font-bold text-xl mb-2 " style="justify-content: center ; align-items: center">Réparation Palette</div>
+							</div>
+						</div>
+					</a>
+					<a href="{{ path('app_prefabloc_saisie_declassement') }}">
+						<div class="max-w-sm rounded overflow-hidden shadow-lg bg-orange-100 dark:hover:bg-orange-300">
+							<div class="px-6 py-4" style="display: flex ; height: 10rem">
+								<div class="font-bold text-xl mb-2 " style="justify-content: center ; align-items: center">
+									Saisie Déclassement</div>
+							</div>
+						</div>
+					</a>
+					<a href="{{ path('app_prefabloc_palettisation') }}">
+						<div class="max-w-sm rounded overflow-hidden shadow-lg bg-orange-100 dark:hover:bg-orange-300">
+							<div class="px-6 py-4" style="display: flex ; height: 10rem">
+								<div class="font-bold text-xl mb-2 " style="justify-content: center ; align-items: center">
+									Saisie Palettisation</div>
+							</div>
+						</div>
+					</a>
 
-            {% elseif app.user.societe.id is same as 4 %}
-                <a href="#">
-                    <div class="max-w-sm rounded overflow-hidden shadow-lg bg-orange-100 dark:hover:bg-orange-300">
-                        <div class="px-6 py-4" style="display: flex ; height: 10rem">
-                            <div class="font-bold text-xl mb-2 " style="justify-content: center ; align-items: center">Production Alimentation</div>
-                        </div>
-                    </div>
-                </a>
-                <a href="{{ path('app_exforman_saisie_alimentation') }}">
-                    <div class="max-w-sm rounded overflow-hidden shadow-lg bg-orange-100 dark:hover:bg-orange-300">
-                        <div class="px-6 py-4" style="display: flex ; height: 10rem">
-                            <div class="font-bold text-xl mb-2 " style="justify-content: center ; align-items: center">Saisie Alimentation</div>
-                        </div>
-                    </div>
-                </a>
-                <a href="{{ path('app_exforman_saisie_debit') }}">
-                    <div class="max-w-sm rounded overflow-hidden shadow-lg bg-orange-100 dark:hover:bg-orange-300">
-                        <div class="px-6 py-4" style="display: flex ; height: 10rem">
-                            <div class="font-bold text-xl mb-2 " style="justify-content: center ; align-items: center">Saisie Débit</div>
-                        </div>
-                    </div>
-                </a>
-                <a href="{{ path('app_exforman_saisie_destockage') }}">
-                    <div class="max-w-sm rounded overflow-hidden shadow-lg bg-orange-100 dark:hover:bg-orange-300">
-                        <div class="px-6 py-4" style="display: flex ; height: 10rem">
-                            <div class="font-bold text-xl mb-2 " style="justify-content: center ; align-items: center">Saisie Déstockage</div>
-                        </div>
-                    </div>
-                </a>
+				{% elseif app.user.societe.id is same as 4 %}
+					<a href="#">
+						<div class="max-w-sm rounded overflow-hidden shadow-lg bg-orange-100 dark:hover:bg-orange-300">
+							<div class="px-6 py-4" style="display: flex ; height: 10rem">
+								<div class="font-bold text-xl mb-2 " style="justify-content: center ; align-items: center">Production Alimentation</div>
+							</div>
+						</div>
+					</a>
+					<a href="{{ path('app_exforman_saisie_alimentation') }}">
+						<div class="max-w-sm rounded overflow-hidden shadow-lg bg-orange-100 dark:hover:bg-orange-300">
+							<div class="px-6 py-4" style="display: flex ; height: 10rem">
+								<div class="font-bold text-xl mb-2 " style="justify-content: center ; align-items: center">Saisie Alimentation</div>
+							</div>
+						</div>
+					</a>
+					<a href="{{ path('app_exforman_saisie_debit') }}">
+						<div class="max-w-sm rounded overflow-hidden shadow-lg bg-orange-100 dark:hover:bg-orange-300">
+							<div class="px-6 py-4" style="display: flex ; height: 10rem">
+								<div class="font-bold text-xl mb-2 " style="justify-content: center ; align-items: center">Saisie Débit</div>
+							</div>
+						</div>
+					</a>
+					<a href="{{ path('app_exforman_saisie_destockage') }}">
+						<div class="max-w-sm rounded overflow-hidden shadow-lg bg-orange-100 dark:hover:bg-orange-300">
+							<div class="px-6 py-4" style="display: flex ; height: 10rem">
+								<div class="font-bold text-xl mb-2 " style="justify-content: center ; align-items: center">Saisie Déstockage</div>
+							</div>
+						</div>
+					</a>
 
-            {% elseif app.user.societe.id is same as 2 %}
+				{% elseif app.user.societe.id is same as 2 %}
 
-                <a href="{{ path('app_agregat_carriere_production_chargeuse') }}">
-                    <div class="max-w-sm rounded overflow-hidden shadow-lg bg-orange-100 dark:hover:bg-orange-300">
-                        <div class="px-6 py-4" style="display: flex ; height: 10rem">
-                            <div class="font-bold text-xl mb-2 " style="justify-content: center ; align-items: center">Carrière Prod. Chargeuse</div>
-                        </div>
-                    </div>
-                </a>
-                <a href="{{ path('app_agregat_carriere_production_mobile')}}">
-                    <div class="max-w-sm rounded overflow-hidden shadow-lg bg-orange-100 dark:hover:bg-orange-300">
-                        <div class="px-6 py-4" style="display: flex ; height: 10rem">
-                            <div class="font-bold text-xl mb-2 " style="justify-content: center ; align-items: center">Carrière Prod. Mobile</div>
-                        </div>
-                    </div>
-                </a>
-                <a href="{{ path('app_agregat_carriere_production_pelle') }}">
-                    <div class="max-w-sm rounded overflow-hidden shadow-lg bg-orange-100 dark:hover:bg-orange-300">
-                        <div class="px-6 py-4" style="display: flex ; height: 10rem">
-                            <div class="font-bold text-xl mb-2 " style="justify-content: center ; align-items: center">Carrière Prod. Pelle</div>
-                        </div>
-                    </div>
-                </a>
-                <a href="{{ path('app_agregat_carriere_saisie_debit') }}">
-                    <div class="max-w-sm rounded overflow-hidden shadow-lg bg-orange-100 dark:hover:bg-orange-300">
-                        <div class="px-6 py-4" style="display: flex ; height: 10rem">
-                            <div class="font-bold text-xl mb-2 " style="justify-content: center ; align-items: center">Carrière Saisie Débit</div>
-                        </div>
-                    </div>
-                </a>
-                {# <a href="{{ path('app_agregat_carriere_saisie_pelle ') }}">
-                    <div class="max-w-sm rounded overflow-hidden shadow-lg bg-orange-100 dark:hover:bg-orange-300">
-                        <div class="px-6 py-4" style="display: flex ; height: 10rem">
-                            <div class="font-bold text-xl mb-2 " style="justify-content: center ; align-items: center">Carrière Saisie Pelle</div>
-                        </div>
-                    </div>
-                </a> #}
+					<a href="{{ path('app_agregat_carriere_production_chargeuse') }}">
+						<div class="max-w-sm rounded overflow-hidden shadow-lg bg-orange-100 dark:hover:bg-orange-300">
+							<div class="px-6 py-4" style="display: flex ; height: 10rem">
+								<div class="font-bold text-xl mb-2 " style="justify-content: center ; align-items: center">Carrière Prod. Chargeuse</div>
+							</div>
+						</div>
+					</a>
+					<a href="{{ path('app_agregat_carriere_production_mobile')}}">
+						<div class="max-w-sm rounded overflow-hidden shadow-lg bg-orange-100 dark:hover:bg-orange-300">
+							<div class="px-6 py-4" style="display: flex ; height: 10rem">
+								<div class="font-bold text-xl mb-2 " style="justify-content: center ; align-items: center">Carrière Prod. Mobile</div>
+							</div>
+						</div>
+					</a>
+					<a href="{{ path('app_agregat_carriere_production_pelle') }}">
+						<div class="max-w-sm rounded overflow-hidden shadow-lg bg-orange-100 dark:hover:bg-orange-300">
+							<div class="px-6 py-4" style="display: flex ; height: 10rem">
+								<div class="font-bold text-xl mb-2 " style="justify-content: center ; align-items: center">Carrière Prod. Pelle</div>
+							</div>
+						</div>
+					</a>
+					<a href="{{ path('app_agregat_carriere_saisie_debit') }}">
+						<div class="max-w-sm rounded overflow-hidden shadow-lg bg-orange-100 dark:hover:bg-orange-300">
+							<div class="px-6 py-4" style="display: flex ; height: 10rem">
+								<div class="font-bold text-xl mb-2 " style="justify-content: center ; align-items: center">Carrière Saisie Débit</div>
+							</div>
+						</div>
+					</a>
+					{# <a href="{{ path('app_agregat_carriere_saisie_pelle ') }}">
+					                    <div class="max-w-sm rounded overflow-hidden shadow-lg bg-orange-100 dark:hover:bg-orange-300">
+					                        <div class="px-6 py-4" style="display: flex ; height: 10rem">
+					                            <div class="font-bold text-xl mb-2 " style="justify-content: center ; align-items: center">Carrière Saisie Pelle</div>
+					                        </div>
+					                    </div>
+					                </a> #}
 
-                <a href="{{ path('app_agregat_concassage_production_chargeuse') }}">
-                    <div class="max-w-sm rounded overflow-hidden shadow-lg bg-orange-100 dark:hover:bg-orange-300">
-                        <div class="px-6 py-4" style="display: flex ; height: 10rem">
-                            <div class="font-bold text-xl mb-2 " style="justify-content: center ; align-items: center">Concass. Prod. Chargeuse</div>
-                        </div>
-                    </div>
-                </a>
-                {# <a href="{{ path('app_agregat_concassage_production_mobile') }}">
-                    <div class="max-w-sm rounded overflow-hidden shadow-lg bg-orange-100 dark:hover:bg-orange-300">
-                        <div class="px-6 py-4" style="display: flex ; height: 10rem">
-                            <div class="font-bold text-xl mb-2 " style="justify-content: center ; align-items: center">Concass. Prod. Mobile</div>
-                        </div>
-                    </div>
-                </a> #}
-                <a href="{{ path('app_agregat_concassage_production_pelle') }}">
-                    <div class="max-w-sm rounded overflow-hidden shadow-lg bg-orange-100 dark:hover:bg-orange-300">
-                        <div class="px-6 py-4" style="display: flex ; height: 10rem">
-                            <div class="font-bold text-xl mb-2 " style="justify-content: center ; align-items: center">Concass. Prod. Pelle</div>
-                        </div>
-                    </div>
-                </a>
-                {# <a href="{{ path('app_agregat_concassage_saisie_chargeuse') }}">
-                    <div class="max-w-sm rounded overflow-hidden shadow-lg bg-orange-100 dark:hover:bg-orange-300">
-                        <div class="px-6 py-4" style="display: flex ; height: 10rem">
-                            <div class="font-bold text-xl mb-2 " style="justify-content: center ; align-items: center">Concass. Saisie Chargeuse</div>
-                        </div>
-                    </div>
-                </a> #}
-                <a href="{{ path('app_agregat_concassage_saisie_debit') }}">
-                    <div class="max-w-sm rounded overflow-hidden shadow-lg bg-orange-100 dark:hover:bg-orange-300">
-                        <div class="px-6 py-4" style="display: flex ; height: 10rem">
-                            <div class="font-bold text-xl mb-2 " style="justify-content: center ; align-items: center">Concass. Saisie Débit</div>
-                        </div>
-                    </div>
-                </a>
-                {# <a href="{{ path('app_agregat_concassage_saisie_pelle') }}">
-                    <div class="max-w-sm rounded overflow-hidden shadow-lg bg-orange-100 dark:hover:bg-orange-300">
-                        <div class="px-6 py-4" style="display: flex ; height: 10rem">
-                            <div class="font-bold text-xl mb-2 " style="justify-content: center ; align-items: center">Concass. Saisie Pelle</div>
-                        </div>
-                    </div>
-                </a> #}
+					<a href="{{ path('app_agregat_concassage_production_chargeuse') }}">
+						<div class="max-w-sm rounded overflow-hidden shadow-lg bg-orange-100 dark:hover:bg-orange-300">
+							<div class="px-6 py-4" style="display: flex ; height: 10rem">
+								<div class="font-bold text-xl mb-2 " style="justify-content: center ; align-items: center">Concass. Prod. Chargeuse</div>
+							</div>
+						</div>
+					</a>
+					{# <a href="{{ path('app_agregat_concassage_production_mobile') }}">
+					                    <div class="max-w-sm rounded overflow-hidden shadow-lg bg-orange-100 dark:hover:bg-orange-300">
+					                        <div class="px-6 py-4" style="display: flex ; height: 10rem">
+					                            <div class="font-bold text-xl mb-2 " style="justify-content: center ; align-items: center">Concass. Prod. Mobile</div>
+					                        </div>
+					                    </div>
+					                </a> #}
+					<a href="{{ path('app_agregat_concassage_production_pelle') }}">
+						<div class="max-w-sm rounded overflow-hidden shadow-lg bg-orange-100 dark:hover:bg-orange-300">
+							<div class="px-6 py-4" style="display: flex ; height: 10rem">
+								<div class="font-bold text-xl mb-2 " style="justify-content: center ; align-items: center">Concass. Prod. Pelle</div>
+							</div>
+						</div>
+					</a>
+					{# <a href="{{ path('app_agregat_concassage_saisie_chargeuse') }}">
+					                    <div class="max-w-sm rounded overflow-hidden shadow-lg bg-orange-100 dark:hover:bg-orange-300">
+					                        <div class="px-6 py-4" style="display: flex ; height: 10rem">
+					                            <div class="font-bold text-xl mb-2 " style="justify-content: center ; align-items: center">Concass. Saisie Chargeuse</div>
+					                        </div>
+					                    </div>
+					                </a> #}
+					<a href="{{ path('app_agregat_concassage_saisie_debit') }}">
+						<div class="max-w-sm rounded overflow-hidden shadow-lg bg-orange-100 dark:hover:bg-orange-300">
+							<div class="px-6 py-4" style="display: flex ; height: 10rem">
+								<div class="font-bold text-xl mb-2 " style="justify-content: center ; align-items: center">Concass. Saisie Débit</div>
+							</div>
+						</div>
+					</a>
+					{# <a href="{{ path('app_agregat_concassage_saisie_pelle') }}">
+					                    <div class="max-w-sm rounded overflow-hidden shadow-lg bg-orange-100 dark:hover:bg-orange-300">
+					                        <div class="px-6 py-4" style="display: flex ; height: 10rem">
+					                            <div class="font-bold text-xl mb-2 " style="justify-content: center ; align-items: center">Concass. Saisie Pelle</div>
+					                        </div>
+					                    </div>
+					                </a> #}
 
 
-        {% endif %}
-    {% endif %}
-    </div>
- </div>
-
+				{% endif %}
+			{% endif %}
+		</div>
+	</div>
 
 
 {% endblock %}
 
 
 {% block title %}
-    ACCUEIL !
+	ACCUEIL !
 {% endblock %}
