@@ -42,6 +42,15 @@ class Article
     #[ORM\OneToMany(targetEntity: HistoriqueActionsArticle::class, mappedBy: 'article')]
     private Collection $historiqueActionsArticles;
 
+    #[ORM\Column]
+    private ?float $nbParPalette = null;
+
+    #[ORM\Column(length: 255)]
+    private ?string $abreviation = null;
+
+    #[ORM\Column(length: 255)]
+    private ?string $type = null;
+
 
     public function __construct()
     {
@@ -142,4 +151,44 @@ class Article
 
         return $this;
     }
+
+    public function getNbrParPalette(): ?float
+    {
+        return $this->nbParPalette;
+    }
+
+    public function setNbrParPalette(float $nbParPalette): static
+    {
+        $this->nbParPalette = $nbParPalette;
+
+        return $this;
+    }
+
+    public function getAbreviation(): ?string
+    {
+        return $this->abreviation;
+    }
+
+    public function setAbreviation(string $abreviation): static
+    {
+        $this->abreviation = $abreviation;
+
+        return $this;
+    }
+
+    public function getType(): ?string
+    {
+        return $this->type;
+    }
+
+    public function setType(string $type): static
+    {
+        $this->type = $type;
+
+        return $this;
+    }
+
+
+
+
 }

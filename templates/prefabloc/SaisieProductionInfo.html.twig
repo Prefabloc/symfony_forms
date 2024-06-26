@@ -1,0 +1,95 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+<div class="centered-content">
+    <div class="my-2">
+        <h2 class="text-2xl font-bold text-center text-black-500">Information Planche</h2>
+    </div>
+    <div class="max-w-sm mx-auto">
+        {{ form_start(prefablocSaisieProductionForm) }}
+
+         <div class="mb-5">
+            <div class="divSeparator" style="display: flex; justify-content: space-between; align-items: center;">
+                <div class="inputSeparator">
+                    {{ form_label(prefablocSaisieProductionForm.nbGachet) }}
+                </div>
+                <div>
+                    {{ form_widget(prefablocSaisieProductionForm.nbGachet) }} 
+                </div>
+            </div>
+            <div>
+                {{ form_errors(prefablocSaisieProductionForm.nbGachet) }}
+            </div>
+        </div>
+        <div class="mb-5">
+            <div class="divSeparator" style="display: flex; justify-content: space-between; align-items: center;">
+                <div class="inputSeparator">
+                    {{ form_label(prefablocSaisieProductionForm.firstTime) }}
+                </div>
+                <div>
+                    {{ form_widget(prefablocSaisieProductionForm.firstTime) }}
+                </div>
+            </div>
+            <div>
+                {{ form_errors(prefablocSaisieProductionForm.firstTime) }}
+            </div>
+        </div>
+          <div class="mb-5">
+            <div class="divSeparator" style="display: flex; justify-content: space-between; align-items: center;">
+                <div class="inputSeparator">
+                    {{ form_label(prefablocSaisieProductionForm.lastTime) }}
+                </div>
+                <div>
+                    {{ form_widget(prefablocSaisieProductionForm.lastTime) }} 
+                </div>
+            </div>
+            <div>
+                {{ form_errors(prefablocSaisieProductionForm.lastTime) }}
+            </div>
+        </div>
+          <div class="mb-5">
+            <div class="divSeparator" style="display: flex; justify-content: space-between; align-items: center;">
+                <div class="inputSeparator">
+                    {{ form_label(prefablocSaisieProductionForm.timeStop) }}
+                </div>
+                <div>
+                    {{ form_widget(prefablocSaisieProductionForm.timeStop) }} 
+                </div>
+            </div>
+            <div>
+                {{ form_errors(prefablocSaisieProductionForm.timeStop) }}
+            </div>
+        </div>
+        
+       
+        
+        <div style="margin-bottom: 2vh">
+            {{ form_row(prefablocSaisieProductionForm.save) }}
+        </div>
+
+        {{ form_end(prefablocSaisieProductionForm) }}
+    </div>
+</div>
+
+{% endblock %}
+
+{% block title %}
+    Prefabloc | Saisie | Production
+{% endblock %}
+
+{% block javascripts %}
+    <script>
+    window.onload = () => {
+        const select = document.getElementById('saisie_production_typeCiment')
+        const labelCiment = document.getElementById('labelCiment')
+
+        labelCiment.textContent = select.options[0].text;
+
+
+        select.addEventListener('change', function() {
+            const selectedOption = select.options[select.selectedIndex];
+            labelCiment.textContent = selectedOption.text;
+        });
+    }
+    </script>
+{% endblock %}

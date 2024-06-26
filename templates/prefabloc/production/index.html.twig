@@ -1,8 +1,74 @@
 {% extends 'base.html.twig' %}
 
-{% block body %}
+{# {% block stylesheets %}
+<style>
+        .card {
+            background-color: #ffffff;
+            border-radius: 15px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            max-width: 400px;
+            padding: 30px;
+            text-align: center;
+        }
+        .logo {
+            font-size: 2.5em;
+            font-weight: 700;
+            color: #ff7043;
+            margin-bottom: 15px;
+        }
+        .subtitle {
+            font-size: 1.3em;
+            color: #333;
+            margin-bottom: 25px;
+        }
+        .input-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        .input-container input {
+            padding: 15px;
+            font-size: 1em;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            width: 100%;
+            margin-bottom: 15px;
+            transition: border 0.3s;
+        }
+        .input-container input:focus {
+            border-color: #ff7043;
+            outline: none;
+        }
+        .input-container button {
+            padding: 15px 30px;
+            font-size: 1em;
+            border: none;
+            border-radius: 10px;
+            background-color: #ff7043;
+            color: white;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            width: 100%;
+        }
+        .input-container button:hover {
+            background-color: #e64a19;
+        }</style>
+{% endblock %}
 
-    <div class="centered-content">
+{% block body %}
+ <div class="card">
+        <div class="logo">PREFABLOC</div>
+        <div class="subtitle">Production</div>
+        <div class="input-container">
+            <input type="text" placeholder="Nom de l'article...">
+            <button>Démarrer</button>
+        </div>
+    </div> #}
+
+{% block body %} 
+
+     <div class="centered-content">
         <div>
             <img id="imgPrefabloc" class="mx-auto" src="https://prefabloc.re/wp-content/uploads/2020/08/pfb-logo-horizontal-clr-01.png"
                 alt="" width="300" height="300" style="margin-top: 2vh">

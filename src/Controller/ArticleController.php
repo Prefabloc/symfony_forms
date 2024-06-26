@@ -32,7 +32,7 @@ class ArticleController extends AbstractController
         //Array_map applique une callback à chaque élément d'un tableau, donc ici chaque objet de results, donc chaque article, et va le reconstituer grâce à
         //l'objet créée dans le service 'ArticleDTO' ( Data Transfer Object )
         $data = array_map(function ($article) {
-            return new ArticleDTO($article->getId(), $article->getLabel(), $article->getReference(), $article->getSociete()->getLabel(), $article->getStock());
+            return new ArticleDTO($article->getId(), $article->getLabel(), $article->getReference(), $article->getSociete()->getLabel(), $article->getStock(), $article->getAbreviation());
         }, $results);
 
         //On renvoie la data transférée en JSON

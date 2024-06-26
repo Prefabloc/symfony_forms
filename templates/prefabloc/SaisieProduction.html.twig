@@ -1,101 +1,219 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-
-    <div class="centered-content">
-        <div class="my-2">
-            <h2 class="text-2xl font-bold text-center text-black-500">Prefabloc Saisie Production</h2>
-        </div>
-        <div class="max-w-sm mx-auto">
-            {{ form_start(prefablocSaisieProductionForm) }}
-            <div class="mb-5">
-                <div style="display: flex" class="divSeparator">
-                    <div class="inputSeparator">
-                        {{ form_label(prefablocSaisieProductionForm.qte04) }}
-                    </div>
-                    <div style="display: flex">
-                        {{ form_widget(prefablocSaisieProductionForm.qte04) }} (kg)
-                    </div>
-                </div>
-                <div>
-                    {{ form_errors(prefablocSaisieProductionForm.qte04) }}
-                </div>
-            </div>
-            <div class="mb-5">
-                <div style="display: flex" class="divSeparator">
-                    <div class="inputSeparator">
-                        {{ form_label(prefablocSaisieProductionForm.qte610) }}
-                    </div>
-                    <div style="display: flex">
-                        {{ form_widget(prefablocSaisieProductionForm.qte610) }} (kg)
-                    </div>
-                </div>
-                <div>
-                    {{ form_errors(prefablocSaisieProductionForm.qte610) }}
-                </div>
-            </div>
-            <div class="mb-5">
-                <div style="display: flex" class="divSeparator">
-                    <div class="inputSeparator">
-                        {{ form_label(prefablocSaisieProductionForm.qteCEM) }}
-                    </div>
-                    <div style="display: flex">
-                        {{ form_widget(prefablocSaisieProductionForm.qteCEM) }} (kg)
-                    </div>
-                </div>
-                <div>
-                    {{ form_errors(prefablocSaisieProductionForm.qteCEM) }}
-                </div>
-            </div>
-            <div class="mb-5">
-                <div style="display: flex" class="divSeparator">
-                    <div class="inputSeparator">
-                        {{ form_label(prefablocSaisieProductionForm.qteAdjuvant) }}
-                    </div>
-                    <div style="display: flex">
-                        {{ form_widget(prefablocSaisieProductionForm.qteAdjuvant) }} (kg)
-                    </div>
-                </div>
-                <div>
-                    {{ form_errors(prefablocSaisieProductionForm.qteAdjuvant) }}
-                </div>
-            </div>
-            <div class="mb-5">
-                <div style="display: flex" class="divSeparator">
-                    <div class="inputSeparator">
-                        {{ form_label(prefablocSaisieProductionForm.qteHuile) }}
-                    </div>
-                    <div style="display: flex">
-                        {{ form_widget(prefablocSaisieProductionForm.qteHuile) }} (l)
-                    </div>
-                </div>
-                <div>
-                    {{ form_errors(prefablocSaisieProductionForm.qteHuile) }}
-                </div>
-            </div>
-            <div class="mb-5">
-                <div style="display: flex" class="divSeparator">
-                    <div class="inputSeparator">
-                        {{ form_label(prefablocSaisieProductionForm.qteEau) }}
-                    </div>
-                    <div style="display: flex">
-                        {{ form_widget(prefablocSaisieProductionForm.qteEau) }} (l)
-                    </div>
-                </div>
-                <div>
-                    {{ form_errors(prefablocSaisieProductionForm.qteEau) }}
-                </div>
-            </div>
-            <div style="margin-bottom: 2vh">
-                {{ form_row( prefablocSaisieProductionForm.save) }}
-            </div>
-
-            {{ form_end(prefablocSaisieProductionForm) }}
-        </div>
+<div class="centered-content">
+    <div class="my-2">
+        <h2 class="text-2xl font-bold text-center text-black-500">Prefabloc Saisie Production</h2>
     </div>
+    <div class="max-w-sm mx-auto">
+        {{ form_start(prefablocSaisieProductionForm) }}
+        <div class="mb-5">
+            <div class="divSeparator" style="display: flex; justify-content: space-between; align-items: center;">
+                <div class="inputSeparator">
+                    {{ form_label(prefablocSaisieProductionForm.qteArticleProduit) }}
+                </div>
+                <div>
+                    {{ form_widget(prefablocSaisieProductionForm.qteArticleProduit) }}
+                </div>
+            </div>
+            <div>
+                {{ form_errors(prefablocSaisieProductionForm.qteArticleProduit) }}
+            </div>
+        </div>
+          <div class="mb-5">
+            <div class="divSeparator" style="display: flex; justify-content: space-between; align-items: center;">
+                <div class="inputSeparator">
+                    {{ form_label(prefablocSaisieProductionForm.typeFabrication) }}
+                </div>
+                <div>
+                    {{ form_widget(prefablocSaisieProductionForm.typeFabrication) }} 
+                </div>
+            </div>
+            <div>
+                {{ form_errors(prefablocSaisieProductionForm.typeFabrication) }}
+            </div>
+        </div>
+          <div class="mb-5">
+            <div class="divSeparator" style="display: flex; justify-content: space-between; align-items: center;">
+                <div class="inputSeparator">
+                    {{ form_label(prefablocSaisieProductionForm.numMoule) }}
+                </div>
+                <div>
+                    {{ form_widget(prefablocSaisieProductionForm.numMoule) }} 
+                </div>
+            </div>
+            <div>
+                {{ form_errors(prefablocSaisieProductionForm.numMoule) }}
+            </div>
+        </div>
+        
+        <div class="mb-5">
+            <div class="divSeparator" style="display: flex; justify-content: space-between; align-items: center;">
+                <div class="inputSeparator">
+                    {{ form_label(prefablocSaisieProductionForm.qte04cexf) }}
+                </div>
+                <div>
+                    {{ form_widget(prefablocSaisieProductionForm.qte04cexf) }} (kg)
+                </div>
+            </div>
+            <div>
+                {{ form_errors(prefablocSaisieProductionForm.qte04cexf) }}
+            </div>
+        </div>
+        
+        <div class="mb-5">
+            <div class="divSeparator" style="display: flex; justify-content: space-between; align-items: center;">
+                <div class="inputSeparator">
+                    {{ form_label(prefablocSaisieProductionForm.qte04) }}
+                </div>
+                <div>
+                    {{ form_widget(prefablocSaisieProductionForm.qte04) }} (kg)
+                </div>
+            </div>
+            <div>
+                {{ form_errors(prefablocSaisieProductionForm.qte04) }}
+            </div>
+        </div>
+        
+        <div class="mb-5">
+            <div class="divSeparator" style="display: flex; justify-content: space-between; align-items: center;">
+                <div class="inputSeparator">
+                    {{ form_label(prefablocSaisieProductionForm.qte410c) }}
+                </div>
+                <div>
+                    {{ form_widget(prefablocSaisieProductionForm.qte410c) }} (kg)
+                </div>
+            </div>
+            <div>
+                {{ form_errors(prefablocSaisieProductionForm.qte410c) }}
+            </div>
+        </div>
+        
+        <div class="mb-5">
+            <div class="divSeparator" style="display: flex; justify-content: space-between; align-items: center;">
+                <div class="inputSeparator">
+                    {{ form_label(prefablocSaisieProductionForm.qte02c) }}
+                </div>
+                <div>
+                    {{ form_widget(prefablocSaisieProductionForm.qte02c) }}
+                </div>
+            </div>
+            <div>
+                {{ form_errors(prefablocSaisieProductionForm.qte02c) }}
+            </div>
+        </div>
+        
+        <div class="mb-5">
+            <div class="divSeparator" style="display: flex; justify-content: space-between; align-items: center;">
+                <div class="inputSeparator">
+                    {{ form_label(prefablocSaisieProductionForm.typeCiment) }}
+                </div>
+                <div>
+                    {{ form_widget(prefablocSaisieProductionForm.typeCiment) }}
+                </div>
+            </div>
+            <div>
+                {{ form_errors(prefablocSaisieProductionForm.typeCiment) }}
+            </div>
+        </div>
+        
+        <div class="mb-5">
+            <div class="divSeparator" style="display: flex; justify-content: space-between; align-items: center;">
+                <div class="inputSeparator">
+                    {{ form_label(prefablocSaisieProductionForm.qteCEM) }} <span id="labelCiment"></span>
+                </div>
+                <div>
+                    {{ form_widget(prefablocSaisieProductionForm.qteCEM) }} (kg)
+                </div>
+            </div>
+            <div>
+                {{ form_errors(prefablocSaisieProductionForm.qteCEM) }}
+            </div>
+        </div>
+
+          <div class="mb-5">
+            <div class="divSeparator" style="display: flex; justify-content: space-between; align-items: center;">
+                <div class="inputSeparator">
+                    {{ form_label(prefablocSaisieProductionForm.adjuvant2) }}
+                </div>
+                <div>
+                    {{ form_widget(prefablocSaisieProductionForm.adjuvant2) }} (kg)
+                </div>
+            </div>
+            <div>
+                {{ form_errors(prefablocSaisieProductionForm.adjuvant2) }}
+            </div>
+        </div>
+        
+        <div class="mb-5">
+            <div class="divSeparator" style="display: flex; justify-content: space-between; align-items: center;">
+                <div class="inputSeparator">
+                    {{ form_label(prefablocSaisieProductionForm.qteAdjuvant) }}
+                </div>
+                <div>
+                    {{ form_widget(prefablocSaisieProductionForm.qteAdjuvant) }} (kg)
+                </div>
+            </div>
+            <div>
+                {{ form_errors(prefablocSaisieProductionForm.qteAdjuvant) }}
+            </div>
+        </div>
+        
+        <div class="mb-5">
+            <div class="divSeparator" style="display: flex; justify-content: space-between; align-items: center;">
+                <div class="inputSeparator">
+                    {{ form_label(prefablocSaisieProductionForm.qteHuile) }}
+                </div>
+                <div>
+                    {{ form_widget(prefablocSaisieProductionForm.qteHuile) }} (l)
+                </div>
+            </div>
+            <div>
+                {{ form_errors(prefablocSaisieProductionForm.qteHuile) }}
+            </div>
+        </div>
+        
+        <div class="mb-5">
+            <div class="divSeparator" style="display: flex; justify-content: space-between; align-items: center;">
+                <div class="inputSeparator">
+                    {{ form_label(prefablocSaisieProductionForm.qteEau) }}
+                </div>
+                <div>
+                    {{ form_widget(prefablocSaisieProductionForm.qteEau) }} (l)
+                </div>
+            </div>
+            <div>
+                {{ form_errors(prefablocSaisieProductionForm.qteEau) }}
+            </div>
+        </div>
+        
+        <div style="margin-bottom: 2vh">
+            {{ form_row(prefablocSaisieProductionForm.save) }}
+        </div>
+
+        {{ form_end(prefablocSaisieProductionForm) }}
+    </div>
+</div>
+
 {% endblock %}
 
 {% block title %}
     Prefabloc | Saisie | Production
 {% endblock %}
 
+{% block javascripts %}
+    <script>
+    window.onload = () => {
+        const select = document.getElementById('saisie_production_typeCiment')
+        const labelCiment = document.getElementById('labelCiment')
+
+        labelCiment.textContent = select.options[0].text;
+
+
+        select.addEventListener('change', function() {
+            const selectedOption = select.options[select.selectedIndex];
+            labelCiment.textContent = selectedOption.text;
+        });
+    }
+    </script>
+{% endblock %}
