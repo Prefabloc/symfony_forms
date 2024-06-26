@@ -10,14 +10,22 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: PrefablocProductionRepository::class)]
-class PrefablocProduction extends ProductionForm
+class PrefablocProduction
 {
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column]
+    private ?int $id = null;
+    
     #[ORM\ManyToOne(inversedBy: 'prefablocProductions')]
     #[Assert\Valid()]
     private ?Article $article = null;
 
     #[ORM\OneToOne(inversedBy: 'prefablocProduction', cascade: ['persist', 'remove'])]
     private ?SaisieProduction $consommation = null;
+
+    #[ORM\OneToOne(mappedBy: 'production', cascade: ['persist', 'remove'])]
+    private ?SaisieProductionInfo $saisieProductionInfo = null;
 
     public function getArticle(): ?Article
     {
@@ -39,6 +47,23 @@ class PrefablocProduction extends ProductionForm
     public function setConsommation(?SaisieProduction $consommation): static
     {
         $this->consommation = $consommation;
+
+        return $this;
+    }
+
+    public function getSaisieProductionInfo(): ?SaisieProductionInfo
+    {
+        return $this->saisieProductionInfo;
+    }
+
+    public function setSaisieProductionInfo(SaisieProductionInfo $saisieProductionInfo): static
+    {
+        // set the owning side of the relation if necessary
+        if ($saisieProductionInfo->getProduction() !== $this) {
+            $saisieProductionInfo->setProduction($this);
+        }
+
+        $this->saisieProductionInfo = $saisieProductionInfo;
 
         return $this;
     }

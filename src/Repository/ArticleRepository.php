@@ -21,11 +21,23 @@ class ArticleRepository extends ServiceEntityRepository
         parent::__construct($registry, Article::class);
     }
 
-    public function findByTerm(string $mot, int $societeId)
+    public function findByTerm(string $mot, int $societeId, bool $isProduction = false)
     {
+        if ($isProduction) {
+            return $this->createQueryBuilder('a')
+                //On cherche dans les labels d'article les noms qui contiendraient le mot qu'on a entré dans la base de données
+                ->andWhere('a.label LIKE :mot OR a.reference like :mot OR a.abreviation like :mot')
+                ->andWhere('a.societe = :val')
+                ->andWhere("a.type = 'production'")
+                ->setParameter('mot', '%' . $mot . '%')
+                ->setParameter('val', $societeId)
+                ->setMaxResults(10)
+                ->getQuery()
+                ->getResult();
+        }
         return $this->createQueryBuilder('a')
             //On cherche dans les labels d'article les noms qui contiendraient le mot qu'on a entré dans la base de données
-            ->andWhere('a.label LIKE :mot OR a.reference like :mot')
+            ->andWhere('a.label LIKE :mot OR a.reference like :mot OR a.abreviation like :mot')
             ->andWhere('a.societe = :val')
             ->setParameter('mot', '%' . $mot . '%')
             ->setParameter('val', $societeId)

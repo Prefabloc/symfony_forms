@@ -67,7 +67,7 @@ class BTPValromexController extends AbstractController
         $results = $articleRepository->findByTerm($mot, $this->getUser()->getSociete()->getId());
 
         $data = array_map(function ($article) {
-            return new ArticleDTO($article->getId(), $article->getLabel(), $article->getReference(), $article->getSociete()->getLabel(), $article->getStock());
+            return new ArticleDTO($article->getId(), $article->getLabel(), $article->getReference(), $article->getSociete()->getLabel(), $article->getStock(), $article->getAbreviation());
         }, $results);
 
         return new JsonResponse($data);

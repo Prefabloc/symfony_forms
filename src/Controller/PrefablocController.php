@@ -2,17 +2,22 @@
 
 namespace App\Controller;
 
+use App\Entity\LignePalettisation;
+use App\Entity\Palettisation;
 use App\Entity\Prefabloc\PrefablocProduction;
 use App\Entity\Prefabloc\ReparationPalette;
 use App\Entity\Prefabloc\SaisieDeclassement;
 use App\Entity\Prefabloc\SaisieProduction;
+use App\Entity\Prefabloc\SaisieProductionInfo;
 use App\Form\Prefabloc\PrefablocProductionType;
 use App\Form\Prefabloc\ReparationPaletteType;
 use App\Form\Prefabloc\SaisieDeclassementType;
+use App\Form\Prefabloc\SaisieProductionInfoType;
 use App\Form\Prefabloc\SaisieProductionType;
 use App\Repository\Prefabloc\PrefablocProductionRepository;
 use App\Service\ArticleDTO;
 use App\Repository\ArticleRepository;
+use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -55,6 +60,43 @@ class PrefablocController extends AbstractController
         ]);
     }
 
+    #[Route('/palettisation', name: 'palettisation')]
+    public function palettisation(Request $request, ArticleRepository $repository, EntityManagerInterface $em): Response
+    {
+        date_default_timezone_set('Indian/Reunion');
+
+        if ($request->isMethod('POST')) {
+            $data = json_decode($request->getContent(), true);
+
+            $entity = new Palettisation();
+
+            for ($i = 0; $i < count($data); $i++) {
+
+                $element = $data[$i];
+                $article = $repository->findOneBy([
+                    "id" => $element["idArticle"]
+                ]);
+
+                if ($article == null) {
+                    return new JsonResponse(['status' => 'error', 'message' => 'Article non trouvé'], Response::HTTP_INTERNAL_SERVER_ERROR);
+                }
+                $ligne = new LignePalettisation();
+                $ligne->setNbPalette($element["nbrPalettes"]);
+                $ligne->setUnite($element["unite"]);
+                $ligne->setPalettisation($entity);
+                $ligne->setArticle($article);
+                $em->persist($ligne);
+            }
+            $entity->setCreatedAt(new DateTime('now'));
+            $em->persist($entity);
+            $em->flush();
+            return new JsonResponse(['status' => 'success'], Response::HTTP_OK);
+        }
+        return $this->render('prefabloc/Paletisation.html.twig', [
+            'label' => "Palettisation",
+        ]);
+    }
+
     #[Route('/autocomplete', name: 'autocomplete')]
     public function autocomplete(ArticleRepository $articleRepository, Request $request): Response
     {
@@ -66,9 +108,8 @@ class PrefablocController extends AbstractController
         }
 
         $results = $articleRepository->findByTerm($mot, $this->getUser()->getSociete()->getId());
-
         $data = array_map(function ($article) {
-            return new ArticleDTO($article->getId(), $article->getLabel(), $article->getReference(), $article->getSociete()->getLabel(), $article->getStock());
+            return new ArticleDTO($article->getId(), $article->getLabel(), $article->getReference(), $article->getSociete()->getLabel(), $article->getStock(), $article->getAbreviation());
         }, $results);
 
         return new JsonResponse($data);
@@ -133,27 +174,64 @@ class PrefablocController extends AbstractController
         }
 
         $prefablocSaisieProduction->setPrefablocProduction($production);
-        $prefablocSaisieProductionForm = $this->createForm(SaisieProductionType::class, $prefablocSaisieProduction);
+        $prefablocSaisieProduction->setTypeFabrication($prefablocSaisieProduction->getPrefablocProduction()->getArticle()->getAbreviation());
+        $prefablocSaisieProductionForm = $this->createForm(SaisieProductionType::class, $prefablocSaisieProduction, [
+            "reference" => $prefablocSaisieProduction->getPrefablocProduction()->getArticle()->getReference(),
+            "typeFabrication" => $prefablocSaisieProduction->getTypeFabrication()
+        ]);
+
         $prefablocSaisieProductionForm->handleRequest($request);
 
         if ($prefablocSaisieProductionForm->isSubmitted() && $prefablocSaisieProductionForm->isValid()) {
-            $timezone = new \DateTimeZone('Indian/Reunion'); 
+
+            $entityManager->persist($prefablocSaisieProduction);
+            $entityManager->flush();
+
+            $this->addFlash('success', "Saisie de la production enregistrée !");
+            return $this->redirectToRoute('app_prefabloc_saisie_production2', [
+                "id" => $prefablocSaisieProduction->getPrefablocProduction()->getId()
+            ]);
+
+        } else {
+            return $this->render('prefabloc/SaisieProduction.html.twig', ['prefablocSaisieProductionForm' => $prefablocSaisieProductionForm->createView()]);
+        }
+    }
+
+    #[Route('/saisie/production/info', name: 'saisie_production2')]
+    public function prefablocSaisieProductionInfo(Request $request, EntityManagerInterface $entityManager, PrefablocProductionRepository $repository): Response
+    {
+
+        $id = $request->query->get('id');
+        $production = $repository->find($id);
+
+        if (!$production) {
+            return $this->redirectToRoute('app_prefabloc_production');
+        }
+
+        $prefablocSaisieProduction = new SaisieProductionInfo();
+        $prefablocSaisieProduction->setProduction($production);
+        $prefablocSaisieProductionForm = $this->createForm(SaisieProductionInfoType::class, $prefablocSaisieProduction);
+
+        $prefablocSaisieProductionForm->handleRequest($request);
+
+        if ($prefablocSaisieProductionForm->isSubmitted() && $prefablocSaisieProductionForm->isValid()) {
+            $timezone = new \DateTimeZone('Indian/Reunion');
             $endedAt = new \DateTime('now', $timezone);
             $production->setEndedAt($endedAt);
+            $prefablocSaisieProduction->setPhoto("");
 
             // Persist changes to the database
             $entityManager->persist($production);
             $entityManager->persist($prefablocSaisieProduction);
             $entityManager->flush();
 
-
-
             $this->addFlash('success', "Saisie de la production enregistrée !");
             return $this->redirectToRoute('app_prefabloc_production');
         } else {
-            return $this->render('prefabloc/SaisieProduction.html.twig', ['prefablocSaisieProductionForm' => $prefablocSaisieProductionForm->createView()]);
+            return $this->render('prefabloc/SaisieProductionInfo.html.twig', ['prefablocSaisieProductionForm' => $prefablocSaisieProductionForm->createView()]);
         }
     }
+
 
     #[Route('/saisie/reparation_palette', name: 'reparation_palette')]
     public function prefablocReparationPalette(Request $request, EntityManagerInterface $entityManager): Response
