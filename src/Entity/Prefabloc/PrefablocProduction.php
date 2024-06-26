@@ -16,7 +16,7 @@ class PrefablocProduction
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;
-    
+
     #[ORM\ManyToOne(inversedBy: 'prefablocProductions')]
     #[Assert\Valid()]
     private ?Article $article = null;
@@ -26,6 +26,11 @@ class PrefablocProduction
 
     #[ORM\OneToOne(mappedBy: 'production', cascade: ['persist', 'remove'])]
     private ?SaisieProductionInfo $saisieProductionInfo = null;
+
+    public function getId()
+    {
+        return $this->id;
+    }
 
     public function getArticle(): ?Article
     {

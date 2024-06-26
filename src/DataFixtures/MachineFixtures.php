@@ -12,15 +12,15 @@ class MachineFixtures extends Fixture
     {
         date_default_timezone_set('Indian/Reunion');
 
-        for ($i = 1; $i <= 10; $i++) {
-            $machine = new Machine();
-            $machine
-                ->setLabel('Machine#' . $i)
-                ->setType(random_int(0, 1) === 0 ? 'engin' : 'vehicule');
+        // for ($i = 1; $i <= 10; $i++) {
+        //     $machine = new Machine();
+        //     $machine
+        //         ->setLabel('Machine#' . $i)
+        //         ->setType(random_int(0, 1) === 0 ? 'engin' : 'vehicule');
 
-            $manager->persist($machine);
-        }
+        //     $manager->persist($machine);
+        // }
 
-        $manager->flush();
+        // $manager->flush();
     }
 }

@@ -27,9 +27,8 @@ class PrefablocProductionRepository extends ServiceEntityRepository
     public function findLastActive()
     {
         return $this->createQueryBuilder('a')
-            ->andWhere('a.startedAt IS NOT NULL')
-            ->andWhere('a.endedAt IS NULL')
-            ->orderBy('a.startedAt', 'DESC')
+            ->andWhere('a.article IS NOT NULL')
+            ->andWhere('a.consommation IS  NULL')
             ->setMaxResults(1)
             ->getQuery()
             ->getOneOrNullResult();

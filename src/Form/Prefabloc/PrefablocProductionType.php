@@ -14,8 +14,8 @@ class PrefablocProductionType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('startedAt', HiddenType::class, ['disabled' => $options['disable_fields']])
-            ->add('endedAt', HiddenType::class, ['disabled' => $options['disable_fields']])
+            ->add('startedAt', HiddenType::class, ['disabled' => $options['disable_fields'], "mapped" => false])
+            ->add('endedAt', HiddenType::class, ['disabled' => $options['disable_fields'], "mapped" => false])
             ->add('article', TextType::class);
 
     }

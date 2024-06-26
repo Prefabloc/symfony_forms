@@ -20,7 +20,7 @@ class SaisieProductionType extends AbstractType
     {
         $builder
             ->add('qteArticleProduit', NumberType::class, [
-                "label" => "Quantité de " . $options["reference"] . "en palette",
+                "label" => "Quantité de " . $options["reference"] . " en palette",
                 'label_attr' => [
                     'class' => "block text-sm font-medium leading-6 text-gray-900"
                 ],

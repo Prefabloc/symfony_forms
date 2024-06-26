@@ -107,7 +107,7 @@ class PrefablocController extends AbstractController
             return new JsonResponse([]);
         }
 
-        $results = $articleRepository->findByTerm($mot, $this->getUser()->getSociete()->getId());
+        $results = $articleRepository->findByTerm($mot, $this->getUser()->getSociete()->getId(), true);
         $data = array_map(function ($article) {
             return new ArticleDTO($article->getId(), $article->getLabel(), $article->getReference(), $article->getSociete()->getLabel(), $article->getStock(), $article->getAbreviation());
         }, $results);
@@ -131,9 +131,7 @@ class PrefablocController extends AbstractController
 
         $prefablocProduction = new PrefablocProduction();
         $prefablocProduction->setArticle($article);
-        $timezone = new \DateTimeZone('Indian/Reunion');
-        $startedAt = new \DateTime('now', $timezone);
-        $prefablocProduction->setStartedAt($startedAt);
+
 
         $entityManager->persist($prefablocProduction);
         $entityManager->flush();
@@ -215,9 +213,7 @@ class PrefablocController extends AbstractController
         $prefablocSaisieProductionForm->handleRequest($request);
 
         if ($prefablocSaisieProductionForm->isSubmitted() && $prefablocSaisieProductionForm->isValid()) {
-            $timezone = new \DateTimeZone('Indian/Reunion');
-            $endedAt = new \DateTime('now', $timezone);
-            $production->setEndedAt($endedAt);
+
             $prefablocSaisieProduction->setPhoto("");
 
             // Persist changes to the database

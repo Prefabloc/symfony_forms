@@ -66,150 +66,133 @@
         </div>
     </div> #}
 
-{% block body %} 
+{% block body %}
 
-     <div class="centered-content">
-        <div>
-            <img id="imgPrefabloc" class="mx-auto" src="https://prefabloc.re/wp-content/uploads/2020/08/pfb-logo-horizontal-clr-01.png"
-                alt="" width="300" height="300" style="margin-top: 2vh">
-        </div>
-        <div class="my-2">
-            <h2 class="text-2xl font-bold text-center text-black-500">{{ label }}</h2>
-        </div>
-        <div style="width: 100%">
-            {{ form_start(productionForm) }}
-            <div id="divPrefablocProductionArticle" style="text-align: center ; position: relative">
-                <label for="{{ field_name(productionForm.article ) }}">Article : </label>
-                    <input type="text"
-                           id="prefablocProductionSearchArticle"
-                           name="prefablocProductionSearchArticle"
-                            {% if productionForm.vars.value == null %}
-                           placeholder="Nom de l'article..."
-                            {% else %}
-                                value="{{ articleLabel }}"
-                                readonly
-                            {% endif %}
-                           autocomplete="off"
-                           class="rounded"
-                           style="height: 2rem ; width: 30%"
-                    >
-                <ul id="prefablocProductionSuggestionsArticle" class="suggestionsArticle"></ul>
-            </div>
-            {{ form_end(productionForm, {'render_rest': false}) }}
-        </div>
+	<div class="centered-content">
+		<div>
+			<img id="imgPrefabloc" class="mx-auto" src="https://prefabloc.re/wp-content/uploads/2020/08/pfb-logo-horizontal-clr-01.png" alt="" width="300" height="300" style="margin-top: 2vh">
+		</div>
+		<div class="my-2">
+			<h2 class="text-2xl font-bold text-center text-black-500">{{ label }}</h2>
+		</div>
+		<div style="width: 100%">
+			{{ form_start(productionForm) }}
+			<div id="divPrefablocProductionArticle" style="text-align: center ; position: relative">
+				<label for="{{ field_name(productionForm.article ) }}">Article :
+				</label>
+				<input type="text" id="prefablocProductionSearchArticle" name="prefablocProductionSearchArticle" {% if productionForm.vars.value == null %} placeholder="Nom de l'article..." {% else %} value="{{ articleLabel }}" readonly {% endif %} autocomplete="off" class="rounded" style="height: 2rem ; width: 30%">
+				<ul id="prefablocProductionSuggestionsArticle" class="suggestionsArticle"></ul>
+			</div>
+			{{ form_end(productionForm, {'render_rest': false}) }}
+		</div>
 
-        <div class="flex gap-4">
-            {% if productionForm.vars.value == null %}
-                <button class="bg-orange-900 hover:bg-orange-500 text-white font-bold py-2 px-4 rounded" onClick="startProduction()"> Démarrer
-                </button>
-            {% else %}
-                <button class="bg-red-500 text-white font-bold py-2 px-4 rounded"
-                    onClick="endProduction()"> Arreter
-                </button>
-                <button class="bg-gray-500 text-white font-bold py-2 px-4 rounded" onclick="showInfoModal()">
-                    Commentaire
-                </button>
-            {% endif %}
-        </div>
-        <div class="mt-10" id="productionInfoDiv">
-            {% if productionForm.vars.value != null %}
-            <p>Commencé depuis {{productionForm.vars.value.startedAt|date("d/m/Y h:i:s")}}</p>
+		<div class="flex gap-4">
+			{% if productionForm.vars.value == null %}
+				<button class="bg-orange-900 hover:bg-orange-500 text-white font-bold py-2 px-4 rounded" onclick="startProduction()">
+					Démarrer
+				</button>
+			{% else %}
+				<button class="bg-red-500 text-white font-bold py-2 px-4 rounded" onclick="endProduction()">
+					Arreter
+				</button>
+				<button class="bg-gray-500 text-white font-bold py-2 px-4 rounded" onclick="showInfoModal()">
+					Commentaire
+				</button>
+			{% endif %}
+		</div>
+		<div class="mt-10" id="productionInfoDiv"></div>
+	</div>
 
-            {% endif %}
-        </div>
-    </div>
-
-{% include 'includes/_modalSignalement.html.twig' %}
+	{% include 'includes/_modalSignalement.html.twig' %}
 
 {% endblock  %}
 
 {% block javascripts %}
-    <script>
-        let verifArticle = false;
-        let idArticle = null ;
+	<script>
+		let verifArticle = false;
+let idArticle = null;
 
-        document.addEventListener('DOMContentLoaded' , function () {
-            const searchArticle = document.getElementById('prefablocProductionSearchArticle');
-            const suggestions = document.getElementById('prefablocProductionSuggestionsArticle')
-
-
-            searchArticle.addEventListener('input' , function () {
-                const mot = searchArticle.value ;
-
-                if ( mot.length < 2 ) {
-                    suggestions.style.display = 'none' ;
-                }
-
-                fetch(`/prefabloc/autocomplete?mot=${encodeURIComponent(mot)}`)
-                    .then( response => response.json() )
-                    .then( data => {
-                        suggestions.innerHTML = '' ;
-
-                        if ( data.length > 0 ) {
-                            suggestions.style.display = 'block' ;
-
-                            data.forEach( item => {
-                                const liGlobale = document.createElement('li');
-                                const divNom = document.createElement('div');
-                                const divRefStock = document.createElement('div');
-
-                                divNom.innerHTML = '<strong>' + item.label + '</strong>';
-                                divRefStock.innerHTML= '<strong> Ref : </strong>' + item.reference + '<strong> / Stock : </strong>'  + item.stock;
+document.addEventListener('DOMContentLoaded', function () {
+const searchArticle = document.getElementById('prefablocProductionSearchArticle');
+const suggestions = document.getElementById('prefablocProductionSuggestionsArticle')
 
 
-                                liGlobale.addEventListener( 'click' , () => {
-                                    idArticle = item.id ;
-                                    searchArticle.value = item.label;
-                                    suggestions.style.display = 'none' ;
-                                    verifArticle = true ;
-                                })
+searchArticle.addEventListener('input', function () {
+const mot = searchArticle.value;
 
-                                liGlobale.appendChild(divNom);
-                                liGlobale.appendChild(divRefStock);
-                                suggestions.appendChild(liGlobale);
-                            })
-                        } else {
-                            suggestions.style.display = 'none' ;
-                        }
-                    })
-            })
+if (mot.length < 2) {
+suggestions.style.display = 'none';
+}
 
-            document.addEventListener('click', function (event) {
-                if (searchArticle.contains(event.target)) {
-                    suggestions.style.display = 'none';
-                }
-            });
-        })
+fetch (`/prefabloc/autocomplete?mot=${
+encodeURIComponent(mot)
+}`).then(response => response.json()).then(data => {
+suggestions.innerHTML = '';
 
-        function endProduction() {
-            productionId = "{{productionId}}"
-            window.location.href = `/prefabloc/saisie/production?id=${productionId}`;
-        }
+if (data.length > 0) {
+suggestions.style.display = 'block';
 
-        async function startProduction() {
-            let url = "{{ url }}"
-            let fullUrl = `${url}/start`
+data.forEach(item => {
+const liGlobale = document.createElement('li');
+const divNom = document.createElement('div');
+const divRefStock = document.createElement('div');
 
-            if ( verifArticle !== true ) {
-                alert('Veuillez choisir un article parmi la liste déroulante !!')
-            } else {
-                const response = await fetch(fullUrl, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({
-                        'idArticle': idArticle
-                    })
-                })
+divNom.innerHTML = '<strong>' + item.label + '</strong>';
+divRefStock.innerHTML = '<strong> Ref : </strong>' + item.reference + '<strong> / Stock : </strong>' + item.stock;
 
-                window.location.href = url
-            }
-        }
 
-    </script>
+liGlobale.addEventListener('click', () => {
+idArticle = item.id;
+searchArticle.value = item.label;
+suggestions.style.display = 'none';
+verifArticle = true;
+})
+
+liGlobale.appendChild(divNom);
+liGlobale.appendChild(divRefStock);
+suggestions.appendChild(liGlobale);
+})
+} else {
+suggestions.style.display = 'none';
+}
+})
+})
+
+document.addEventListener('click', function (event) {
+if (searchArticle.contains(event.target)) {
+suggestions.style.display = 'none';
+}
+});
+})
+
+function endProduction() {
+productionId = "{{ productionId }}"
+window.location.href = `/prefabloc/saisie/production?id=${productionId}`;
+}
+
+async function startProduction() {
+let url = "{{ url }}"
+let fullUrl = `${url}/start`
+
+if (verifArticle !== true) {
+alert('Veuillez choisir un article parmi la liste déroulante !!')
+} else {
+const response = await fetch(fullUrl, {
+method: 'POST',
+headers: {
+'Content-Type': 'application/json'
+},
+body: JSON.stringify(
+{'idArticle': idArticle}
+)
+})
+
+window.location.href = url
+}
+}
+	</script>
 {% endblock %}
 
 {% block title %}
-    Saisie Production
+	Saisie Production
 {% endblock %}
