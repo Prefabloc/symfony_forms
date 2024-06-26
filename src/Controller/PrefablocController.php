@@ -2,6 +2,8 @@
 
 namespace App\Controller;
 
+use App\Entity\LignePalettisation;
+use App\Entity\Palettisation;
 use App\Entity\Prefabloc\PrefablocProduction;
 use App\Entity\Prefabloc\ReparationPalette;
 use App\Entity\Prefabloc\SaisieDeclassement;
@@ -15,6 +17,7 @@ use App\Form\Prefabloc\SaisieProductionType;
 use App\Repository\Prefabloc\PrefablocProductionRepository;
 use App\Service\ArticleDTO;
 use App\Repository\ArticleRepository;
+use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -58,16 +61,36 @@ class PrefablocController extends AbstractController
     }
 
     #[Route('/palettisation', name: 'palettisation')]
-    public function palettisation(Request $request, PrefablocProductionRepository $repository): Response
+    public function palettisation(Request $request, ArticleRepository $repository, EntityManagerInterface $em): Response
     {
+        date_default_timezone_set('Indian/Reunion');
 
         if ($request->isMethod('POST')) {
             $data = json_decode($request->getContent(), true);
-            dd($data);
 
-            // for ($i = 0; $i < strlen($data); $i++) {
+            $entity = new Palettisation();
 
-            // }
+            for ($i = 0; $i < count($data); $i++) {
+
+                $element = $data[$i];
+                $article = $repository->findOneBy([
+                    "id" => $element["idArticle"]
+                ]);
+
+                if ($article == null) {
+                    return new JsonResponse(['status' => 'error', 'message' => 'Article non trouvé'], Response::HTTP_INTERNAL_SERVER_ERROR);
+                }
+                $ligne = new LignePalettisation();
+                $ligne->setNbPalette($element["nbrPalettes"]);
+                $ligne->setUnite($element["unite"]);
+                $ligne->setPalettisation($entity);
+                $ligne->setArticle($article);
+                $em->persist($ligne);
+            }
+            $entity->setCreatedAt(new DateTime('now'));
+            $em->persist($entity);
+            $em->flush();
+            return new JsonResponse(['status' => 'success'], Response::HTTP_OK);
         }
         return $this->render('prefabloc/Paletisation.html.twig', [
             'label' => "Palettisation",

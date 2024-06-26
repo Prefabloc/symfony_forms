@@ -64,6 +64,7 @@ class Autocomplete {
             this.input.value = this.page == null ? item.label : item.reference;
             this.suggestions.style.display = 'none';
             this.input.dataset.selected = 'true'
+            this.input.dataset.idArticle = item.id
         });
 
         liGlobale.appendChild(divNom);
