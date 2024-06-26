@@ -51,10 +51,17 @@ class Article
     #[ORM\Column(length: 255)]
     private ?string $type = null;
 
+    /**
+     * @var Collection<int, NonConformite>
+     */
+    #[ORM\OneToMany(targetEntity: NonConformite::class, mappedBy: 'article')]
+    private Collection $nonConformites;
+
 
     public function __construct()
     {
         $this->historiqueActionsArticles = new ArrayCollection();
+        $this->nonConformites = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -184,6 +191,36 @@ class Article
     public function setType(string $type): static
     {
         $this->type = $type;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, NonConformite>
+     */
+    public function getNonConformites(): Collection
+    {
+        return $this->nonConformites;
+    }
+
+    public function addNonConformite(NonConformite $nonConformite): static
+    {
+        if (!$this->nonConformites->contains($nonConformite)) {
+            $this->nonConformites->add($nonConformite);
+            $nonConformite->setArticle($this);
+        }
+
+        return $this;
+    }
+
+    public function removeNonConformite(NonConformite $nonConformite): static
+    {
+        if ($this->nonConformites->removeElement($nonConformite)) {
+            // set the owning side to null (unless already changed)
+            if ($nonConformite->getArticle() === $this) {
+                $nonConformite->setArticle(null);
+            }
+        }
 
         return $this;
     }

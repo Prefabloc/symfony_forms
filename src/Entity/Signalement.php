@@ -27,6 +27,9 @@ class Signalement
     #[ORM\JoinColumn(nullable: false)]
     private ?ProductionForm $productionForm = null;
 
+    #[ORM\ManyToOne(inversedBy: 'commentaire')]
+    private ?NonConformite $nonConformite = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -64,6 +67,18 @@ class Signalement
     public function setProductionForm(?ProductionForm $productionForm): static
     {
         $this->productionForm = $productionForm;
+
+        return $this;
+    }
+
+    public function getNonConformite(): ?NonConformite
+    {
+        return $this->nonConformite;
+    }
+
+    public function setNonConformite(?NonConformite $nonConformite): static
+    {
+        $this->nonConformite = $nonConformite;
 
         return $this;
     }
